@@ -1,1 +1,3 @@
-# Project_IP_Telephony_Python_Voip
+# Projekt Telefoni IP w języku
+	  Python Voip
+
