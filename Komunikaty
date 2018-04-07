@@ -1,0 +1,9 @@
+Komunikaty do protokołu:
+
+S->all jestem dostepny
+
+K->S zalogowałem się, sprawdz moje logowanie
+S->K podałeś ok dane, zapisałem że się zalogowałeś
+S->K podałeś złe dane
+
+K->S chce przeslac dzwiek

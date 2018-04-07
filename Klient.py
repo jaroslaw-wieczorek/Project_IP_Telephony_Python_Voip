@@ -1,37 +1,50 @@
-# -*- coding: utf-8 -*-
-
+from socket import *
 import pyaudio
-import socket
-import sys
-import time
+import wave
 
-# Pyaudio Initialization
-chunk = 2048
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 8000
- 
-p = pyaudio.PyAudio()
- 
-stream = p.open(format = FORMAT,
-                channels = CHANNELS,
-                rate = RATE,
-                input = True,
-                frames_per_buffer = chunk)
- 
-# Socket Initialization
-host = 'localhost'
-port = 50001
-size = 2048
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect((host,port))
- 
-# Main Functionality
-while 1:
-    data = stream.read(chunk)
-    s.send(data)
-    s.recvfrom(size)
- 
-s.close()
-stream.close()
-p.terminate()
+
+class Client:
+    def __init__(self, login, password):
+        #record
+        CHUNK = 1024
+        FORMAT = pyaudio.paInt16
+        CHANNELS = 1
+        RATE = 44100
+        RECORD_SECONDS = 40
+
+        s = socket(AF_INET, SOCK_STREAM) #utworzenie gniazda
+        s.connect(('192.168.0.103', 8888)) # nawiazanie polaczenia
+
+        p = pyaudio.PyAudio()
+
+        stream = p.open(format=FORMAT,
+                        channels=CHANNELS,
+                        rate=RATE,
+                        input=True,
+                        frames_per_buffer=CHUNK)
+
+        print("*recording")
+
+        frames = []
+
+
+        data = (login+" "+password).encode()
+        print(data.split())
+        frames.append(data)
+        s.sendall(data)
+        print(data)
+
+        """for i in range(0, int(RATE/CHUNK*RECORD_SECONDS)):
+         data  = stream.read(CHUNK)
+         frames.append(data)
+         s.sendall(data)
+         print(data)"""
+
+        print("*done recording")
+
+        stream.stop_stream()
+        stream.close()
+        p.terminate()
+        s.close()
+
+        print("*closed")
