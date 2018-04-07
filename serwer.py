@@ -11,7 +11,7 @@ from pymongo import MongoClient
 def checkWithMongo(data):
     nick, password = data.split()
     nick, password = nick.decode("utf-8"), password.decode("utf-8")
-    print(nick.decode("utf-8"), " ", password.decode("utf-8"))
+    print(nick, password)
     client = MongoClient('localhost', 27017)
     db = client['VOIP']
     collection = db['Users']

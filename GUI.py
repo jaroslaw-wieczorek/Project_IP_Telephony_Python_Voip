@@ -26,9 +26,11 @@ class App(tk.Tk):
         self.etr_Password = tk.Entry(self.window)
         self.etr_Password.pack()
 
-        self.btn = tk.Button(self.window, text="Zaloguj sie", command=self.login)
+        self.login = tk.Button(self.window, text="Zaloguj się", command=self.login)
+        self.login.pack()
 
-        self.btn.pack()
+        #self.logout = tk.Button(self.window, text="Wyloguj się", command=self.logout)
+        #self.logout.pack()
 
         self.window.configure(background="#AED84C")
 
@@ -42,6 +44,9 @@ class App(tk.Tk):
 
         Klient.Client(login, password)
 
-        print(login, ' ', password)
+        print(self.login, ' ', password)
+
+    #def logout(self):
+
 
 app = App()

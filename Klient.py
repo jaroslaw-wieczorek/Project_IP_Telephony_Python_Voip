@@ -4,47 +4,58 @@ import wave
 
 
 class Client:
+    CHUNK = 1024
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 1
+    RATE = 44100
+    RECORD_SECONDS = 40
+
     def __init__(self, login, password):
+        self.login = login
+        self.password = password
         #record
-        CHUNK = 1024
-        FORMAT = pyaudio.paInt16
-        CHANNELS = 1
-        RATE = 44100
-        RECORD_SECONDS = 40
 
-        s = socket(AF_INET, SOCK_STREAM) #utworzenie gniazda
-        s.connect(('192.168.0.103', 8888)) # nawiazanie polaczenia
+        self.s = socket(AF_INET, SOCK_STREAM) #utworzenie gniazda
+        self.s.connect(('192.168.0.103', 8888)) # nawiazanie polaczenia
 
-        p = pyaudio.PyAudio()
+        self.p = pyaudio.PyAudio()
 
-        stream = p.open(format=FORMAT,
-                        channels=CHANNELS,
-                        rate=RATE,
+        self.stream = self.p.open(format=self.FORMAT,
+                        channels=self.CHANNELS,
+                        rate=self.RATE,
                         input=True,
-                        frames_per_buffer=CHUNK)
+                        frames_per_buffer=self.CHUNK)
 
-        print("*recording")
+        self.loginPass()
 
-        frames = []
+        self.sendVoice()
+
+        self.closeConnection()
 
 
-        data = (login+" "+password).encode()
-        print(data.split())
-        frames.append(data)
-        s.sendall(data)
+    def loginPass(self):
+        self.frames = []
+
+        data = (self.login + " " + self.password).encode()
+        self.frames.append(data)
+        self.s.sendall(data)
         print(data)
 
-        """for i in range(0, int(RATE/CHUNK*RECORD_SECONDS)):
-         data  = stream.read(CHUNK)
-         frames.append(data)
-         s.sendall(data)
-         print(data)"""
+    def sendVoice(self):
+        print("*recording")
 
+        for i in range(0, int(self.RATE/self.CHUNK*self.RECORD_SECONDS)):
+            data  = self.stream.read(self.CHUNK)
+            self.frames.append(data)
+            self.s.sendall(data)
+            print(data)
+
+    def closeConnection(self):
         print("*done recording")
 
-        stream.stop_stream()
-        stream.close()
-        p.terminate()
-        s.close()
+        self.stream.stop_stream()
+        self.stream.close()
+        self.p.terminate()
+        self.s.close()
 
         print("*closed")
