@@ -7,7 +7,7 @@ import time
 
 FORMAT = pyaudio.paInt16
 CHUNK = 1024
-WIDTH = 2
+WIDTH = 4
 CHANNELS = 1
 RATE = 16000
 RECORD_SECONDS = 15

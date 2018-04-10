@@ -51,7 +51,7 @@ while 1:
         stream.write(data)  # Stream the recieved audio data
 
         # Write data to pyaudio stream
-        stream.write(data)  # Stream the recieved audio data
+        #stream.write(data)  # Stream the recieved audio data
 
     
     # print(type(data), data)
