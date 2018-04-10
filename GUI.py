@@ -1,7 +1,6 @@
 import tkinter as tk
 import pyaudio
 import socket
-import Klient
 import hashlib
 
 class App(tk.Tk):
@@ -39,10 +38,11 @@ class App(tk.Tk):
     def login(self):
         print(socket.gethostbyname(socket.gethostname()))
 
-        login,password = self.etr_Login.get(), self.etr_Password.get()
+        login, password = self.etr_Login.get(), self.etr_Password.get()
         password = hashlib.sha256(password.encode()).hexdigest()
 
-        Klient.Client(login, password)
+        # wysyłanie login password do serwera
+        # Klient.Client(login, password)
 
         print(self.login, ' ', password)
 

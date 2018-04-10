@@ -7,6 +7,7 @@ Overview
 Tools
 -------
 >- Pycharm / Spyder
+>- Wireshark
 
 Files
 -------------
@@ -15,6 +16,11 @@ Files
 Attributons
 -------------
 MIT license
+
+Contributors
+-------------
+Elżbieta Kaczmarek
+Jarosław Wieczorek
 
 
 

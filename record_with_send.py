@@ -12,14 +12,14 @@ from collections import OrderedDict
 import socket
 import time 
 
+
 FORMAT = pyaudio.paInt16
 CHUNK = 1024
-WIDTH = 1
+#WIDTH = 1
 CHANNELS = 1
-RATE = 16000
-RECORD_SECONDS = 15
-FACTOR = 2    
-
+RATE = 44100
+#RECORD_SECONDS = 15
+#FACTOR = 2
 
 p = pyaudio.PyAudio()
 
@@ -47,9 +47,8 @@ except ConnectionRefusedError as err:
     s.close()
 
 
-####
-
-for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+while True:
+#for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
     data = stream.read(CHUNK)
    
     if data:

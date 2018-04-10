@@ -4,8 +4,9 @@ import socket
 import sys
 
 # Pyaudio Initialization
+# why bigger chunk and size na moim kompie?
 chunk = 2048
-rate = 8000
+rate = 44100
 p = pyaudio.PyAudio()
 
 stream = p.open(format=pyaudio.paInt16,
@@ -16,7 +17,7 @@ stream = p.open(format=pyaudio.paInt16,
 # Socket Initialization
 host = ''
 port = 50002
-#rozmiar jaki otrzymuje serwer musi byc wiekszy niż to co wysyla klient
+#rozmiar jaki otrzymuje serwer musi byc wiekszy niż to co wysyla klient??
 size = 2048
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind((host, port))
