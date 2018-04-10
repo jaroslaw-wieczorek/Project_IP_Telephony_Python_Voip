@@ -35,7 +35,7 @@ print("[*] Recording")
 ####
 
 host = '192.168.0.103'
-port = 50001
+port = 50002
 size = 1024
 
 
