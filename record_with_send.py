@@ -44,7 +44,8 @@ class Client:
     def login(self, login, password):
 
         value = login + " " + password
-        #v = self.rsa(value)
+        v = self.rsa(value)
+        print(v)
         self.data = ("INVITE " +socket.gethostbyname(socket.gethostname()) + " " + login + " " + password).encode()
 
         #Encryption
@@ -55,9 +56,10 @@ class Client:
         except ConnectionRefusedError as err:
             print(err)
 
-    def rsa(self):
-        n, e, d = rsa.Encrypt()
-        return (n + " " + e + " " + d)
+    def rsa(self, value):
+        e = rsa.Encrypt(value)
+        n, e, d = e.setVars()
+        return n,e,d
 
     def sendingVoice(self):
         print("[*] Recording")
@@ -86,10 +88,3 @@ class Client:
         self.stream.stop_stream()
         self.stream.close()
         self.s.close()
-
-"""
-c=Client()
-c.connectToSerwer()
-c.sendingVoice()
-c.closeConnection()
-"""

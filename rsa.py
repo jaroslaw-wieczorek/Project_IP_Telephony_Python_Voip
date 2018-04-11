@@ -1,6 +1,6 @@
 class Encrypt:
 
-    def get_d(e, m):
+    def get_d(self, e, m):
         """Takes encoding number, 'e' and the value for 'm' (p-1) * (q-1).
         Returns a decoding number."""
         x = lasty = 0
@@ -10,6 +10,7 @@ class Encrypt:
             e, m = m, e % m
             x, lastx = lastx - q * x, x
             y, lasty = lasty - q * y, y
+        return lastx
 
     def get_e(self, m):
         """Finds an e coprime with m."""
@@ -24,7 +25,10 @@ class Encrypt:
             a, b = b, a % b
         return a
 
-    def __init__(self):
+    def __init__(self, value):
+        self.toEncrypt = value
+
+    def setVars(self):
         p = int(input("p: "))
         q = int(input("q: "))
         n = p * q
@@ -32,6 +36,6 @@ class Encrypt:
         e = self.get_e(m)
         print("N = ", n, "\ne = ", e)
         d = self.get_d(e, m)
-        while d < 0:
+        while (d < 0):
             d += m
         return [n, e, d]
