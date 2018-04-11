@@ -45,8 +45,7 @@ class Client:
 
         value = login + " " + password
         v = self.rsa(value)
-        print(v)
-        self.data = ("INVITE " +socket.gethostbyname(socket.gethostname()) + " " + login + " " + password).encode()
+        self.data = ("INVITE " +socket.gethostbyname(socket.gethostname()) + " " + v).encode()
 
         #Encryption
 
@@ -57,9 +56,11 @@ class Client:
             print(err)
 
     def rsa(self, value):
-        e = rsa.Encrypt(value)
-        n, e, d = e.setVars()
-        return n,e,d
+        en = rsa.Encrypt(value)
+        n, e, d = en.setVars()
+        res = en.encode(n,e)
+        print(res)
+        return res
 
     def sendingVoice(self):
         print("[*] Recording")

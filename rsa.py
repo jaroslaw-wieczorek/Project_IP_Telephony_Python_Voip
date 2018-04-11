@@ -39,3 +39,14 @@ class Encrypt:
         while (d < 0):
             d += m
         return [n, e, d]
+
+    def encode(self, n, e):
+        print(self.toEncrypt)
+        a = ""
+        for i in range(0,len(self.toEncrypt)):
+            print(self.toEncrypt[i])
+            val = (pow(ord(self.toEncrypt[i]), e, n))
+            a += str(val)
+            a += " "
+        print(a)
+        return a
