@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 """
 Created on Tue Apr 10 15:20:23 2018
@@ -7,65 +6,90 @@ Created on Tue Apr 10 15:20:23 2018
 """
 
 import pyaudio
-import audioop
-from collections import OrderedDict
 import socket
-import time 
+import rsa as rsa
 
+class Client:
+    FORMAT = pyaudio.paInt16
+    CHUNK = 1024
+    WIDTH = 1
+    CHANNELS = 1
+    RATE = 8000
+    RECORD_SECONDS = 15
+    FACTOR = 2
 
-FORMAT = pyaudio.paInt16
-CHUNK = 1024
-#WIDTH = 1
-CHANNELS = 1
-RATE = 44100
-#RECORD_SECONDS = 15
-#FACTOR = 2
+    def __init__(self):
+        self.p = pyaudio.PyAudio()
 
-p = pyaudio.PyAudio()
+        self.stream = self.p.open(format=self.FORMAT,
+                        channels=self.CHANNELS,
+                        rate=self.RATE,
+                        input=True,
+                        output=True,
+                        frames_per_buffer=self.CHUNK)
 
-stream = p.open(format=FORMAT,
-                channels=CHANNELS,
-                rate=RATE,
-                input=True,
-                output=True,
-                frames_per_buffer=CHUNK)
+    def connectToSerwer(self):
+        #ipadres serwera
+        host = '192.168.0.102'
+        port = 50001
+        self.size = 2048
 
-print("[*] Recording")
-
-####
-
-host = '192.168.0.103'
-port = 50002
-size = 1024
-
-
-try:
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect((host,port))
-except ConnectionRefusedError as err:
-    print(err)
-    s.close()
-
-
-while True:
-#for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-    data = stream.read(CHUNK)
-   
-    if data:
-        # Write data to pyaudio stream
-        #stream.write(data)  # Stream the recieved audio data
         try:
-            s.send(data)
+            self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self.s.connect((host,port))
         except ConnectionRefusedError as err:
             print(err)
-            break
-            
-    
-    # print(type(data), data)
-     
-    #stream.write(data, CHUNK)
-print("[*] Stop recording")
+            self.s.close()
 
-stream.stop_stream()
-stream.close()
-s.close()
+    def login(self, login, password):
+
+        value = login + " " + password
+        #v = self.rsa(value)
+        self.data = ("INVITE " +socket.gethostbyname(socket.gethostname()) + " " + login + " " + password).encode()
+
+        #Encryption
+
+        print(self.data)
+        try:
+            self.s.send(self.data)
+        except ConnectionRefusedError as err:
+            print(err)
+
+    def rsa(self):
+        n, e, d = rsa.Encrypt()
+        return (n + " " + e + " " + d)
+
+    def sendingVoice(self):
+        print("[*] Recording")
+
+
+        while True:
+        #for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+            self.data = self.stream.read(self.CHUNK)
+
+            if self.data:
+                # Write data to pyaudio stream
+                #stream.write(data)  # Stream the recieved audio data
+                try:
+                    self.s.send(self.data)
+                except ConnectionRefusedError as err:
+                    print(err)
+                    break
+        print("[*] Stop recording")
+
+
+    def closeConnection(self):
+
+        # print(type(data), data)
+
+        #stream.write(data, CHUNK)
+        self.stream.stop_stream()
+        self.stream.close()
+        self.s.close()
+
+"""
+c=Client()
+c.connectToSerwer()
+c.sendingVoice()
+c.closeConnection()
+"""

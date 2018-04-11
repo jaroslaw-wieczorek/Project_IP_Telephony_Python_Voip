@@ -1,7 +1,7 @@
 import tkinter as tk
-import pyaudio
-import socket
+import record_with_send as rws
 import hashlib
+import socket
 
 class App(tk.Tk):
     def __init__(self):
@@ -31,6 +31,8 @@ class App(tk.Tk):
         #self.logout = tk.Button(self.window, text="Wyloguj się", command=self.logout)
         #self.logout.pack()
 
+        self.call = tk.Button(self.window, text = "Zadzwoń", command = self.call)
+
         self.window.configure(background="#AED84C")
 
         self.window.mainloop()
@@ -38,13 +40,21 @@ class App(tk.Tk):
     def login(self):
         print(socket.gethostbyname(socket.gethostname()))
 
-        login, password = self.etr_Login.get(), self.etr_Password.get()
+        login,password = self.etr_Login.get(), self.etr_Password.get()
         password = hashlib.sha256(password.encode()).hexdigest()
 
-        # wysyłanie login password do serwera
-        # Klient.Client(login, password)
+        self.c = rws.Client()
+        self.c.connectToSerwer()
+        self.c.login(login, password)
+
+        self.c.sendingVoice()
+        #c.closeConnection()
 
         print(self.login, ' ', password)
+
+    def call(self):
+        self.c.sendingVoice()
+
 
     #def logout(self):
 
