@@ -12,6 +12,8 @@ class Serwer:
     FACTOR = 2
 
     def __init__(self):
+        print("Inicjalizacja klasy ")
+
         self.p = pyaudio.PyAudio()
 
         self.stream = self.p.open(format=self.FORMAT,
@@ -22,6 +24,7 @@ class Serwer:
                         frames_per_buffer=self.CHUNK)
 
     def connectWithClient(self):
+        print("Nawiazanie połączenia")
         host = ''
         port = 50001
         self.size = 2048
@@ -48,18 +51,19 @@ class Serwer:
                 print(data)
                 # Write data to pyaudio stream
                 self.stream.write(data)  # Stream the recieved audio data
+                #data = data.decode("utf-8")
                 if(data[0:6] == "INVITE"):
-                    data = data.decode("utf-8")
                     ans = self.checkWithMongo(data)
                     if(ans == 1):
                         print("Logowanie ok")
                         #komunikat o pomyslnym logowaniu
-                    elif (ans == 0):
-                        print("Logowanie nie ok")
+                        break
+                   # elif (ans == 0):
                         #komunikat o niepoprawnym logowaniu
 
                 # Write data to pyaudio stream
                 #stream.write(data)  # Stream the recieved audio data
+
 
             # print(type(data), data)
 
@@ -74,15 +78,15 @@ class Serwer:
 
     def checkWithMongo(self, data):
         client = MongoClient('localhost', 27017)
-        db = client['VOIP']
-        collection = db['Users']
+        db = client['BomberMan']
+        collection = db['Players']
 
         print(data)
         frames = (data.split())
 
+        answer = (collection.find({"login": frames[0], "password": frames[1]}).count()) == 1
 
-        answer = (collection.find({"login": frames[2], "password": frames[3]}).count()) == 1
-        if (answer == True):
+        if (answer):
             return 1
         else:
             return 0

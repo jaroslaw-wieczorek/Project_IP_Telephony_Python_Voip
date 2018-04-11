@@ -31,8 +31,8 @@ class App(tk.Tk):
         #self.logout = tk.Button(self.window, text="Wyloguj się", command=self.logout)
         #self.logout.pack()
 
-        self.call = tk.Button(self.window, text = "Zadzwoń", command = self.call)
-
+        #self.call = tk.Button(self.window, text = "Zadzwoń", command = self.call)
+        #self.call.pack()
         self.window.configure(background="#AED84C")
 
         self.window.mainloop()
@@ -48,15 +48,14 @@ class App(tk.Tk):
         self.c.login(login, password)
 
         self.c.sendingVoice()
-        #c.closeConnection()
+        c.closeConnection()
 
         print(self.login, ' ', password)
 
-    def call(self):
-        self.c.sendingVoice()
+
 
 
     #def logout(self):
 
 
-app = App()
+#app = App()
