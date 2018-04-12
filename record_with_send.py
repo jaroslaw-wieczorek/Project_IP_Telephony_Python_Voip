@@ -9,15 +9,12 @@ import pyaudio
 import socket
 import rsa as rsa
 
-<<<<<<< HEAD
-FORMAT = pyaudio.paInt16
-CHUNK = 160
-#WIDTH = 1
-CHANNELS = 1
-RATE = 44100
-#RECORD_SECONDS = 15
-#FACTOR = 2
-=======
+from Crypto.PublicKey import RSA 
+from Crypto.Signature import PKCS1_v1_5 
+from Crypto.Hash import SHA256 
+from base64 import b64encode, b64decode 
+
+
 class Client:
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
@@ -26,7 +23,6 @@ class Client:
     RATE = 8000
     RECORD_SECONDS = 15
     FACTOR = 2
->>>>>>> 71cd3f98b53b0979a33fc944fa4892895506dc90
 
     def __init__(self):
         self.p = pyaudio.PyAudio()
@@ -44,20 +40,14 @@ class Client:
         port = 50001
         self.size = 2048
 
-<<<<<<< HEAD
-####
 
-host = '192.168.43.70'
-port = 50002
-size = 2048
-=======
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.connect((host,port))
         except ConnectionRefusedError as err:
             print(err)
             self.s.close()
->>>>>>> 71cd3f98b53b0979a33fc944fa4892895506dc90
+
 
     def login(self, login, password):
 
@@ -73,12 +63,14 @@ size = 2048
         except ConnectionRefusedError as err:
             print(err)
 
+
     def rsa(self, value):
         en = rsa.Encrypt(value)
         n, e, d = en.setVars()
         res = en.encode(n,e)
         print(res)
         return res
+    
 
     def sendingVoice(self):
         print("[*] Recording")
@@ -107,3 +99,5 @@ size = 2048
         self.stream.stop_stream()
         self.stream.close()
         self.s.close()
+        
+    

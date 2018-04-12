@@ -1,52 +1,30 @@
-class Encrypt:
+from Crypto.PublicKey import RSA 
+from Crypto.Signature import PKCS1_v1_5 
+from Crypto.Hash import SHA256 
+from base64 import b64encode, b64decode 
 
-    def get_d(self, e, m):
-        """Takes encoding number, 'e' and the value for 'm' (p-1) * (q-1).
-        Returns a decoding number."""
-        x = lasty = 0
-        lastx = y = 1
-        while m != 0:
-            q = e // m
-            e, m = m, e % m
-            x, lastx = lastx - q * x, x
-            y, lasty = lasty - q * y, y
-        return lastx
 
-    def get_e(self, m):
-        """Finds an e coprime with m."""
-        e = 2
-        while self.gcd(e, m) != 1:
-            e += 1
-        return e
+def signData(self, msg: str):        
+        dataToSign = str(msg)
+        print(dataToSign)
+       
+        priv_key = RSA.importKey(self.__key) 
+        signer = PKCS1_v1_5.new(priv_key) 
+        newHash = SHA256.new()
+        # It's being assumed the data is base64 encoded, so it's decoded before updating the digest 
+        newHash.update(dataToSign.encode("utf-8"))
+    
+    return signer.sign(newHash)
+   
 
-    def gcd(self, a, b):
-        """Euclid's Algorithm: Takes two integers and returns gcd."""
-        while b > 0:
-            a, b = b, a % b
-        return a
+def verifyData(self, msg: str, signature):
+    dataToVerify = (msg)
+    print(dataToVerify)
+        
+    #public key for tests
+    publ_key = RSA.importKey(self.__pub_key) 
+    signer = PKCS1_v1_5.new(publ_key)
+    newHash = SHA256.new()
 
-    def __init__(self, value):
-        self.toEncrypt = value
-
-    def setVars(self):
-        p = int(input("p: "))
-        q = int(input("q: "))
-        n = p * q
-        m = (p - 1) * (q - 1)
-        e = self.get_e(m)
-        print("N = ", n, "\ne = ", e)
-        d = self.get_d(e, m)
-        while (d < 0):
-            d += m
-        return [n, e, d]
-
-    def encode(self, n, e):
-        print(self.toEncrypt)
-        a = ""
-        for i in range(0,len(self.toEncrypt)):
-            print(self.toEncrypt[i])
-            val = (pow(ord(self.toEncrypt[i]), e, n))
-            a += str(val)
-            a += " "
-        print(a)
-        return a
+    newHash.update(dataToVerify.encode("utf-8"))
+    return signer.verify(newHash, signature)
