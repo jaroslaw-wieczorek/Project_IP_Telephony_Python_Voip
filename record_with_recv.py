@@ -1,6 +1,7 @@
 import pyaudio
 import socket
 from pymongo import MongoClient
+import rsa
 
 class Serwer:
     FORMAT = pyaudio.paInt16
@@ -51,21 +52,29 @@ class Serwer:
                 print(data)
                 # Write data to pyaudio stream
                 self.stream.write(data)  # Stream the recieved audio data
-                #data = data.decode("utf-8")
-                if(data[0:6] == "INVITE"):
-                    ans = self.checkWithMongo(data)
-                    if(ans == 1):
-                        print("Logowanie ok")
-                        #komunikat o pomyslnym logowaniu
-                        break
-                   # elif (ans == 0):
-                        #komunikat o niepoprawnym logowaniu
 
-                # Write data to pyaudio stream
-                #stream.write(data)  # Stream the recieved audio data
+                try:
+                    data = data.decode("utf-8")
+                    frames = data.split(" ")
+                    print(frames)
+                    de = rsa.Encrypt()
+                    de.decode(frames)
+                    if(data[0:6] == "INVITE"):
+                        ans = self.checkWithMongo(data)
+                        if(ans == 1):
+                            print("Logowanie ok")
+                            #komunikat o pomyslnym logowaniu
+                            break
+                       # elif (ans == 0):
+                            #komunikat o niepoprawnym logowaniu
+
+                    # Write data to pyaudio stream
+                    #stream.write(data)  # Stream the recieved audio data
+                except UnicodeDecodeError as e:
+                    raise
 
 
-            # print(type(data), data)
+                    # print(type(data), data)
 
             #stream.write(data, CHUNK)
         print("[*] Stop listen")
@@ -83,6 +92,7 @@ class Serwer:
 
         print(data)
         frames = (data.split())
+
 
         answer = (collection.find({"login": frames[0], "password": frames[1]}).count()) == 1
 

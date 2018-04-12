@@ -50,3 +50,14 @@ class Encrypt:
             a += " "
         print(a)
         return a
+
+    def decode(self, frames):
+        d = frames[2]
+        n = frames[3]
+        """This function asks for a number and decodes it using 'd' and 'n'."""
+        for i in range(2,len(self.toEncrypt)):
+            c = frames[i]
+            if not c:
+                return
+            else:
+                print(pow(c, d, n))
