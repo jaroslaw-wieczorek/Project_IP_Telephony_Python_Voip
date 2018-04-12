@@ -14,7 +14,7 @@ import time
 
 
 FORMAT = pyaudio.paInt16
-CHUNK = 1024
+CHUNK = 160
 #WIDTH = 1
 CHANNELS = 1
 RATE = 44100
@@ -34,9 +34,9 @@ print("[*] Recording")
 
 ####
 
-host = '192.168.0.103'
+host = '192.168.43.70'
 port = 50002
-size = 1024
+size = 2048
 
 
 try:

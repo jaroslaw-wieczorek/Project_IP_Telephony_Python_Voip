@@ -5,10 +5,10 @@ import socket
 import time 
 
 FORMAT = pyaudio.paInt16
-CHUNK = 1024
+CHUNK = 160
 WIDTH = 1
 CHANNELS = 1
-RATE = 16000
+RATE = 8000
 RECORD_SECONDS = 15
 FACTOR = 2    
 
@@ -26,7 +26,7 @@ print("[*] Start listen")
 
 ####
 
-host = 'localhost'
+host = ''
 port = 50001
 size = 2048
 

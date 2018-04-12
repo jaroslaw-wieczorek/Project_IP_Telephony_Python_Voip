@@ -14,10 +14,12 @@ stream = p.open(format=pyaudio.paInt16,
                 rate=rate,
                 output=True)
 
+
 # Socket Initialization
 host = ''
-port = 50002
-#rozmiar jaki otrzymuje serwer musi byc wiekszy niż to co wysyla klient??
+port = 50001
+
+#r Rozmiar jaki otrzymuje serwer musi byc wiekszy niż to co wysyla klient??
 size = 2048
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind((host, port))
