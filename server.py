@@ -2,10 +2,10 @@ import pyaudio
 import socket
 import time 
 from pymongo import MongoClient
+from validation import Validator
 
 
-
-class Serwer:
+class Server(Validator):
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
     WIDTH = 1
@@ -13,11 +13,11 @@ class Serwer:
     RATE = 8000
     RECORD_SECONDS = 15
     FACTOR = 2
-
-
-    def __init__(self):
-        print("Inicjalizacja klasy ")
-
+    
+    def __init__(self, priv, publ):
+        Validator.__init__(self, priv, publ)
+        print("Inicjalizacja klasy Server")
+        
         self.p = pyaudio.PyAudio()
 
         self.stream = self.p.open(format=self.FORMAT,
@@ -86,13 +86,13 @@ class Serwer:
 
     def checkWithMongo(self, data):
         client = MongoClient('localhost', 27017)
-        db = client['BomberMan']
-        collection = db['Players']
+        db = client['voip']
+        collection = db['users']
 
         print(data)
         frames = (data.split())
 
-        answer = (collection.find({"login": frames[0], "password": frames[1]}).count()) == 1
+        answer = (collection.find({"login": frames[2], "password": frames[3]}).count()) == 1
 
         if (answer):
             return 1
@@ -100,8 +100,11 @@ class Serwer:
             return 0
 
 
+priv = 'rsa_keys/private'
 
-serwer = Serwer()
+publ = 'rsa_keys/key.pub'
+
+serwer = Server(priv, publ)
 serwer.connectWithClient()
 serwer.listening()
 serwer.stopConnection()

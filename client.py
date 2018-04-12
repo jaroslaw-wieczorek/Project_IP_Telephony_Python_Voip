@@ -7,7 +7,9 @@ Created on Tue Apr 10 15:20:23 2018
 
 import pyaudio
 import socket
-import rsa as rsa
+
+
+from validation import Validator
 
 from Crypto.PublicKey import RSA 
 from Crypto.Signature import PKCS1_v1_5 
@@ -15,7 +17,7 @@ from Crypto.Hash import SHA256
 from base64 import b64encode, b64decode 
 
 
-class Client:
+class Client(Validator):
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
     WIDTH = 1
@@ -23,8 +25,15 @@ class Client:
     RATE = 8000
     RECORD_SECONDS = 15
     FACTOR = 2
-
-    def __init__(self):
+    
+    
+    def __init__(self, priv, publ):
+        Validator.__init__(self,priv,publ)
+        print("Inicjalizacja klasy Client")
+        
+        self.__private_key = priv
+        self.__public_key = publ
+        
         self.p = pyaudio.PyAudio()
 
         self.stream = self.p.open(format=self.FORMAT,
@@ -52,8 +61,8 @@ class Client:
     def login(self, login, password):
 
         value = login + " " + password
-        v = self.rsa(value)
-        self.data = ("INVITE " +socket.gethostbyname(socket.gethostname()) + " " + v).encode()
+        v = self.signData(value)
+        self.data = ("INVITE " +socket.gethostbyname(socket.gethostname()) + " " + str(v)).encode("utf-8")
 
         #Encryption
 
@@ -63,14 +72,6 @@ class Client:
         except ConnectionRefusedError as err:
             print(err)
 
-
-    def rsa(self, value):
-        en = rsa.Encrypt(value)
-        n, e, d = en.setVars()
-        res = en.encode(n,e)
-        print(res)
-        return res
-    
 
     def sendingVoice(self):
         print("[*] Recording")
@@ -99,5 +100,6 @@ class Client:
         self.stream.stop_stream()
         self.stream.close()
         self.s.close()
-        
-    
+
+
+
