@@ -1,7 +1,9 @@
 import tkinter as tk
-import record_with_send as rws
+import client 
 import hashlib
 import socket
+
+
 
 class App(tk.Tk):
     def __init__(self):
@@ -38,13 +40,17 @@ class App(tk.Tk):
 
         self.window.mainloop()
 
+
     def login(self):
+        priv = 'rsa_keys/private'
+        publ = 'rsa_keys/key.pub'
+        
         print(socket.gethostbyname(socket.gethostname()))
 
         login,password = self.etr_Login.get(), self.etr_Password.get()
         password = hashlib.sha256(password.encode()).hexdigest()
 
-        self.c = rws.Client()
+        self.c = client.Client(priv,publ)
         self.c.connectToSerwer()
         self.c.login(login, password)
 
