@@ -28,7 +28,7 @@ class Client(Validator):
     
     
     def __init__(self, priv, publ):
-        Validator.__init__(self,priv,publ)
+        #Validator.__init__(self,priv,publ)
         print("Inicjalizacja klasy Client")
         
         self.__private_key = priv
@@ -61,7 +61,7 @@ class Client(Validator):
     def login(self, login, password):
 
         value = login + " " + password
-        v = self.signData(value)
+        #v = self.signData(value)
         self.data = ("INVITE " +socket.gethostbyname(socket.gethostname()) + " " + str(v)).encode("utf-8")
 
         #Encryption
@@ -101,5 +101,13 @@ class Client(Validator):
         self.stream.close()
         self.s.close()
 
+priv = 'rsa_keys/private'
+publ = 'rsa_keys/key.pub'
+
+c = Client(priv, publ)
+c.connectToSerwer()
+c.login('EKaczmarek', 'hello')
+c.sendingVoice()
+c.closeConnection()
 
 

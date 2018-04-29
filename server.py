@@ -2,10 +2,11 @@ import pyaudio
 import socket
 import time 
 from pymongo import MongoClient
-from validation import Validator
+#from validation import Validator
+import os
 
-
-class Server(Validator):
+#class Server(Validator):
+class Server:
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
     WIDTH = 1
@@ -15,7 +16,7 @@ class Server(Validator):
     FACTOR = 2
     
     def __init__(self, priv, publ):
-        Validator.__init__(self, priv, publ)
+        #Validator.__init__(self, priv, publ)
         print("Inicjalizacja klasy Server")
         
         self.p = pyaudio.PyAudio()
@@ -27,9 +28,11 @@ class Server(Validator):
                         output=True,
                         frames_per_buffer=self.CHUNK)
 
+    def connectWithMongo(self):
+        os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
 
     def connectWithClient(self):
-        print("Nawiazanie połączenia")
+        print("Nawiazanie polaczenia")
         host = ''
         port = 50001
         self.size = 2048
@@ -80,7 +83,10 @@ class Server(Validator):
     def stopConnection(self):
         self.stream.stop_stream()
         self.stream.close()
+
+        os.clo
         self.s.close()
+
         #p.close()
 
 
@@ -105,6 +111,7 @@ priv = 'rsa_keys/private'
 publ = 'rsa_keys/key.pub'
 
 serwer = Server(priv, publ)
+serwer.connectWithMongo()
 serwer.connectWithClient()
 serwer.listening()
 serwer.stopConnection()
