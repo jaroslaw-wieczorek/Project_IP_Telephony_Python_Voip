@@ -2,7 +2,6 @@ import pyaudio
 import socket
 import time 
 from pymongo import MongoClient
-import rsa
 from validation import Validator
 
 
@@ -58,29 +57,21 @@ class Server(Validator):
                 print(data)
                 # Write data to pyaudio stream
                 self.stream.write(data)  # Stream the recieved audio data
+                #data = data.decode("utf-8")
+                if(data[0:6] == "INVITE"):
+                    ans = self.checkWithMongo(data)
+                    if(ans == 1):
+                        print("Logowanie ok")
+                        #komunikat o pomyslnym logowaniu
+                        break
+                   # elif (ans == 0):
+                        #komunikat o niepoprawnym logowaniu
 
-                try:
-                    data = data.decode("utf-8")
-                    frames = data.split(" ")
-                    print(frames)
-                    de = rsa.Encrypt()
-                    de.decode(frames)
-                    if(data[0:6] == "INVITE"):
-                        ans = self.checkWithMongo(data)
-                        if(ans == 1):
-                            print("Logowanie ok")
-                            #komunikat o pomyslnym logowaniu
-                            break
-                       # elif (ans == 0):
-                            #komunikat o niepoprawnym logowaniu
-
-                    # Write data to pyaudio stream
-                    #stream.write(data)  # Stream the recieved audio data
-                except UnicodeDecodeError as e:
-                    raise
+                # Write data to pyaudio stream
+                #stream.write(data)  # Stream the recieved audio data
 
 
-                    # print(type(data), data)
+            # print(type(data), data)
 
             #stream.write(data, CHUNK)
         print("[*] Stop listen")
@@ -101,7 +92,6 @@ class Server(Validator):
         print(data)
         frames = (data.split())
 
-
         answer = (collection.find({"login": frames[2], "password": frames[3]}).count()) == 1
 
         if (answer):
@@ -118,5 +108,3 @@ serwer = Server(priv, publ)
 serwer.connectWithClient()
 serwer.listening()
 serwer.stopConnection()
-
-
