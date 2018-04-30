@@ -33,13 +33,13 @@ class Server:
 
     def connectWithClient(self):
         print("Nawiazanie polaczenia")
-        host = ''
-        port = 50001
+        self.host = ''
+        self.port = 50001
         self.size = 2048
 
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.s.bind((host, port))
+            self.s.bind((self.host, self.port))
         except ConnectionRefusedError as err:
             print(err)
             self.s.close()
@@ -52,23 +52,48 @@ class Server:
         #for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
             try:
                 data, addr = self.s.recvfrom(self.size)
+                print(addr[1])
+                self.host = addr[0]
+                self.port = addr[1]
+                print(self.host)
+                print(self.port)
+
+
+
+                if data:
+                    try:
+                        data = data.decode("utf-8")
+                        if (data[0:5] == "LOGIN"):
+                            ans = self.checkWithMongo(data)
+                            if (ans == 1):
+                                print("Logowanie ok")
+                                print('Wysylanie 200')
+                                self.s.connect((self.host, self.port))
+                                self.s.send("200 OK".encode("utf-8"))
+
+
+                            elif (ans == 0):
+                                print('Wysylanie 406')
+                                self.s.connect((self.host, self.port))
+                                self.s.send("406 NOT ACCEPTABLE".encode("utf-8"))
+                                print('Wyslano 406')
+
+
+                    except UnicodeDecodeError:
+                        print("Bład dekodowania")
+                        self.stream.write(data)  # Stream the recieved audio data
+                        break
+
+
             except ConnectionRefusedError as err:
                 print(err)
+                print("Bład połączenia")
                 break
 
-            if data:
-                print(data)
-                # Write data to pyaudio stream
-                self.stream.write(data)  # Stream the recieved audio data
-                #data = data.decode("utf-8")
-                if(data[0:6] == "INVITE"):
-                    ans = self.checkWithMongo(data)
-                    if(ans == 1):
-                        print("Logowanie ok")
-                        #komunikat o pomyslnym logowaniu
-                        break
-                   # elif (ans == 0):
-                        #komunikat o niepoprawnym logowaniu
+
+
+
+                       #komunikat o niepoprawnym logowaniu
 
                 # Write data to pyaudio stream
                 #stream.write(data)  # Stream the recieved audio data
@@ -84,7 +109,6 @@ class Server:
         self.stream.stop_stream()
         self.stream.close()
 
-        os.clo
         self.s.close()
 
         #p.close()
@@ -92,17 +116,21 @@ class Server:
 
     def checkWithMongo(self, data):
         client = MongoClient('localhost', 27017)
-        db = client['voip']
-        collection = db['users']
+        db = client['VOIP']
+        collection = db['Users']
 
         print(data)
         frames = (data.split())
 
-        answer = (collection.find({"login": frames[2], "password": frames[3]}).count()) == 1
+        try:
+            answer = (collection.find({"login": frames[2], "password": frames[3]}).count()) == 1
 
-        if (answer):
-            return 1
-        else:
+            if (answer):
+                return 1
+            else:
+                return 0
+
+        except IndexError:
             return 0
 
 
@@ -114,4 +142,4 @@ serwer = Server(priv, publ)
 serwer.connectWithMongo()
 serwer.connectWithClient()
 serwer.listening()
-serwer.stopConnection()
+#serwer.stopConnection()

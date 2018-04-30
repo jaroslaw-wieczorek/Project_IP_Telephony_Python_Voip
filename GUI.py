@@ -33,8 +33,11 @@ class App(tk.Tk):
         #self.logout = tk.Button(self.window, text="Wyloguj się", command=self.logout)
         #self.logout.pack()
 
-        #self.call = tk.Button(self.window, text = "Zadzwoń", command = self.call)
-        #self.call.pack()
+        self.callP = tk.Button(self.window, text = "Zadzwoń", command = self.call)
+        self.callP.pack()
+
+        self.end = tk.Button(self.window, text="Zakończ połączenie", command=self.endConn)
+        self.end.pack()
 
         self.window.configure(background="#AED84C")
 
@@ -54,12 +57,11 @@ class App(tk.Tk):
         self.c.connectToSerwer()
         self.c.login(login, password)
 
+    def call(self):
         self.c.sendingVoice()
+
+    def endConn(self):
         self.c.closeConnection()
-
-        print(self.login, ' ', password)
-
-
 
 
     #def logout(self):
