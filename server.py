@@ -61,6 +61,8 @@ class Server:
 
 
                 if data:
+                    self.stream.write(data)  # Stream the recieved audio data
+
                     try:
                         data = data.decode("utf-8")
                         if (data[0:5] == "LOGIN"):
@@ -81,7 +83,6 @@ class Server:
 
                     except UnicodeDecodeError:
                         print("Bład dekodowania")
-                        self.stream.write(data)  # Stream the recieved audio data
                         break
 
 
