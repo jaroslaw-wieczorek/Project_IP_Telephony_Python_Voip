@@ -45,7 +45,7 @@ class Client(Validator):
 
     def connectToSerwer(self):
         #ipadres serwera
-        host = '192.168.0.102'
+        host = '127.0.0.1'
         port = 50001
         self.size = 2048
 
@@ -77,8 +77,8 @@ class Client(Validator):
         print("[*] Recording")
 
 
-        while True:
-        #for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        #while True:
+        for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             self.data = self.stream.read(self.CHUNK)
 
             if self.data:

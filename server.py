@@ -45,8 +45,8 @@ class Server(Validator):
     def listening(self):
         print("[*] Start listen")
 
-        while True:
-        #for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
+        #while True:
+        for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
             try:
                 data, addr = self.s.recvfrom(self.size)
             except ConnectionRefusedError as err:
