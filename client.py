@@ -7,9 +7,11 @@ Created on Tue Apr 10 15:20:23 2018
 
 import pyaudio
 import socket
-
-
+import listaGUI as lista
+from PyQt5.QtWidgets import QApplication, QDialog
+import sys
 # from validation import Validator
+
 
 # class Client(Validator):
 class Client:
@@ -52,31 +54,41 @@ class Client:
             print(err)
             self.s.close()
 
-    def login(self, login, password):
-
-        value = login + " " + password
-        # v = self.signData(value)
-        self.data = ("LOGIN " + socket.gethostbyname(socket.gethostname()) + " " + str(value)).encode("utf-8")
-
-        # Encryption
-
-        print(self.data)
+    def sendMessage(self, data):
+        print(data)
         try:
-            self.s.send(self.data)
+            self.s.send(data)
         except ConnectionRefusedError as err:
             print(err)
 
         print("Czekam na odpowiedź od serwera 200/406")
 
+    def wait4Response(self):
         while True:
             try:
                 print("Oczekiwanie....")
                 data, addr2 = self.s.recvfrom(self.size)
                 data = data.decode("utf-8")
                 print(data[0:3])
-                break
+                if(data[0:3] == "200"):
+                    return 1
+                elif (data[0:3]=="406"):
+                    return 0
+                elif(data[0:3] == "202"):
+                    return data
             except ConnectionRefusedError:
-                print("Blad przy otrzymywaniu odp po LOGIN")
+                print("Blad przy otrzymywaniu odp od serwera")
+
+
+    def login(self, login, password):
+
+        value = login + " " + password
+        # v = self.signData(value)
+        data = ("LOGIN " + socket.gethostbyname(socket.gethostname()) + " " + str(value)).encode("utf-8")
+
+        self.sendMessage(data)
+        return self.wait4Response()
+
 
     def sendingVoice(self):
         print("[*] Recording")
@@ -104,15 +116,3 @@ class Client:
         self.stream.close()
         self.s.close()
 
-
-"""
-priv = 'rsa_keys/private'
-publ = 'rsa_keys/key.pub'
-
-c = Client(priv,publ)
-c.connectToSerwer()
-c.login('EKaczmarek', 'hello')
-c.sendingVoice()
-c.closeConnection()
-
-"""

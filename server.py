@@ -4,6 +4,7 @@ import time
 from pymongo import MongoClient
 #from validation import Validator
 import os
+import json
 
 #class Server(Validator):
 class Server:
@@ -14,7 +15,8 @@ class Server:
     RATE = 8000
     RECORD_SECONDS = 15
     FACTOR = 2
-    
+
+
     def __init__(self, priv, publ):
         #Validator.__init__(self, priv, publ)
         print("Inicjalizacja klasy Server")
@@ -45,6 +47,11 @@ class Server:
             self.s.close()
 
 
+    def sendM(self, message):
+        self.s.connect((self.host, self.port))
+        self.s.send(message.encode("utf-8"))
+
+
     def listening(self):
         print("[*] Start listen")
 
@@ -52,7 +59,6 @@ class Server:
         #for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
             try:
                 data, addr = self.s.recvfrom(self.size)
-                print(addr[1])
                 self.host = addr[0]
                 self.port = addr[1]
                 print(self.host)
@@ -66,19 +72,27 @@ class Server:
                     try:
                         data = data.decode("utf-8")
                         if (data[0:5] == "LOGIN"):
+                            print("Otrzymano LOGIN")
                             ans = self.checkWithMongo(data)
                             if (ans == 1):
-                                print("Logowanie ok")
                                 print('Wysylanie 200')
-                                self.s.connect((self.host, self.port))
-                                self.s.send("200 OK".encode("utf-8"))
+                                self.sendM("200 OK")
+                                print('Wysłano 200')
 
 
                             elif (ans == 0):
                                 print('Wysylanie 406')
-                                self.s.connect((self.host, self.port))
-                                self.s.send("406 NOT ACCEPTABLE".encode("utf-8"))
+                                self.sendM("406 NOT ACCEPTABLE")
                                 print('Wyslano 406')
+
+                        elif(data[0:3] =="GET"):
+                            print("Otrzymano GET")
+                            self.getFromMongo()
+                            print("Wysylanie userow")
+                            self.sendM("202" + json.dumps(self.users))
+                            print("Wyslano userow")
+
+                            break
 
 
                     except UnicodeDecodeError:
@@ -134,12 +148,31 @@ class Server:
         except IndexError:
             return 0
 
+    def getFromMongo(self):
+        self.users = {}
+
+        client = MongoClient('localhost', 27017)
+        db = client['VOIP']
+        collection = db['Users']
+        try:
+            answer = collection.find({})
+            for document in answer:
+                self.users["login"] = document["login"]
+                self.users["status"] = document["status"]
+        except IndexError:
+            return 0
+
+        print(self.users)
+
+
 
 priv = 'rsa_keys/private'
 
 publ = 'rsa_keys/key.pub'
 
 serwer = Server(priv, publ)
+serwer.getFromMongo()
+
 serwer.connectWithMongo()
 serwer.connectWithClient()
 serwer.listening()
