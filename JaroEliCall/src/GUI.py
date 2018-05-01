@@ -1,8 +1,8 @@
-import tkinter as tk
-import client 
 import hashlib
 import socket
+import tkinter as tk
 
+from JaroEliCall.src import client
 
 
 class App(tk.Tk):
@@ -50,7 +50,7 @@ class App(tk.Tk):
         login,password = self.etr_Login.get(), self.etr_Password.get()
         password = hashlib.sha256(password.encode()).hexdigest()
 
-        self.c = client.Client(priv,publ)
+        self.c = client.Client(priv, publ)
         self.c.connectToSerwer()
         self.c.login(login, password)
 

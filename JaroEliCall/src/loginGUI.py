@@ -1,16 +1,17 @@
-from PyQt5.QtWidgets import QApplication, QDialog
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.uic import loadUi
-import sys
-import client
 import hashlib
 import socket
+import sys
 import listaGUI
 from PyQt5 import uic
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QApplication
+
+from JaroEliCall.src import client
 
 #load both ui file
 uifile_1 = 'login.ui'
 form_1, base_1 = uic.loadUiType(uifile_1)
+
 
 class loginGUI(base_1, form_1):
 

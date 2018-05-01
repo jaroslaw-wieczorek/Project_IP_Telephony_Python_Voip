@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -92,4 +93,5 @@ class Ui_Form(object):
         self.label_3.setText(_translate("Form", "TextLabel"))
         self.pushButton_2.setText(_translate("Form", "Rejestracja"))
         self.pushButton.setText(_translate("Form", "Zaloguj"))
+
 

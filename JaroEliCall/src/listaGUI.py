@@ -51,7 +51,6 @@ class listaGUI(base_2, form_2):
     @pyqtSlot()
     def on_call_button_clicked(self):
         pass
-        # pobranie informacji o pozostałych klientach
 
 
     @pyqtSlot()
