@@ -1,36 +1,60 @@
-from PyQt5.QtWidgets import QApplication, QDialog
+from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QTableWidgetItem
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.uic import loadUi
-import sys
-import client
-import hashlib
-import socket
+from PyQt5 import uic
+import loginGUI
+import ast
+
+uifile_2 = 'lista.ui'
+form_2, base_2 = uic.loadUiType(uifile_2)
+
+class listaGUI(base_2, form_2):
+    def __init__(self, client):
+        super(base_2, self).__init__()
+        self.setupUi(self)
+        self.c = client
+
+        """       Ładowanie listy pracownikow z serwera            """
+        self.data = ("GET ").encode("utf-8")
+        print(self.data)
+        try:
+            self.c.sendMessage(self.data)
+            print("Wysłano")
+        except ConnectionRefusedError as err:
+            print(err)
+
+        coll = self.c.wait4Response()[3:]
+        print(coll)
 
 
-class loginGUI(QDialog):
-    def __init__(self):
-        super(loginGUI, self).__init__()
-        loadUi('login.ui', self)
-        self.setWindowTitle('JaroEliCall')
-        self.login_button.clicked.connect(self.on_login_Button_clicked)
+        diction = ast.literal_eval(coll)
+        print(diction["login"])
+        print(diction["status"])
+
+        print(diction)
+
+        for a in diction:
+            self.tableWidget.setItem(0,0, QTableWidgetItem(diction["login"]))
+            self.tableWidget.setItem(0,1, QTableWidgetItem(diction["status"]))
+
+
+        self.menu_button.clicked.connect(self.on_menu_button_clicked)
+        self.call_button.clicked.connect(self.on_call_button_clicked)
+        self.logout_button.clicked.connect(self.on_logout_button_clicked)
+
 
     @pyqtSlot()
-    def on_login_Button_clicked(self):
-        priv = 'rsa_keys/private'
-        publ = 'rsa_keys/key.pub'
+    def on_menu_button_clicked(self):
+        self.main = loginGUI()
+        self.main.show()
+        self.close()
 
-        print(socket.gethostbyname(socket.gethostname()))
-
-        login, password = self.login_VALUE.text(), self.password_VALUE.text()
-        password = hashlib.sha256(password.encode()).hexdigest()
-
-        self.c = client.Client(priv, publ)
-        self.c.connectToSerwer()
-        self.c.login(login, password)
+    @pyqtSlot()
+    def on_call_button_clicked(self):
+        pass
+        # pobranie informacji o pozostałych klientach
 
 
+    @pyqtSlot()
+    def on_logout_button_clicked(self):
+        pass
 
-app = QApplication(sys.argv)
-widget = loginGUI()
-widget.show()
-sys.exit(app.exec_())
