@@ -1,7 +1,6 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication, QMainWindow
-
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 from JaroEliCall.gui.mainwindow_ui import Ui_MainWindow
 from JaroEliCall.gui.loging_ui import Ui_Form
 
@@ -10,14 +9,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.setupUi(self)
 
+class DialogWidget(QDialog, Ui_Form):
+   def __init__(self):
+       super(DialogWidget, self).__init__()
+       self.setupUi(self)
 
 def main():
     app = QApplication(sys.argv)
     main_window = MainWindow()
     main_window.show()
 
-    login = Ui_Form()
-    login.show()
+    dialog = DialogWidget()
+    dialog.show()
 
     sys.exit(app.exec_())
 
