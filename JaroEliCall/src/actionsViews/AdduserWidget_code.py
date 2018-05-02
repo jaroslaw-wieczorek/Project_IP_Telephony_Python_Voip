@@ -51,6 +51,8 @@ class AddUserWidget(QDialog, Ui_Form):
         pass
 
     def call(self):
+        self.c.closeConnection()
+        self.c.connectToSerwer('192.168.1.103')
         self.c.sendingVoice()
 
 

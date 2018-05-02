@@ -34,7 +34,7 @@ class LoginWidget(QDialog, Ui_Form):
     def on_login_button_clicked(self):
         login, password = self.lineEdit.text(), self.lineEdit_2.text()
         password = hashlib.sha256(password.encode()).hexdigest()
-        self.c.connectToSerwer()
+        self.c.connectToSerwer('192.168.0.102')
         answer = (self.c.login(login, password))
 
         print(answer, " ", login, " ", password)

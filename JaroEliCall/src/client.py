@@ -31,9 +31,9 @@ class Client:
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
 
-    def connectToSerwer(self):
+    def connectToSerwer(self, host):
         # ipadres serwera
-        self.host = '192.168.0.102'
+        self.host = host
         self.port = 50001
         self.size = 2048
 
@@ -81,20 +81,23 @@ class Client:
 
 
     def sendingVoice(self):
+
+
         print("[*] Recording")
-
         while True:
-            # for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-            self.data = self.stream.read(self.CHUNK)
+            for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
+                print("Wysylanie")
+                #self.data = self.stream.read(self.CHUNK)
 
-            if self.data:
-                # Write data to pyaudio stream
-                #self.stream.write(self.data)  # Stream the recieved audio data
-                try:
-                    self.s.send(self.data)
-                except ConnectionRefusedError as err:
-                    print(err)
-                    break
+                if self.data:
+                    # Write data to pyaudio stream
+                    #self.stream.write(self.data)  # Stream the recieved audio data
+                    try:
+                        print("Wysłano :)")
+                        self.s.send(self.data)
+                    except ConnectionRefusedError as err:
+                        print(err)
+                        break
         print("[*] Stop recording")
 
     def closeConnection(self):
@@ -106,7 +109,7 @@ class Client:
         self.stream.close()
         self.s.close()
 
-
+"""
 cl = Client()
-cl.connectToSerwer()
-cl.sendingVoice()
+cl.connectToSerwer('192.168.0.102')
+cl.sendingVoice()"""

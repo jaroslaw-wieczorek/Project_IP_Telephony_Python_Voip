@@ -67,9 +67,8 @@ class Server:
                 print(self.port)
 
 
-
                 if data:
-                    self.stream.write(data)  # Stream the recieved audio data
+                    #self.stream.write(data)  # Stream the recieved audio data
                     print(type(data), data)
                     try:
                         data = data.decode("utf-8")
@@ -80,6 +79,7 @@ class Server:
                                 print('Wysylanie 200')
                                 self.sendM("200 OK")
                                 print('Wysłano 200')
+
 
 
                             elif (ans == 0):
@@ -93,7 +93,7 @@ class Server:
                             print("Wysylanie userow")
                             self.sendM("202" + json.dumps(self.users))
                             print("Wyslano userow")
-                            break
+
 
                     except UnicodeDecodeError:
                         print("Bład dekodowania")
@@ -127,6 +127,7 @@ class Server:
             answer = (collection.find({"login": frames[2], "password": frames[3]}).count()) == 1
 
             if (answer):
+                collection.update({"login": frames[2], "password": frames[3]}, {"$set":{"status":"available"}})
                 return 1
             else:
                 return 0
