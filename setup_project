@@ -4,3 +4,4 @@ mkdir -p JaroEliCall/gui JaroEliCall/src
 touch setup.py JaroEliCall/{__init__,__main__}.py JaroEliCall/gui/__init__.py
 
 
+python3 -m JaroEliCall (Jaro)/ py -m JaroEliCall (Ela)

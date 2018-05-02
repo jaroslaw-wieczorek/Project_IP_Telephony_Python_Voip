@@ -1,19 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Apr 10 15:20:23 2018
-
-@author: afar
-"""
-
 import pyaudio
 import socket
-from validation import Validator
-import listaGUI as lista
-from PyQt5.QtWidgets import QApplication, QDialog
-import sys
+#from JaroEliCall.src.validation import Validator
 
 
-class Client(Validator):
+#class Client(Validator):
+class Client:
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
     WIDTH = 1
@@ -22,12 +13,14 @@ class Client(Validator):
     RECORD_SECONDS = 15
     FACTOR = 2
 
-    def __init__(self, priv, publ):
-        Validator.__init__(self,priv,publ)
+    #def __init__(self, priv, publ):
+
+    def __init__(self):
+        #Validator.__init__(self,priv,publ)
         print("Inicjalizacja klasy Client")
 
-        self.__private_key = priv
-        self.__public_key = publ
+        """self.__private_key = priv
+        self.__public_key = publ"""
 
         self.p = pyaudio.PyAudio()
 
@@ -40,7 +33,7 @@ class Client(Validator):
 
     def connectToSerwer(self):
         # ipadres serwera
-        self.host = '192.168.0.101'
+        self.host = '192.168.0.102'
         self.port = 50001
         self.size = 2048
 
@@ -82,7 +75,7 @@ class Client(Validator):
         value = login + " " + password
         # v = self.signData(value)
         data = ("LOGIN " + socket.gethostbyname(socket.gethostname()) + " " + str(value)).encode("utf-8")
-
+        print(data)
         self.sendMessage(data)
         return self.wait4Response()
 

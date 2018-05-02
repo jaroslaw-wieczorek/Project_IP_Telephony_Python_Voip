@@ -2,11 +2,13 @@ import pyaudio
 import socket
 import time 
 from pymongo import MongoClient
-from validation import Validator
+#from validation import Validator
 import os
 import json
 
-class Server(Validator):
+#class Server(Validator):
+class Server:
+
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
     WIDTH = 1
@@ -18,7 +20,7 @@ class Server(Validator):
 
     def __init__(self, priv, publ):
 
-        Validator.__init__(self, priv, publ)
+        #Validator.__init__(self, priv, publ)
         print("Inicjalizacja klasy Server")
         
         self.p = pyaudio.PyAudio()

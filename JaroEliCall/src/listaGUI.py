@@ -1,7 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QTableWidgetItem
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import uic
-import loginGUI
 import ast
 
 uifile_2 = 'lista.ui'
@@ -42,11 +41,7 @@ class listaGUI(base_2, form_2):
         self.logout_button.clicked.connect(self.on_logout_button_clicked)
 
 
-    @pyqtSlot()
-    def on_menu_button_clicked(self):
-        self.main = loginGUI()
-        self.main.show()
-        self.close()
+
 
     @pyqtSlot()
     def on_call_button_clicked(self):
