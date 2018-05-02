@@ -5,7 +5,8 @@ import hashlib
 from PyQt5.QtCore import pyqtSlot
 
 from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
-from PyQt5 import QtWidgets
+from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
+
 
 """     Login Widget
     Screen to login in and register
@@ -29,6 +30,7 @@ class LoginWidget(QDialog, Ui_Form):
         self.pushButton.clicked.connect(self.on_login_button_clicked)
         self.pushButton_2.clicked.connect(self.on_register_button_clicked)
 
+    @pyqtSlot()
     def on_login_button_clicked(self):
         login, password = self.lineEdit.text(), self.lineEdit_2.text()
         password = hashlib.sha256(password.encode()).hexdigest()
@@ -36,8 +38,13 @@ class LoginWidget(QDialog, Ui_Form):
         answer = (self.c.login(login, password))
 
         print(answer, " ", login, " ", password)
+
         if (answer):
-            return "kontakty"
+            self.close()
+            # przekazanie klienta miedzy widokami
+            users = AddUserWidget(self.c)
+            users.show()
+            users.exec_()
 
     @pyqtSlot()
     def on_register_button_clicked(self):
