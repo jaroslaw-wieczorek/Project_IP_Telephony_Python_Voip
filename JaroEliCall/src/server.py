@@ -93,13 +93,14 @@ class Server:
                             print("Wysylanie userow")
                             self.sendM("202" + json.dumps(self.users))
                             print("Wyslano userow")
-
                             break
 
 
                     except UnicodeDecodeError:
-                        print("Bład dekodowania")
-                        break
+                        self.stream.write(data)  # Stream the recieved audio data
+                        print(type(data), data)
+
+                        #self.stream.write(data, self.CHUNK)
 
 
             except ConnectionRefusedError as err:
@@ -113,12 +114,7 @@ class Server:
                        #komunikat o niepoprawnym logowaniu
 
                 # Write data to pyaudio stream
-                #stream.write(data)  # Stream the recieved audio data
 
-
-            # print(type(data), data)
-
-            #stream.write(data, CHUNK)
         print("[*] Stop listen")
 
 

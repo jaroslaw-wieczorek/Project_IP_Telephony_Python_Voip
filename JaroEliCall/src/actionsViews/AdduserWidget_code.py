@@ -16,12 +16,12 @@ class AddUserWidget(QDialog, Ui_Form):
         super(AddUserWidget, self).__init__()
         self.setupUi(self)
         self.c = client
-        self.load_Contracts()
+        self.load_contracts()
         self.pushButton_2.clicked.connect(self.logout)
         self.pushButton_3.clicked.connect(self.menu_rooms)
         self.pushButton.clicked.connect(self.call)
 
-    def load_Contracts(self):
+    def load_contracts(self):
         try:
             self.c.sendMessage(("GET ").encode("utf-8"))
             print("Wysłano")
@@ -50,9 +50,8 @@ class AddUserWidget(QDialog, Ui_Form):
     def menu_rooms(self):
         pass
 
-    @pyqtSlot()
     def call(self):
-        pass
+        self.c.sendingVoice()
 
 
 

@@ -106,3 +106,7 @@ class Client:
         self.stream.close()
         self.s.close()
 
+
+cl = Client()
+cl.connectToSerwer()
+cl.sendingVoice()
