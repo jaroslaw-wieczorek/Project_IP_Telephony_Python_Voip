@@ -4,9 +4,7 @@ from JaroEliCall.gui.register_ui import Ui_Form
 """     Register Widget
     Screen to Register
     register - on_reg_button_clicked = 
-            * fulfilling gaps with data
-            
-
+            * fulfilling gaps with data            
 """
 
 

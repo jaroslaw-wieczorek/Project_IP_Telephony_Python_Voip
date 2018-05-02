@@ -2,8 +2,10 @@ from PyQt5.QtWidgets import QDialog
 from JaroEliCall.gui.loging_ui import Ui_Form
 from JaroEliCall.src.client import Client
 import hashlib
-from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
+from PyQt5.QtCore import pyqtSlot
 
+from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
+from PyQt5 import QtWidgets
 
 """     Login Widget
     Screen to login in and register
@@ -17,30 +19,36 @@ from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
             
 """
 
-
 class LoginWidget(QDialog, Ui_Form):
     def __init__(self):
         super(LoginWidget, self).__init__()
         self.setupUi(self)
-        self.pushButton.clicked.connect(self.on_login_button_clicked)
-
-
-    def on_login_button_clicked(self):
-
         """priv = 'rsa_keys/private'
         publ = 'rsa_keys/key.pub'"""
+        self.c = Client()
+        self.pushButton.clicked.connect(self.on_login_button_clicked)
+        self.pushButton_2.clicked.connect(self.on_register_button_clicked)
 
-
+    def on_login_button_clicked(self):
         login, password = self.lineEdit.text(), self.lineEdit_2.text()
         password = hashlib.sha256(password.encode()).hexdigest()
-
-        self.c = Client()
         self.c.connectToSerwer()
         answer = (self.c.login(login, password))
 
         print(answer, " ", login, " ", password)
         if (answer):
-            # pokaz okno z lista kontaktow
-            self.close()
+            return "kontakty"
+
+    @pyqtSlot()
+    def on_register_button_clicked(self):
+        self.close()
+        reg = RegisterWidget()
+        reg.show()
+        reg.exec_()
+
+
+
+
+
 
 
