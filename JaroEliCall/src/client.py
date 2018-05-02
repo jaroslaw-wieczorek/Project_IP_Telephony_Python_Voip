@@ -89,7 +89,7 @@ class Client:
 
             if self.data:
                 # Write data to pyaudio stream
-                # stream.write(data)  # Stream the recieved audio data
+                #self.stream.write(self.data)  # Stream the recieved audio data
                 try:
                     self.s.send(self.data)
                 except ConnectionRefusedError as err:

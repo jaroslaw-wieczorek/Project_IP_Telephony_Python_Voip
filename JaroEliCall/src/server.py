@@ -57,8 +57,8 @@ class Server:
     def listening(self):
         print("[*] Start listen")
 
-        #while True:
-        for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
+        while True:
+        #for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
             try:
                 data, addr = self.s.recvfrom(self.size)
                 self.host = addr[0]
@@ -70,7 +70,7 @@ class Server:
 
                 if data:
                     self.stream.write(data)  # Stream the recieved audio data
-
+                    print(type(data), data)
                     try:
                         data = data.decode("utf-8")
                         if (data[0:5] == "LOGIN"):
@@ -95,25 +95,13 @@ class Server:
                             print("Wyslano userow")
                             break
 
-
                     except UnicodeDecodeError:
-                        self.stream.write(data)  # Stream the recieved audio data
-                        print(type(data), data)
-
-                        #self.stream.write(data, self.CHUNK)
-
+                        print("Bład dekodowania")
 
             except ConnectionRefusedError as err:
                 print(err)
                 print("Bład połączenia")
                 break
-
-
-
-
-                       #komunikat o niepoprawnym logowaniu
-
-                # Write data to pyaudio stream
 
         print("[*] Stop listen")
 
