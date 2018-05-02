@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>516</width>
+    <width>642</width>
     <height>477</height>
    </rect>
   </property>
@@ -81,10 +81,22 @@
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QTableWidget" name="tableWidget">
+          <property name="minimumSize">
+           <size>
+            <width>316</width>
+            <height>100</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>300</width>
             <height>16777215</height>
+           </size>
+          </property>
+          <property name="baseSize">
+           <size>
+            <width>300</width>
+            <height>100</height>
            </size>
           </property>
           <property name="autoFillBackground">
@@ -96,6 +108,56 @@
           <property name="autoScroll">
            <bool>false</bool>
           </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="textElideMode">
+           <enum>Qt::ElideMiddle</enum>
+          </property>
+          <attribute name="horizontalHeaderCascadingSectionResizes">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>100</number>
+          </attribute>
+          <attribute name="verticalHeaderMinimumSectionSize">
+           <number>100</number>
+          </attribute>
+          <row>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
+          </row>
+          <row>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
+          </row>
+          <row>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
+          </row>
+          <row>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
+          </row>
           <column>
            <property name="text">
             <string>Kto</string>
@@ -111,6 +173,13 @@
             <string/>
            </property>
           </column>
+          <item row="0" column="2">
+           <property name="icon">
+            <iconset>
+             <activeoff>icons/111317-essential-ui/svg/close-cross.svg</activeoff>
+            </iconset>
+           </property>
+          </item>
          </widget>
         </item>
         <item>
@@ -147,19 +216,6 @@
        </layout>
       </item>
       <item>
-       <spacer name="horizontalSpacer_6">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QLabel" name="label_2">
@@ -170,7 +226,19 @@
            </size>
           </property>
           <property name="text">
-           <string>avatar</string>
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap>icons/111317-essential-ui/svg/edit-profile.svg</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="indent">
+           <number>0</number>
           </property>
          </widget>
         </item>
@@ -224,7 +292,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>516</width>
+     <width>642</width>
      <height>30</height>
     </rect>
    </property>

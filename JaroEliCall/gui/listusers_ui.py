@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/mainwindow.ui'
+# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/listusers.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -75,10 +75,17 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setItem(0, 0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setItem(0, 1, item)
+        item = QtWidgets.QTableWidgetItem()
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("icons/111317-essential-ui/svg/close-cross.svg"), QtGui.QIcon.Active, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons/111317-essential-ui/png/check-mark.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
         item.setIcon(icon)
         self.tableWidget.setItem(0, 2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setItem(1, 2, item)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(True)
         self.tableWidget.horizontalHeader().setDefaultSectionSize(100)
         self.tableWidget.verticalHeader().setMinimumSectionSize(100)
@@ -99,9 +106,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setMinimumSize(QtCore.QSize(100, 100))
+        self.label_2.setMidLineWidth(-1)
         self.label_2.setText("")
         self.label_2.setPixmap(QtGui.QPixmap("icons/111317-essential-ui/svg/edit-profile.svg"))
-        self.label_2.setScaledContents(False)
+        self.label_2.setScaledContents(True)
         self.label_2.setAlignment(QtCore.Qt.AlignCenter)
         self.label_2.setIndent(0)
         self.label_2.setObjectName("label_2")
@@ -137,6 +145,10 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Status"))
         __sortingEnabled = self.tableWidget.isSortingEnabled()
         self.tableWidget.setSortingEnabled(False)
+        item = self.tableWidget.item(0, 0)
+        item.setText(_translate("MainWindow", "Anna"))
+        item = self.tableWidget.item(0, 1)
+        item.setText(_translate("MainWindow", "Kowalska"))
         self.tableWidget.setSortingEnabled(__sortingEnabled)
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.pushButton_2.setText(_translate("MainWindow", "PushButton"))
