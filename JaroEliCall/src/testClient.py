@@ -16,8 +16,8 @@ from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import SHA256 
 from base64 import b64encode, b64decode 
 
-
-class Client(Validator):
+"""
+class Client2(Validator):
    
     def __init__(self, priv, publ):
         Validator.__init__(self,priv,publ)
@@ -109,10 +109,11 @@ publ = 'rsa_keys/key.pub'
         
 print(socket.gethostbyname(socket.gethostname()))
 
-c = Client(priv,publ)
+c = Client2(priv,publ)
 c.connectToSerwer()
 
 c.sendingVoice()
 c.closeConnection()
 
 
+"""

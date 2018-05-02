@@ -7,8 +7,10 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSlot
 
 class Ui_Form(object):
+
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(233, 250)
@@ -84,12 +86,15 @@ class Ui_Form(object):
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
+
+
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label.setText(_translate("Form", "Logowanie"))
-        self.label_2.setText(_translate("Form", "TextLabel"))
-        self.label_3.setText(_translate("Form", "TextLabel"))
+        self.label_2.setText(_translate("Form", "Login"))
+        self.label_3.setText(_translate("Form", "Hasło"))
         self.pushButton_2.setText(_translate("Form", "Rejestracja"))
         self.pushButton.setText(_translate("Form", "Zaloguj"))
+
 

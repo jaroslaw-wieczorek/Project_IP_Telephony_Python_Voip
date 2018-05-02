@@ -155,5 +155,5 @@ class Ui_Form(object):
         self.label_8.setText(_translate("Form", "Hało"))
         self.label_6.setText(_translate("Form", "Powtórz hasło"))
         self.label_4.setText(_translate("Form", "TextLabel"))
-        self.pushButton.setText(_translate("Form", "Zaloguj się"))
+        self.pushButton.setText(_translate("Form", "Zarejestruj się"))
 
