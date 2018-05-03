@@ -38,7 +38,7 @@ class Server:
     def connectWithClient(self):
         print("Nawiazanie polaczenia")
         self.host = ''
-        self.port = 50001
+        self.port = 50002
         self.size = 2048
 
         try:
@@ -120,7 +120,6 @@ class Server:
 
 
 serwer = Server()
-
 serwer.connectWithClient()
 serwer.listening()
 #serwer.stopConnection()
