@@ -102,4 +102,4 @@ ENV/
 .mypy_cache/
 
 #GUI
-./JaroEliCall/gui/resources/icons/
+JaroEliCall/gui/resources/icons/
