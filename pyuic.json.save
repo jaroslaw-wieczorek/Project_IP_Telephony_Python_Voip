@@ -1,0 +1,13 @@
+{
+    "files": [
+       	    ["gui/*.ui","JaroEliCall/gui"],
+            ["JaroEliCall/gui/resources/*.qrc", JaroEliCall/gui/resources/"],
+            ["JaroEliCall/gui/style/*.qss", "JaroEliCall/gui/style/"]
+        
+    ],
+    "hooks": [],
+    "pyrcc": "pyrcc5",
+    "pyrcc_options": "",
+    "pyuic": "pyuic5",
+    "pyuic_options": "--from-import"
+}
