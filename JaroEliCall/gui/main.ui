@@ -196,7 +196,7 @@
         </layout>
        </widget>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
          <number>0</number>
@@ -272,7 +272,7 @@
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -281,21 +281,21 @@
      <height>30</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuMenu">
+   <widget class="QMenu" name="tool">
     <property name="title">
      <string>&amp;Menu</string>
     </property>
-    <addaction name="actionUstawienia"/>
-    <addaction name="actionLista_pokoi"/>
-    <addaction name="actionLista_u_ytkownik_w_2"/>
-    <addaction name="actionProfil"/>
+    <addaction name="actSettings"/>
+    <addaction name="actRooms"/>
+    <addaction name="actUsers"/>
+    <addaction name="actProfil"/>
     <addaction name="separator"/>
-    <addaction name="actionO_aplikacji"/>
-    <addaction name="actionZako_cz"/>
+    <addaction name="actAbout"/>
+    <addaction name="actClose"/>
    </widget>
-   <addaction name="menuMenu"/>
+   <addaction name="tool"/>
   </widget>
-  <action name="actionO_aplikacji">
+  <action name="actAbout">
    <property name="text">
     <string>&amp;O aplikacji</string>
    </property>
@@ -305,24 +305,29 @@
     <string>&amp;Ustawienia</string>
    </property>
   </action>
-  <action name="actionLista_pokoi">
+  <action name="actRooms">
    <property name="text">
     <string>&amp;Pokoje</string>
    </property>
   </action>
-  <action name="actionLista_u_ytkownik_w_2">
+  <action name="actUsers">
    <property name="text">
     <string>Uż&amp;ytkownicy</string>
    </property>
   </action>
-  <action name="actionProfil">
+  <action name="actProfil">
    <property name="text">
-    <string>Profil</string>
+    <string>P&amp;rofil</string>
    </property>
   </action>
-  <action name="actionZako_cz">
+  <action name="actClose">
    <property name="text">
-    <string>Zakończ</string>
+    <string>&amp;Zakończ</string>
+   </property>
+  </action>
+  <action name="actSettings">
+   <property name="text">
+    <string>&amp;Ustawienia</string>
    </property>
   </action>
  </widget>
@@ -367,8 +372,8 @@
      <y>116</y>
     </hint>
     <hint type="destinationlabel">
-     <x>42</x>
-     <y>124</y>
+     <x>49</x>
+     <y>152</y>
     </hint>
    </hints>
   </connection>
@@ -395,8 +400,8 @@
    <slot>update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>182</x>
-     <y>249</y>
+     <x>106</x>
+     <y>152</y>
     </hint>
     <hint type="destinationlabel">
      <x>418</x>
@@ -432,7 +437,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>147</x>
-     <y>65</y>
+     <y>77</y>
     </hint>
    </hints>
   </connection>

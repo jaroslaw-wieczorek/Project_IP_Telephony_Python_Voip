@@ -8,13 +8,17 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(374, 292)
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(Dialog)
+class Ui_SettingsDialog(object):
+    def setupUi(self, SettingsDialog):
+        SettingsDialog.setObjectName("SettingsDialog")
+        SettingsDialog.setWindowModality(QtCore.Qt.WindowModal)
+        SettingsDialog.resize(377, 294)
+        SettingsDialog.setMinimumSize(QtCore.QSize(370, 290))
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(SettingsDialog)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.tabWidget = QtWidgets.QTabWidget(Dialog)
+        self.tabWidget = QtWidgets.QTabWidget(SettingsDialog)
         self.tabWidget.setObjectName("tabWidget")
         self.tab_sound = QtWidgets.QWidget()
         self.tab_sound.setObjectName("tab_sound")
