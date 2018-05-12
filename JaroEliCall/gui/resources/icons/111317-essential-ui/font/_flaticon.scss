@@ -1,0 +1,239 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 22/06/2016 15:13
+    */
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+    .flaticon-add-button:before { content: "\f100"; }
+.flaticon-add-friend:before { content: "\f101"; }
+.flaticon-analog-clock:before { content: "\f102"; }
+.flaticon-back-arrow:before { content: "\f103"; }
+.flaticon-back-arrows:before { content: "\f104"; }
+.flaticon-bell:before { content: "\f105"; }
+.flaticon-bluetooth-signal:before { content: "\f106"; }
+.flaticon-briefcase-with-a-circle:before { content: "\f107"; }
+.flaticon-briefcase-with-check-mark:before { content: "\f108"; }
+.flaticon-bullseye:before { content: "\f109"; }
+.flaticon-cake-with-a-candle:before { content: "\f10a"; }
+.flaticon-call-ended:before { content: "\f10b"; }
+.flaticon-call-in-progress:before { content: "\f10c"; }
+.flaticon-cancel-button:before { content: "\f10d"; }
+.flaticon-car:before { content: "\f10e"; }
+.flaticon-caret-arrow-up:before { content: "\f10f"; }
+.flaticon-chat-bubble:before { content: "\f110"; }
+.flaticon-check-mark:before { content: "\f111"; }
+.flaticon-check-mark-1:before { content: "\f112"; }
+.flaticon-check-mark-2:before { content: "\f113"; }
+.flaticon-check-mark-3:before { content: "\f114"; }
+.flaticon-check-mark-4:before { content: "\f115"; }
+.flaticon-check-mark-on-cloud:before { content: "\f116"; }
+.flaticon-close-cross:before { content: "\f117"; }
+.flaticon-closed-mail-envelope:before { content: "\f118"; }
+.flaticon-cloud:before { content: "\f119"; }
+.flaticon-counterclockwide-arrow:before { content: "\f11a"; }
+.flaticon-cyclist:before { content: "\f11b"; }
+.flaticon-download-arrow:before { content: "\f11c"; }
+.flaticon-drawing-palette:before { content: "\f11d"; }
+.flaticon-edit-profile:before { content: "\f11e"; }
+.flaticon-ellipsis:before { content: "\f11f"; }
+.flaticon-empty-checkbox:before { content: "\f120"; }
+.flaticon-empty-label:before { content: "\f121"; }
+.flaticon-favourite-star:before { content: "\f122"; }
+.flaticon-favourite-star-1:before { content: "\f123"; }
+.flaticon-file-folder:before { content: "\f124"; }
+.flaticon-film-frame:before { content: "\f125"; }
+.flaticon-flag:before { content: "\f126"; }
+.flaticon-gear:before { content: "\f127"; }
+.flaticon-happy-face:before { content: "\f128"; }
+.flaticon-happy-face-1:before { content: "\f129"; }
+.flaticon-hard-disk:before { content: "\f12a"; }
+.flaticon-heart:before { content: "\f12b"; }
+.flaticon-help-bubble:before { content: "\f12c"; }
+.flaticon-image:before { content: "\f12d"; }
+.flaticon-image-and-text-document:before { content: "\f12e"; }
+.flaticon-image-gallery:before { content: "\f12f"; }
+.flaticon-info-button:before { content: "\f130"; }
+.flaticon-information-button:before { content: "\f131"; }
+.flaticon-item-list:before { content: "\f132"; }
+.flaticon-loop-arrow:before { content: "\f133"; }
+.flaticon-low-signal-indicator:before { content: "\f134"; }
+.flaticon-magnifier:before { content: "\f135"; }
+.flaticon-minus-circular-button:before { content: "\f136"; }
+.flaticon-move-to-next:before { content: "\f137"; }
+.flaticon-new-document:before { content: "\f138"; }
+.flaticon-outgoing-call:before { content: "\f139"; }
+.flaticon-padlock-with-a-dot:before { content: "\f13a"; }
+.flaticon-parking-signal:before { content: "\f13b"; }
+.flaticon-pause-button:before { content: "\f13c"; }
+.flaticon-pause-button-1:before { content: "\f13d"; }
+.flaticon-phone-call:before { content: "\f13e"; }
+.flaticon-placeholder:before { content: "\f13f"; }
+.flaticon-plane:before { content: "\f140"; }
+.flaticon-play-and-pause-button:before { content: "\f141"; }
+.flaticon-play-button:before { content: "\f142"; }
+.flaticon-play-button-1:before { content: "\f143"; }
+.flaticon-plug-connector:before { content: "\f144"; }
+.flaticon-plus:before { content: "\f145"; }
+.flaticon-plus-circular-button:before { content: "\f146"; }
+.flaticon-power-button:before { content: "\f147"; }
+.flaticon-printer:before { content: "\f148"; }
+.flaticon-profile-user:before { content: "\f149"; }
+.flaticon-profile-user-1:before { content: "\f14a"; }
+.flaticon-prohibition:before { content: "\f14b"; }
+.flaticon-question-mark:before { content: "\f14c"; }
+.flaticon-refresh-arrow:before { content: "\f14d"; }
+.flaticon-residential-block:before { content: "\f14e"; }
+.flaticon-rewind-button:before { content: "\f14f"; }
+.flaticon-right-arrow:before { content: "\f150"; }
+.flaticon-right-arrow-1:before { content: "\f151"; }
+.flaticon-scribble:before { content: "\f152"; }
+.flaticon-signal-detection-button:before { content: "\f153"; }
+.flaticon-speech-bubble:before { content: "\f154"; }
+.flaticon-speech-bubble-with-exclamation-mark:before { content: "\f155"; }
+.flaticon-station:before { content: "\f156"; }
+.flaticon-tablet:before { content: "\f157"; }
+.flaticon-tag-delete:before { content: "\f158"; }
+.flaticon-text-lines:before { content: "\f159"; }
+.flaticon-trash-bin:before { content: "\f15a"; }
+.flaticon-turn-right-arrow:before { content: "\f15b"; }
+.flaticon-two-way-arrows:before { content: "\f15c"; }
+.flaticon-upload-arrow:before { content: "\f15d"; }
+.flaticon-user-bubble:before { content: "\f15e"; }
+.flaticon-vertical-dots:before { content: "\f15f"; }
+.flaticon-virtual-private-network-vpn:before { content: "\f160"; }
+.flaticon-volume-level:before { content: "\f161"; }
+.flaticon-warning-signal:before { content: "\f162"; }
+.flaticon-wifi-signal-level:before { content: "\f163"; }
+    
+    $font-Flaticon-add-button: "\f100";
+    $font-Flaticon-add-friend: "\f101";
+    $font-Flaticon-analog-clock: "\f102";
+    $font-Flaticon-back-arrow: "\f103";
+    $font-Flaticon-back-arrows: "\f104";
+    $font-Flaticon-bell: "\f105";
+    $font-Flaticon-bluetooth-signal: "\f106";
+    $font-Flaticon-briefcase-with-a-circle: "\f107";
+    $font-Flaticon-briefcase-with-check-mark: "\f108";
+    $font-Flaticon-bullseye: "\f109";
+    $font-Flaticon-cake-with-a-candle: "\f10a";
+    $font-Flaticon-call-ended: "\f10b";
+    $font-Flaticon-call-in-progress: "\f10c";
+    $font-Flaticon-cancel-button: "\f10d";
+    $font-Flaticon-car: "\f10e";
+    $font-Flaticon-caret-arrow-up: "\f10f";
+    $font-Flaticon-chat-bubble: "\f110";
+    $font-Flaticon-check-mark: "\f111";
+    $font-Flaticon-check-mark-1: "\f112";
+    $font-Flaticon-check-mark-2: "\f113";
+    $font-Flaticon-check-mark-3: "\f114";
+    $font-Flaticon-check-mark-4: "\f115";
+    $font-Flaticon-check-mark-on-cloud: "\f116";
+    $font-Flaticon-close-cross: "\f117";
+    $font-Flaticon-closed-mail-envelope: "\f118";
+    $font-Flaticon-cloud: "\f119";
+    $font-Flaticon-counterclockwide-arrow: "\f11a";
+    $font-Flaticon-cyclist: "\f11b";
+    $font-Flaticon-download-arrow: "\f11c";
+    $font-Flaticon-drawing-palette: "\f11d";
+    $font-Flaticon-edit-profile: "\f11e";
+    $font-Flaticon-ellipsis: "\f11f";
+    $font-Flaticon-empty-checkbox: "\f120";
+    $font-Flaticon-empty-label: "\f121";
+    $font-Flaticon-favourite-star: "\f122";
+    $font-Flaticon-favourite-star-1: "\f123";
+    $font-Flaticon-file-folder: "\f124";
+    $font-Flaticon-film-frame: "\f125";
+    $font-Flaticon-flag: "\f126";
+    $font-Flaticon-gear: "\f127";
+    $font-Flaticon-happy-face: "\f128";
+    $font-Flaticon-happy-face-1: "\f129";
+    $font-Flaticon-hard-disk: "\f12a";
+    $font-Flaticon-heart: "\f12b";
+    $font-Flaticon-help-bubble: "\f12c";
+    $font-Flaticon-image: "\f12d";
+    $font-Flaticon-image-and-text-document: "\f12e";
+    $font-Flaticon-image-gallery: "\f12f";
+    $font-Flaticon-info-button: "\f130";
+    $font-Flaticon-information-button: "\f131";
+    $font-Flaticon-item-list: "\f132";
+    $font-Flaticon-loop-arrow: "\f133";
+    $font-Flaticon-low-signal-indicator: "\f134";
+    $font-Flaticon-magnifier: "\f135";
+    $font-Flaticon-minus-circular-button: "\f136";
+    $font-Flaticon-move-to-next: "\f137";
+    $font-Flaticon-new-document: "\f138";
+    $font-Flaticon-outgoing-call: "\f139";
+    $font-Flaticon-padlock-with-a-dot: "\f13a";
+    $font-Flaticon-parking-signal: "\f13b";
+    $font-Flaticon-pause-button: "\f13c";
+    $font-Flaticon-pause-button-1: "\f13d";
+    $font-Flaticon-phone-call: "\f13e";
+    $font-Flaticon-placeholder: "\f13f";
+    $font-Flaticon-plane: "\f140";
+    $font-Flaticon-play-and-pause-button: "\f141";
+    $font-Flaticon-play-button: "\f142";
+    $font-Flaticon-play-button-1: "\f143";
+    $font-Flaticon-plug-connector: "\f144";
+    $font-Flaticon-plus: "\f145";
+    $font-Flaticon-plus-circular-button: "\f146";
+    $font-Flaticon-power-button: "\f147";
+    $font-Flaticon-printer: "\f148";
+    $font-Flaticon-profile-user: "\f149";
+    $font-Flaticon-profile-user-1: "\f14a";
+    $font-Flaticon-prohibition: "\f14b";
+    $font-Flaticon-question-mark: "\f14c";
+    $font-Flaticon-refresh-arrow: "\f14d";
+    $font-Flaticon-residential-block: "\f14e";
+    $font-Flaticon-rewind-button: "\f14f";
+    $font-Flaticon-right-arrow: "\f150";
+    $font-Flaticon-right-arrow-1: "\f151";
+    $font-Flaticon-scribble: "\f152";
+    $font-Flaticon-signal-detection-button: "\f153";
+    $font-Flaticon-speech-bubble: "\f154";
+    $font-Flaticon-speech-bubble-with-exclamation-mark: "\f155";
+    $font-Flaticon-station: "\f156";
+    $font-Flaticon-tablet: "\f157";
+    $font-Flaticon-tag-delete: "\f158";
+    $font-Flaticon-text-lines: "\f159";
+    $font-Flaticon-trash-bin: "\f15a";
+    $font-Flaticon-turn-right-arrow: "\f15b";
+    $font-Flaticon-two-way-arrows: "\f15c";
+    $font-Flaticon-upload-arrow: "\f15d";
+    $font-Flaticon-user-bubble: "\f15e";
+    $font-Flaticon-vertical-dots: "\f15f";
+    $font-Flaticon-virtual-private-network-vpn: "\f160";
+    $font-Flaticon-volume-level: "\f161";
+    $font-Flaticon-warning-signal: "\f162";
+    $font-Flaticon-wifi-signal-level: "\f163";

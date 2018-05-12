@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from JaroEliCall.gui.loging_ui import Ui_Form
-from JaroEliCall.src.client import Client
+from JaroEliCall.src.tmp.client import Client
 import hashlib
 from PyQt5.QtCore import pyqtSlot
 
