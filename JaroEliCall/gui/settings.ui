@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>377</width>
-    <height>294</height>
+    <width>370</width>
+    <height>290</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -22,101 +22,97 @@
   <property name="windowTitle">
    <string>Ustawienia</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <widget class="QTabWidget" name="tabWidget">
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <widget class="QWidget" name="tab_sound">
-        <attribute name="title">
-         <string>Tab 1</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="tab_sound">
+      <attribute name="title">
+       <string>Dźwięk</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>Głośniki</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSlider" name="slider_speakers">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_9">
-             <property name="text">
-              <string>Mikrofon</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSlider" name="slider_microphone">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Głośniki</string>
+           </property>
+          </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <item>
-            <widget class="QCheckBox" name="checkBox_2">
-             <property name="text">
-              <string>Nagrywanie 
-gdy wciśnięto klawisz</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QKeySequenceEdit" name="keySequenceEdit"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <widget class="QCheckBox" name="checkBox">
-             <property name="text">
-              <string>Włącz/wyłącz 
-nagrywanie na przycisk</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QKeySequenceEdit" name="keySequenceEdit_2"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QDialogButtonBox" name="buttonBox">
+          <widget class="QSlider" name="slider_speakers">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="standardButtons">
-            <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Mikrofon</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_microphone">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
         </layout>
-       </widget>
-       <widget class="QWidget" name="tab_crypto">
-        <attribute name="title">
-         <string>Tab 2</string>
-        </attribute>
-       </widget>
-      </widget>
-     </item>
-    </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QCheckBox" name="checkBox_2">
+           <property name="text">
+            <string>Nagrywanie 
+gdy wciśnięto klawisz</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QCheckBox" name="checkBox">
+           <property name="text">
+            <string>Włącz/wyłącz 
+nagrywanie na przycisk</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_2"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QDialogButtonBox" name="buttonBox">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="standardButtons">
+          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_profile">
+      <attribute name="title">
+       <string>Profil</string>
+      </attribute>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
