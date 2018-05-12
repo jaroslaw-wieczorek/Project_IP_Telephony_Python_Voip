@@ -18,7 +18,7 @@ class Server:
     FACTOR = 2
 
 
-    def __init__(self, priv, publ):
+    def __init__(self):
 
         #Validator.__init__(self, priv, publ)
         print("Inicjalizacja klasy Server")
@@ -57,51 +57,11 @@ class Server:
     def listening(self):
         print("[*] Start listen")
 
-        while True:
-        #for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
-            try:
-                data, addr = self.s.recvfrom(self.size)
-                self.host = addr[0]
-                self.port = addr[1]
-                print(self.host)
-                print(self.port)
-
-
-                if data:
-                    #self.stream.write(data)  # Stream the recieved audio data
-                    print(type(data), data)
-                    try:
-                        data = data.decode("utf-8")
-                        if (data[0:5] == "LOGIN"):
-                            print("Otrzymano LOGIN")
-                            ans = self.checkWithMongo(data)
-                            if (ans == 1):
-                                print('Wysylanie 200')
-                                self.sendM("200 OK")
-                                print('Wysłano 200')
-
-
-
-                            elif (ans == 0):
-                                print('Wysylanie 406')
-                                self.sendM("406 NOT ACCEPTABLE")
-                                print('Wyslano 406')
-
-                        elif(data[0:3] =="GET"):
-                            print("Otrzymano GET")
-                            self.getFromMongo()
-                            print("Wysylanie userow")
-                            self.sendM("202" + json.dumps(self.users))
-                            print("Wyslano userow")
-
-
-                    except UnicodeDecodeError:
-                        print("Bład dekodowania")
-
-            except ConnectionRefusedError as err:
-                print(err)
-                print("Bład połączenia")
-                break
+        while 1:
+            data, addr = self.s.recvfrom(self.size)
+            print(addr)
+            print("Otrzymalem: ", data)
+            self.s.sendto(("Otrzymalem: ").encode("utf-8"), addr)
 
         print("[*] Stop listen")
 
@@ -151,15 +111,15 @@ class Server:
 
         print(self.users)
 
-
+"""
 
 priv = 'rsa_keys/private'
 
-publ = 'rsa_keys/key.pub'
+publ = 'rsa_keys/key.pub'"""
 
-serwer = Server(priv, publ)
-serwer.connectWithMongo()
-serwer.getFromMongo()
+serwer = Server()
+#serwer.connectWithMongo()
+#serwer.getFromMongo()
 
 serwer.connectWithClient()
 serwer.listening()

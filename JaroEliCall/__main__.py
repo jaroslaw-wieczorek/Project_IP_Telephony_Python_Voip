@@ -2,7 +2,8 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from JaroEliCall.gui.mainwindow_ui import Ui_MainWindow
 from JaroEliCall.src.actionsViews.LoginWidget_code import LoginWidget
-from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
+from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
+from JaroEliCall.src.tmp.client import Client
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -14,8 +15,10 @@ def main():
     main_window = MainWindow()
     main_window.show()
 
-    login = LoginWidget()
-    login.show()
+    users = LoginWidget()
+    users.show()
+    """users = AddUserWidget(client)
+    users.show()"""
 
     sys.exit(app.exec_())
 

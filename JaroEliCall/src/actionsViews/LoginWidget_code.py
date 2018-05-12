@@ -34,17 +34,18 @@ class LoginWidget(QDialog, Ui_Form):
     def on_login_button_clicked(self):
         login, password = self.lineEdit.text(), self.lineEdit_2.text()
         password = hashlib.sha256(password.encode()).hexdigest()
-        self.c.connectToSerwer('192.168.0.102')
+        self.c.connectToSerwer('192.168.0.103')
         answer = (self.c.login(login, password))
 
         print(answer, " ", login, " ", password)
 
-        if (answer):
+
+        """if (answer):
             self.close()
             # przekazanie klienta miedzy widokami
             users = AddUserWidget(self.c)
             users.show()
-            users.exec_()
+            users.exec_()"""
 
     @pyqtSlot()
     def on_register_button_clicked(self):
