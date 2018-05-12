@@ -22,6 +22,7 @@ class AddUserWidget(QDialog, Ui_Form):
         self.pushButton.clicked.connect(self.call)
 
     def load_contracts(self):
+        self.c.connectToSerwer('192.168.0.103')
         try:
             self.c.sendMessage(("GET ").encode("utf-8"))
             print("Wysłano")
@@ -51,8 +52,8 @@ class AddUserWidget(QDialog, Ui_Form):
         pass
 
     def call(self):
-        self.c.closeConnection()
-        self.c.connectToSerwer('192.168.1.103')
+        # self.c.closeConnection()
+        # self.c.connectToSerwer('192.168.1.103')
         self.c.sendingVoice()
 
 

@@ -16,7 +16,6 @@ class Client:
     #def __init__(self, priv, publ):
 
     def __init__(self):
-        #Validator.__init__(self,priv,publ)
         print("Inicjalizacja klasy Client")
 
         """self.__private_key = priv
@@ -45,12 +44,14 @@ class Client:
             self.s.close()
 
     def sendMessage(self, data):
-        print(data)
+        print("Wiadomosc do wyslania: ", data)
         try:
-            self.s.send(data)
+            self.s.sendto(data, (self.host, self.port))
+            print("Wiadomosc wyslana")
+            packet, address= self.s.recvfrom(self.size)
+            print("wiadomosc odebrana", packet)
         except ConnectionRefusedError as err:
             print(err)
-
         print("Czekam na odpowiedź od serwera 200/406")
 
     def wait4Response(self):
@@ -71,13 +72,14 @@ class Client:
 
 
     def login(self, login, password):
-
         value = login + " " + password
         # v = self.signData(value)
         data = ("LOGIN " + socket.gethostbyname(socket.gethostname()) + " " + str(value)).encode("utf-8")
         print(data)
         self.sendMessage(data)
-        return self.wait4Response()
+        #self.wait4Response()
+
+
 
 
     def sendingVoice(self):
