@@ -44,10 +44,10 @@ class Client:
             self.s.close()
 
     def sendMessage(self, data):
-        print("Wiadomosc do wyslania: ", data)
+        print("Wiadomosc do wyslania do: ", self.host)
         try:
             self.s.sendto(data, (self.host, self.port))
-            print("Wiadomosc wyslana")
+            print("Wiadomosc wyslana. Czekam na odp")
             packet, address= self.s.recvfrom(self.size)
             print("wiadomosc odebrana", packet)
         except ConnectionRefusedError as err:

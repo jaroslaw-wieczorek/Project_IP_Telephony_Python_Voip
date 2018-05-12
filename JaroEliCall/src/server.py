@@ -1,14 +1,14 @@
 import pyaudio
 import socket
-import time 
+import time
 from pymongo import MongoClient
-#from validation import Validator
+# from validation import Validator
 import os
 import json
 
-#class Server(Validator):
-class Server:
 
+# class Server(Validator):
+class Server:
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
     WIDTH = 1
@@ -17,20 +17,19 @@ class Server:
     RECORD_SECONDS = 15
     FACTOR = 2
 
-
     def __init__(self):
 
-        #Validator.__init__(self, priv, publ)
+        # Validator.__init__(self, priv, publ)
         print("Inicjalizacja klasy Server")
-        
+
         self.p = pyaudio.PyAudio()
 
         self.stream = self.p.open(format=self.FORMAT,
-                        channels=self.CHANNELS,
-                        rate=self.RATE,
-                        input=True,
-                        output=True,
-                        frames_per_buffer=self.CHUNK)
+                                  channels=self.CHANNELS,
+                                  rate=self.RATE,
+                                  input=True,
+                                  output=True,
+                                  frames_per_buffer=self.CHUNK)
 
     def connectWithMongo(self):
         os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
@@ -48,11 +47,9 @@ class Server:
             print(err)
             self.s.close()
 
-
     def sendM(self, message):
         self.s.connect((self.host, self.port))
         self.s.send(message.encode("utf-8"))
-
 
     def listening(self):
         print("[*] Start listen")
@@ -65,15 +62,13 @@ class Server:
 
         print("[*] Stop listen")
 
-
     def stopConnection(self):
         self.stream.stop_stream()
         self.stream.close()
 
         self.s.close()
 
-        #p.close()
-
+        # p.close()
 
     def checkWithMongo(self, data):
         client = MongoClient('localhost', 27017)
@@ -87,7 +82,7 @@ class Server:
             answer = (collection.find({"login": frames[2], "password": frames[3]}).count()) == 1
 
             if (answer):
-                collection.update({"login": frames[2], "password": frames[3]}, {"$set":{"status":"available"}})
+                collection.update({"login": frames[2], "password": frames[3]}, {"$set": {"status": "available"}})
                 return 1
             else:
                 return 0
@@ -111,6 +106,7 @@ class Server:
 
         print(self.users)
 
+
 """
 
 priv = 'rsa_keys/private'
@@ -118,9 +114,9 @@ priv = 'rsa_keys/private'
 publ = 'rsa_keys/key.pub'"""
 
 serwer = Server()
-#serwer.connectWithMongo()
-#serwer.getFromMongo()
+# serwer.connectWithMongo()
+# serwer.getFromMongo()
 
 serwer.connectWithClient()
 serwer.listening()
-#serwer.stopConnection()
+# serwer.stopConnection()

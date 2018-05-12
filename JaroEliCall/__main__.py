@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from JaroEliCall.gui.mainwindow_ui import Ui_MainWindow
 from JaroEliCall.src.actionsViews.LoginWidget_code import LoginWidget
 from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
-from JaroEliCall.src.tmp.client import Client
+from JaroEliCall.src.client import Client
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QAction
 from .gui.main_ui import Ui_MainWindow
@@ -32,7 +32,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 def main():
     app = QApplication(sys.argv)
     main_window = MainWindow()
-    main_window.show()
+    # main_window.show()
 
     users = LoginWidget()
     users.show()

@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from JaroEliCall.gui.loging_ui import Ui_Form
-from JaroEliCall.src.tmp.client import Client
+from JaroEliCall.src.client import Client
 import hashlib
 from PyQt5.QtCore import pyqtSlot
 
@@ -27,14 +27,15 @@ class LoginWidget(QDialog, Ui_Form):
         """priv = 'rsa_keys/private'
         publ = 'rsa_keys/key.pub'"""
         self.c = Client()
-        self.pushButton.clicked.connect(self.on_login_button_clicked)
-        self.pushButton_2.clicked.connect(self.on_register_button_clicked)
+        self.login_btn.clicked.connect(self.on_login_button_clicked)
+        self.register_btn.clicked.connect(self.on_register_button_clicked)
 
     @pyqtSlot()
     def on_login_button_clicked(self):
         login, password = self.lineEdit.text(), self.lineEdit_2.text()
         password = hashlib.sha256(password.encode()).hexdigest()
         self.c.connectToSerwer('192.168.0.103')
+        print("Laczenie sie z serwerem")
         answer = (self.c.login(login, password))
 
         print(answer, " ", login, " ", password)
