@@ -1,0 +1,131 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 22/06/2016 15:13
+  	*/
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+margin-left: 20px;
+}
+
+.flaticon-add-button:before { content: "\f100"; }
+.flaticon-add-friend:before { content: "\f101"; }
+.flaticon-analog-clock:before { content: "\f102"; }
+.flaticon-back-arrow:before { content: "\f103"; }
+.flaticon-back-arrows:before { content: "\f104"; }
+.flaticon-bell:before { content: "\f105"; }
+.flaticon-bluetooth-signal:before { content: "\f106"; }
+.flaticon-briefcase-with-a-circle:before { content: "\f107"; }
+.flaticon-briefcase-with-check-mark:before { content: "\f108"; }
+.flaticon-bullseye:before { content: "\f109"; }
+.flaticon-cake-with-a-candle:before { content: "\f10a"; }
+.flaticon-call-ended:before { content: "\f10b"; }
+.flaticon-call-in-progress:before { content: "\f10c"; }
+.flaticon-cancel-button:before { content: "\f10d"; }
+.flaticon-car:before { content: "\f10e"; }
+.flaticon-caret-arrow-up:before { content: "\f10f"; }
+.flaticon-chat-bubble:before { content: "\f110"; }
+.flaticon-check-mark:before { content: "\f111"; }
+.flaticon-check-mark-1:before { content: "\f112"; }
+.flaticon-check-mark-2:before { content: "\f113"; }
+.flaticon-check-mark-3:before { content: "\f114"; }
+.flaticon-check-mark-4:before { content: "\f115"; }
+.flaticon-check-mark-on-cloud:before { content: "\f116"; }
+.flaticon-close-cross:before { content: "\f117"; }
+.flaticon-closed-mail-envelope:before { content: "\f118"; }
+.flaticon-cloud:before { content: "\f119"; }
+.flaticon-counterclockwide-arrow:before { content: "\f11a"; }
+.flaticon-cyclist:before { content: "\f11b"; }
+.flaticon-download-arrow:before { content: "\f11c"; }
+.flaticon-drawing-palette:before { content: "\f11d"; }
+.flaticon-edit-profile:before { content: "\f11e"; }
+.flaticon-ellipsis:before { content: "\f11f"; }
+.flaticon-empty-checkbox:before { content: "\f120"; }
+.flaticon-empty-label:before { content: "\f121"; }
+.flaticon-favourite-star:before { content: "\f122"; }
+.flaticon-favourite-star-1:before { content: "\f123"; }
+.flaticon-file-folder:before { content: "\f124"; }
+.flaticon-film-frame:before { content: "\f125"; }
+.flaticon-flag:before { content: "\f126"; }
+.flaticon-gear:before { content: "\f127"; }
+.flaticon-happy-face:before { content: "\f128"; }
+.flaticon-happy-face-1:before { content: "\f129"; }
+.flaticon-hard-disk:before { content: "\f12a"; }
+.flaticon-heart:before { content: "\f12b"; }
+.flaticon-help-bubble:before { content: "\f12c"; }
+.flaticon-image:before { content: "\f12d"; }
+.flaticon-image-and-text-document:before { content: "\f12e"; }
+.flaticon-image-gallery:before { content: "\f12f"; }
+.flaticon-info-button:before { content: "\f130"; }
+.flaticon-information-button:before { content: "\f131"; }
+.flaticon-item-list:before { content: "\f132"; }
+.flaticon-loop-arrow:before { content: "\f133"; }
+.flaticon-low-signal-indicator:before { content: "\f134"; }
+.flaticon-magnifier:before { content: "\f135"; }
+.flaticon-minus-circular-button:before { content: "\f136"; }
+.flaticon-move-to-next:before { content: "\f137"; }
+.flaticon-new-document:before { content: "\f138"; }
+.flaticon-outgoing-call:before { content: "\f139"; }
+.flaticon-padlock-with-a-dot:before { content: "\f13a"; }
+.flaticon-parking-signal:before { content: "\f13b"; }
+.flaticon-pause-button:before { content: "\f13c"; }
+.flaticon-pause-button-1:before { content: "\f13d"; }
+.flaticon-phone-call:before { content: "\f13e"; }
+.flaticon-placeholder:before { content: "\f13f"; }
+.flaticon-plane:before { content: "\f140"; }
+.flaticon-play-and-pause-button:before { content: "\f141"; }
+.flaticon-play-button:before { content: "\f142"; }
+.flaticon-play-button-1:before { content: "\f143"; }
+.flaticon-plug-connector:before { content: "\f144"; }
+.flaticon-plus:before { content: "\f145"; }
+.flaticon-plus-circular-button:before { content: "\f146"; }
+.flaticon-power-button:before { content: "\f147"; }
+.flaticon-printer:before { content: "\f148"; }
+.flaticon-profile-user:before { content: "\f149"; }
+.flaticon-profile-user-1:before { content: "\f14a"; }
+.flaticon-prohibition:before { content: "\f14b"; }
+.flaticon-question-mark:before { content: "\f14c"; }
+.flaticon-refresh-arrow:before { content: "\f14d"; }
+.flaticon-residential-block:before { content: "\f14e"; }
+.flaticon-rewind-button:before { content: "\f14f"; }
+.flaticon-right-arrow:before { content: "\f150"; }
+.flaticon-right-arrow-1:before { content: "\f151"; }
+.flaticon-scribble:before { content: "\f152"; }
+.flaticon-signal-detection-button:before { content: "\f153"; }
+.flaticon-speech-bubble:before { content: "\f154"; }
+.flaticon-speech-bubble-with-exclamation-mark:before { content: "\f155"; }
+.flaticon-station:before { content: "\f156"; }
+.flaticon-tablet:before { content: "\f157"; }
+.flaticon-tag-delete:before { content: "\f158"; }
+.flaticon-text-lines:before { content: "\f159"; }
+.flaticon-trash-bin:before { content: "\f15a"; }
+.flaticon-turn-right-arrow:before { content: "\f15b"; }
+.flaticon-two-way-arrows:before { content: "\f15c"; }
+.flaticon-upload-arrow:before { content: "\f15d"; }
+.flaticon-user-bubble:before { content: "\f15e"; }
+.flaticon-vertical-dots:before { content: "\f15f"; }
+.flaticon-virtual-private-network-vpn:before { content: "\f160"; }
+.flaticon-volume-level:before { content: "\f161"; }
+.flaticon-warning-signal:before { content: "\f162"; }
+.flaticon-wifi-signal-level:before { content: "\f163"; }
