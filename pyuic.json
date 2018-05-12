@@ -1,9 +1,18 @@
 {
     "files": [
-        [
-            "JaroEliCall/gui/*.ui",
-            "JaroEliCall/gui"
-        ]
+	[
+		"JaroEliCall/gui/*.ui",
+		"JaroEliCall/gui"
+	],
+	[
+		"JaroEliCall/gui/styles/*.qss",
+		"JaroEliCall/gui/styles"
+	],
+	[
+		"JaroEliCall/gui/resources/*.qrc",
+		"JaroEliCall/gui/"
+	]
+        
     ],
     "hooks": [],
     "pyrcc": "pyrcc5",

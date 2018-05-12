@@ -7,9 +7,6 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QApplication
-import sys
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -127,6 +124,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
+        self.menubar.triggered['QAction*'].connect(MainWindow.hide)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

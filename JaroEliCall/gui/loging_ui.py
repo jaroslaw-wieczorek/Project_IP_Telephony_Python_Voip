@@ -7,10 +7,8 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import pyqtSlot
 
 class Ui_Form(object):
-
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(233, 250)
@@ -67,14 +65,14 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem9)
-        self.pushButton_2 = QtWidgets.QPushButton(Form)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.horizontalLayout.addWidget(self.pushButton_2)
+        self.register_btn = QtWidgets.QPushButton(Form)
+        self.register_btn.setObjectName("register_btn")
+        self.horizontalLayout.addWidget(self.register_btn)
         spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem10)
-        self.pushButton = QtWidgets.QPushButton(Form)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.login_btn = QtWidgets.QPushButton(Form)
+        self.login_btn.setObjectName("login_btn")
+        self.horizontalLayout.addWidget(self.login_btn)
         spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem11)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
@@ -86,15 +84,12 @@ class Ui_Form(object):
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
-
-
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label.setText(_translate("Form", "Logowanie"))
         self.label_2.setText(_translate("Form", "Login"))
         self.label_3.setText(_translate("Form", "Hasło"))
-        self.pushButton_2.setText(_translate("Form", "Rejestracja"))
-        self.pushButton.setText(_translate("Form", "Zaloguj"))
-
+        self.register_btn.setText(_translate("Form", "Rejestracja"))
+        self.login_btn.setText(_translate("Form", "Zaloguj"))
 

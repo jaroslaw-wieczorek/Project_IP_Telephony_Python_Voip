@@ -105,7 +105,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.pushButton_2.setText(_translate("Form", "Wyloguj"))
-        self.label.setText(_translate("Form", "Lista Twoich kontaktów"))
+        self.label.setText(_translate("Form", "Twoje kontakty"))
         self.tableWidget.setSortingEnabled(True)
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Kto"))
@@ -114,4 +114,4 @@ class Ui_Form(object):
         self.pushButton_3.setText(_translate("Form", "Moje pokoje"))
         self.pushButton.setText(_translate("Form", "Rozmawiaj"))
 
-#from . import zasoby_rc
+from . import zasoby_rc
