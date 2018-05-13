@@ -17,6 +17,8 @@ class Server:
     RECORD_SECONDS = 15
     FACTOR = 2
 
+    dict_ip_users = {}
+
     def __init__(self):
 
         # Validator.__init__(self, priv, publ)
@@ -48,7 +50,6 @@ class Server:
             print(err)
             self.s.close()
 
-
     def listening(self):
         print("[*] Start listen")
 
@@ -56,13 +57,15 @@ class Server:
             d, addr = self.s.recvfrom(self.size*2)
             print("Otrzymalem: ", d, " od ", addr)
             data = d[0:1].decode("utf-8")
-            print(data)
             if (data[0:1] == "d"):
+
                 communicate = d.decode("utf-8")
+                print("Komunikat: ", communicate[7:12])
+
                 print(communicate)
                 if(communicate[2:7]=="LOGIN"):
                     print("Otrzymano LOGIN")
-                    ans = self.checkWithMongo(communicate)
+                    ans = self.checkWithMongo(communicate, addr)
                     if (ans == 1):
                         print('Wysylanie 200')
                         self.s.sendto(("200 OK").encode("utf-8"), addr)
@@ -77,18 +80,76 @@ class Server:
                     print("Otrzymano GET")
                     self.getFromMongo()
                     print("Wysylanie userow")
+
                     self.s.sendto(("202" + json.dumps(self.users)).encode("utf-8"), addr)
                     print("Wyslano userow")
-                elif (communicate[2:8] == "INVITE"):
-                    print("Najpierw dzwonie tylko do serwera")
 
+                elif (communicate[2:8] == "INVITE"):
+                    frames = (communicate.split())
+                    print(communicate)
+                    print("Mam zadzwonic do", frames[2])
+                    ans = self.checkAvailibility(frames[2])
+                    print("frames[2] = ", frames[2])
+                    # print(ans, " ", self.dict_ip_users[frames[2]])
+                    if (ans):
+                        self.s.sendto(("200 OK ").encode("utf-8"), (addr[0],50003))
+                    else:
+                        self.s.sendto(("460 NOT ACCEPTABLE").encode("utf-8"), (addr[0],50003))
+                elif(communicate[6:12]=="CREATE"):
+                    frames = (communicate.split())
+                    print("Tworzenie usera:", frames[4])
+                    ans = self.find_in_mongo(frames[4])
+                    print(addr)
+                    if(ans == 1):
+                        self.create_user(frames[4], frames[3], frames[5])
+                        self.s.sendto(("201 CREATED").encode("utf-8"), addr)
+                    elif(ans == 0):
+                        self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
             elif (data[0:1]=="s"):
                 print("Dzwiek: ")
-                #self.stream.read(d[3:])
                 self.stream.write(d[2:])
 
-
         print("[*] Stop listen")
+
+    def create_user(self, login, email, password):
+        print("Dodanie uzytkowwnika do mongo")
+
+        try:
+            self.collection.insertOne({"login": login, "password":password, "status": "offline"})
+        except IndexError:
+            return 0
+
+    def find_in_mongo(self, login):
+        print("Sprawdzenie z mongo")
+        client = MongoClient('localhost', 27017)
+        db = client['VOIP']
+        self.collection = db['Users']
+
+        try:
+            answer = (self.collection.find({"login": login}).count()) >=1
+            if (answer):
+                return 0
+            else:
+                return 1
+
+        except IndexError:
+            return 0
+
+    def checkAvailibility(self, user):
+        print("Sprawdzenie z mongo")
+        client = MongoClient('localhost', 27017)
+        db = client['VOIP']
+        collection = db['Users']
+
+        try:
+            answer = (collection.find({"login": user, "status": "online"}).count()) == 1
+            if (answer):
+                return 1
+            else:
+                return 0
+
+        except IndexError:
+            return 0
 
     def stopConnection(self):
         self.stream.stop_stream()
@@ -98,7 +159,7 @@ class Server:
 
         # p.close()
 
-    def checkWithMongo(self, data):
+    def checkWithMongo(self, data, addr):
         print("Sprawdzenie z mongo")
         client = MongoClient('localhost', 27017)
         db = client['VOIP']
@@ -111,7 +172,9 @@ class Server:
             answer = (collection.find({"login": frames[3], "password": frames[4]}).count()) == 1
 
             if (answer):
-                collection.update({"login": frames[3], "password": frames[4]}, {"$set": {"status": "available"}})
+                collection.update({"login": frames[3], "password": frames[4]}, {"$set": {"status": "online"}})
+                # to dictionary nickname        adres IP
+                self.dict_ip_users[frames[3]] = addr
                 return 1
             else:
                 return 0

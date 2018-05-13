@@ -116,10 +116,10 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.label_4)
         spacerItem19 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem19)
-        self.lineEdit_3 = QtWidgets.QLineEdit(Form)
+        """self.lineEdit_3 = QtWidgets.QLineEdit(Form)
         self.lineEdit_3.setMinimumSize(QtCore.QSize(100, 0))
         self.lineEdit_3.setObjectName("lineEdit_3")
-        self.horizontalLayout_2.addWidget(self.lineEdit_3)
+        self.horizontalLayout_2.addWidget(self.lineEdit_3)"""
         spacerItem20 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem20)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -154,6 +154,5 @@ class Ui_Form(object):
         self.label_9.setText(_translate("Form", "E-mail"))
         self.label_8.setText(_translate("Form", "Hało"))
         self.label_6.setText(_translate("Form", "Powtórz hasło"))
-        self.label_4.setText(_translate("Form", "TextLabel"))
-        self.pushButton.setText(_translate("Form", "Zaloguj się"))
+        self.pushButton.setText(_translate("Form", "Zarejestruj się"))
 
