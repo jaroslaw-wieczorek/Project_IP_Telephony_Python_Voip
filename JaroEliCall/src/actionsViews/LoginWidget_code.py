@@ -41,12 +41,13 @@ class LoginWidget(QDialog, Ui_Form):
         print(answer, " ", login, " ", password)
 
 
-        """if (answer):
+        if (answer):
             self.close()
             # przekazanie klienta miedzy widokami
             users = AddUserWidget(self.c)
+            users.load_contracts()
             users.show()
-            users.exec_()"""
+            users.exec_()
 
     @pyqtSlot()
     def on_register_button_clicked(self):

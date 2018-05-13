@@ -49,42 +49,26 @@ class Client:
             self.s.sendto(data, (self.host, self.port))
             print("Wiadomosc wyslana. Czekam na odp")
             packet, address= self.s.recvfrom(self.size)
-            print("wiadomosc odebrana", packet)
+            if(packet):
+                packet = packet.decode("utf-8")
+                print("wiadomosc odebrana", packet)
+                if (packet[0:3] == "200"):
+                    return 1
+                elif (packet[0:3] == "406"):
+                    return 0
+                elif (packet[0:3] == "202"):
+                    return packet
         except ConnectionRefusedError as err:
             print(err)
-        print("Czekam na odpowiedź od serwera 200/406")
-
-    def wait4Response(self):
-        while True:
-            try:
-                print("Oczekiwanie....")
-                data, addr2 = self.s.recvfrom(self.size)
-                data = data.decode("utf-8")
-                print(data[0:3])
-                if(data[0:3] == "200"):
-                    return 1
-                elif (data[0:3]=="406"):
-                    return 0
-                elif(data[0:3] == "202"):
-                    return data
-            except ConnectionRefusedError:
-                print("Blad przy otrzymywaniu odp od serwera")
-
 
     def login(self, login, password):
         value = login + " " + password
         # v = self.signData(value)
         data = ("LOGIN " + socket.gethostbyname(socket.gethostname()) + " " + str(value)).encode("utf-8")
         print(data)
-        self.sendMessage(data)
-        #self.wait4Response()
-
-
-
+        return self.sendMessage(data)
 
     def sendingVoice(self):
-
-
         print("[*] Recording")
         while True:
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):

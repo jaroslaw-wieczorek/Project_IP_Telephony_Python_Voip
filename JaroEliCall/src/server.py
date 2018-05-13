@@ -32,6 +32,7 @@ class Server:
                                   frames_per_buffer=self.CHUNK)
 
     def connectWithMongo(self):
+        print("POLACZENIE Z MONGO")
         os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
 
     def connectWithClient(self):
@@ -55,10 +56,34 @@ class Server:
         print("[*] Start listen")
 
         while 1:
-            data, addr = self.s.recvfrom(self.size)
-            print(addr)
-            print("Otrzymalem: ", data)
-            self.s.sendto(("Otrzymalem: ").encode("utf-8"), addr)
+            d, addr = self.s.recvfrom(self.size)
+            print("Otrzymalem: ", d, " od ", addr)
+            data = d.decode("utf-8")
+            print(data[0:5])
+            if (data[0:5] == "LOGIN"):
+                print("Otrzymano LOGIN")
+                ans = self.checkWithMongo(data)
+                if (ans == 1):
+                    print('Wysylanie 200')
+                    self.s.sendto(("200 OK").encode("utf-8"), addr)
+                    print('Wysłano 200')
+
+                elif (ans == 0):
+                    print('Wysylanie 406')
+                    self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
+                    print('Wyslano 406')
+
+            elif (data[0:3] == "GET"):
+                print("Otrzymano GET")
+                self.getFromMongo()
+                print("Wysylanie userow")
+                self.s.sendto(("202" + json.dumps(self.users)).encode("utf-8"), addr)
+                print("Wyslano userow")
+            elif (data[0:6] == "INVITE"):
+                print("Najpierw dzwonie tylko do serwera")
+
+
+
 
         print("[*] Stop listen")
 
@@ -71,6 +96,7 @@ class Server:
         # p.close()
 
     def checkWithMongo(self, data):
+        print("Sprawdzenie z mongo")
         client = MongoClient('localhost', 27017)
         db = client['VOIP']
         collection = db['Users']
@@ -114,7 +140,7 @@ priv = 'rsa_keys/private'
 publ = 'rsa_keys/key.pub'"""
 
 serwer = Server()
-# serwer.connectWithMongo()
+serwer.connectWithMongo()
 # serwer.getFromMongo()
 
 serwer.connectWithClient()

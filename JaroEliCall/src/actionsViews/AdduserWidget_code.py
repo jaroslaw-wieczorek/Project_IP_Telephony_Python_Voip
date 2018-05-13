@@ -16,21 +16,15 @@ class AddUserWidget(QDialog, Ui_Form):
         super(AddUserWidget, self).__init__()
         self.setupUi(self)
         self.c = client
-        self.load_contracts()
         self.pushButton_2.clicked.connect(self.logout)
         self.pushButton_3.clicked.connect(self.menu_rooms)
         self.pushButton.clicked.connect(self.call)
 
     def load_contracts(self):
-        self.c.connectToSerwer('192.168.0.103')
-        try:
-            self.c.sendMessage(("GET ").encode("utf-8"))
-            print("Wysłano")
-        except ConnectionRefusedError as err:
-            print(err)
-
-        coll = self.c.wait4Response()[3:]
-        print(coll)
+        print("Wysylanie get")
+        coll = self.c.sendMessage(("GET").encode("utf-8"))
+        coll = coll[3:]
+        print("Odp: ", coll)
 
         diction = ast.literal_eval(coll)
         print(diction["login"])
