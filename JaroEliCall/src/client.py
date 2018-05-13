@@ -64,7 +64,8 @@ class Client:
     def login(self, login, password):
         value = login + " " + password
         # v = self.signData(value)
-        data = ("LOGIN " + socket.gethostbyname(socket.gethostname()) + " " + str(value)).encode("utf-8")
+        data = ("d LOGIN " + socket.gethostbyname(socket.gethostname()) + " " + str(value)).encode("utf-8")
+
         print(data)
         return self.sendMessage(data)
 
@@ -73,11 +74,11 @@ class Client:
         while True:
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
                 print("Wysylanie")
-                #self.data = self.stream.read(self.CHUNK)
+                self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
 
                 if self.data:
                     # Write data to pyaudio stream
-                    #self.stream.write(self.data)  # Stream the recieved audio data
+                    # self.stream.write(self.data)  # Stream the recieved audio data
                     try:
                         print("Wysłano :)")
                         self.s.send(self.data)

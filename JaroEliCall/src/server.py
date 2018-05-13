@@ -48,41 +48,42 @@ class Server:
             print(err)
             self.s.close()
 
-    def sendM(self, message):
-        self.s.connect((self.host, self.port))
-        self.s.send(message.encode("utf-8"))
 
     def listening(self):
         print("[*] Start listen")
 
         while 1:
-            d, addr = self.s.recvfrom(self.size)
+            d, addr = self.s.recvfrom(self.size*2)
             print("Otrzymalem: ", d, " od ", addr)
-            data = d.decode("utf-8")
-            print(data[0:5])
-            if (data[0:5] == "LOGIN"):
-                print("Otrzymano LOGIN")
-                ans = self.checkWithMongo(data)
-                if (ans == 1):
-                    print('Wysylanie 200')
-                    self.s.sendto(("200 OK").encode("utf-8"), addr)
-                    print('Wysłano 200')
+            data = d[0:1].decode("utf-8")
+            print(data)
+            if (data[0:1] == "d"):
+                communicate = d.decode("utf-8")
+                print(communicate)
+                if(communicate[2:7]=="LOGIN"):
+                    print("Otrzymano LOGIN")
+                    ans = self.checkWithMongo(communicate)
+                    if (ans == 1):
+                        print('Wysylanie 200')
+                        self.s.sendto(("200 OK").encode("utf-8"), addr)
+                        print('Wysłano 200')
 
-                elif (ans == 0):
-                    print('Wysylanie 406')
-                    self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
-                    print('Wyslano 406')
+                    elif (ans == 0):
+                        print('Wysylanie 406')
+                        self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
+                        print('Wyslano 406')
 
-            elif (data[0:3] == "GET"):
-                print("Otrzymano GET")
-                self.getFromMongo()
-                print("Wysylanie userow")
-                self.s.sendto(("202" + json.dumps(self.users)).encode("utf-8"), addr)
-                print("Wyslano userow")
-            elif (data[0:6] == "INVITE"):
-                print("Najpierw dzwonie tylko do serwera")
+                elif (communicate[2:5] == "GET"):
+                    print("Otrzymano GET")
+                    self.getFromMongo()
+                    print("Wysylanie userow")
+                    self.s.sendto(("202" + json.dumps(self.users)).encode("utf-8"), addr)
+                    print("Wyslano userow")
+                elif (communicate[2:8] == "INVITE"):
+                    print("Najpierw dzwonie tylko do serwera")
 
-
+            elif (data[0:2]=="s "):
+                self.stream.write(data[3:])
 
 
         print("[*] Stop listen")
@@ -105,10 +106,10 @@ class Server:
         frames = (data.split())
 
         try:
-            answer = (collection.find({"login": frames[2], "password": frames[3]}).count()) == 1
+            answer = (collection.find({"login": frames[3], "password": frames[4]}).count()) == 1
 
             if (answer):
-                collection.update({"login": frames[2], "password": frames[3]}, {"$set": {"status": "available"}})
+                collection.update({"login": frames[3], "password": frames[4]}, {"$set": {"status": "available"}})
                 return 1
             else:
                 return 0

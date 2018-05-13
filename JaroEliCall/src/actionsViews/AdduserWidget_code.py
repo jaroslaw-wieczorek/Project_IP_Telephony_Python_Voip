@@ -22,7 +22,7 @@ class AddUserWidget(QDialog, Ui_Form):
 
     def load_contracts(self):
         print("Wysylanie get")
-        coll = self.c.sendMessage(("GET").encode("utf-8"))
+        coll = self.c.sendMessage(("d GET").encode("utf-8"))
         coll = coll[3:]
         print("Odp: ", coll)
 
