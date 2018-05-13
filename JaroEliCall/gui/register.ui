@@ -243,7 +243,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Hało</string>
+        <string>Hasło</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -399,22 +399,6 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_4">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer_24">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -426,16 +410,6 @@
         </size>
        </property>
       </spacer>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_3">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>0</height>
-        </size>
-       </property>
-      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_9">
@@ -512,7 +486,7 @@
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Zaloguj się</string>
+        <string>Zarejestruj się</string>
        </property>
       </widget>
      </item>
