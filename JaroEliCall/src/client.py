@@ -71,8 +71,8 @@ class Client:
 
     def sendingVoice(self):
         print("[*] Recording")
-        while True:
-            for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
+        for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
+            while True:
                 print("Wysylanie")
                 self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
 

@@ -82,8 +82,10 @@ class Server:
                 elif (communicate[2:8] == "INVITE"):
                     print("Najpierw dzwonie tylko do serwera")
 
-            elif (data[0:2]=="s "):
-                self.stream.write(data[3:])
+            elif (data[0:1]=="s"):
+                print("Dzwiek: ")
+                #self.stream.read(d[3:])
+                self.stream.write(d[2:])
 
 
         print("[*] Stop listen")
