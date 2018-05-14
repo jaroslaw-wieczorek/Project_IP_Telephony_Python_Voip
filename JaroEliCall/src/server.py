@@ -5,6 +5,7 @@ from pymongo import MongoClient
 # from validation import Validator
 import os
 import json
+from sys import platform
 
 
 # class Server(Validator):
@@ -32,8 +33,14 @@ class Server:
                                   frames_per_buffer=self.CHUNK)
 
     def connectWithMongo(self):
-        print("POLACZENIE Z MONGO")
-        os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
+
+        if platform == "linux" or platform == "linux2":
+            print("POLACZENIE Z MONGO")
+                        
+            
+        elif platform == "win32":
+            print("POLACZENIE Z MONGO")
+            os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
 
     def connectWithClient(self):
         print("Nawiazanie polaczenia")
