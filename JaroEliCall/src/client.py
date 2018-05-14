@@ -1,7 +1,7 @@
 import pyaudio
 import socket
-#from JaroEliCall.src.validation import Validator
-
+from threading import Thread
+from time import sleep
 
 #class Client(Validator):
 class Client:
@@ -39,6 +39,7 @@ class Client:
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.connect((self.host, self.port))
+
         except ConnectionRefusedError as err:
             print(err)
             self.s.close()
@@ -54,10 +55,16 @@ class Client:
                 print("wiadomosc odebrana", packet)
                 if (packet[0:3] == "200"):
                     return 1
+                # user unregistered
                 elif (packet[0:3] == "406"):
                     return 0
                 elif (packet[0:3] == "202"):
                     return packet
+                elif(packet[0:3] == "200"):
+                    self.sendingVoice()
+                # user registered
+                elif(packet[0:3] == "201"):
+                    return 1
         except ConnectionRefusedError as err:
             print(err)
 
@@ -65,20 +72,19 @@ class Client:
         value = login + " " + password
         # v = self.signData(value)
         data = ("d LOGIN " + socket.gethostbyname(socket.gethostname()) + " " + str(value)).encode("utf-8")
-
         print(data)
         return self.sendMessage(data)
 
     def sendingVoice(self):
         print("[*] Recording")
-        for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
-            while True:
+        while True:
+            for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
                 print("Wysylanie")
                 self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
 
                 if self.data:
                     # Write data to pyaudio stream
-                    # self.stream.write(self.data)  # Stream the recieved audio data
+                    self.stream.write(self.data)  # Stream the recieved audio data
                     try:
                         print("Wysłano :)")
                         self.s.send(self.data)
@@ -87,16 +93,9 @@ class Client:
                         break
         print("[*] Stop recording")
 
+
     def closeConnection(self):
 
-        # print(type(data), data)
-
-        # stream.write(data, CHUNK)
         self.stream.stop_stream()
         self.stream.close()
         self.s.close()
-
-"""
-cl = Client()
-cl.connectToSerwer('192.168.0.102')
-cl.sendingVoice()"""
