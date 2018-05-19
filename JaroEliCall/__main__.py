@@ -6,8 +6,8 @@ from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 from JaroEliCall.src.client import Client
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QAction
-from .gui.main_ui import Ui_MainWindow
-from .gui.settings_ui import Ui_SettingsDialog
+from JaroEliCall.gui.main_ui import Ui_MainWindow
+from JaroEliCall.gui.settings_ui import Ui_SettingsDialog
 
 class Dialog(QDialog, Ui_SettingsDialog):
     def __init__(self, no):

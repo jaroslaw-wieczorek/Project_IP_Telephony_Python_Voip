@@ -16,8 +16,7 @@ from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
             * if login ok going to listeners.ui screen
             * else showing a label
     register - on_register_button_clicked = 
-            * goin to register.ui screen
-            
+            * goin to register.ui screen            
 """
 
 class LoginWidget(QDialog, Ui_Form):
@@ -35,7 +34,7 @@ class LoginWidget(QDialog, Ui_Form):
 
         login, password = self.lineEdit.text(), self.lineEdit_2.text()
         password = hashlib.sha256(password.encode()).hexdigest()
-        self.c.connectToSerwer('192.168.0.103')
+        self.c.connectToSerwer('192.168.43.130')
         print("Laczenie sie z serwerem")
         answer = (self.c.login(login, password))
 

@@ -30,8 +30,8 @@ class Client:
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
 
-    def connectToSerwer(self, host):
-        # ipadres serwera
+        def connectToSerwer(self, host):
+        # ip adres serwera
         self.host = host
         self.port = 50001
         self.size = 2048
@@ -60,9 +60,9 @@ class Client:
                     return 0
                 elif (packet[0:3] == "202"):
                     return packet
-                elif(packet[0:3] == "200"):
-                    self.sendingVoice()
-                # user registered
+                # elif(packet[0:3] == "200"):
+                    # self.sendingVoice()
+                 # user registered
                 elif(packet[0:3] == "201"):
                     return 1
         except ConnectionRefusedError as err:
