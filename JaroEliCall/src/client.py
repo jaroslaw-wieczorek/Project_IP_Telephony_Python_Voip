@@ -6,10 +6,10 @@ from time import sleep
 #class Client(Validator):
 class Client:
     FORMAT = pyaudio.paInt16
-    CHUNK = 1024
+    CHUNK = 512
     WIDTH = 1
     CHANNELS = 1
-    RATE = 8000
+    RATE = 16000
     RECORD_SECONDS = 15
     FACTOR = 2
 

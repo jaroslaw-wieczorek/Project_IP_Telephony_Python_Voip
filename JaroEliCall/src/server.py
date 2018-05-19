@@ -11,10 +11,10 @@ from sys import platform
 # class Server(Validator):
 class Server:
     FORMAT = pyaudio.paInt16
-    CHUNK = 1024
+    CHUNK = 512
     WIDTH = 1
     CHANNELS = 1
-    RATE = 8000
+    RATE = 16000
     RECORD_SECONDS = 15
     FACTOR = 2
 
