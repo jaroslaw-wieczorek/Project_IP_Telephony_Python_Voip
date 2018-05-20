@@ -1,9 +1,5 @@
 import pyaudio
 import socket
-from _thread import *
-from threading import Thread
-from time import sleep
-from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 
 #class Client(Validator):
 class Client:
@@ -57,19 +53,13 @@ class Client:
             if (packet):
                 packet = packet.decode("utf-8")
                 print("wiadomosc odebrana", packet)
-
                 if (packet[0:3] == "200"):
-                    print("200")
                     return 1
-                # user unregistered
                 elif (packet[0:3] == "406"):
-                    print("406")
                     return 0
                 elif (packet[0:3] == "202"):
                     return packet
-                # user registered
                 elif (packet[0:3] == "201"):
-                    print("201")
                     return 1
         except ConnectionRefusedError as err:
             print(err)
@@ -82,7 +72,6 @@ class Client:
                 if (packet):
                     packet = packet.decode("utf-8")
                     print("wiadomosc odebrana", packet)
-
             except ConnectionRefusedError as err:
                 print(err)
 

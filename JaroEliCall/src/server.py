@@ -1,13 +1,10 @@
 import pyaudio
 import socket
-import time
 from pymongo import MongoClient
 # from validation import Validator
 import os
 import json
-<<<<<<< HEAD
 import time
-import threading
 
 from sys import platform
 
@@ -73,8 +70,6 @@ class Server:
 
         while 1:
             d, addr = self.s.recvfrom(self.size*2)
-            #thread = threading.Thread(target=self.sendAnything, args=(addr))
-            #thread.start()
             print("Otrzymalem: ", d, " od ", addr)
             data = d[0:1].decode("utf-8")
             if (data[0:1] == "d"):

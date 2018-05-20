@@ -16,9 +16,10 @@ class AddUserWidget(QDialog, Ui_Form):
         super(AddUserWidget, self).__init__()
         self.setupUi(self)
         self.c = client
-        self.pushButton_2.clicked.connect(self.logout)
-        self.pushButton_3.clicked.connect(self.menu_rooms)
-        self.pushButton.clicked.connect(self.call)
+        self.pushButton_3.clicked.connect(self.logout)
+        self.pushButton_5.clicked.connect(self.menu_rooms)
+        self.pushButton_4.clicked.connect(self.call)
+
 
     def load_contracts(self):
         print("Wysylanie get")
@@ -33,17 +34,22 @@ class AddUserWidget(QDialog, Ui_Form):
         print(diction)
 
         for a in diction:
-            self.tableWidget.setItem(0, 0, QTableWidgetItem(diction["login"]))
-            self.tableWidget.setItem(0, 1, QTableWidgetItem(diction["status"]))
+            self.tableWidget_2.setItem(0, 0, QTableWidgetItem(diction["login"]))
+            self.tableWidget_2.setItem(0, 1, QTableWidgetItem(diction["status"]))
+
+
+        #hread = Thread(target=self.c.listening, args = [])
+        #thread.start()
 
     @pyqtSlot()
     def logout(self):
-        pass
+        print("Wylogowanie")
 
     @pyqtSlot()
     def menu_rooms(self):
         pass
 
+    @pyqtSlot()
     def call(self):
         self.c.sendingVoice()
 

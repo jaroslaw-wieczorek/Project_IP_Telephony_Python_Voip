@@ -38,12 +38,8 @@ class LoginWidget(QDialog, Ui_Form):
         print("Laczenie sie z serwerem")
         answer = (self.c.login(login, password))
 
-        print(answer, " ", login, " ", password)
-
-
         if (answer):
-        # self.close()
-        # przekazanie klienta miedzy widokami
+            self.close()
             users = AddUserWidget(self.c)
             users.load_contracts()
             users.show()
