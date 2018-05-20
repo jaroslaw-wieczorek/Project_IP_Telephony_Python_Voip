@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 from JaroEliCall.gui.adduser_ui import Ui_Form
 from PyQt5.QtCore import pyqtSlot
-import ast
 from threading import Thread
+import json
 
 """     List of contacts Widget
     Screen to load contacts and call to people
@@ -28,15 +28,29 @@ class AddUserWidget(QDialog, Ui_Form):
         coll = coll[3:]
         print("Odp: ", coll)
 
-        diction = ast.literal_eval(coll)
-        print(diction["login"])
-        print(diction["status"])
+        diction = {}
+
+        res = coll.replace("[[","[")
+        res = res.replace("]]","]")
+        print(res)
+        jdata = json.loads(res)
+        print(jdata)
+        for d in jdata:
+            print(d)
+            print(d['login'])
+            diction[d['login']]=d['status']
+
+        print("zALADOWANO LISTE")
 
         print(diction)
+        print(type(diction))
+        print("Slownik")
 
+        row = 0
         for a in diction:
-            self.tableWidget_2.setItem(0, 0, QTableWidgetItem(diction["login"]))
-            self.tableWidget_2.setItem(0, 1, QTableWidgetItem(diction["status"]))
+            self.tableWidget_2.setItem(row, 0, QTableWidgetItem(a))
+            self.tableWidget_2.setItem(row, 1, QTableWidgetItem(diction[a]))
+            row = row + 1
 
         thread = Thread(target=self.c.listening, args=[])
         thread.start()

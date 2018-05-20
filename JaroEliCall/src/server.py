@@ -202,20 +202,15 @@ class Server:
             return 0
 
     def getFromMongo(self):
-        self.users = {}
 
         client = MongoClient('localhost', 27017)
         db = client['VOIP']
         collection = db['Users']
-        try:
-            answer = collection.find({})
-            for document in answer:
-                self.users["login"] = document["login"]
-                self.users["status"] = document["status"]
-        except IndexError:
-            return 0
 
-        print(self.users)
+        test = [list(db[collection].find({}, {"login": 1, "status": 1, "_id": 0})) for collection in db.collection_names()]
+        print(test)
+
+        self.users = test
 
 
 """
