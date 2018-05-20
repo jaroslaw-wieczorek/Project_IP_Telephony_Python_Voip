@@ -3,7 +3,7 @@ from JaroEliCall.gui.loging_ui import Ui_Form
 from JaroEliCall.src.client import Client
 import hashlib
 from PyQt5.QtCore import pyqtSlot
-
+from threading import Thread
 from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
 from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 
@@ -34,15 +34,16 @@ class LoginWidget(QDialog, Ui_Form):
 
         login, password = self.lineEdit.text(), self.lineEdit_2.text()
         password = hashlib.sha256(password.encode()).hexdigest()
-        self.c.connectToSerwer('192.168.43.130')
+        self.c.connectToSerwer('127.0.0.1')
         print("Laczenie sie z serwerem")
         answer = (self.c.login(login, password))
 
         print(answer, " ", login, " ", password)
 
+
         if (answer):
-            # self.close()
-            # przekazanie klienta miedzy widokami
+        # self.close()
+        # przekazanie klienta miedzy widokami
             users = AddUserWidget(self.c)
             users.load_contracts()
             users.show()

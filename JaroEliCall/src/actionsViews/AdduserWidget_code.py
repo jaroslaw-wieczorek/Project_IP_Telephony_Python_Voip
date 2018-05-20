@@ -1,7 +1,6 @@
 from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 from JaroEliCall.gui.adduser_ui import Ui_Form
 from PyQt5.QtCore import pyqtSlot
-from JaroEliCall.src.client import Client
 import ast
 
 """     List of contacts Widget
@@ -46,11 +45,7 @@ class AddUserWidget(QDialog, Ui_Form):
         pass
 
     def call(self):
-        self.c.invite()
-
-        self.c2 = Client()
-        self.c2.connect_another_client()
-        self.c2.sendingVoice()
+        self.c.sendingVoice()
 
 
 
