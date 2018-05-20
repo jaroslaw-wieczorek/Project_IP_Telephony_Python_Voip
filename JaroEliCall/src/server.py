@@ -69,6 +69,26 @@ class Server:
                 self.s.sendto(("Hello to ja").encode("utf-8"), value)
             #break
 
+    def find_port(self, ip_addr):
+        print(ip_addr)
+        for key, value in self.dict_ip_users.items():
+            print("keys ", key)
+            if(key == ip_addr):
+                return value
+
+    def who_call(self, addr):
+        print("Kto dzwoni ?? ")
+        print(addr)
+        for key, value in self.dict_ip_users.items():
+            print(key)
+            print(value)
+            if (addr == value[0]):
+                print("Adres IP ", addr, " user: ", key)
+                return key
+            else:
+                print("Brak usera")
+                return 0
+
     def listening(self):
         print("[*] Start listen")
 
@@ -105,15 +125,13 @@ class Server:
 
                 elif (communicate[2:8] == "INVITE"):
                     frames = (communicate.split())
-                    print(communicate)
-                    print("Mam zadzwonic do", frames[2])
-                    ans = self.checkAvailibility(frames[2])
-                    print("frames[2] = ", frames[2])
-                    # print(ans, " ", self.dict_ip_users[frames[2]])
-                    if (ans):
-                        self.s.sendto(("200 OK ").encode("utf-8"), (addr[0],50003))
+                    available = self.checkAvailibility(frames[2])
+                    data_ip = self.find_port(frames[2])
+                    if (available):
+                        self.s.sendto(("200 OK ").encode("utf-8"), (addr))
+                        self.s.sendto(("d INVITE EKaczmarek").encode("utf-8"), (data_ip))
                     else:
-                        self.s.sendto(("460 NOT ACCEPTABLE").encode("utf-8"), (addr[0],50003))
+                        self.s.sendto(("460 NOT ACCEPTABLE").encode("utf-8"), (addr))
                 elif(communicate[6:12]=="CREATE"):
                     frames = (communicate.split())
                     print("Tworzenie usera:", frames[4])

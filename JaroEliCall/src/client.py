@@ -1,5 +1,7 @@
 import pyaudio
 import socket
+from JaroEliCall.src.actionsViews.Interaction_code import InteractionWidget
+
 from threading import Thread
 #class Client(Validator):
 class Client:
@@ -44,7 +46,7 @@ class Client:
             self.s.close()
 
     def sendMessage(self, data):
-        print("Wiadomosc do wyslania do: ", self.host)
+        print("Wiadomosc do wyslania do serwera: ", self.host)
         try:
             self.s.sendto(data, (self.host, self.port))
             print("Wiadomosc wyslana. Czekam na odp")
@@ -71,6 +73,14 @@ class Client:
                 if (packet):
                     packet = packet.decode("utf-8")
                     print("wiadomosc odebrana", packet)
+                    if (packet[0:1] == "d"):
+                        print("Komunikat: ", packet[2::])
+                        print(packet[2:7])
+                        if(packet[2:8] == "INVITE"):
+                            print("Dzwoni ", packet[9::])
+                            connection = InteractionWidget(packet[9::])
+                            connection.show()
+                            connection.exec_()
                 else: continue
             except ConnectionRefusedError as err:
                 print(err)
