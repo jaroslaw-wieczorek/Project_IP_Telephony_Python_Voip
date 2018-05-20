@@ -3,7 +3,7 @@ import socket
 from pymongo import MongoClient
 import rsa
 
-class Serwer:
+class Serwer1:
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
     WIDTH = 1

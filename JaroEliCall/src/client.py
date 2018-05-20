@@ -1,6 +1,6 @@
 import pyaudio
 import socket
-
+from threading import Thread
 #class Client(Validator):
 class Client:
     FORMAT = pyaudio.paInt16
@@ -39,7 +39,6 @@ class Client:
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.connect((self.host, self.port))
-
         except ConnectionRefusedError as err:
             print(err)
             self.s.close()
@@ -72,6 +71,7 @@ class Client:
                 if (packet):
                     packet = packet.decode("utf-8")
                     print("wiadomosc odebrana", packet)
+                else: continue
             except ConnectionRefusedError as err:
                 print(err)
 

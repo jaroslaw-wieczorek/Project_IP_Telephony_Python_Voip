@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 from JaroEliCall.gui.adduser_ui import Ui_Form
 from PyQt5.QtCore import pyqtSlot
 import ast
+from threading import Thread
 
 """     List of contacts Widget
     Screen to load contacts and call to people
@@ -37,9 +38,8 @@ class AddUserWidget(QDialog, Ui_Form):
             self.tableWidget_2.setItem(0, 0, QTableWidgetItem(diction["login"]))
             self.tableWidget_2.setItem(0, 1, QTableWidgetItem(diction["status"]))
 
-
-        #hread = Thread(target=self.c.listening, args = [])
-        #thread.start()
+        thread = Thread(target=self.c.listening, args=[])
+        thread.start()
 
     @pyqtSlot()
     def logout(self):

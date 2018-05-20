@@ -1,7 +1,7 @@
 import pyaudio
 import socket
 from pymongo import MongoClient
-# from validation import Validator
+from threading import Thread
 import os
 import json
 import time
@@ -58,12 +58,16 @@ class Server:
             print(err)
             self.s.close()
 
-    def sendAnything(self, addr):
+    def sendAnything(self):
 
         while 1:
             time.sleep(2)
-            self.s.sendto(("Hello to ja").encode("utf-8"), addr)
-            break
+            print("Slownik")
+            for key, value in self.dict_ip_users.items():
+                print(key)
+                print(value)
+                self.s.sendto(("Hello to ja").encode("utf-8"), value)
+            #break
 
     def listening(self):
         print("[*] Start listen")
@@ -71,12 +75,12 @@ class Server:
         while 1:
             d, addr = self.s.recvfrom(self.size*2)
             print("Otrzymalem: ", d, " od ", addr)
+            print(self.dict_ip_users)
             data = d[0:1].decode("utf-8")
             if (data[0:1] == "d"):
 
                 communicate = d.decode("utf-8")
                 print("Komunikat: ", communicate[7:12])
-
                 print(communicate)
                 if(communicate[2:7]=="LOGIN"):
                     print("Otrzymano LOGIN")
@@ -225,5 +229,12 @@ serwer.connectWithMongo()
 # serwer.getFromMongo()
 
 serwer.connectWithClient()
-serwer.listening()
+
+thread = Thread(target=serwer.listening, args=[])
+thread.start()
+
+
+thread_send = Thread(target=serwer.sendAnything, args=[])
+thread_send.start()
+
 # serwer.stopConnection()
