@@ -5,15 +5,16 @@ from pymongo import MongoClient
 # from validation import Validator
 import os
 import json
-
+import time
+import threading
 
 # class Server(Validator):
 class Server:
     FORMAT = pyaudio.paInt16
-    CHUNK = 1024
+    CHUNK = 512
     WIDTH = 1
     CHANNELS = 1
-    RATE = 8000
+    RATE = 16000
     RECORD_SECONDS = 15
     FACTOR = 2
 
@@ -50,11 +51,20 @@ class Server:
             print(err)
             self.s.close()
 
+    def sendAnything(self, addr):
+
+        while 1:
+            time.sleep(2)
+            self.s.sendto(("Hello to ja").encode("utf-8"), addr)
+            break
+
     def listening(self):
         print("[*] Start listen")
 
         while 1:
             d, addr = self.s.recvfrom(self.size*2)
+            #thread = threading.Thread(target=self.sendAnything, args=(addr))
+            #thread.start()
             print("Otrzymalem: ", d, " od ", addr)
             data = d[0:1].decode("utf-8")
             if (data[0:1] == "d"):
