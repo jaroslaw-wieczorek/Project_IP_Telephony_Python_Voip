@@ -51,10 +51,3 @@ class LoginWidget(QDialog, Ui_Form):
         reg = RegisterWidget(self.c)
         reg.show()
         reg.exec_()
-
-
-
-
-
-
-
