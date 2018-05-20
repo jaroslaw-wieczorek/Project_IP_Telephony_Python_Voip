@@ -81,6 +81,7 @@ class Client:
                             connection = InteractionWidget(packet[9::])
                             connection.show()
                             connection.exec_()
+                            break
                 else: continue
             except ConnectionRefusedError as err:
                 print(err)

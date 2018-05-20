@@ -59,15 +59,10 @@ class Server:
             self.s.close()
 
     def sendAnything(self):
-
         while 1:
             time.sleep(2)
-            print("Slownik")
             for key, value in self.dict_ip_users.items():
-                print(key)
-                print(value)
-                self.s.sendto(("Hello to ja").encode("utf-8"), value)
-            #break
+                self.s.sendto(("Hello to ja serwer").encode("utf-8"), value)
 
     def find_port(self, ip_addr):
         print(ip_addr)

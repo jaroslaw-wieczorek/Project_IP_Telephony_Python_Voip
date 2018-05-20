@@ -181,6 +181,13 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="text">
+          <string>Wyloguj</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_3">
          <property name="minimumSize">
           <size>
@@ -262,13 +269,6 @@
         </size>
        </property>
       </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
      </item>
     </layout>
    </item>

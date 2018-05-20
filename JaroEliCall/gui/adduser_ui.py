@@ -121,6 +121,6 @@ class Ui_Form(object):
         self.tableWidget_2.setSortingEnabled(__sortingEnabled)
         self.pushButton_4.setText(_translate("Form", "Zadzwoń"))
         self.pushButton_5.setText(_translate("Form", "Zaproś do pokoju"))
-        self.pushButton_3.setText(_translate("Form", "PushButton"))
+        self.pushButton_3.setText(_translate("Form", "Wyloguj"))
 
 from . import zasoby_rc

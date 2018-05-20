@@ -18,4 +18,4 @@ class InteractionWidget(QDialog, Ui_Form):
 
     @pyqtSlot()
     def accept_connection_clicked(self):
-        print("Odebrano polaczenie")
+        print("Odebrano połączenie")
