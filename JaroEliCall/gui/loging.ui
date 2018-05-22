@@ -276,6 +276,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>login_btn</tabstop>
+  <tabstop>register_btn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

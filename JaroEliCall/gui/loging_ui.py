@@ -85,6 +85,9 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+        Form.setTabOrder(self.lineEdit, self.lineEdit_2)
+        Form.setTabOrder(self.lineEdit_2, self.login_btn)
+        Form.setTabOrder(self.login_btn, self.register_btn)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
