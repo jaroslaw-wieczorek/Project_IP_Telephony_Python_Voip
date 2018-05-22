@@ -88,7 +88,6 @@ class Client:
 
     def login(self, login, password):
         value = login + " " + password
-        # v = self.signData(value)
         print("Proba wyslania")
         data = ("d LOGIN " + socket.gethostbyname(socket.gethostname()) + " " + str(value)).encode("utf-8")
         print(data)

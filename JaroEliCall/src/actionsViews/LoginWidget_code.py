@@ -34,7 +34,7 @@ class LoginWidget(QDialog, Ui_Form):
 
         login, password = self.lineEdit.text(), self.lineEdit_2.text()
         password = hashlib.sha256(password.encode()).hexdigest()
-        self.c.connectToSerwer('127.0.0.1')
+        self.c.connectToSerwer('192.168.43.130')
         print("Laczenie sie z serwerem")
         answer = (self.c.login(login, password))
 
