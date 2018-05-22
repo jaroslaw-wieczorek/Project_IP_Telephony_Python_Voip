@@ -186,7 +186,7 @@
  </widget>
  <resources>
   <include location="resources/zasoby.qrc"/>
-  <include location="zasoby.qrc"/>
+  <include location="resources/zasoby.qrc"/>
  </resources>
  <connections/>
 </ui>
