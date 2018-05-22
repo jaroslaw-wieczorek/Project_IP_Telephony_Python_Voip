@@ -65,7 +65,7 @@ class AddUserWidget(QDialog, Ui_Form):
 
     @pyqtSlot()
     def call(self):
-        thread = Thread(target=self.c.sendMessage, args=("d Witaj tu ja").encode("utf-8"),)
+        thread = Thread(target=self.c.sendMessage, args=("d INVITE Jarek").encode("utf-8"),)
         thread.start()
 
 
