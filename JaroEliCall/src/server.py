@@ -40,7 +40,7 @@ class Server:
 
         if platform == "linux" or platform == "linux2":
             print("POLACZENIE Z MONGO")
-            
+
         else:
             print("POLACZENIE Z MONGO")
             os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
@@ -69,7 +69,7 @@ class Server:
             test = self.collection.find({"status": "online"}, {"login": 1, "_id": 0})
             test = dumps(test)
             print(test)
-            if(test):
+            if (test):
                 for key, value in self.dict_ip_users.items():
                     self.s.sendto(test.encode("utf-8"), value)
 
@@ -77,7 +77,7 @@ class Server:
         print(ip_addr)
         for key, value in self.dict_ip_users.items():
             print("keys ", key)
-            if(key == ip_addr):
+            if (key == ip_addr):
                 return value
 
     def who_call(self, addr):
@@ -95,9 +95,8 @@ class Server:
 
     def get_username_from_ip(self, ip):
         for key, value in self.dict_ip_users.items():
-            if(value[0] == ip[0]):
+            if (value[0] == ip[0]):
                 return key
-
 
     def logoutUser(self, addr):
         print("Kim jest ta osoba? ")
@@ -110,7 +109,7 @@ class Server:
         print(self.users)
         try:
             print(nickname)
-            answer = db.Users.update_one({"login": nickname},{"$set":{"status": "offline"}})
+            answer = db.Users.update_one({"login": nickname}, {"$set": {"status": "offline"}})
             print("Baza zaktualizowana")
             self.getFromMongo()
             print(self.users)
@@ -123,7 +122,7 @@ class Server:
         print("[*] Start listen")
 
         while 1:
-            d, addr = self.s.recvfrom(self.size*2)
+            d, addr = self.s.recvfrom(self.size * 2)
             print("Otrzymalem: ", d, " od ", addr)
             print(self.dict_ip_users)
             data = d[0:1].decode("utf-8")
@@ -132,7 +131,7 @@ class Server:
                 communicate = d.decode("utf-8")
                 print("Komunikat: ", communicate[7:12])
                 print(communicate)
-                if(communicate[2:7]=="LOGIN"):
+                if (communicate[2:7] == "LOGIN"):
                     print("Otrzymano LOGIN")
                     ans = self.checkWithMongo(communicate, addr)
                     if (ans == 1):
@@ -145,7 +144,7 @@ class Server:
                         self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
                         print('Wyslano 406')
 
-                elif(communicate[2:8]=="LOGOUT"):
+                elif (communicate[2:8] == "LOGOUT"):
                     print("Otrzymano LOGOUT")
                     ans = self.logoutUser(addr)
                     print("Odp na wylogowanie: ", ans)
@@ -177,17 +176,17 @@ class Server:
                         self.s.sendto(("d INVITE EKaczmarek").encode("utf-8"), (data_ip))
                     else:
                         self.s.sendto(("460 NOT ACCEPTABLE").encode("utf-8"), (addr))
-                elif(communicate[6:12]=="CREATE"):
+                elif (communicate[6:12] == "CREATE"):
                     frames = (communicate.split())
                     print("Tworzenie usera:", frames[4])
                     ans = self.find_in_mongo(frames[4])
                     print(addr)
-                    if(ans == 1):
+                    if (ans == 1):
                         self.create_user(frames[4], frames[3], frames[5])
                         self.s.sendto(("201 CREATED").encode("utf-8"), addr)
-                    elif(ans == 0):
+                    elif (ans == 0):
                         self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
-            elif (data[0:1]=="s"):
+            elif (data[0:1] == "s"):
                 print("Dzwiek: ")
                 self.stream.write(d[2:])
 
@@ -197,7 +196,7 @@ class Server:
         print("Dodanie uzytkowwnika do mongo")
 
         try:
-            self.collection.insertOne({"login": login, "password":password, "status": "offline"})
+            self.collection.insertOne({"login": login, "password": password, "status": "offline"})
         except IndexError:
             return 0
 
@@ -208,7 +207,7 @@ class Server:
         self.collection = db['Users']
 
         try:
-            answer = (self.collection.find({"login": login}).count()) >=1
+            answer = (self.collection.find({"login": login}).count()) >= 1
             if (answer):
                 return 0
             else:
@@ -270,9 +269,9 @@ class Server:
         db = client['VOIP']
         collection = db['Users']
 
-        test = [list(db[collection].find({}, {"login": 1, "status": 1, "_id": 0})) for collection in db.collection_names()]
+        test = [list(db[collection].find({}, {"login": 1, "status": 1, "_id": 0})) for collection in
+                db.collection_names()]
         print(test)
-
 
         self.users = test
 
@@ -282,7 +281,8 @@ class Server:
         db = client['VOIP']
         collection = db['Users']
 
-        test = [list(db[collection].find({}, {"login": 1, "status": 1, "_id": 0})) for collection in db.collection_names()]
+        test = [list(db[collection].find({}, {"login": 1, "status": 1, "_id": 0})) for collection in
+                db.collection_names()]
         for i in test:
             print(i)
 
@@ -301,7 +301,6 @@ serwer.connectWithClient()
 
 thread = Thread(target=serwer.listening, args=[])
 thread.start()
-
 
 thread_send = Thread(target=serwer.sendAnything, args=[])
 thread_send.start()

@@ -48,8 +48,6 @@ class AddUserWidget(QDialog, Ui_Form):
         thread.start()
         self.close()
 
-
-
     @pyqtSlot()
     def logout(self):
         print("Wylogowanie")
