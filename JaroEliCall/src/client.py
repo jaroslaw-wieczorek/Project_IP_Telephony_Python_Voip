@@ -29,7 +29,6 @@ class Client:
                                   input=True,
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
-        self.invite = threading.lock()
 
 
     def connectToSerwer(self, host):
@@ -69,7 +68,6 @@ class Client:
             print(err)
 
     def listening(self):
-        self.invite = False
         print("Zaczalem sluchac lalalal...")
         while 1:
             try:
@@ -82,11 +80,11 @@ class Client:
                         print(packet[2:7])
                         if(packet[2:8] == "INVITE"):
                             print("Dzwoni ", packet[9::])
-                            self.invite = True
                             break
                 else: continue
             except ConnectionRefusedError as err:
                 print(err)
+        print("inny watek")
 
 
 

@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 from JaroEliCall.gui.adduser_ui import Ui_Form
 from PyQt5.QtCore import pyqtSlot
 from threading import Thread
+import threading
 import json
 
 """     List of contacts Widget
@@ -40,6 +41,8 @@ class AddUserWidget(QDialog, Ui_Form):
 
         self.thread = Thread(target=self.c.listening, args=[])
         self.thread.start()
+
+        print("lololololo")
 
 
     def updateMongo(self, user_ip):
