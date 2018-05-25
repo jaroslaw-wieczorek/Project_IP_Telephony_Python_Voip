@@ -17,12 +17,12 @@ class Server:
     RECORD_SECONDS = 15
     FACTOR = 2
 
-
     def __init__(self):
-
         # Validator.__init__(self, priv, publ)
         print("Inicjalizacja klasy Server")
-
+        self.host = ''
+        self.port = 50001
+        self.size = 2048
         self.p = pyaudio.PyAudio()
 
         self.stream = self.p.open(format=self.FORMAT,
@@ -34,11 +34,6 @@ class Server:
         self.mongo = MongoOperations()
 
     def connectWithClient(self):
-        print("Nawiazanie polaczenia")
-        self.host = ''
-        self.port = 50001
-        self.size = 2048
-
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.bind((self.host, self.port))
