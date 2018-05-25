@@ -15,7 +15,10 @@ class InteractionWidget(QDialog, Ui_Form):
     @pyqtSlot()
     def reject_connection_clicked(self):
         print("Odrzucono polaczenie")
+        self.close()
+
 
     @pyqtSlot()
     def accept_connection_clicked(self):
         print("Odebrano połączenie")
+        self.close()

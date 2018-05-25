@@ -2,6 +2,7 @@ from sys import platform
 from pymongo import MongoClient
 import os
 
+
 class MongoOperations:
 
     def __init__(self):
@@ -36,10 +37,8 @@ class MongoOperations:
         client = MongoClient('localhost', 27017)
         db = client['VOIP']
         collection = db['Users']
-
-        test = [list(db[collection].find({}, {"login": 1, "status": 1, "_id": 0})) for collection in
+        self.users = [list(db[collection].find({}, {"login": 1, "status": 1, "_id": 0})) for collection in
                 db.collection_names()]
-        self.users = test
 
     def logoutAll(self):
         self.runMongo()

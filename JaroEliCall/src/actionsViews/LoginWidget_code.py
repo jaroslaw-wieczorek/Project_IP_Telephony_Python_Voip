@@ -41,7 +41,7 @@ class LoginWidget(QDialog, Ui_Form):
         if (answer):
             # self.close()
             self.lineEdit.setText('')
-            self.lineEdit.setText('')
+            self.lineEdit_2.setText('')
             users = AddUserWidget(self.c)
             users.load_contracts()
             users.show()

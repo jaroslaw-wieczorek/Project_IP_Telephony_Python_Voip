@@ -6,16 +6,6 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QWidget
 from JaroEliCall.gui.main_ui import Ui_MainWindow
 from JaroEliCall.gui.settings_ui import Ui_SettingsDialog
 
-
-class Win(QWidget):
-    closing = pyqtSignal()
-
-    def closeEvent(self, event: QCloseEvent):
-        print("Window {} closed".format(self))
-        self.closing.emit()
-        return super().closeEvent(event)
-
-
 class Dialog(QDialog, Ui_SettingsDialog):
     def __init__(self, no):
         super(Dialog, self).__init__()
@@ -34,7 +24,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.s.setupUi(self.s)
         self.s.show()
 
-        
         
 def main():
     app = QApplication(sys.argv)

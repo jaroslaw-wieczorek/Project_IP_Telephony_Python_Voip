@@ -68,6 +68,7 @@ class Client:
             print(err)
 
     def listening(self):
+        self.invite = False
         print("Zaczalem sluchac lalalal...")
         while 1:
             try:
@@ -80,13 +81,18 @@ class Client:
                         print(packet[2:7])
                         if(packet[2:8] == "INVITE"):
                             print("Dzwoni ", packet[9::])
-                            connection = InteractionWidget(packet[9::])
-                            connection.show()
-                            connection.exec_()
+                            self.invite = True
                             break
                 else: continue
             except ConnectionRefusedError as err:
                 print(err)
+
+        if(self.invite):
+            call = InteractionWidget(packet[9::])
+            call.show()
+            call.exec_()
+            print("Ktos dzwoni, ide do nowego wątku...")
+
 
     def login(self, login, password):
         value = login + " " + password

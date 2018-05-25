@@ -1,7 +1,6 @@
 import pyaudio
 import socket
 from threading import Thread
-import os
 import json
 import time
 from bson.json_util import dumps
@@ -54,11 +53,13 @@ class Server:
                 for key, value in self.mongo.dict_ip_users.items():
                     self.s.sendto(test.encode("utf-8"), value)
 
-    def find_port(self, ip_addr):
-        print(ip_addr)
-        for key, value in self.dict_ip_users.items():
+    def find_address(self, login):
+        print(login)
+        for key, value in self.mongo.dict_ip_users.items():
             print("keys ", key)
-            if (key == ip_addr):
+            if (key == login):
+                print("Znaleziono ", value)
+                print(key)
                 return value
 
     def who_call(self, addr):
@@ -129,8 +130,12 @@ class Server:
 
                 elif (communicate[2:8] == "INVITE"):
                     frames = (communicate.split())
+                    # dostaję nazwe uzytkownika osoby do ktorej chce zadzwonic
+                    # musze ogarnac jaki jest jej port i adres ip
                     available = self.mongo.checkAvailibility(frames[2])
-                    data_ip = self.find_port(frames[2])
+                    print("Dostepnosc osoby ", frames[2])
+                    data_ip = self.find_address(frames[2])
+                    print("dane ip osoby: ", data_ip)
                     if (available):
                         self.s.sendto(("200 OK ").encode("utf-8"), (addr))
                         self.s.sendto(("d INVITE EKaczmarek").encode("utf-8"), (data_ip))
