@@ -1,8 +1,8 @@
 import pyaudio
 import socket
 from JaroEliCall.src.actionsViews.Interaction_code import InteractionWidget
+import threading
 
-from threading import Thread
 #class Client(Validator):
 class Client:
     FORMAT = pyaudio.paInt16
@@ -29,6 +29,7 @@ class Client:
                                   input=True,
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
+        self.invite = threading.lock()
 
 
     def connectToSerwer(self, host):
@@ -87,11 +88,6 @@ class Client:
             except ConnectionRefusedError as err:
                 print(err)
 
-        if(self.invite):
-            call = InteractionWidget(packet[9::])
-            call.show()
-            call.exec_()
-            print("Ktos dzwoni, ide do nowego wątku...")
 
 
     def login(self, login, password):

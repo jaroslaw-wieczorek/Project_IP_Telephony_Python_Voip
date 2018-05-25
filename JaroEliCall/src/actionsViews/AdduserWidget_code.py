@@ -41,6 +41,7 @@ class AddUserWidget(QDialog, Ui_Form):
         self.thread = Thread(target=self.c.listening, args=[])
         self.thread.start()
 
+
     def updateMongo(self, user_ip):
         print(user_ip)
         s = ("d LOGOUT").encode("utf-8")
