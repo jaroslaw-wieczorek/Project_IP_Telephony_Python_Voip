@@ -5,6 +5,7 @@ from threading import Thread
 import os
 import json
 import time
+from bson.json_util import dumps
 
 from sys import platform
 
@@ -39,9 +40,8 @@ class Server:
 
         if platform == "linux" or platform == "linux2":
             print("POLACZENIE Z MONGO")
-                        
             
-        elif platform == "win32":
+        else:
             print("POLACZENIE Z MONGO")
             os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
 
@@ -59,10 +59,19 @@ class Server:
             self.s.close()
 
     def sendAnything(self):
+
+        client = MongoClient('localhost', 27017)
+        db = client['VOIP']
+        self.collection = db['Users']
+
         while 1:
             time.sleep(2)
-            for key, value in self.dict_ip_users.items():
-                self.s.sendto(("Hello to ja serwer").encode("utf-8"), value)
+            test = self.collection.find({"status": "online"}, {"login": 1, "_id": 0})
+            test = dumps(test)
+            print(test)
+            if(test):
+                for key, value in self.dict_ip_users.items():
+                    self.s.sendto(test.encode("utf-8"), value)
 
     def find_port(self, ip_addr):
         print(ip_addr)
@@ -83,6 +92,32 @@ class Server:
             else:
                 print("Brak usera")
                 return 0
+
+    def get_username_from_ip(self, ip):
+        for key, value in self.dict_ip_users.items():
+            if(value[0] == ip[0]):
+                return key
+
+
+    def logoutUser(self, addr):
+        print("Kim jest ta osoba? ")
+        print(addr)
+        nickname = self.get_username_from_ip(addr)
+        print("nickname: ", nickname)
+        client = MongoClient('localhost', 27017)
+        db = client['VOIP']
+        self.getFromMongo()
+        print(self.users)
+        try:
+            print(nickname)
+            answer = db.Users.update_one({"login": nickname},{"$set":{"status": "offline"}})
+            print("Baza zaktualizowana")
+            self.getFromMongo()
+            print(self.users)
+            return 1
+
+        except IndexError:
+            return 0
 
     def listening(self):
         print("[*] Start listen")
@@ -109,6 +144,21 @@ class Server:
                         print('Wysylanie 406')
                         self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
                         print('Wyslano 406')
+
+                elif(communicate[2:8]=="LOGOUT"):
+                    print("Otrzymano LOGOUT")
+                    ans = self.logoutUser(addr)
+                    print("Odp na wylogowanie: ", ans)
+                    if (ans == 1):
+                        print('Wysylanie 200')
+                        self.s.sendto(("200 OK").encode("utf-8"), addr)
+                        print('Wysłano 200')
+
+                    elif (ans == 0):
+                        print('Wysylanie 401')
+                        self.s.sendto(("401 UNAUTHORIZED").encode("utf-8"), addr)
+                        print('Wyslano 401')
+
 
                 elif (communicate[2:5] == "GET"):
                     print("Otrzymano GET")
@@ -202,7 +252,7 @@ class Server:
 
         try:
             answer = (collection.find({"login": frames[3], "password": frames[4]}).count()) == 1
-
+            print(answer)
             if (answer):
                 collection.update({"login": frames[3], "password": frames[4]}, {"$set": {"status": "online"}})
                 # to dictionary nickname        adres IP
@@ -222,6 +272,7 @@ class Server:
 
         test = [list(db[collection].find({}, {"login": 1, "status": 1, "_id": 0})) for collection in db.collection_names()]
         print(test)
+
 
         self.users = test
 

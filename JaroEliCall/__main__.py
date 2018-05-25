@@ -1,13 +1,20 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from JaroEliCall.gui.mainwindow_ui import Ui_MainWindow
 from JaroEliCall.src.actionsViews.LoginWidget_code import LoginWidget
-from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
-from JaroEliCall.src.client import Client
-
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QAction
+from PyQt5.QtGui import QCloseEvent
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QWidget
 from JaroEliCall.gui.main_ui import Ui_MainWindow
 from JaroEliCall.gui.settings_ui import Ui_SettingsDialog
+
+
+class Win(QWidget):
+    closing = pyqtSignal()
+
+    def closeEvent(self, event: QCloseEvent):
+        print("Window {} closed".format(self))
+        self.closing.emit()
+        return super().closeEvent(event)
+
 
 class Dialog(QDialog, Ui_SettingsDialog):
     def __init__(self, no):
@@ -36,8 +43,6 @@ def main():
 
     users = LoginWidget()
     users.show()
-
-
 
     sys.exit(app.exec_())
 

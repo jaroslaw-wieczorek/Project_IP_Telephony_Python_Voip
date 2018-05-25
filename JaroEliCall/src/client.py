@@ -62,6 +62,8 @@ class Client:
                     return packet
                 elif (packet[0:3] == "201"):
                     return 1
+                elif (packet[0:3] == "401"):
+                    return 0
         except ConnectionRefusedError as err:
             print(err)
 

@@ -34,12 +34,14 @@ class LoginWidget(QDialog, Ui_Form):
 
         login, password = self.lineEdit.text(), self.lineEdit_2.text()
         password = hashlib.sha256(password.encode()).hexdigest()
-        self.c.connectToSerwer('192.168.43.130')
+        self.c.connectToSerwer('192.168.0.101')
         print("Laczenie sie z serwerem")
         answer = (self.c.login(login, password))
 
         if (answer):
-            self.close()
+            # self.close()
+            self.lineEdit.setText('')
+            self.lineEdit.setText('')
             users = AddUserWidget(self.c)
             users.load_contracts()
             users.show()
@@ -47,7 +49,7 @@ class LoginWidget(QDialog, Ui_Form):
 
     @pyqtSlot()
     def on_register_button_clicked(self):
-        self.close()
+        # self.close()
         reg = RegisterWidget(self.c)
         reg.show()
         reg.exec_()
