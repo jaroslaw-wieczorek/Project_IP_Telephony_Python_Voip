@@ -36,8 +36,8 @@ def main():
 
     users = LoginWidget()
     users.show()
-    """users = AddUserWidget(client)
-    users.show()"""
+
+
 
     sys.exit(app.exec_())
 

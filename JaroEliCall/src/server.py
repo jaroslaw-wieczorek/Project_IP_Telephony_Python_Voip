@@ -186,7 +186,7 @@ class Server:
     def stopConnection(self):
         self.stream.stop_stream()
         self.stream.close()
-
+        self.s.logoutAll()
         self.s.close()
 
         # p.close()
@@ -224,6 +224,16 @@ class Server:
         print(test)
 
         self.users = test
+
+    def logoutAll(self):
+
+        client = MongoClient('localhost', 27017)
+        db = client['VOIP']
+        collection = db['Users']
+
+        test = [list(db[collection].find({}, {"login": 1, "status": 1, "_id": 0})) for collection in db.collection_names()]
+        for i in test:
+            print(i)
 
 
 """
