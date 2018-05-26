@@ -10,6 +10,7 @@ class MongoOperations:
 
         if platform == "linux" or platform == "linux2":
             print("POLACZENIE Z MONGO")
+            
 
         else:
             print("POLACZENIE Z MONGO")

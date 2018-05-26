@@ -1,10 +1,16 @@
+import os
+import sys
 import pyaudio
 import socket
 from threading import Thread
 import json
 import time
 from bson.json_util import dumps
-from JaroEliCall.src.mongoOperations import MongoOperations
+from mongoOperations import MongoOperations
+
+#lib_path = os.path.abspath(os.path.join(__file__))
+#sys.path.append(lib_path)
+
 
 # class Server(Validator):
 class Server:

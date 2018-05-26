@@ -19,14 +19,20 @@
     <height>290</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>370</width>
+    <height>290</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Ustawienia</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <widget class="QTabWidget" name="tabWidget">
+    <widget class="QTabWidget" name="tab_widget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_sound">
       <attribute name="title">
@@ -34,9 +40,9 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <layout class="QVBoxLayout" name="vertical_layout_1">
          <item>
-          <widget class="QLabel" name="label_8">
+          <widget class="QLabel" name="label_speakers">
            <property name="text">
             <string>Głośniki</string>
            </property>
@@ -50,7 +56,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_9">
+          <widget class="QLabel" name="label_microphone">
            <property name="text">
             <string>Mikrofon</string>
            </property>
@@ -66,9 +72,9 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <layout class="QHBoxLayout" name="horizontal_layout_1">
          <item>
-          <widget class="QCheckBox" name="checkBox_2">
+          <widget class="QCheckBox" name="check_box_record_when_button_pressed">
            <property name="text">
             <string>Nagrywanie 
 gdy wciśnięto klawisz</string>
@@ -76,22 +82,7 @@ gdy wciśnięto klawisz</string>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit"/>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QCheckBox" name="checkBox">
-           <property name="text">
-            <string>Włącz/wyłącz 
-nagrywanie na przycisk</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_2"/>
+          <widget class="QLineEdit" name="line_edit_button"/>
          </item>
         </layout>
        </item>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>LoginForm</class>
+ <widget class="QWidget" name="LoginForm">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>233</width>
-    <height>250</height>
+    <width>396</width>
+    <height>483</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <spacer name="verticalSpacer_2">
+    <spacer name="vertical_spacer_up">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -43,9 +43,9 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="vertical_layout_main">
      <item>
-      <spacer name="verticalSpacer_5">
+      <spacer name="vertical_spacer_1">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -58,9 +58,9 @@
       </spacer>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="horizontal_layout_login">
        <item>
-        <spacer name="horizontalSpacer_4">
+        <spacer name="horizontal_spacer_login_left">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -73,17 +73,17 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label_login">
          <property name="text">
           <string>Login</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit"/>
+        <widget class="QLineEdit" name="line_edit_login"/>
        </item>
        <item>
-        <spacer name="horizontalSpacer_5">
+        <spacer name="horizontal_spacer_login_right">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -98,7 +98,7 @@
       </layout>
      </item>
      <item>
-      <spacer name="verticalSpacer_4">
+      <spacer name="vertical_spacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -111,9 +111,9 @@
       </spacer>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <layout class="QHBoxLayout" name="horizontal_layout_password">
        <item>
-        <spacer name="horizontalSpacer_6">
+        <spacer name="horizontal_spacer_pass_left">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -126,14 +126,14 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="label_pass">
          <property name="text">
           <string>Hasło</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_2">
+        <widget class="QLineEdit" name="line_edit_pass">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -146,7 +146,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_7">
+        <spacer name="horizontal_spacer_pass_right">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -161,7 +161,7 @@
       </layout>
      </item>
      <item>
-      <spacer name="verticalSpacer_6">
+      <spacer name="vertical_spacer_3">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -176,7 +176,7 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer_3">
+    <spacer name="vertical_spacer_middle">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -189,12 +189,12 @@
     </spacer>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontal_layout_buttons">
      <property name="spacing">
       <number>2</number>
      </property>
      <item>
-      <spacer name="horizontalSpacer_2">
+      <spacer name="horizontal_spacer_1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -207,14 +207,14 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="register_btn">
+      <widget class="QPushButton" name="push_button_register">
        <property name="text">
         <string>Rejestracja</string>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
+      <spacer name="horizontal_spacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -227,14 +227,14 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="login_btn">
+      <widget class="QPushButton" name="push_button_login">
        <property name="text">
         <string>Zaloguj</string>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_3">
+      <spacer name="horizontal_spacer_3">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -249,7 +249,7 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer_7">
+    <spacer name="vertical_spacer_down">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -262,7 +262,7 @@
     </spacer>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <spacer name="vertical_spacer_down2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -277,10 +277,10 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>lineEdit</tabstop>
-  <tabstop>lineEdit_2</tabstop>
-  <tabstop>login_btn</tabstop>
-  <tabstop>register_btn</tabstop>
+  <tabstop>line_edit_login</tabstop>
+  <tabstop>line_edit_pass</tabstop>
+  <tabstop>push_button_login</tabstop>
+  <tabstop>push_button_register</tabstop>
  </tabstops>
  <resources/>
  <connections/>

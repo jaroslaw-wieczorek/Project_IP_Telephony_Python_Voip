@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>InteractionForm</class>
+ <widget class="QWidget" name="InteractionForm">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="label_user">
      <property name="font">
       <font>
        <pointsize>15</pointsize>
@@ -30,9 +30,9 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontal_layout_1">
      <item>
-      <spacer name="horizontalSpacer_5">
+      <spacer name="horizontal_spacer_left_1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -45,7 +45,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="pic_1">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -64,7 +64,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_8">
+      <spacer name="horizontal_spacer_middle_1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -77,7 +77,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="pic_2">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -96,7 +96,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_6">
+      <spacer name="horizontal_spacer_right_1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -111,12 +111,12 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontal_layout_2">
      <property name="spacing">
       <number>2</number>
      </property>
      <item>
-      <spacer name="horizontalSpacer_2">
+      <spacer name="horizontal_spacer_left_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -129,7 +129,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="push_button_1">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -142,7 +142,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
+      <spacer name="horizontal_spacer_middle_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -155,7 +155,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="push_button_2">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -168,7 +168,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_4">
+      <spacer name="horizontal_spacer_right_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>

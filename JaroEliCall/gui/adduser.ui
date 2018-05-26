@@ -1,49 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>FormInterface</class>
+ <widget class="QWidget" name="FormInterface">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>464</width>
-    <height>464</height>
+    <width>444</width>
+    <height>408</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_4">
+    <layout class="QHBoxLayout" name="horizontal_layout_main">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Lista użytkowników&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <spacer name="horizontalSpacer_6">
+      <spacer name="horizontal_spacer_left_1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="vertical_layout_left">
        <item>
-        <widget class="QTableWidget" name="tableWidget_2">
+        <widget class="QLabel" name="label_list_users">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Lista użytkowników&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <property name="margin">
+          <number>5</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tabe_widget_list_of_users">
          <property name="minimumSize">
           <size>
            <width>316</width>
@@ -133,10 +138,13 @@
          </column>
          <column>
           <property name="text">
-           <string/>
+           <string>Awatar</string>
           </property>
          </column>
          <item row="0" column="2">
+          <property name="text">
+           <string/>
+          </property>
           <property name="icon">
            <iconset>
             <activeoff>icons/111317-essential-ui/svg/close-cross.svg</activeoff>
@@ -148,14 +156,14 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
-          <widget class="QPushButton" name="pushButton_4">
+          <widget class="QPushButton" name="push_button_call">
            <property name="text">
             <string>Zadzwoń</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer_7">
+          <spacer name="horizontal_spacer_between_buttons">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -168,7 +176,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_5">
+          <widget class="QPushButton" name="push_button_invite">
            <property name="text">
             <string>Zaproś do pokoju</string>
            </property>
@@ -179,16 +187,32 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <spacer name="horizontal_spacer_right_1">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>10</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="vertical_layout_right">
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="push_button_close">
          <property name="text">
-          <string>Wyloguj</string>
+          <string>Zamknij</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="label_avatar">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -213,7 +237,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer_2">
+        <spacer name="vertical_sapcer_under_avatar">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -228,43 +252,26 @@
       </layout>
      </item>
      <item>
-      <spacer name="horizontalSpacer_8">
+      <spacer name="horizontal_spacer_right_3">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <spacer name="horizontalSpacer_9">
+      <spacer name="horizontal_spacer_right_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>

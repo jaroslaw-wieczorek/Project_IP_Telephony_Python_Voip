@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>CreditDialog</class>
+ <widget class="QDialog" name="CreditDialog">
   <property name="windowModality">
    <enum>Qt::NonModal</enum>
   </property>
@@ -30,7 +30,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="QTextEdit" name="text_edit">
      <property name="enabled">
       <bool>true</bool>
      </property>
