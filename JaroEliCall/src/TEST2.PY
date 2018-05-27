@@ -5,6 +5,7 @@ import time
 import socket
 import asyncio
 import pyaudio
+import audioop
 import threading
 from datetime import datetime
 
@@ -14,7 +15,7 @@ class Configuration():
         CHUNK = 1024
         WIDTH = 2
         CHANNELS = 1
-        RATE = 44000
+        RATE = 16000
         FACTOR = 1
         REMOTE_IP = None
         REMOTE_PORT = None
@@ -82,27 +83,28 @@ def serverSide(rport,stream, chunk):
     serverPort = rport
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     serverSocket.bind((serverIP,serverPort))
-
     print("Listen on: ", serverIP, serverPort)
+    time.sleep(2)
     while True:
-        message, clientAddress = serverSocket.recvfrom(chunk)
-        print("Get message ", message, "From :", clientAddress)
+        message, clientAddress = serverSocket.recvfrom(chunk*2)
         stream.write(message)
-        print("Play message")
-        
-    
+        mx = audioop.max(message, 2)
+        print(mx)
+
+
 
 
 def clientSide(ip, port, stream, chunk):
     serverIP = ip
     serverPort = port
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    print("Send on: ", serverIP, serverPort)
+    time.sleep(2)
     while True:
-        print("Sending on:", ip, port)
-        message = stream.read(chunk*2)
-        print("message: ", message)
+        message = stream.read(chunk)
         clientSocket.sendto(message,(serverIP, serverPort))
-   
+        mx = audioop.max(message, 2)
+        print(mx)
     #clientSocket.close() # Close the socket
 
 # threadLock = threading.Lock()
