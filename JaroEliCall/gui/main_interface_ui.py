@@ -14,6 +14,9 @@ class Ui_MainWindowInterface(object):
         MainWindowInterface.resize(567, 381)
         MainWindowInterface.setMinimumSize(QtCore.QSize(0, 0))
         MainWindowInterface.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/icons/115873-filled-management-elements/png/speech-1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindowInterface.setWindowIcon(icon)
         MainWindowInterface.setIconSize(QtCore.QSize(0, 0))
         self.central_widget = QtWidgets.QWidget(MainWindowInterface)
         self.central_widget.setObjectName("central_widget")
@@ -196,4 +199,3 @@ class Ui_MainWindowInterface(object):
         self.act_close.setText(_translate("MainWindowInterface", "&Zakończ"))
         self.act_settings.setText(_translate("MainWindowInterface", "&Ustawienia"))
 
-from . import zasoby_rc

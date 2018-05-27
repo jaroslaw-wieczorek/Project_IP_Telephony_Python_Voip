@@ -15,9 +15,10 @@ import sys
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..', 'gui'))
 sys.path.append(lib_path)
 
-from main_interface_ui import Ui_MainWindow
 
-class MainWindow(QMainWindow, Ui_MainWindow):
+from main_interface_ui import Ui_MainWindowInterface
+
+class MainWindow(QMainWindow, Ui_MainWindowInterface):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)

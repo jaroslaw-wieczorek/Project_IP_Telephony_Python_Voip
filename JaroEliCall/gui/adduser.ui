@@ -281,8 +281,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="resources/zasoby.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

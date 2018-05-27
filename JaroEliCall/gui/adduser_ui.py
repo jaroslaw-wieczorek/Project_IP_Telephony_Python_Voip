@@ -121,4 +121,3 @@ class Ui_FormInterface(object):
         self.push_button_invite.setText(_translate("FormInterface", "Zaproś do pokoju"))
         self.push_button_close.setText(_translate("FormInterface", "Zamknij"))
 
-from . import zasoby_rc

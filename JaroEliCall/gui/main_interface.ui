@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>JaroEliCall</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/icons/icons/115873-filled-management-elements/png/speech-1.png</normaloff>:/icons/icons/115873-filled-management-elements/png/speech-1.png</iconset>
+  </property>
   <property name="iconSize">
    <size>
     <width>0</width>
@@ -363,8 +367,6 @@
   <tabstop>tab_widget</tabstop>
   <tabstop>list_of_rooms</tabstop>
  </tabstops>
- <resources>
-  <include location="resources/zasoby.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

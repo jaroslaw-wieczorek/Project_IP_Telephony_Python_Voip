@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>CallDialog</class>
+ <widget class="QDialog" name="CallDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>762</width>
-    <height>248</height>
+    <height>488</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,24 +15,11 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QHBoxLayout" name="horizontal_layout_main">
      <item>
-      <spacer name="horizontalSpacer_4">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="vertical_layout_user_1">
        <item>
-        <widget class="QFrame" name="frame">
+        <widget class="QFrame" name="frame_user_1">
          <property name="minimumSize">
           <size>
            <width>150</width>
@@ -53,7 +40,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QLabel" name="label">
+           <widget class="QLabel" name="label_avatar_user_1">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -75,7 +62,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label_name_user_1">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -96,22 +83,9 @@
       </layout>
      </item>
      <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
+      <layout class="QVBoxLayout" name="vertical_layout_user_2">
        <item>
-        <widget class="QFrame" name="frame_2">
+        <widget class="QFrame" name="frame_user_2">
          <property name="minimumSize">
           <size>
            <width>150</width>
@@ -132,7 +106,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <widget class="QLabel" name="label_3">
+           <widget class="QLabel" name="label_avatar_user_2">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -154,7 +128,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="label_name_user_2">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -174,23 +148,10 @@
        </item>
       </layout>
      </item>
-     <item>
-      <spacer name="horizontalSpacer_5">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
     </layout>
    </item>
    <item>
-    <widget class="QFrame" name="callbar">
+    <widget class="QFrame" name="frame_bar">
      <property name="maximumSize">
       <size>
        <width>16777215</width>
@@ -205,96 +166,45 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <layout class="QHBoxLayout" name="horizontal_layout_bar">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QHBoxLayout" name="horizontal_layout_view">
           <item>
-           <widget class="QPushButton" name="pushButton">
-            <property name="text">
-             <string>widok</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="text">
-             <string>osoby</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QPushButton" name="pushButton_3">
-            <property name="text">
-             <string>microfon</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_4">
-            <property name="text">
-             <string>dodaj</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_5">
-            <property name="text">
-             <string>rozłącz</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_6">
+           <widget class="QPushButton" name="push_button_room">
             <property name="text">
              <string>pokój</string>
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="push_button_add_user">
+            <property name="text">
+             <string>dodaj rozmówce</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <layout class="QHBoxLayout" name="horizontal_layout_managment">
           <item>
-           <widget class="QPushButton" name="pushButton_7">
+           <widget class="QPushButton" name="push_button_settings">
             <property name="text">
              <string>ustawienia</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_8">
+           <widget class="QPushButton" name="push_button_done">
             <property name="text">
-             <string>maks</string>
+             <string>rozłącz</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="push_button_logout">
+            <property name="text">
+             <string>wyloguj</string>
             </property>
            </widget>
           </item>

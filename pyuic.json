@@ -10,7 +10,11 @@
 	],
 	[
 		"JaroEliCall/gui/resources/*.qrc",
-		"JaroEliCall/gui/"
+		"JaroEliCall/gui/resources"
+	],
+	[
+		"JaroEliCall/gui/resources/*.qrc",
+		"JaroEliCall/src"
 	]
         
     ],
@@ -18,5 +22,5 @@
     "pyrcc": "pyrcc5",
     "pyrcc_options": "",
     "pyuic": "pyuic5",
-    "pyuic_options": "--from-import"
+    "pyuic_options": "--from-imports"
 }
