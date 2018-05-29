@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog
-from JaroEliCall.gui.register_ui import Ui_Form
+from JaroEliCall.gui.register_ui import Ui_RegisterForm
 from PyQt5.QtCore import pyqtSlot
 import hashlib
 from JaroEliCall.src.client import Client
@@ -11,7 +11,7 @@ from JaroEliCall.src.client import Client
 """
 
 
-class RegisterWidget(QDialog, Ui_Form):
+class RegisterWidget(QDialog, Ui_RegisterForm):
     def __init__(self, client):
         super(RegisterWidget, self).__init__()
         self.setupUi(self)
@@ -35,7 +35,7 @@ class RegisterWidget(QDialog, Ui_Form):
                 self.close()
                 print("uzytkownik zarejestrowany")
             else:
-                print("uzytkownik o podanym loginie istnieje")
+                print("Użytkownik o podanym loginie istnieje")
         else:
             pass
 

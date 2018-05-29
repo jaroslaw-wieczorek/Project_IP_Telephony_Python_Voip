@@ -1,8 +1,6 @@
 import sys
 from JaroEliCall.src.actionsViews.LoginWidget_code import LoginWidget
-from PyQt5.QtGui import QCloseEvent
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 from JaroEliCall.gui.main_ui import Ui_MainWindow
 from JaroEliCall.gui.settings_ui import Ui_SettingsDialog
 

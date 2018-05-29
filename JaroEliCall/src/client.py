@@ -69,7 +69,7 @@ class Client:
 
     def listening(self):
         print("Zaczalem sluchac lalalal...")
-        while 1:
+        while (self._is_running):
             try:
                 packet, address = self.s.recvfrom(self.size)
                 if (packet):
@@ -80,11 +80,11 @@ class Client:
                         print(packet[2:7])
                         if(packet[2:8] == "INVITE"):
                             print("Dzwoni ", packet[9::])
+                            self._is_running = False
                             break
                 else: continue
             except ConnectionRefusedError as err:
                 print(err)
-        print("inny watek")
 
 
 

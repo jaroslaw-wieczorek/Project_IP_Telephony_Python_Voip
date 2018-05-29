@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QTableWidgetItem
-from JaroEliCall.gui.adduser_ui import Ui_Form
+from JaroEliCall.gui.adduser_ui import Ui_FormInterface
 from PyQt5.QtCore import pyqtSlot
 from threading import Thread
 import threading
@@ -13,7 +13,7 @@ import json
     call - call to person/people
 """
 
-class AddUserWidget(QDialog, Ui_Form):
+class AddUserWidget(QDialog, Ui_FormInterface):
     def __init__(self, client):
         super(AddUserWidget, self).__init__()
         self.setupUi(self)
@@ -42,7 +42,7 @@ class AddUserWidget(QDialog, Ui_Form):
         self.thread = Thread(target=self.c.listening, args=[])
         self.thread.start()
 
-        print("lololololo")
+        print("Po wątku")
 
 
     def updateMongo(self, user_ip):

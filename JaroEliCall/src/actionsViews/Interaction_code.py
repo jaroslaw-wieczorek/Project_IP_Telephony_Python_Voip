@@ -1,9 +1,9 @@
 from PyQt5.QtWidgets import QDialog
-from JaroEliCall.gui.interaction_ui import Ui_Form
+from JaroEliCall.gui.interaction_ui import Ui_InteractionForm
 from PyQt5.QtCore import pyqtSlot
 
 
-class InteractionWidget(QDialog, Ui_Form):
+class InteractionWidget(QDialog, Ui_InteractionForm):
     def __init__(self, kto):
         super(InteractionWidget, self).__init__()
         self.setupUi(self)
