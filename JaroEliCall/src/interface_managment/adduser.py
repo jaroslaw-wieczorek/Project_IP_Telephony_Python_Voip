@@ -46,8 +46,9 @@ class AdduserDialog(QDialog, Ui_FormInterface):
         print("Do nothing!")
         
         
-"""Fot tests
 """
+#Fot tests
+
 if __name__  == '__main__':
     app = QApplication(sys.argv)
     window = AdduserDialog()
@@ -57,3 +58,4 @@ if __name__  == '__main__':
     window.set_fit_width()
     window.show()
     sys.exit(app.exec_())
+"""

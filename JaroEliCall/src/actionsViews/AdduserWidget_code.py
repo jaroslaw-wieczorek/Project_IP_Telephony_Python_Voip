@@ -1,9 +1,23 @@
-from PyQt5.QtWidgets import QDialog, QTableWidgetItem
-from JaroEliCall.gui.adduser_ui import Ui_Form
+import os
+import sys
+
+
+lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
+sys.path.append(lib_path)
+
+
+from interface_managment.adduser import AdduserDialog
+
+from PyQt5.QtWidgets import QDialog, QTableWidgetItem, QApplication
 from PyQt5.QtCore import pyqtSlot
 from threading import Thread
 import threading
 import json
+
+from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtWidgets import QTableWidget
+
+
 
 """     List of contacts Widget
     Screen to load contacts and call to people
@@ -13,16 +27,15 @@ import json
     call - call to person/people
 """
 
-class AddUserWidget(QDialog, Ui_Form):
+class AddUserWidget(AdduserDialog):
     def __init__(self, client):
         super(AddUserWidget, self).__init__()
-        self.setupUi(self)
         self.c = client
-        self.pushButton_3.clicked.connect(self.logout)
-        self.pushButton_5.clicked.connect(self.menu_rooms)
-        self.pushButton_4.clicked.connect(self.call)
-
-
+        self.set_push_button_logout(self.logout)
+        self.set_push_button_invite(self.menu_rooms)
+        self.set_push_button_call(self.call)
+        self.set_fit_width()
+        
     def load_contracts(self):
         answer = self.c.sendMessage(("d GET").encode("utf-8"))[3:]
         diction = {}
@@ -67,6 +80,12 @@ class AddUserWidget(QDialog, Ui_Form):
         thread = Thread(target=self.c.sendMessage, args=(s,))
         thread.start()
 
-
-
-
+"""
+# For tests   
+if __name__  == '__main__':
+    app = QApplication(sys.argv)
+    window = AddUserWidget()
+  
+    window.show()
+    sys.exit(app.exec_())
+"""

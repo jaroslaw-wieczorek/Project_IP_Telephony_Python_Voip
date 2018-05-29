@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 from JaroEliCall.gui.main_ui import Ui_MainWindow
+
 from PyQt5.QtCore import pyqtSlot
 from threading import Thread
 import json
