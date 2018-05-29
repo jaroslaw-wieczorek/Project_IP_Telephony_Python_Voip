@@ -65,8 +65,7 @@ class ClientThread (threading.Thread, Configuration):
                                   rate=self.RATE,
                                   input=True,
                                   frames_per_buffer=self.CHUNK)
-        
-        super() 
+        super()
         
     def run(self):
         print ("Starting: " + self.name)
