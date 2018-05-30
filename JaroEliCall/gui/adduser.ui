@@ -48,7 +48,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QTableWidget" name="tab_widget_list_of_users">
+        <widget class="QTableWidget" name="table_widget_list_of_users">
          <property name="minimumSize">
           <size>
            <width>316</width>
@@ -295,7 +295,7 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>tab_widget_list_of_users</tabstop>
+  <tabstop>table_widget_list_of_users</tabstop>
   <tabstop>push_button_call</tabstop>
   <tabstop>push_button_invite</tabstop>
   <tabstop>push_button_logout</tabstop>

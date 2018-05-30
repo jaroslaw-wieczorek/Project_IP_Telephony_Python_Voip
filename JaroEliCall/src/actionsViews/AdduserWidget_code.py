@@ -6,7 +6,7 @@ lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
 
-from interface_managment.adduser import AdduserDialog
+from interface_management.adduser import AdduserDialog
 
 from PyQt5.QtWidgets import QDialog, QTableWidgetItem, QApplication
 from PyQt5.QtCore import pyqtSlot
@@ -16,8 +16,6 @@ import json
 
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QTableWidget
-
-
 
 """     List of contacts Widget
     Screen to load contacts and call to people
@@ -31,9 +29,12 @@ class AddUserWidget(AdduserDialog):
     def __init__(self, client):
         super(AddUserWidget, self).__init__()
         self.c = client
+        #podpięcie metod z AddUserWidget do przycisków interfejsu
         self.set_push_button_logout(self.logout)
         self.set_push_button_invite(self.menu_rooms)
         self.set_push_button_call(self.call)
+        
+        #poszerzenie kolumn tabeli do szerokości widżetu 
         self.set_fit_width()
         
     def load_contracts(self):
@@ -46,15 +47,14 @@ class AddUserWidget(AdduserDialog):
         for d in jdata:
             diction[d['login']]=d['status']
 
-        row = 0
-        for a in diction:
-            self.tableWidget_2.setItem(row, 0, QTableWidgetItem(a))
-            self.tableWidget_2.setItem(row, 1, QTableWidgetItem(diction[a]))
-            row = row + 1
+        #Uproszczona metoda dodawania użytkowników
+        for row in diction:
+            self.add_row_to_list_of_users(row)
 
         self.thread = Thread(target=self.c.listening, args=[])
         self.thread.start()
-
+        
+        #Po prostu print lololololo
         print("lololololo")
 
 
@@ -84,7 +84,7 @@ class AddUserWidget(AdduserDialog):
 # For tests   
 if __name__  == '__main__':
     app = QApplication(sys.argv)
-    window = AddUserWidget()
+    window = AddUserWidget(" ")
   
     window.show()
     sys.exit(app.exec_())
