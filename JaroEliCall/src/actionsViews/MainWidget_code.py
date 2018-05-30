@@ -57,6 +57,7 @@ class MainWidget(AdduserDialog):
         print(res)
         jdata = json.loads(res)
         print(jdata)
+        
         for d in jdata:
             print(d)
             print(d['login'])

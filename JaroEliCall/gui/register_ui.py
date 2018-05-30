@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_RegisterDialog(object):
     def setupUi(self, RegisterDialog):
         RegisterDialog.setObjectName("RegisterDialog")
-        RegisterDialog.resize(310, 305)
+        RegisterDialog.resize(310, 290)
         RegisterDialog.setMinimumSize(QtCore.QSize(310, 290))
         RegisterDialog.setMaximumSize(QtCore.QSize(310, 305))
         self.verticalLayout = QtWidgets.QVBoxLayout(RegisterDialog)
@@ -119,7 +119,7 @@ class Ui_RegisterDialog(object):
         self.horizontal_layout_5 = QtWidgets.QHBoxLayout()
         self.horizontal_layout_5.setSpacing(2)
         self.horizontal_layout_5.setObjectName("horizontal_layout_5")
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_5.addItem(spacerItem3)
         self.push_button_register = QtWidgets.QPushButton(RegisterDialog)
         self.push_button_register.setObjectName("push_button_register")
@@ -129,7 +129,7 @@ class Ui_RegisterDialog(object):
         self.psuh_button_login = QtWidgets.QPushButton(RegisterDialog)
         self.psuh_button_login.setObjectName("psuh_button_login")
         self.horizontal_layout_5.addWidget(self.psuh_button_login)
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_5.addItem(spacerItem5)
         self.verticalLayout.addLayout(self.horizontal_layout_5)
         spacerItem6 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)

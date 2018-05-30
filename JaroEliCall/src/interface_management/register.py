@@ -46,6 +46,7 @@ class RegisterDialog(QDialog, Ui_RegisterDialog):
     def validate_email(self):
         """ Metoda typu validate służy do sprawdzenia poprawności emaila """
         email = self.get_email()
+        print(email)
         # Potrzebna walidacja maila
         
         

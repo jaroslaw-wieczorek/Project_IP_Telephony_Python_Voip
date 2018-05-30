@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>310</width>
-    <height>305</height>
+    <height>290</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -279,9 +279,12 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>
@@ -319,9 +322,12 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>

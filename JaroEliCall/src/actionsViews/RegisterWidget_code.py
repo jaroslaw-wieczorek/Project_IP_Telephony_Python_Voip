@@ -20,12 +20,15 @@ from JaroEliCall.src.client import Client
             * fulfilling gaps with data            
 """
 #
+
 SERWER_IP = "192.168.0.103"
+
+
 
 class RegisterWidget(RegisterDialog):
     def __init__(self, client):
         super(RegisterWidget, self).__init__()
-         self.client = client
+        self.client = client
         
 
     @pyqtSlot()
