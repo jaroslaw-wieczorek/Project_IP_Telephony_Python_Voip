@@ -1,9 +1,24 @@
-from PyQt5.QtWidgets import QDialog, QTableWidgetItem
-from JaroEliCall.gui.main_ui import Ui_MainWindow
+
+import os
+import sys
+import json
+from threading import Thread
+
 
 from PyQt5.QtCore import pyqtSlot
-from threading import Thread
-import json
+from PyQt5.QtWidgets import QDialog, QTableWidgetItem
+
+
+
+lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
+sys.path.append(lib_path)
+
+
+from interface_managment.adduser import AdduserDialog
+
+
+
+
 
 """     List of contacts Widget
     Screen to load contacts and call to people
@@ -13,11 +28,16 @@ import json
     call - call to person/people
 """
 
-class MainWidget(QDialog, Ui_MainWindow):
+class MainWidget(AdduserDialog):
     def __init__(self, client):
         super(MainWidget, self).__init__()
         self.setupUi(self)
         self.c = client
+        self.set_push_button_logout(self.logout)
+        self.set_push_button_invite(self.menu_rooms)
+        self.set_push_button_call(self.call)
+        self.set_fit_width()
+        
         """self.pushButton_3.clicked.connect(self.logout)
         self.pushButton_5.clicked.connect(self.menu_rooms)
         self.pushButton_4.clicked.connect(self.call)"""
