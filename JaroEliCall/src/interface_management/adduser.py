@@ -46,9 +46,9 @@ class AdduserDialog(QDialog, Ui_FormInterface):
         return img
         
     def set_push_button_logout(self, funct):
-        self.push_button_logout.clicked.connect(funct
-                                                
-                                                )
+        self.push_button_logout.clicked.connect(funct)
+        
+        
     def set_push_button_call(self, funct):
         self.push_button_call.clicked.connect(funct)    
         

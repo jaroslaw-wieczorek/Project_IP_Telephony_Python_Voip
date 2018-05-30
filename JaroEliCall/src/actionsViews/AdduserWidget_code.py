@@ -1,18 +1,22 @@
 import os
 import sys
-
+import json
+import threading
+from threading import Thread
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
-
 from interface_management.adduser import AdduserDialog
 
-from PyQt5.QtWidgets import QDialog, QTableWidgetItem, QApplication
 from PyQt5.QtCore import pyqtSlot
-from threading import Thread
-import threading
-import json
+from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QTableWidgetItem
+
+
+
+
 
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QTableWidget
