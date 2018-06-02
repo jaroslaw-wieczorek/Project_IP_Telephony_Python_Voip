@@ -1,9 +1,33 @@
+<<<<<<< HEAD
 from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 from JaroEliCall.gui.adduser_ui import Ui_FormInterface
 from PyQt5.QtCore import pyqtSlot
 from threading import Thread
 import threading
+=======
+import os
+import sys
+>>>>>>> 25824cab39cf3b919e0dfea634065fbf66041dcf
 import json
+import threading
+from threading import Thread
+
+lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
+sys.path.append(lib_path)
+
+from interface_management.adduser import AdduserDialog
+
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QTableWidgetItem
+
+
+
+
+
+from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtWidgets import QTableWidget
 
 """     List of contacts Widget
     Screen to load contacts and call to people
@@ -13,16 +37,22 @@ import json
     call - call to person/people
 """
 
+<<<<<<< HEAD
 class AddUserWidget(QDialog, Ui_FormInterface):
+=======
+class AddUserWidget(AdduserDialog):
+>>>>>>> 25824cab39cf3b919e0dfea634065fbf66041dcf
     def __init__(self, client):
         super(AddUserWidget, self).__init__()
-        self.setupUi(self)
         self.c = client
-        self.pushButton_3.clicked.connect(self.logout)
-        self.pushButton_5.clicked.connect(self.menu_rooms)
-        self.pushButton_4.clicked.connect(self.call)
-
-
+        #podpięcie metod z AddUserWidget do przycisków interfejsu
+        self.set_push_button_logout(self.logout)
+        self.set_push_button_invite(self.menu_rooms)
+        self.set_push_button_call(self.call)
+        
+        #poszerzenie kolumn tabeli do szerokości widżetu 
+        self.set_fit_width()
+        
     def load_contracts(self):
         answer = self.c.sendMessage(("d GET").encode("utf-8"))[3:]
         diction = {}
@@ -33,16 +63,20 @@ class AddUserWidget(QDialog, Ui_FormInterface):
         for d in jdata:
             diction[d['login']]=d['status']
 
-        row = 0
-        for a in diction:
-            self.tableWidget_2.setItem(row, 0, QTableWidgetItem(a))
-            self.tableWidget_2.setItem(row, 1, QTableWidgetItem(diction[a]))
-            row = row + 1
+        #Uproszczona metoda dodawania użytkowników
+        for row in diction:
+            self.add_row_to_list_of_users(row)
 
         self.thread = Thread(target=self.c.listening, args=[])
         self.thread.start()
+<<<<<<< HEAD
 
         print("Po wątku")
+=======
+        
+        #Po prostu print lololololo
+        print("lololololo")
+>>>>>>> 25824cab39cf3b919e0dfea634065fbf66041dcf
 
 
     def updateMongo(self, user_ip):
@@ -67,6 +101,12 @@ class AddUserWidget(QDialog, Ui_FormInterface):
         thread = Thread(target=self.c.sendMessage, args=(s,))
         thread.start()
 
-
-
-
+"""
+# For tests   
+if __name__  == '__main__':
+    app = QApplication(sys.argv)
+    window = AddUserWidget(" ")
+  
+    window.show()
+    sys.exit(app.exec_())
+"""

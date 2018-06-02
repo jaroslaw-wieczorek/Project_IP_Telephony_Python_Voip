@@ -1,9 +1,29 @@
 from PyQt5.QtWidgets import QDialog
 from JaroEliCall.gui.loging_ui import Ui_LoginForm
 from JaroEliCall.src.client import Client
+
+import os
+import sys
+import json
+
 import hashlib
-from PyQt5.QtCore import pyqtSlot
 from threading import Thread
+
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QTableWidgetItem
+
+lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
+sys.path.append(lib_path)
+
+
+
+from interface_management.login import LoginDialog
+
+
+from JaroEliCall.src.client import Client
+
 from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
 from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 
@@ -19,20 +39,24 @@ from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
             * goin to register.ui screen            
 """
 
-class LoginWidget(QDialog, Ui_LoginForm):
+
+class LoginWidget(LoginDialog):
     def __init__(self):
         super(LoginWidget, self).__init__()
-        self.setupUi(self)
-        """priv = 'rsa_keys/private'
-        publ = 'rsa_keys/key.pub'"""
+        """
+        priv = 'rsa_keys/private'
+        publ = 'rsa_keys/key.pub'
+        """
         self.c = Client()
-        self.login_btn.clicked.connect(self.on_login_button_clicked)
-        self.register_btn.clicked.connect(self.on_register_button_clicked)
+        
+        self.set_push_button_login(self.on_login_button_clicked)
+        self.set_push_button_register(self.on_register_button_clicked)
 
     @pyqtSlot()
     def on_login_button_clicked(self):
 
-        login, password = self.lineEdit.text(), self.lineEdit_2.text()
+        login = self.get_login()
+        password = self.get_password()
         password = hashlib.sha256(password.encode()).hexdigest()
         self.c.connectToSerwer('192.168.0.101')
         print("Laczenie sie z serwerem")
@@ -40,8 +64,9 @@ class LoginWidget(QDialog, Ui_LoginForm):
 
         if (answer):
             # self.close()
-            self.lineEdit.setText('')
-            self.lineEdit_2.setText('')
+            self.set_login('')
+            self.set_password('')
+            
             users = AddUserWidget(self.c)
             users.load_contracts()
             users.show()

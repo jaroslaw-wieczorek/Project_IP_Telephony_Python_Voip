@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>InteractionForm</class>
- <widget class="QWidget" name="InteractionForm">
+ <class>InteractionDialog</class>
+ <widget class="QWidget" name="InteractionDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>314</width>
-    <height>348</height>
+    <width>417</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,14 +15,72 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label_user">
-     <property name="font">
-      <font>
-       <pointsize>15</pointsize>
-      </font>
+    <spacer name="vertical_spacer_1">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontal_layout_1">
+     <item>
+      <widget class="QLabel" name="rich_text_user_call">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Tomek dzwoni&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="vertical_spacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="label_avatar">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>150</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>200</height>
+      </size>
      </property>
      <property name="text">
-      <string>Tomek dzwoni</string>
+      <string>Avatar</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -30,7 +88,23 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontal_layout_1">
+    <spacer name="vertical_pacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontal_layout_2">
      <item>
       <spacer name="horizontal_spacer_left_1">
        <property name="orientation">
@@ -45,18 +119,33 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="pic_1">
+      <widget class="QLabel" name="label_reject">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
-         <width>100</width>
-         <height>100</height>
+         <width>120</width>
+         <height>120</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>120</width>
+         <height>120</height>
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string>reject</string>
        </property>
        <property name="pixmap">
-        <pixmap>:/ikony/icons/111317-essential-ui/svg/call-ended.svg</pixmap>
+        <pixmap>:/icon/low-signal-indicator.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -77,18 +166,33 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="pic_2">
+      <widget class="QLabel" name="label_accept">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
-         <width>100</width>
-         <height>100</height>
+         <width>120</width>
+         <height>120</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>120</width>
+         <height>120</height>
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string>accept</string>
        </property>
        <property name="pixmap">
-        <pixmap>:/ikony/icons/111317-essential-ui/svg/phone-call.svg</pixmap>
+        <pixmap>:/icon/add-button.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -111,7 +215,23 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontal_layout_2">
+    <spacer name="vertical_spacer_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontal_layout_33">
      <property name="spacing">
       <number>2</number>
      </property>
@@ -120,16 +240,19 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="push_button_1">
+      <widget class="QPushButton" name="push_button_reject">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -146,16 +269,19 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="push_button_2">
+      <widget class="QPushButton" name="push_button_accept">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -172,9 +298,12 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>
@@ -182,11 +311,24 @@
      </item>
     </layout>
    </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
   </layout>
  </widget>
- <resources>
-  <include location="resources/zasoby.qrc"/>
-  <include location="resources/zasoby.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

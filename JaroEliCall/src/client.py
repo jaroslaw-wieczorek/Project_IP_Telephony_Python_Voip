@@ -51,34 +51,43 @@ class Client:
             self.s.sendto(data, (self.host, self.port))
             print("Wiadomosc wyslana. Czekam na odp")
             packet, address = self.s.recvfrom(self.size)
-            if (packet):
+            
+            if packet:
                 packet = packet.decode("utf-8")
                 print("wiadomosc odebrana", packet)
-                if (packet[0:3] == "200"):
+                
+                if packet[0:3] == "200":
                     return 1
-                elif (packet[0:3] == "406"):
+                
+                elif packet[0:3] == "406":
                     return 0
-                elif (packet[0:3] == "202"):
+                
+                elif packet[0:3] == "202":
                     return packet
-                elif (packet[0:3] == "201"):
+                
+                elif packet[0:3] == "201":
                     return 1
-                elif (packet[0:3] == "401"):
+                
+                elif packet[0:3] == "401":
                     return 0
         except ConnectionRefusedError as err:
             print(err)
+
 
     def listening(self):
         print("Zaczalem sluchac lalalal...")
         while (self._is_running):
             try:
                 packet, address = self.s.recvfrom(self.size)
-                if (packet):
+                if packet:
                     packet = packet.decode("utf-8")
                     print("wiadomosc odebrana", packet)
-                    if (packet[0:1] == "d"):
+                    
+                    if packet[0:1] == "d":
                         print("Komunikat: ", packet[2::])
                         print(packet[2:7])
-                        if(packet[2:8] == "INVITE"):
+                        
+                        if packet[2:8] == "INVITE":
                             print("Dzwoni ", packet[9::])
                             self._is_running = False
                             break
@@ -98,8 +107,11 @@ class Client:
 
     def sendingVoice(self):
         print("[*] Recording")
+        
         while True:
+            
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
+               
                 print("Wysylanie")
                 self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
 
@@ -109,9 +121,11 @@ class Client:
                     try:
                         print("Wysłano :)")
                         self.s.send(self.data)
+                        
                     except ConnectionRefusedError as err:
                         print(err)
                         break
+                    
         print("[*] Stop recording")
 
     def closeConnection(self):
