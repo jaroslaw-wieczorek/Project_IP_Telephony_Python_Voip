@@ -1,13 +1,13 @@
-<<<<<<< HEAD
+
 from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 from JaroEliCall.gui.adduser_ui import Ui_FormInterface
 from PyQt5.QtCore import pyqtSlot
 from threading import Thread
 import threading
-=======
+
 import os
 import sys
->>>>>>> 25824cab39cf3b919e0dfea634065fbf66041dcf
+
 import json
 import threading
 from threading import Thread
@@ -23,9 +23,6 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 
 
-
-
-
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QTableWidget
 
@@ -37,11 +34,8 @@ from PyQt5.QtWidgets import QTableWidget
     call - call to person/people
 """
 
-<<<<<<< HEAD
-class AddUserWidget(QDialog, Ui_FormInterface):
-=======
 class AddUserWidget(AdduserDialog):
->>>>>>> 25824cab39cf3b919e0dfea634065fbf66041dcf
+
     def __init__(self, client):
         super(AddUserWidget, self).__init__()
         self.c = client
@@ -69,14 +63,6 @@ class AddUserWidget(AdduserDialog):
 
         self.thread = Thread(target=self.c.listening, args=[])
         self.thread.start()
-<<<<<<< HEAD
-
-        print("Po wątku")
-=======
-        
-        #Po prostu print lololololo
-        print("lololololo")
->>>>>>> 25824cab39cf3b919e0dfea634065fbf66041dcf
 
 
     def updateMongo(self, user_ip):

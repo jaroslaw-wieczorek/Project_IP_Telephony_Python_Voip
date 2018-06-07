@@ -7,7 +7,7 @@ sys.path.append(lib_path)
 from interface_management.interaction import InteractionDialog
 
 from PyQt5.QtWidgets import QDialog
-from JaroEliCall.gui.interaction_ui import Ui_InteractionForm
+#rom JaroEliCall.gui.interaction_ui import Ui_InteractionDialog
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidget
 from PyQt5.QtWidgets import QTableWidgetItem

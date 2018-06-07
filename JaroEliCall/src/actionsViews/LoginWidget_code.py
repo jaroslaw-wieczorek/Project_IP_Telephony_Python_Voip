@@ -39,6 +39,7 @@ from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
             * goin to register.ui screen            
 """
 
+SERWER_IP = "192.168.0.103"
 
 class LoginWidget(LoginDialog):
     def __init__(self):
@@ -58,7 +59,7 @@ class LoginWidget(LoginDialog):
         login = self.get_login()
         password = self.get_password()
         password = hashlib.sha256(password.encode()).hexdigest()
-        self.c.connectToSerwer('192.168.0.101')
+        self.c.connectToSerwer(SERWER_IP)
         print("Laczenie sie z serwerem")
         answer = (self.c.login(login, password))
 
