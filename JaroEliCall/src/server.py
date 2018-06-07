@@ -101,7 +101,7 @@ class Server:
                 print(communicate)
                 if (communicate[2:7] == "LOGIN"):
                     print("Otrzymano LOGIN")
-                    ans = self.mongo.checkWithMongo(communicate, addr)
+                    is_login_ok = self.mongo.checkWithMongo(communicate, addr)
                     if (ans == 1):
                         print('Wysylanie 200')
                         self.s.sendto(("200 OK").encode("utf-8"), addr)
@@ -130,9 +130,11 @@ class Server:
                 elif (communicate[2:5] == "GET"):
                     print("Otrzymano GET")
                     self.mongo.getFromMongo()
-                    print("Wysylanie userow")
-                    self.s.sendto(("202" + json.dumps(self.mongo.users)).encode("utf-8"), addr)
-                    print("Wyslano userow")
+                    print("Uzytkownicy: " + str(self.mongo.users))
+
+                    payload = {"users": self.mongo.users, "status": 202}
+                    self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+
 
                 elif (communicate[2:8] == "INVITE"):
                     frames = (communicate.split())

@@ -30,7 +30,6 @@ class Client:
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
 
-
     def connectToSerwer(self, host):
         # ipadres serwera
         print("Laczrenie z serwerem")
@@ -76,6 +75,7 @@ class Client:
 
     def listening(self):
         print("Zaczalem sluchac lalalal...")
+        self._is_running = True
         while (self._is_running):
             try:
                 packet, address = self.s.recvfrom(self.size)

@@ -10,8 +10,6 @@ class MongoOperations:
 
         if platform == "linux" or platform == "linux2":
             print("POLACZENIE Z MONGO")
-            
-
         else:
             print("POLACZENIE Z MONGO")
             os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
@@ -38,8 +36,14 @@ class MongoOperations:
         client = MongoClient('localhost', 27017)
         db = client['VOIP']
         collection = db['Users']
-        self.users = [list(db[collection].find({}, {"login": 1, "status": 1, "_id": 0})) for collection in
-                db.collection_names()]
+        users = []
+
+        for user in collection.find({}, {"login": 1, "status": 1, "_id": 0}):
+            users.append(user)
+            print("Dodano: " + str(user))
+        print("Lista: " + str(users))
+        self.users = users
+
 
     def logoutAll(self):
         self.runMongo()
@@ -86,6 +90,12 @@ class MongoOperations:
             self.collection.insertOne({"login": login, "password": password, "status": "offline"})
         except IndexError:
             return 0
+
+    def get_username_from_ip(self, addr):
+        print("Adres",  addr)
+        for i in self.dict_ip_users:
+            print(i)
+
 
     def logoutUser(self, addr):
         nickname = self.get_username_from_ip(addr)
