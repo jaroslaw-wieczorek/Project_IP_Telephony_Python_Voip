@@ -44,7 +44,6 @@ class MongoOperations:
         print("Lista: " + str(users))
         self.users = users
 
-
     def logoutAll(self):
         self.runMongo()
         test = [list(self.collection.find({}, {"login": 1, "status": 1, "_id": 0})) for self.collection in
@@ -52,19 +51,18 @@ class MongoOperations:
         for i in test:
             print(i)
 
-    def checkWithMongo(self, data, addr):
+    def checkWithMongo(self, login, password, addr):
         self.runMongo()
 
-        print(data)
-        frames = (data.split())
-
+        print("Login", login)
+        print("Password", password)
         try:
-            answer = (self.collection.find({"login": frames[3], "password": frames[4]}).count()) == 1
+            answer = (self.collection.find({"login": login, "password": password}).count()) == 1
             print(answer)
             if (answer):
-                self.collection.update({"login": frames[3], "password": frames[4]}, {"$set": {"status": "online"}})
+                self.collection.update({"login": login, "password": password}, {"$set": {"status": "online"}})
                 # to dictionary nickname adres IP
-                self.dict_ip_users[frames[3]] = addr
+                self.dict_ip_users[login] = addr
                 return 1
             else:
                 return 0
@@ -93,16 +91,16 @@ class MongoOperations:
 
     def get_username_from_ip(self, addr):
         print("Adres",  addr)
+        # słownik {'EKaczmarek': adres IP}
         for i in self.dict_ip_users:
             print(i)
-
 
     def logoutUser(self, addr):
         nickname = self.get_username_from_ip(addr)
         self.runMongo()
         self.getFromMongo()
         try:
-            answer = self.collection.update_one({"login": nickname}, {"$set": {"status": "offline"}})
+            self.collection.update_one({"login": nickname}, {"$set": {"status": "offline"}})
             self.getFromMongo()
             return 1
 

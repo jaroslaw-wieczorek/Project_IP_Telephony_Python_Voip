@@ -48,21 +48,23 @@ class AddUserWidget(AdduserDialog):
         self.set_fit_width()
         
     def load_contracts(self):
-        answer = self.c.sendMessage(("d GET").encode("utf-8"))[3:]
+        payload = {"type": "d", "description": "GET"}
+        data = json.dumps(payload).encode("utf-8")
+        answer = self.c.sendMessage(data)
+
+        print("Wyslano ", answer)
         diction = {}
-        result = answer.replace("[[","[")
-        result = result.replace("]]","]")
+        result = answer.replace("[[", "[")
+        result = result.replace("]]", "]")
 
         jdata = json.loads(result)
         for d in jdata:
-            diction[d['login']]=d['status']
+            diction[d['login']] = d['status']
 
-        #Uproszczona metoda dodawania użytkowników
+        # Uproszczona metoda dodawania użytkowników
         for row in diction:
             self.add_row_to_list_of_users(row)
 
-        self.thread = Thread(target=self.c.listening, args=[])
-        self.thread.start()
 
 
     def updateMongo(self, user_ip):

@@ -50,14 +50,14 @@ class Server:
         self.mongo.runMongo()
         self.collection = self.mongo.collection
 
-        while 1:
+        """while 1:
             time.sleep(2)
             test = self.collection.find({"status": "online"}, {"login": 1, "_id": 0})
             test = dumps(test)
             print(test)
             if (test):
                 for key, value in self.mongo.dict_ip_users.items():
-                    self.s.sendto(test.encode("utf-8"), value)
+                    self.s.sendto(test.encode("utf-8"), value)"""
 
     def find_address(self, login):
         print(login)
@@ -86,80 +86,133 @@ class Server:
             if (value[0] == ip[0]):
                 return key
 
+    def log_in(self, login, password, addr):
+        print("Otrzymano LOGIN")
+        is_login_ok = self.mongo.checkWithMongo(login, password, addr)
+        if (is_login_ok):
+            # {"type":"d", "description":"OK", "status":200}
+            # {"type":"d", "description":"SEND", "status":202, "users":}
+            print('Wysylanie 200')
+            payload = {"type": "d", "description": "OK", "status": 200, "answer_to": "LOGIN" }
+
+            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+            #self.s.sendto(("200 OK").encode("utf-8"), addr)
+
+            print('Wysłano 200')
+
+        elif (is_login_ok == 0):
+            print('Wysylanie 406')
+            payload = {"type": "d","description": "NOT ACCEPTABLE", "status": 406}
+
+            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+
+            #self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
+            print('Wyslano 406')
+
+    def log_out(self, addr):
+        print("Otrzymano LOGOUT")
+        ans = self.mongo.logoutUser(addr)
+        print("Odp na wylogowanie: ", ans)
+        if (ans == 1):
+            print('Wysylanie 200')
+            payload = {"type": "d", "description": "OK", "status": 200}
+            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+            # self.s.sendto(("200 OK").encode("utf-8"), addr)
+            print('Wysłano 200')
+        elif (ans == 0):
+            print('Wysylanie 401')
+            payload = {"type": "d","description": "UNAUTHORIZED", "status": 401}
+            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+            # self.s.sendto(("401 UNAUTHORIZED").encode("utf-8"), addr)
+            print('Wyslano 401')
+
+    def users_from_mongo(self, addr):
+        print("Otrzymano GET")
+        self.mongo.getFromMongo()
+        print("Uzytkownicy: " + str(self.mongo.users))
+
+        payload = {"users": self.mongo.users, "status": 202}
+        print(payload)
+        self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+
+    def invite_person(self, communicate, addr):
+        frames = (communicate.split())
+        # dostaję nazwe uzytkownika osoby do ktorej chce zadzwonic
+        # musze ogarnac jaki jest jej port i adres ip
+        available = self.mongo.checkAvailibility(frames[2])
+        print("Dostepnosc osoby ", frames[2])
+        data_ip = self.find_address(frames[2])
+        print("dane ip osoby: ", data_ip)
+        if (available):
+
+            payload = {"type": "d","description": "OK", "status": 200}
+            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+
+            # self.s.sendto(("200 OK ").encode("utf-8"), (addr))
+
+            payload = {"type": "d", "description": "OK", "status": 200}
+            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+
+            self.s.sendto(("d INVITE EKaczmarek").encode("utf-8"), (data_ip))
+        else:
+
+            payload = {"type": "d","description": "NOT ACCEPTABLE", "status": 406}
+            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+
+            # self.s.sendto(("460 NOT ACCEPTABLE").encode("utf-8"), (addr))
+
+    def create_in_database(self, communicate, addr):
+        frames = (communicate.split())
+        print("Tworzenie usera:", frames[4])
+        ans = self.mongo.find_in_mongo(frames[4])
+        print(addr)
+        if (ans == 1):
+            self.mongo.create_user(frames[4], frames[3], frames[5])
+
+            payload = {"type": "d","description": "CREATED", "status": 201}
+            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+
+            # self.s.sendto(("201 CREATED").encode("utf-8"), addr)
+        elif (ans == 0):
+
+            payload = {"type": "d","description": "NOT ACCEPTABLE", "status": 406}
+            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+
+            # self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
+
     def listening(self):
         print("[*] Start listen")
-
         while 1:
+            """d, addr = self.s.recvfrom(self.size * 2)
+            print("Otrzymalem: ", d, " od ", addr)
+            print(self.mongo.dict_ip_users)
+            data = d.decode("utf-8")
+            print("DEKODOWANIE: " + data)"""
+
             d, addr = self.s.recvfrom(self.size * 2)
             print("Otrzymalem: ", d, " od ", addr)
             print(self.mongo.dict_ip_users)
-            data = d[0:1].decode("utf-8")
-            if (data[0:1] == "d"):
+            data = d.decode("utf-8")
+            received = json.loads(data)
+            print("DEKODOWANIE: " + str(received["type"]))
+            print("TYP" + str(type(data)))
 
-                communicate = d.decode("utf-8")
-                print("Komunikat: ", communicate[7:12])
-                print(communicate)
-                if (communicate[2:7] == "LOGIN"):
-                    print("Otrzymano LOGIN")
-                    is_login_ok = self.mongo.checkWithMongo(communicate, addr)
-                    if (ans == 1):
-                        print('Wysylanie 200')
-                        self.s.sendto(("200 OK").encode("utf-8"), addr)
-                        print('Wysłano 200')
-
-                    elif (ans == 0):
-                        print('Wysylanie 406')
-                        self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
-                        print('Wyslano 406')
-
-                elif (communicate[2:8] == "LOGOUT"):
-                    print("Otrzymano LOGOUT")
-                    ans = self.mongo.logoutUser(addr)
-                    print("Odp na wylogowanie: ", ans)
-                    if (ans == 1):
-                        print('Wysylanie 200')
-                        self.s.sendto(("200 OK").encode("utf-8"), addr)
-                        print('Wysłano 200')
-
-                    elif (ans == 0):
-                        print('Wysylanie 401')
-                        self.s.sendto(("401 UNAUTHORIZED").encode("utf-8"), addr)
-                        print('Wyslano 401')
-
-
-                elif (communicate[2:5] == "GET"):
-                    print("Otrzymano GET")
-                    self.mongo.getFromMongo()
-                    print("Uzytkownicy: " + str(self.mongo.users))
-
-                    payload = {"users": self.mongo.users, "status": 202}
-                    self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-
-
-                elif (communicate[2:8] == "INVITE"):
-                    frames = (communicate.split())
-                    # dostaję nazwe uzytkownika osoby do ktorej chce zadzwonic
-                    # musze ogarnac jaki jest jej port i adres ip
-                    available = self.mongo.checkAvailibility(frames[2])
-                    print("Dostepnosc osoby ", frames[2])
-                    data_ip = self.find_address(frames[2])
-                    print("dane ip osoby: ", data_ip)
-                    if (available):
-                        self.s.sendto(("200 OK ").encode("utf-8"), (addr))
-                        self.s.sendto(("d INVITE EKaczmarek").encode("utf-8"), (data_ip))
-                    else:
-                        self.s.sendto(("460 NOT ACCEPTABLE").encode("utf-8"), (addr))
-                elif (communicate[6:12] == "CREATE"):
-                    frames = (communicate.split())
-                    print("Tworzenie usera:", frames[4])
-                    ans = self.mongo.find_in_mongo(frames[4])
-                    print(addr)
-                    if (ans == 1):
-                        self.mongo.create_user(frames[4], frames[3], frames[5])
-                        self.s.sendto(("201 CREATED").encode("utf-8"), addr)
-                    elif (ans == 0):
-                        self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
-            elif (data[0:1] == "s"):
+            #print("type: "+d["type"].decode("utf-8"))
+            #if(data[0:1] == "d"):
+            if (str(received["type"]) == "d"):
+                print("Komunikat: ", (received["description"]))
+                if (received["description"] == "LOGIN"):
+                    self.log_in(received["login"], received["password"], addr)
+                elif (received["description"] == "LOGOUT"):
+                    self.log_out(addr)
+                elif (received["description"] == "GET"):
+                    self.users_from_mongo(addr)
+                elif (received["description"] == "INVITE"):
+                    self.invite_person(received, addr)
+                elif (received["description"] == "CREATE"):
+                    self.create_in_database(received, addr)
+            #elif (data[0:1] == "s"):EK
+            elif (str(received["type"]) == "s"):
                 print("Dzwiek: ")
                 self.stream.write(d[2:])
 

@@ -25,7 +25,6 @@ from interface_management.login import LoginDialog
 from JaroEliCall.src.client import Client
 
 from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
-from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 
 
 """     Login Widget
@@ -40,7 +39,7 @@ from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 """
 
 #SERWER_IP = "192.168.0.103"
-SERWER_IP = "192.168.43.130"
+SERWER_IP = "192.168.0.102"
 
 class LoginWidget(LoginDialog):
     def __init__(self):
@@ -62,17 +61,12 @@ class LoginWidget(LoginDialog):
         password = hashlib.sha256(password.encode()).hexdigest()
         self.c.connectToSerwer(SERWER_IP)
         print("Laczenie sie z serwerem")
-        answer = (self.c.login(login, password))
 
-        if (answer):
-            # self.close()
-            self.set_login('')
-            self.set_password('')
-            
-            users = AddUserWidget(self.c)
-            users.load_contracts()
-            users.show()
-            users.exec_()
+        self.thread = Thread(target=self.c.listening, args=[])
+        self.thread.start()
+
+        self.c.login(login, password)
+
 
     @pyqtSlot()
     def on_register_button_clicked(self):

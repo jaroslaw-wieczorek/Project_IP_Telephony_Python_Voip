@@ -2,6 +2,9 @@ import pyaudio
 import socket
 from JaroEliCall.src.actionsViews.Interaction_code import InteractionWidget
 import threading
+import json
+from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
+
 
 #class Client(Validator):
 class Client:
@@ -49,28 +52,17 @@ class Client:
         try:
             self.s.sendto(data, (self.host, self.port))
             print("Wiadomosc wyslana. Czekam na odp")
-            packet, address = self.s.recvfrom(self.size)
-            
-            if packet:
-                packet = packet.decode("utf-8")
-                print("wiadomosc odebrana", packet)
-                
-                if packet[0:3] == "200":
-                    return 1
-                
-                elif packet[0:3] == "406":
-                    return 0
-                
-                elif packet[0:3] == "202":
-                    return packet
-                
-                elif packet[0:3] == "201":
-                    return 1
-                
-                elif packet[0:3] == "401":
-                    return 0
         except ConnectionRefusedError as err:
             print(err)
+
+
+    def show_add_users(self):
+        print("Do addUserWidget")
+        users = AddUserWidget(self)
+        print("Do load contacts")
+        users.load_contracts()
+        users.show()
+        users.exec_()
 
 
     def listening(self):
@@ -79,30 +71,52 @@ class Client:
         while (self._is_running):
             try:
                 packet, address = self.s.recvfrom(self.size)
-                if packet:
-                    packet = packet.decode("utf-8")
-                    print("wiadomosc odebrana", packet)
-                    
-                    if packet[0:1] == "d":
+                received = json.loads(packet)
+                print(received)
+                if(str(received["type"]) == "d"):
+                    print(received)
+                    if received["status"] == 200:
+                        print("200")
+
+                    if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
+                        print("200")
+                        self.show_add_users()
+
+                    elif received["status"] == 406:
+                        print("406")
+
+                    elif received["status"] == 202:
+                        print("202")
+
+                    elif received["status"] == 201:
+                        print("201")
+
+                    elif received["status"] == 401:
+                        print("401")
+
+                    """if packet[0:1] == "d":
                         print("Komunikat: ", packet[2::])
                         print(packet[2:7])
                         
                         if packet[2:8] == "INVITE":
                             print("Dzwoni ", packet[9::])
                             self._is_running = False
-                            break
-                else: continue
+                            break"""
+                else:
+                    continue
             except ConnectionRefusedError as err:
                 print(err)
 
-
+    # {"type":"d", "description":"OK", "status":200}
+    # {"type":"d", "description":"SEND", "status":202, "users":}
 
     def login(self, login, password):
-        value = login + " " + password
-        print("Proba wyslania")
-        data = ("d LOGIN " + socket.gethostbyname(socket.gethostname()) + " " + str(value)).encode("utf-8")
+
+        payload = {"type": "d", "description": "LOGIN", "status": 200, "login": login, "password": password}
+
+        data = json.dumps(payload).encode("utf-8")
         print(data)
-        return self.sendMessage(data)
+        self.sendMessage(data)
 
 
     def sendingVoice(self):
