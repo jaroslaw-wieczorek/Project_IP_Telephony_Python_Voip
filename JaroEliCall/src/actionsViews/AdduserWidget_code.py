@@ -50,15 +50,20 @@ class AddUserWidget(AdduserDialog):
         self.set_fit_width()
         
     def load_contracts(self):
-        packet = self.c.sendMessage(("d GET").encode("utf-8"))
+
+        payload = {"type": "d", "description": "GET"}
+
+        data = json.dumps(payload).encode("utf-8")
+        print(data)
+        self.c.sendMessage(data)
+
+        """packet = self.c.sendMessage(("d GET").encode("utf-8"))
         print(packet)
         currentUsers = json.loads(packet)
         print(currentUsers['users'])
 
-        self.add_row_to_list_of_users(currentUsers['users'])
+        self.add_row_to_list_of_users(currentUsers['users'])"""
 
-        self.thread = Thread(target=self.c.listening, args=[])
-        self.thread.start()
 
 
     def updateMongo(self, user_ip):

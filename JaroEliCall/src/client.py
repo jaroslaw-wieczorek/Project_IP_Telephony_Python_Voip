@@ -86,7 +86,12 @@ class Client:
                         print("406")
 
                     elif received["status"] == 202:
-                        print("202")
+                        packet = received["users"]
+                        print("Otrzymano ", packet)
+                        currentUsers = json.loads(packet)
+                        print(currentUsers['users'])
+
+                        self.add_row_to_list_of_users(currentUsers['users'])
 
                     elif received["status"] == 201:
                         print("201")
