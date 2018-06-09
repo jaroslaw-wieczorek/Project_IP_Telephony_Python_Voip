@@ -51,7 +51,8 @@ class Client:
             self.s.sendto(data, (self.host, self.port))
             print("Wiadomosc wyslana. Czekam na odp")
             packet, address = self.s.recvfrom(self.size)
-            
+        
+            print(packet)
             if packet:
                 packet = packet.decode("utf-8")
                 print("wiadomosc odebrana", packet)
@@ -62,7 +63,7 @@ class Client:
                 elif packet[0:3] == "406":
                     return 0
                 
-                elif packet[0:3] == "202":
+                elif packet:
                     return packet
                 
                 elif packet[0:3] == "201":
@@ -76,6 +77,7 @@ class Client:
 
     def listening(self):
         print("Zaczalem sluchac lalalal...")
+        self._is_running = True
         while (self._is_running):
             try:
                 packet, address = self.s.recvfrom(self.size)

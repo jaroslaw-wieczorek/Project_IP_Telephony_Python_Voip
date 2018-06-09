@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>447</width>
-    <height>408</height>
+    <width>781</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,13 +51,13 @@
         <widget class="QTableWidget" name="table_widget_list_of_users">
          <property name="minimumSize">
           <size>
-           <width>316</width>
+           <width>400</width>
            <height>100</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>300</width>
+           <width>500</width>
            <height>16777215</height>
           </size>
          </property>
@@ -69,6 +69,9 @@
          </property>
          <property name="autoFillBackground">
           <bool>false</bool>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
          </property>
          <property name="midLineWidth">
           <number>1</number>
@@ -94,38 +97,6 @@
          <attribute name="verticalHeaderMinimumSectionSize">
           <number>100</number>
          </attribute>
-         <row>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="textAlignment">
-           <set>AlignCenter</set>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="textAlignment">
-           <set>AlignCenter</set>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="textAlignment">
-           <set>AlignCenter</set>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="textAlignment">
-           <set>AlignCenter</set>
-          </property>
-         </row>
          <column>
           <property name="text">
            <string>Kto</string>
@@ -141,29 +112,6 @@
            <string>Awatar</string>
           </property>
          </column>
-         <item row="0" column="0">
-          <property name="text">
-           <string>EKaczmarek</string>
-          </property>
-         </item>
-         <item row="0" column="1">
-          <property name="text">
-           <string>Online</string>
-          </property>
-         </item>
-         <item row="0" column="2">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="textAlignment">
-           <set>AlignJustify|AlignVCenter</set>
-          </property>
-          <property name="icon">
-           <iconset>
-            <activeoff>:/icons/icons/111317-essential-ui/png/profile-user-1.png</activeoff>
-           </iconset>
-          </property>
-         </item>
         </widget>
        </item>
        <item>

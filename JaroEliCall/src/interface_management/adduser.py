@@ -7,7 +7,7 @@ Created on Sat May 26 13:42:22 2018
 """
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication
+from PyQt5.QtWidgets import QDialog, QApplication, QMessageBox
 from PyQt5.QtGui import QPixmap, QIcon, QImage
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 
@@ -30,8 +30,14 @@ class AdduserDialog(QDialog, Ui_FormInterface):
     def __init__(self):
         super(AdduserDialog, self).__init__()
        
+        
         self.setupUi(self)
         
+            
+    def keyPressEvent(self, e):
+        
+        if e.key() == QtCore.Qt.Key_Escape:
+            self.close()
         
     def get_pixmap_from_resources(self, name):
         pixmap = QPixmap(str(":/icon/" + name))
@@ -69,14 +75,23 @@ class AdduserDialog(QDialog, Ui_FormInterface):
         self.table_widget_list_of_users.setItem(row, col, item)
         
         
-    def add_row_to_list_of_users(self, item):
-        newRowNum = self.table_widget_list_of_users.rowCount()
-        self.table_widget_list_of_users.insertRow(newRowNum)
-        
-        for cell, value in enumerate(item):
-            self.table_widget_list_of_users.setItem(newRowNum, cell, QTableWidgetItem(str(value)))
+    def add_row_to_list_of_users(self, users : list):
+               
+        for user in users:
+            newRowNum = self.table_widget_list_of_users.rowCount()
+            self.table_widget_list_of_users.insertRow(newRowNum)
+            self.table_widget_list_of_users.setItem(newRowNum, 0, QTableWidgetItem(str(user['login'])))
+            self.table_widget_list_of_users.setItem(newRowNum, 1, QTableWidgetItem(str(user['status'])))
+            self.table_widget_list_of_users.setItem(newRowNum, 2, QTableWidgetItem("Avatar"))
     
-           
+
+    def close_event_message_box(self, event):
+        print("event")
+        reply = QMessageBox.question(self, 'Wylogowywanie',
+            "Czy napewno chcesz zakończyć? ", QMessageBox.Yes, QMessageBox.No)
+        
+        return reply
+
     def nothing(self):
         print("Do nothing!")
         

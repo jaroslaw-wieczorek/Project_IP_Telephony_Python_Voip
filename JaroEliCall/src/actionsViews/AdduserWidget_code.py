@@ -1,5 +1,6 @@
 
-from PyQt5.QtWidgets import QDialog, QTableWidgetItem
+from PyQt5.QtWidgets import QDialog, QTableWidgetItem, QMessageBox
+
 from JaroEliCall.gui.adduser_ui import Ui_FormInterface
 from PyQt5.QtCore import pyqtSlot
 from threading import Thread
@@ -39,6 +40,7 @@ class AddUserWidget(AdduserDialog):
     def __init__(self, client):
         super(AddUserWidget, self).__init__()
         self.c = client
+        self.closeEvent = self.notify
         #podpięcie metod z AddUserWidget do przycisków interfejsu
         self.set_push_button_logout(self.logout)
         self.set_push_button_invite(self.menu_rooms)
@@ -48,18 +50,12 @@ class AddUserWidget(AdduserDialog):
         self.set_fit_width()
         
     def load_contracts(self):
-        answer = self.c.sendMessage(("d GET").encode("utf-8"))[3:]
-        diction = {}
-        result = answer.replace("[[","[")
-        result = result.replace("]]","]")
+        packet = self.c.sendMessage(("d GET").encode("utf-8"))
+        print(packet)
+        currentUsers = json.loads(packet)
+        print(currentUsers['users'])
 
-        jdata = json.loads(result)
-        for d in jdata:
-            diction[d['login']]=d['status']
-
-        #Uproszczona metoda dodawania użytkowników
-        for row in diction:
-            self.add_row_to_list_of_users(row)
+        self.add_row_to_list_of_users(currentUsers['users'])
 
         self.thread = Thread(target=self.c.listening, args=[])
         self.thread.start()
@@ -86,6 +82,16 @@ class AddUserWidget(AdduserDialog):
         s = "d INVITE Jarek".encode("utf-8")
         thread = Thread(target=self.c.sendMessage, args=(s,))
         thread.start()
+        
+    def notify(self, event):
+        if self.close_event_message_box(event) == QMessageBox.Yes:
+            self.logout()
+            event.accept()
+        else:
+            event.ignore()
+        
+        #self.logout()
+        print("notified")
 
 """
 # For tests   
