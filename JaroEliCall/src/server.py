@@ -130,10 +130,10 @@ class Server:
         print("Otrzymano GET")
         self.mongo.getFromMongo()
         print("Uzytkownicy: " + str(self.mongo.users))
-        payload = {"type" : "d","users": self.mongo.users, "status": 202}
-        print(addr)
-        self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-        print("Wyslano")
+        payload = {"type" : "d", "users": self.mongo.users, "status": 202}
+        message = json.dumps(payload)
+        self.s.sendto(message.encode("utf-8"), addr)
+        print("Wyslano WIADOMOSC" + str(type(message)) + " " + str(message) + " do " + str(addr))
 
     def invite_person(self, communicate, addr):
         frames = (communicate.split())
@@ -160,11 +160,11 @@ class Server:
         print(addr)
         if (ans == 1):
             self.mongo.create_user(frames[4], frames[3], frames[5])
-            payload = {"type": "d","description": "CREATED", "status": 201}
+            payload = {"type": "d", "description": "CREATED", "status": 201}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
 
         elif (ans == 0):
-            payload = {"type": "d","description": "NOT ACCEPTABLE", "status": 406}
+            payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
 
 

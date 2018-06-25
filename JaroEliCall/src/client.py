@@ -4,6 +4,8 @@ from JaroEliCall.src.actionsViews.Interaction_code import InteractionWidget
 import threading
 import json
 from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
+from threading import Thread
+
 
 
 #class Client(Validator):
@@ -43,6 +45,10 @@ class Client:
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.connect((self.host, self.port))
+            print("Polaczono z serwerem")
+
+
+
         except ConnectionRefusedError as err:
             print(err)
             self.s.close()
@@ -51,6 +57,8 @@ class Client:
         print("Wiadomosc do wyslania do serwera: ", self.host)
         try:
             self.s.sendto(data, (self.host, self.port))
+            self.thread = Thread(target=self.listening, args=[])
+            self.thread.start()
         except ConnectionRefusedError as err:
             print(err)
 
@@ -59,7 +67,12 @@ class Client:
         print("Do addUserWidget")
         self.users = AddUserWidget(self)
         print("Do load contacts")
-        self.users.load_contracts()
+
+        payload = {"type": "d", "description": "GET"}
+        data = json.dumps(payload).encode("utf-8")
+        print("Wysłano do serwera:", data)
+        self.sendMessage(data)
+
         self.users.show()
         self.users.exec_()
 
@@ -68,17 +81,19 @@ class Client:
         print("Zaczalem sluchac lalalal...")
         self._is_running = True
         while (self._is_running):
+            print("Słucham jaaaa")
             try:
                 packet, address = self.s.recvfrom(self.size)
+                print("Slucham")
                 received = json.loads(packet)
-                print(received)
+                print("Dostałem wiadomość od serwera", received)
                 if(str(received["type"]) == "d"):
                     print(received)
                     if received["status"] == 200:
                         print("200")
 
                     if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
-                        print("200")
+                        print("Dostalem 200")
                         self.show_add_users()
 
                     if received["status"] == 406:
@@ -87,7 +102,6 @@ class Client:
                     if received["status"] == 202:
                         packet = received["users"]
                         print("Otrzymano ", packet)
-
                         self.users.add_row_to_list_of_users(packet)
 
                     if received["status"] == 201:
@@ -109,8 +123,6 @@ class Client:
             except ConnectionRefusedError as err:
                 print(err)
 
-    # {"type":"d", "description":"OK", "status":200}
-    # {"type":"d", "description":"SEND", "status":202, "users":}
 
     def login(self, login, password):
 
@@ -119,6 +131,7 @@ class Client:
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)
+
 
 
     def sendingVoice(self):

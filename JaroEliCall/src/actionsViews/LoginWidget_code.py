@@ -62,8 +62,7 @@ class LoginWidget(LoginDialog):
         print("Laczenie sie z serwerem")
         self.c.login(login, password)
 
-        self.thread = Thread(target=self.c.listening, args=[])
-        self.thread.start()
+
 
 
     @pyqtSlot()
