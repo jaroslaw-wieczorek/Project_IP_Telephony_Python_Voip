@@ -84,15 +84,7 @@ class Client:
 
 
     def show_add_users(self):
-        print("Do addUserWidget")
         self.users = AddUserWidget(self)
-        print("Do load contacts")
-<<<<<<< HEAD
-        users.load_contracts()
-        users.show()
-     #   users.exec_()
-=======
-
         payload = {"type": "d", "description": "GET"}
         data = json.dumps(payload).encode("utf-8")
         print("Wysłano do serwera:", data)
@@ -100,7 +92,6 @@ class Client:
 
         self.users.show()
         self.users.exec_()
->>>>>>> 62d6cb41aded014489af5c2c0f2ee42b4d8629a8
 
 
     def listening(self):

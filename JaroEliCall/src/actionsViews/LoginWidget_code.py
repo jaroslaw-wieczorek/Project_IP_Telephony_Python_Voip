@@ -40,7 +40,7 @@ from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
             * goin to register.ui screen            
 """
 
-SERWER_IP = "192.168.0.4"
+SERWER_IP = "192.168.0.102"
 
 class LoginWidget(LoginDialog):
     def __init__(self):

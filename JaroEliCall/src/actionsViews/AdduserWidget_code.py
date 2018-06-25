@@ -49,6 +49,7 @@ class AddUserWidget(AdduserDialog):
 
 
     def add_row_to_list_of_users(self, packet):
+
         print("Lista kontaktow: ", packet)
 
 
