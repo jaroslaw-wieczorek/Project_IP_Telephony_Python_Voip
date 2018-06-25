@@ -18,6 +18,8 @@ lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
 
+lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
+sys.path.append(lib_path2)
 
 from interface_management.login import LoginDialog
 
@@ -38,7 +40,7 @@ from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
             * goin to register.ui screen            
 """
 
-SERWER_IP = "192.168.0.102"
+SERWER_IP = "192.168.0.4"
 
 class LoginWidget(LoginDialog):
     def __init__(self):

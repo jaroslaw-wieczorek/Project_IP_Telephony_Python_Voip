@@ -1,9 +1,29 @@
+
+import os
+import sys
+
+
+import PyQt5
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QDialog, QTableWidgetItem, QMessageBox, QApplication
+
+
+lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
+sys.path.append(lib_path)
+
+
+lib_path2 = os.path.abspath(os.path.join(__file__, '..','..', '..'))
+sys.path.append(lib_path2)
+
+print(lib_path2)
+
 import pyaudio
 import socket
 from JaroEliCall.src.actionsViews.Interaction_code import InteractionWidget
 import threading
 import json
 from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
+
 
 
 #class Client(Validator):
@@ -62,7 +82,7 @@ class Client:
         print("Do load contacts")
         users.load_contracts()
         users.show()
-        users.exec_()
+     #   users.exec_()
 
 
     def listening(self):
@@ -152,3 +172,4 @@ class Client:
         self.stream.stop_stream()
         self.stream.close()
         self.s.close()
+

@@ -6,6 +6,10 @@ import json
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
+lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
+sys.path.append(lib_path2)
+
+
 from src.interface_management.register import RegisterDialog
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import pyqtSlot

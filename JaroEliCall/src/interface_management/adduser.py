@@ -76,7 +76,7 @@ class AdduserDialog(QDialog, Ui_FormInterface):
         
         
     def add_row_to_list_of_users(self, users : list):
-               
+        print("add USER ***")               
         for user in users:
             newRowNum = self.table_widget_list_of_users.rowCount()
             self.table_widget_list_of_users.insertRow(newRowNum)

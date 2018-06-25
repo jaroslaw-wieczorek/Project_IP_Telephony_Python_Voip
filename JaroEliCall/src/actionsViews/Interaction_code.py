@@ -4,6 +4,10 @@ import sys
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
+lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
+sys.path.append(lib_path2)
+
+
 from interface_management.interaction import InteractionDialog
 
 from PyQt5.QtWidgets import QDialog
@@ -44,9 +48,10 @@ class InteractionWidget(InteractionDialog):
         self.close()
         
 
-
+"""
 if __name__  == '__main__':
     app = QApplication(sys.argv)
     window = InteractionWidget("Maciek")
     window.show()
     sys.exit(app.exec_())
+"""

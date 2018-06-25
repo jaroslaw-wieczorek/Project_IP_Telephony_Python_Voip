@@ -16,6 +16,10 @@ from threading import Thread
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
+lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
+sys.path.append(lib_path2)
+
+
 from interface_management.adduser import AdduserDialog
 
 from PyQt5.QtCore import pyqtSlot
@@ -50,7 +54,7 @@ class AddUserWidget(AdduserDialog):
         self.set_fit_width()
         
     def load_contracts(self):
-
+        print("LOAD")
         payload = {"type": "d", "description": "GET"}
 
         data = json.dumps(payload).encode("utf-8")
@@ -68,6 +72,7 @@ class AddUserWidget(AdduserDialog):
 
     def updateMongo(self, user_ip):
         print(user_ip)
+        print("MONGO UPDATE CLIENT c.sendMessage THREAD")
         s = ("d LOGOUT").encode("utf-8")
         thread = Thread(target=self.c.sendMessage, args=(s,))
         thread.start()
@@ -84,6 +89,7 @@ class AddUserWidget(AdduserDialog):
 
     @pyqtSlot()
     def call(self):
+        print("CALL CLIENT c.sendMessage THREAD")
         s = "d INVITE Jarek".encode("utf-8")
         thread = Thread(target=self.c.sendMessage, args=(s,))
         thread.start()
