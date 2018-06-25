@@ -24,7 +24,7 @@ import threading
 import json
 from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 from threading import Thread
-
+import os, signal, time
 
 SERWER_IP = "192.168.0.102"
 #class Client(Validator):
@@ -57,9 +57,6 @@ class Client:
         self.thread = Thread(target=self.listening, args=[])
         self.thread.start()
 
-        self.observer = Thread(target=self.observator, args=[])
-        self.observer.start()
-
     def connectToSerwer(self, host):
         # ipadres serwera
         print("Laczenie z serwerem")
@@ -82,7 +79,6 @@ class Client:
             print("Wysłano ", data)
         except ConnectionRefusedError as err:
             print(err)
-
 
     def show_add_users(self):
         self.users = AddUserWidget(self)
@@ -114,7 +110,6 @@ class Client:
                     print("Dostalem 200")
                     self.show_add_users()
                     self.users.show()
-                    self.users.exec_()
 
                 if received["status"] == 406:
                     print("406")
