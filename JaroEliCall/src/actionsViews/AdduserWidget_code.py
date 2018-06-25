@@ -48,7 +48,8 @@ class AddUserWidget(AdduserDialog):
         
         #poszerzenie kolumn tabeli do szerokości widżetu 
         self.set_fit_width()
-        
+
+
     def load_contracts(self):
 
         payload = {"type": "d", "description": "GET"}
@@ -57,12 +58,13 @@ class AddUserWidget(AdduserDialog):
         print(data)
         self.c.sendMessage(data)
 
+        self.thread = Thread(target=self.c.listening, args=[])
+        self.thread.start()
+
+
         """packet = self.c.sendMessage(("d GET").encode("utf-8"))
         print(packet)
-        currentUsers = json.loads(packet)
-        print(currentUsers['users'])
-
-        self.add_row_to_list_of_users(currentUsers['users'])"""
+        """
 
 
 

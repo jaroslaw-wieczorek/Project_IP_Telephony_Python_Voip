@@ -51,18 +51,17 @@ class Client:
         print("Wiadomosc do wyslania do serwera: ", self.host)
         try:
             self.s.sendto(data, (self.host, self.port))
-            print("Wiadomosc wyslana. Czekam na odp")
         except ConnectionRefusedError as err:
             print(err)
 
 
     def show_add_users(self):
         print("Do addUserWidget")
-        users = AddUserWidget(self)
+        self.users = AddUserWidget(self)
         print("Do load contacts")
-        users.load_contracts()
-        users.show()
-        users.exec_()
+        self.users.load_contracts()
+        self.users.show()
+        self.users.exec_()
 
 
     def listening(self):
@@ -82,21 +81,19 @@ class Client:
                         print("200")
                         self.show_add_users()
 
-                    elif received["status"] == 406:
+                    if received["status"] == 406:
                         print("406")
 
-                    elif received["status"] == 202:
+                    if received["status"] == 202:
                         packet = received["users"]
                         print("Otrzymano ", packet)
-                        currentUsers = json.loads(packet)
-                        print(currentUsers['users'])
 
-                        self.add_row_to_list_of_users(currentUsers['users'])
+                        self.users.add_row_to_list_of_users(packet)
 
-                    elif received["status"] == 201:
+                    if received["status"] == 201:
                         print("201")
 
-                    elif received["status"] == 401:
+                    if received["status"] == 401:
                         print("401")
 
                     """if packet[0:1] == "d":
