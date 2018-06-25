@@ -10,8 +10,6 @@ import os
 import sys
 
 import json
-import threading
-from threading import Thread
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
@@ -57,17 +55,8 @@ class AddUserWidget(AdduserDialog):
         print("LOAD")
         payload = {"type": "d", "description": "GET"}
 
-        data = json.dumps(payload).encode("utf-8")
-        print(data)
-        self.c.sendMessage(data)
-
-        """packet = self.c.sendMessage(("d GET").encode("utf-8"))
-        print(packet)
-        currentUsers = json.loads(packet)
-        print(currentUsers['users'])
-
-        self.add_row_to_list_of_users(currentUsers['users'])"""
-
+    def add_row_to_list_of_users(self, packet):
+        print("Lista kontaktow: ", packet)
 
 
     def updateMongo(self, user_ip):

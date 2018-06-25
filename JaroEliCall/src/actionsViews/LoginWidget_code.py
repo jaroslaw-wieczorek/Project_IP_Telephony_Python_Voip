@@ -62,11 +62,9 @@ class LoginWidget(LoginDialog):
         password = hashlib.sha256(password.encode()).hexdigest()
         self.c.connectToSerwer(SERWER_IP)
         print("Laczenie sie z serwerem")
-
-        self.thread = Thread(target=self.c.listening, args=[])
-        self.thread.start()
-
         self.c.login(login, password)
+
+
 
 
     @pyqtSlot()

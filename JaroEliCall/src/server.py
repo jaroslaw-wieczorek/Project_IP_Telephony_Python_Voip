@@ -130,10 +130,10 @@ class Server:
         print("Otrzymano GET")
         self.mongo.getFromMongo()
         print("Uzytkownicy: " + str(self.mongo.users))
-
-        payload = {"users": self.mongo.users, "status": 202}
-        print(payload)
-        self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+        payload = {"type" : "d", "users": self.mongo.users, "status": 202}
+        message = json.dumps(payload)
+        self.s.sendto(message.encode("utf-8"), addr)
+        print("Wyslano WIADOMOSC" + str(type(message)) + " " + str(message) + " do " + str(addr))
 
     def invite_person(self, communicate, addr):
         frames = (communicate.split())
@@ -148,18 +148,10 @@ class Server:
             payload = {"type": "d","description": "OK", "status": 200}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
 
-            # self.s.sendto(("200 OK ").encode("utf-8"), (addr))
-
-            payload = {"type": "d", "description": "OK", "status": 200}
-            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-
             self.s.sendto(("d INVITE EKaczmarek").encode("utf-8"), (data_ip))
         else:
-
             payload = {"type": "d","description": "NOT ACCEPTABLE", "status": 406}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-
-            # self.s.sendto(("460 NOT ACCEPTABLE").encode("utf-8"), (addr))
 
     def create_in_database(self, communicate, addr):
         frames = (communicate.split())
@@ -168,17 +160,13 @@ class Server:
         print(addr)
         if (ans == 1):
             self.mongo.create_user(frames[4], frames[3], frames[5])
-
-            payload = {"type": "d","description": "CREATED", "status": 201}
+            payload = {"type": "d", "description": "CREATED", "status": 201}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
 
-            # self.s.sendto(("201 CREATED").encode("utf-8"), addr)
         elif (ans == 0):
-
-            payload = {"type": "d","description": "NOT ACCEPTABLE", "status": 406}
+            payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
 
-            # self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
 
     def listening(self):
         print("[*] Start listen")
