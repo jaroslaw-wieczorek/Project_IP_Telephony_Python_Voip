@@ -52,17 +52,21 @@ class AddUserWidget(AdduserDialog):
         print("Lista kontaktow: ", packet)
 
 
-    def updateMongo(self, user_ip):
-        print(user_ip)
-        s = ("d LOGOUT").encode("utf-8")
-        thread = Thread(target=self.c.sendMessage, args=(s,))
+
+    def updateMongo(self):
+        payload = {"type": "d", "description": "LOGOUT"}
+
+        data = json.dumps(payload).encode("utf-8")
+        print("Wysłano do serwera:", data)
+
+        thread = Thread(target=self.c.sendMessage, args=(data,))
         thread.start()
         self.close()
 
     @pyqtSlot()
     def logout(self):
         print("Wylogowanie")
-        self.updateMongo(self.c.host)
+        self.updateMongo()
 
     @pyqtSlot()
     def menu_rooms(self):
@@ -78,10 +82,10 @@ class AddUserWidget(AdduserDialog):
         if self.close_event_message_box(event) == QMessageBox.Yes:
             self.logout()
             event.accept()
+            self.updateMongo()
         else:
             event.ignore()
         
-        #self.logout()
         print("notified")
 
 """
