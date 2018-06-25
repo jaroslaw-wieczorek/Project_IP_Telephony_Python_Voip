@@ -71,7 +71,7 @@ class InteractionDialog(QDialog, Ui_InteractionDialog):
     def nothing(self):
         print("Do nothing!")
         
-        
+"""     
         
 if __name__  == '__main__':
     app = QApplication(sys.argv)
@@ -86,3 +86,4 @@ if __name__  == '__main__':
     window.show()
     sys.exit(app.exec_())
         
+"""

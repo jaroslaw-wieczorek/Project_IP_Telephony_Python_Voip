@@ -90,8 +90,7 @@ class MainWidget(AdduserDialog):
         thread.start()
 
 
-
-
+"""
 # For tests   
 if __name__  == '__main__':
     app = QApplication(sys.argv)
@@ -100,3 +99,4 @@ if __name__  == '__main__':
     window.show()
     sys.exit(app.exec_())
 
+"""

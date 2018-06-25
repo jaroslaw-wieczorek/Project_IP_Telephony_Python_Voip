@@ -1,3 +1,22 @@
+
+import os
+import sys
+
+
+import PyQt5
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QDialog, QTableWidgetItem, QMessageBox, QApplication
+
+
+lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
+sys.path.append(lib_path)
+
+
+lib_path2 = os.path.abspath(os.path.join(__file__, '..','..', '..'))
+sys.path.append(lib_path2)
+
+print(lib_path2)
+
 import pyaudio
 import socket
 from JaroEliCall.src.actionsViews.Interaction_code import InteractionWidget
@@ -5,6 +24,7 @@ import threading
 import json
 from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 from threading import Thread
+
 
 
 
@@ -67,6 +87,11 @@ class Client:
         print("Do addUserWidget")
         self.users = AddUserWidget(self)
         print("Do load contacts")
+<<<<<<< HEAD
+        users.load_contracts()
+        users.show()
+     #   users.exec_()
+=======
 
         payload = {"type": "d", "description": "GET"}
         data = json.dumps(payload).encode("utf-8")
@@ -75,6 +100,7 @@ class Client:
 
         self.users.show()
         self.users.exec_()
+>>>>>>> 62d6cb41aded014489af5c2c0f2ee42b4d8629a8
 
 
     def listening(self):
@@ -162,3 +188,4 @@ class Client:
         self.stream.stop_stream()
         self.stream.close()
         self.s.close()
+

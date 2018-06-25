@@ -43,8 +43,8 @@ class AddUserWidget(AdduserDialog):
         self.set_push_button_logout(self.logout)
         self.set_push_button_invite(self.menu_rooms)
         self.set_push_button_call(self.call)
-        
-        #poszerzenie kolumn tabeli do szerokości widżetu 
+
+        #poszerzenie kolumn tabeli do szerokości widżetu
         self.set_fit_width()
 
 
@@ -52,21 +52,17 @@ class AddUserWidget(AdduserDialog):
         print("Lista kontaktow: ", packet)
 
 
-
-    def updateMongo(self):
-        payload = {"type": "d", "description": "LOGOUT"}
-
-        data = json.dumps(payload).encode("utf-8")
-        print("Wysłano do serwera:", data)
-
-        thread = Thread(target=self.c.sendMessage, args=(data,))
+    def updateMongo(self, user_ip):
+        print(user_ip)
+        s = ("d LOGOUT").encode("utf-8")
+        thread = Thread(target=self.c.sendMessage, args=(s,))
         thread.start()
         self.close()
 
     @pyqtSlot()
     def logout(self):
         print("Wylogowanie")
-        self.updateMongo()
+        self.updateMongo(self.c.host)
 
     @pyqtSlot()
     def menu_rooms(self):
@@ -82,10 +78,10 @@ class AddUserWidget(AdduserDialog):
         if self.close_event_message_box(event) == QMessageBox.Yes:
             self.logout()
             event.accept()
-            self.updateMongo()
         else:
             event.ignore()
         
+        #self.logout()
         print("notified")
 
 """
