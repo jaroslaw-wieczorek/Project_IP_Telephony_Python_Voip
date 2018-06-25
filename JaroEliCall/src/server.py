@@ -50,14 +50,17 @@ class Server:
         self.mongo.runMongo()
         self.collection = self.mongo.collection
 
-        """while 1:
+        while 1:
             time.sleep(2)
             test = self.collection.find({"status": "online"}, {"login": 1, "_id": 0})
             test = dumps(test)
             print(test)
             if (test):
                 for key, value in self.mongo.dict_ip_users.items():
-                    self.s.sendto(test.encode("utf-8"), value)"""
+                    print("key: ", key)
+                    print("value ", value)
+                    self.users_from_mongo(value)
+
 
     def find_address(self, login):
         print(login)
@@ -219,6 +222,8 @@ serwer = Server()
 serwer.connectWithClient()
 thread = Thread(target=serwer.listening, args=[])
 thread.start()
-thread_send = Thread(target=serwer.sendAnything, args=[])
-thread_send.start()
+
+
+"""thread_send = Thread(target=serwer.sendAnything, args=[])
+thread_send.start()"""
 

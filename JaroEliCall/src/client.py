@@ -26,8 +26,7 @@ from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 from threading import Thread
 
 
-
-
+SERWER_IP = "192.168.0.102"
 #class Client(Validator):
 class Client:
     FORMAT = pyaudio.paInt16
@@ -54,10 +53,16 @@ class Client:
                                   input=True,
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
+        self.connectToSerwer(SERWER_IP)
+        self.thread = Thread(target=self.listening, args=[])
+        self.thread.start()
+
+        self.observer = Thread(target=self.observator, args=[])
+        self.observer.start()
 
     def connectToSerwer(self, host):
         # ipadres serwera
-        print("Laczrenie z serwerem")
+        print("Laczenie z serwerem")
         self.host = host
         self.port = 50001
         self.size = 2048
@@ -67,18 +72,14 @@ class Client:
             self.s.connect((self.host, self.port))
             print("Polaczono z serwerem")
 
-
-
         except ConnectionRefusedError as err:
             print(err)
             self.s.close()
 
     def sendMessage(self, data):
-        print("Wiadomosc do wyslania do serwera: ", self.host)
         try:
             self.s.sendto(data, (self.host, self.port))
-            self.thread = Thread(target=self.listening, args=[])
-            self.thread.start()
+            print("Wysłano ", data)
         except ConnectionRefusedError as err:
             print(err)
 
@@ -90,10 +91,6 @@ class Client:
         print("Wysłano do serwera:", data)
         self.sendMessage(data)
 
-        self.users.show()
-        self.users.exec_()
-
-
     def listening(self):
         print("Zaczalem sluchac lalalal...")
         self._is_running = True
@@ -101,31 +98,38 @@ class Client:
             print("Słucham jaaaa")
             try:
                 packet, address = self.s.recvfrom(self.size)
-                print("Slucham")
-                received = json.loads(packet)
-                print("Dostałem wiadomość od serwera", received)
-                if(str(received["type"]) == "d"):
-                    print(received)
-                    if received["status"] == 200:
-                        print("200")
+                print(packet)
+            except:
+                continue
+            print("Slucham")
+            packet = packet.decode("utf-8")
+            received = json.loads(packet)
+            print("Dostałem wiadomość od serwera", received)
+            if(str(received["type"]) == "d"):
+                print(received)
+                if received["status"] == 200:
+                    print("200")
 
-                    if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
-                        print("Dostalem 200")
-                        self.show_add_users()
+                if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
+                    print("Dostalem 200")
+                    self.show_add_users()
+                    self.users.show()
+                    self.users.exec_()
 
-                    if received["status"] == 406:
-                        print("406")
+                if received["status"] == 406:
+                    print("406")
 
-                    if received["status"] == 202:
-                        packet = received["users"]
-                        print("Otrzymano ", packet)
-                        self.users.add_row_to_list_of_users(packet)
+                if received["status"] == 202:
+                    packet = received["users"]
+                    print("Otrzymano ", packet)
+                    self.users.add_row_to_list_of_users(packet)
 
-                    if received["status"] == 201:
-                        print("201")
 
-                    if received["status"] == 401:
-                        print("401")
+                if received["status"] == 201:
+                    print("201")
+
+                if received["status"] == 401:
+                    print("401")
 
                     """if packet[0:1] == "d":
                         print("Komunikat: ", packet[2::])
@@ -135,15 +139,14 @@ class Client:
                             print("Dzwoni ", packet[9::])
                             self._is_running = False
                             break"""
+                    print("Nadal slucham")
                 else:
                     continue
-            except ConnectionRefusedError as err:
-                print(err)
 
 
     def login(self, login, password):
 
-        payload = {"type": "d", "description": "LOGIN", "status": 200, "login": login, "password": password}
+        payload = {"type": "d", "description": "LOGIN", "login": login, "password": password}
 
         data = json.dumps(payload).encode("utf-8")
         print(data)

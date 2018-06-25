@@ -7,25 +7,14 @@ import sys
 import json
 
 import hashlib
-from threading import Thread
-
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QDialog
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QTableWidgetItem
-
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
-
-
 lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
 sys.path.append(lib_path2)
 
 from interface_management.login import LoginDialog
-
-
 from JaroEliCall.src.client import Client
-
 from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
 
 
@@ -40,7 +29,6 @@ from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
             * goin to register.ui screen            
 """
 
-SERWER_IP = "192.168.0.102"
 
 class LoginWidget(LoginDialog):
     def __init__(self):
@@ -50,7 +38,7 @@ class LoginWidget(LoginDialog):
         publ = 'rsa_keys/key.pub'
         """
         self.c = Client()
-        
+
         self.set_push_button_login(self.on_login_button_clicked)
         self.set_push_button_register(self.on_register_button_clicked)
 
@@ -60,11 +48,9 @@ class LoginWidget(LoginDialog):
         login = self.get_login()
         password = self.get_password()
         password = hashlib.sha256(password.encode()).hexdigest()
-        self.c.connectToSerwer(SERWER_IP)
+
         print("Laczenie sie z serwerem")
         self.c.login(login, password)
-
-
 
 
     @pyqtSlot()

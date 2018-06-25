@@ -7,6 +7,8 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QWidget
 from JaroEliCall.src.interface_management.settings import SettingsDialog
 from JaroEliCall.src.actionsViews.MainWidget_code import MainWidget
+from JaroEliCall.src.client import Client
+from threading import Thread
 
        
 def main():
@@ -15,6 +17,7 @@ def main():
 
     window = LoginWidget()
     window.show()
+
 
     sys.exit(app.exec_())
 

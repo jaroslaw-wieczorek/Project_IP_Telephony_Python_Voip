@@ -47,17 +47,14 @@ class AddUserWidget(AdduserDialog):
         #poszerzenie kolumn tabeli do szerokości widżetu
         self.set_fit_width()
 
-
-    def add_row_to_list_of_users(self, packet):
-
-        print("Lista kontaktow: ", packet)
-
-
     def updateMongo(self, user_ip):
         print(user_ip)
-        s = ("d LOGOUT").encode("utf-8")
-        thread = Thread(target=self.c.sendMessage, args=(s,))
-        thread.start()
+        payload = {"type": "d", "description": "LOGOUT"}
+
+        data = json.dumps(payload).encode("utf-8")
+        print(data)
+        self.sendMessage(data)
+
         self.close()
 
     @pyqtSlot()
@@ -71,10 +68,9 @@ class AddUserWidget(AdduserDialog):
 
     @pyqtSlot()
     def call(self):
-        s = "d INVITE Jarek".encode("utf-8")
-        thread = Thread(target=self.c.sendMessage, args=(s,))
-        thread.start()
-        
+        where = self.table_widget_list_of_users.currentItem().text()
+        print("Wybrano dzwonienie do ", where)
+
     def notify(self, event):
         if self.close_event_message_box(event) == QMessageBox.Yes:
             self.logout()
