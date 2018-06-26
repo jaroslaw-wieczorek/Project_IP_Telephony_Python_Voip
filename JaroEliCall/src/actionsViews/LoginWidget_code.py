@@ -34,13 +34,13 @@ import JaroEliCall.src.ClassBetweenThreads as betweenTherads
 
 
 class LoginWidget(LoginDialog):
-    def __init__(self):
+    def __init__(self, client):
         super(LoginWidget, self).__init__()
         """
         priv = 'rsa_keys/private'
         publ = 'rsa_keys/key.pub'
         """
-        self.c = Client()
+        self.c = client
 
         self.set_push_button_login(self.on_login_button_clicked)
         self.set_push_button_register(self.on_register_button_clicked)
@@ -60,16 +60,9 @@ class LoginWidget(LoginDialog):
         print("Odczytalem ", self.toThreaad.received)
         if(self.toThreaad.received[0] == "200"):
             self.close()
-            print("Zakmnelam")
-            lol = AddUserWidget(self)
-            print("Pokazuje")
-            lol.show()
-            print("Ece bo chce")
-            """self.users = AddUserWidget(self)
-            self.users.show()
-            self.users.exec_()"""
 
-            # print(type(self.toThreaad.received[0]))
+
+
 
     @pyqtSlot()
     def on_login_button_clicked(self):
@@ -81,10 +74,10 @@ class LoginWidget(LoginDialog):
         self.c.login(login, password)
 
         self.toThreaad = betweenTherads.ClassBetweenhreads()
-
         with self.toThreaad.lock:
             self.c.listening(self.toThreaad)
             self.read()
+
 
 
     @pyqtSlot()

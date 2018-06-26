@@ -15,6 +15,7 @@ lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
 from interface_management.adduser import AdduserDialog
+from JaroEliCall.src.client import Client
 
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
@@ -39,6 +40,9 @@ class AddUserWidget(AdduserDialog):
         super(AddUserWidget, self).__init__()
         self.c = client
         self.closeEvent = self.notify
+
+        self.getList()
+
         #podpięcie metod z AddUserWidget do przycisków interfejsu
         self.set_push_button_logout(self.logout)
         self.set_push_button_invite(self.menu_rooms)
@@ -46,6 +50,13 @@ class AddUserWidget(AdduserDialog):
 
         #poszerzenie kolumn tabeli do szerokości widżetu
         self.set_fit_width()
+
+    def getList(self):
+        payload = {"type": "d", "description": "GET"}
+        data = json.dumps(payload).encode("utf-8")
+        print("Wysłano do serwera:", data)
+        self.c.sendMessage(data)
+
 
     def updateMongo(self, user_ip):
         print(user_ip)
@@ -55,7 +66,6 @@ class AddUserWidget(AdduserDialog):
         print(data)
         self.sendMessage(data)
 
-        self.close()
 
     @pyqtSlot()
     def logout(self):
@@ -64,7 +74,7 @@ class AddUserWidget(AdduserDialog):
 
     @pyqtSlot()
     def menu_rooms(self):
-        pass
+        print("Jestem u siebie")
 
     @pyqtSlot()
     def call(self):

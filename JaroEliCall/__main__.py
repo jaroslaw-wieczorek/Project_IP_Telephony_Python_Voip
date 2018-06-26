@@ -1,5 +1,7 @@
 import sys
 from JaroEliCall.src.actionsViews.LoginWidget_code import LoginWidget
+from JaroEliCall.src.actionsViews.LoginWidget_code import AddUserWidget
+
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 
 from PyQt5.QtGui import QCloseEvent
@@ -15,12 +17,22 @@ def main():
     app = QApplication(sys.argv)
     # main_window.show()
 
-    window = LoginWidget()
+    client = Client()
+    window = LoginWidget(client)
     window.show()
+
+    if(app.exec_() ==QDialog.Accepted):
+        print("Gramy dalej: ")
+    else:
+        print("Zakmnelam LoginWidget")
+        lol = AddUserWidget(client)
+        print("Pokazuje")
+        lol.show()
+        print("Ece bo chce")
+
 
     sys.exit(app.exec_())
 
-    print("koNIEC LOGIN Widget")
 
 
 if __name__ == "__main__":
