@@ -10,16 +10,13 @@ from threading import Thread
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
-<<<<<<< HEAD
 lib_path2 = os.path.abspath(os.path.join(__file__, '..', '..', '..','..'))
 sys.path.append(lib_path2)
 
 print(lib_path2)
 
-=======
 import JaroEliCall.src.ClassBetweenThreads as betweenTherads
->>>>>>> master
-from interface_management.adduser import AdduserDialog
+from JaroEliCall.src.interface_management.adduser import AdduserDialog
 from JaroEliCall.src.client import Client
 
 from JaroEliCall.gui.adduser_ui import Ui_FormInterface
@@ -74,8 +71,9 @@ class AddUserWidget(AdduserDialog):
         if(self.toThreaad.received[-1] == "202 USERS"):
             print("Userzy: ", self.toThreaad.users)
             self.add_row_to_list_of_users(self.toThreaad.users)
-        if(self.toThreaad.received[-1] == "406 UNAVAILABLE"):
-            print("Nie można polaczyc sie z klientem")
+        if(self.toThreaad.received[-1] == "406 INVITE"):
+            self.set_info_text("Nie można polaczyc sie z klientem")
+            self.show_info_text()
 
 
     def getList(self):

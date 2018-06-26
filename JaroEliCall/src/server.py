@@ -97,19 +97,13 @@ class Server:
             # {"type":"d", "description":"SEND", "status":202, "users":}
             print('Wysylanie 200')
             payload = {"type": "d", "description": "OK", "status": 200, "answer_to": "LOGIN" }
-
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-            #self.s.sendto(("200 OK").encode("utf-8"), addr)
-
             print('Wysłano 200')
 
         elif (is_login_ok == 0):
             print('Wysylanie 406')
-            payload = {"type": "d","description": "NOT ACCEPTABLE", "status": 406}
-
+            payload = {"type": "d","description": "NOT ACCEPTABLE", "status": 406, "answer_to": "LOGIN"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-
-            #self.s.sendto(("406 NOT ACCEPTABLE").encode("utf-8"), addr)
             print('Wyslano 406')
 
     def log_out(self, addr):
@@ -118,12 +112,12 @@ class Server:
         print("Odp na wylogowanie: ", ans)
         if (ans == 1):
             print('Wysylanie 200')
-            payload = {"type": "d", "description": "OK", "status": 200}
+            payload = {"type": "d", "description": "OK", "status": 200, "answer_to": "LOGOUT"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
             print('Wysłano 200')
         elif (ans == 0):
             print('Wysylanie 401')
-            payload = {"type": "d", "description": "UNAUTHORIZED", "status": 401}
+            payload = {"type": "d", "description": "UNAUTHORIZED", "status": 401, "answer_to": "LOGOUT"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
             # self.s.sendto(("401 UNAUTHORIZED").encode("utf-8"), addr)
             print('Wyslano 401')
@@ -132,7 +126,7 @@ class Server:
         print("Otrzymano GET")
         self.mongo.getFromMongo()
         print("Uzytkownicy: " + str(self.mongo.users))
-        payload = {"type" : "d", "users": self.mongo.users, "status": 202}
+        payload = {"type" : "d", "users": self.mongo.users, "status": 202, "answer_to": "GET"}
         message = json.dumps(payload)
         self.s.sendto(message.encode("utf-8"), addr)
         print("Wyslano WIADOMOSC" + str(type(message)) + " " + str(message) + " do " + str(addr))
@@ -155,7 +149,7 @@ class Server:
             self.s.sendto(json.dumps(payload).encode("utf-8"), receiver_ip)
             print(message)
         else:
-            payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406}
+            payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "INVITE"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), connection_caller_ip)
             print(payload)
 
@@ -170,7 +164,7 @@ class Server:
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
 
         elif (ans == 0):
-            payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406}
+            payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "REGISTER"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
 
 

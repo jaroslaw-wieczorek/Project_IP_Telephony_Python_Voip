@@ -77,10 +77,16 @@ class Client:
                         print("Dostalem 200")
                         toThreaad.received.append("200 LOGIN")
                         break
-                    if received["status"] == 406:
+                    if received["status"] == 406 and received["answer_to"] == "INVITE":
+                        toThreaad.received.append("406 INVITE")
+                        print("406")
+                        break
+
+                    if received["status"] == 406 and received["answer_to"] == "LOGIN":
                         toThreaad.received.append("406 LOGIN")
                         print("406")
                         break
+
                     if received["status"] == 202:
                         packet = received["users"]
                         print("Otrzymano ", packet)
