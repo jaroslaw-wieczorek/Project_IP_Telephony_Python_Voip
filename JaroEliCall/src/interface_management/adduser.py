@@ -36,7 +36,7 @@ class AdduserDialog(QDialog, Ui_FormInterface):
         
             
     def set_info_text(self, text):
-        self.label_info.setText()
+        self.label_info.setText(text)
     
     def clear_info_text(self):
         self.label_info.clear()
