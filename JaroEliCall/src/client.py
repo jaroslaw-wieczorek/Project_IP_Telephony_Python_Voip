@@ -26,7 +26,7 @@ from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 from threading import Thread
 import os, signal, time
 
-SERWER_IP = "192.168.0.102"
+SERWER_IP = "127.0.0.1"
 #class Client(Validator):
 class Client:
     FORMAT = pyaudio.paInt16

@@ -58,4 +58,4 @@ class LoginWidget(LoginDialog):
         # self.close()
         reg = RegisterWidget(self.c)
         reg.show()
-        reg.exec_()
+        #reg.exec_()

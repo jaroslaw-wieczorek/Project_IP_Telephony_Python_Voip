@@ -58,6 +58,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="label_info">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="vertical_spacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

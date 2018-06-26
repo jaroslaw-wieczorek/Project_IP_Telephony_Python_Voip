@@ -24,16 +24,29 @@ from gui.adduser_ui import Ui_FormInterface
 #from gui.testpic_ui import Ui_Dialog
 from gui.resources import icons_wrapper_rc
 
+#Q_DECLARE_METATYPE(namespace.QItemSelection)
 
 class AdduserDialog(QDialog, Ui_FormInterface):
     
     def __init__(self):
         super(AdduserDialog, self).__init__()
-       
+        
         
         self.setupUi(self)
         
             
+    def set_info_text(self, text):
+        self.label_info.setText()
+    
+    def clear_info_text(self):
+        self.label_info.clear()
+       
+    def hide_info_text(self):
+        self.label_info.hide()
+        
+    def show_info_text(self):
+        self.label_info.show()
+        
     def keyPressEvent(self, e):
         
         if e.key() == QtCore.Qt.Key_Escape:
@@ -96,9 +109,9 @@ class AdduserDialog(QDialog, Ui_FormInterface):
         print("Do nothing!")
         
         
-
-#Fot tests
 """
+#Fot tests
+
 if __name__  == '__main__':
     app = QApplication(sys.argv)
     window = AdduserDialog()
@@ -106,7 +119,7 @@ if __name__  == '__main__':
     window.set_push_button_call(window.nothing)
     window.set_push_button_invite(window.nothing)
     window.set_fit_width()
-    window.add_row_to_list_of_users(["jaro", 77,"avatar"])
+    #window.add_row_to_list_of_users(["jaro", "online","avatar"])
   
     item = QTableWidgetItem()
     item.setIcon(window.get_icon_from_resources("strategy.png"))

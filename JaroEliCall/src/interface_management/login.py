@@ -31,6 +31,20 @@ class LoginDialog(QDialog, Ui_LoginDialog):
         self.setupUi(self)
         self.show()
         
+        
+    def set_info_text(self, text):
+        self.label_info.setText()
+    
+    def clear_info_text(self):
+        self.label_info.clear()
+       
+    def hide_info_text(self):
+        self.label_info.hide()
+        
+    def show_info_text(self):
+        self.label_info.show()
+        
+        
     def set_login(self, login):
         self.line_edit_login.setText(login)
       

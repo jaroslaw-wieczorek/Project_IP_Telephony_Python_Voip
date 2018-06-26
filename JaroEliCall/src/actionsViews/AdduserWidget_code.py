@@ -1,29 +1,39 @@
-
-from PyQt5.QtWidgets import QDialog, QTableWidgetItem, QMessageBox
-
-from JaroEliCall.gui.adduser_ui import Ui_FormInterface
-from PyQt5.QtCore import pyqtSlot
-from threading import Thread
-import threading
-
 import os
 import sys
-
 import json
+import threading
+from threading import Thread
+
+#(QItemSelection)
+#self.emit(SIGNAL("newStatuses(PyQt_PyObject)"), statusy) 
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
+lib_path2 = os.path.abspath(os.path.join(__file__, '..', '..', '..','..'))
+sys.path.append(lib_path2)
+
+print(lib_path2)
+
 from interface_management.adduser import AdduserDialog
 
+from JaroEliCall.gui.adduser_ui import Ui_FormInterface
+
+from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QPixmap 
+
+from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import QMetaType
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import QItemSelection
+
 from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QTableWidget
 from PyQt5.QtWidgets import QTableWidgetItem
 
-
-from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtWidgets import QTableWidget
 
 """     List of contacts Widget
     Screen to load contacts and call to people
@@ -35,6 +45,8 @@ from PyQt5.QtWidgets import QTableWidget
 
 class AddUserWidget(AdduserDialog):
 
+    #sig = pyqtSignal(int)
+    
     def __init__(self, client):
         super(AddUserWidget, self).__init__()
         self.c = client
@@ -46,6 +58,8 @@ class AddUserWidget(AdduserDialog):
 
         #poszerzenie kolumn tabeli do szerokości widżetu
         self.set_fit_width()
+    
+
 
     def updateMongo(self, user_ip):
         print(user_ip)
@@ -57,16 +71,16 @@ class AddUserWidget(AdduserDialog):
 
         self.close()
 
-    @pyqtSlot()
+    #@pyqtSlot()
     def logout(self):
         print("Wylogowanie")
         self.updateMongo(self.c.host)
 
-    @pyqtSlot()
+    #@pyqtSlot()
     def menu_rooms(self):
         pass
 
-    @pyqtSlot()
+    #@pyqtSlot()
     def call(self):
         where = self.table_widget_list_of_users.currentItem().text()
         print("Wybrano dzwonienie do ", where)
@@ -81,7 +95,7 @@ class AddUserWidget(AdduserDialog):
         #self.logout()
         print("notified")
 
-"""
+
 # For tests   
 if __name__  == '__main__':
     app = QApplication(sys.argv)
@@ -89,4 +103,3 @@ if __name__  == '__main__':
   
     window.show()
     sys.exit(app.exec_())
-"""
