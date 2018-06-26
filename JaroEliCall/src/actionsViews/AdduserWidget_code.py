@@ -94,9 +94,6 @@ class AddUserWidget(AdduserDialog):
             print("Wysłano INVITE")
 
 
-
-
-
     def getList(self):
         payload = {"type": "d", "description": "GET"}
         data = json.dumps(payload).encode("utf-8")
@@ -108,9 +105,6 @@ class AddUserWidget(AdduserDialog):
         with self.toThreaad.lock:
             self.c.listening(self.toThreaad)
             self.read()
-
-
-
 
     def updateMongo(self):
         payload = {"type": "d", "description": "LOGOUT"}
