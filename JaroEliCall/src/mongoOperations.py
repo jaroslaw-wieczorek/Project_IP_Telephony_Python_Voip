@@ -75,12 +75,12 @@ class MongoOperations:
         try:
             answer = (self.collection.find({"login": user, "status": "online"}).count()) == 1
             if (answer):
-                return 1
+                return True
             else:
-                return 0
+                return False
 
         except IndexError:
-            return 0
+            return False
 
     def create_user(self, login, email, password):
         print("Dodanie uzytkowwnika do mongo")

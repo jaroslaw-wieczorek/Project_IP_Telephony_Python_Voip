@@ -2,32 +2,16 @@
 import os
 import sys
 
-
-import PyQt5
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QTableWidgetItem, QMessageBox, QApplication
-
-
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
-
-lib_path2 = os.path.abspath(os.path.join(__file__, '..','..', '..'))
-sys.path.append(lib_path2)
-
-print(lib_path2)
-
 import pyaudio
 import socket
-from JaroEliCall.src.actionsViews.Interaction_code import InteractionWidget
-import threading
 import json
-from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
-from threading import Thread
-import os, signal, time
+import threading
 
-SERWER_IP = "127.0.0.1"
-#class Client(Validator):
+SERWER_IP = "192.168.0.102"
+
 class Client:
     FORMAT = pyaudio.paInt16
     CHUNK = 512
@@ -37,14 +21,8 @@ class Client:
     RECORD_SECONDS = 15
     FACTOR = 2
 
-    #def __init__(self, priv, publ):
-
     def __init__(self):
         print("Inicjalizacja klasy Client")
-
-        """self.__private_key = priv
-        self.__public_key = publ"""
-
         self.p = pyaudio.PyAudio()
 
         self.stream = self.p.open(format=self.FORMAT,
@@ -54,8 +32,6 @@ class Client:
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
         self.connectToSerwer(SERWER_IP)
-        self.thread = Thread(target=self.listening, args=[])
-        self.thread.start()
 
     def connectToSerwer(self, host):
         # ipadres serwera
@@ -68,7 +44,6 @@ class Client:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.connect((self.host, self.port))
             print("Polaczono z serwerem")
-
         except ConnectionRefusedError as err:
             print(err)
             self.s.close()
@@ -80,63 +55,56 @@ class Client:
         except ConnectionRefusedError as err:
             print(err)
 
-    def show_add_users(self):
-        self.users = AddUserWidget(self)
-        payload = {"type": "d", "description": "GET"}
-        data = json.dumps(payload).encode("utf-8")
-        print("Wysłano do serwera:", data)
-        self.sendMessage(data)
 
-    def listening(self):
+    def listening(self, toThreaad):
+
         print("Zaczalem sluchac lalalal...")
         self._is_running = True
-        while (self._is_running):
+        while self._is_running:
             print("Słucham jaaaa")
-            try:
-                packet, address = self.s.recvfrom(self.size)
-                print(packet)
-            except:
-                continue
-            print("Slucham")
+            packet, address = self.s.recvfrom(self.size)
             packet = packet.decode("utf-8")
             received = json.loads(packet)
             print("Dostałem wiadomość od serwera", received)
             if(str(received["type"]) == "d"):
-                print(received)
-                if received["status"] == 200:
-                    print("200")
+                with toThreaad.lock:
+                    if received["status"] == 200:
+                        toThreaad.received.append("200")
+                        print("200")
+                        break
 
-                if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
-                    print("Dostalem 200")
-                    self.show_add_users()
-                    self.users.show()
+                    if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
+                        print("Dostalem 200")
+                        toThreaad.received.append("200 LOGIN")
+                        break
+                    if received["status"] == 406:
+                        toThreaad.received.append("406 LOGIN")
+                        print("406")
+                        break
+                    if received["status"] == 202:
+                        packet = received["users"]
+                        print("Otrzymano ", packet)
+                        toThreaad.received.append("202 USERS")
+                        toThreaad.users = packet
+                        break
 
-                if received["status"] == 406:
-                    print("406")
-
-                if received["status"] == 202:
-                    packet = received["users"]
-                    print("Otrzymano ", packet)
-                    self.users.add_row_to_list_of_users(packet)
-
-
-                if received["status"] == 201:
-                    print("201")
-
-                if received["status"] == 401:
-                    print("401")
-
-                    """if packet[0:1] == "d":
-                        print("Komunikat: ", packet[2::])
-                        print(packet[2:7])
-                        
-                        if packet[2:8] == "INVITE":
-                            print("Dzwoni ", packet[9::])
-                            self._is_running = False
-                            break"""
-                    print("Nadal slucham")
-                else:
-                    continue
+                    if received["status"] == 201:
+                        print("201")
+                        break
+                    if received["status"] == 401:
+                        print("401")
+                        break
+                        """if packet[0:1] == "d":
+                            print("Komunikat: ", packet[2::])
+                            print(packet[2:7])
+                            
+                            if packet[2:8] == "INVITE":
+                                print("Dzwoni ", packet[9::])
+                                self._is_running = False
+                                break"""
+                        print("Nadal slucham")
+                    else:
+                        continue
 
 
     def login(self, login, password):

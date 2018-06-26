@@ -120,11 +120,10 @@ class Server:
             print('Wysylanie 200')
             payload = {"type": "d", "description": "OK", "status": 200}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-            # self.s.sendto(("200 OK").encode("utf-8"), addr)
             print('Wysłano 200')
         elif (ans == 0):
             print('Wysylanie 401')
-            payload = {"type": "d","description": "UNAUTHORIZED", "status": 401}
+            payload = {"type": "d", "description": "UNAUTHORIZED", "status": 401}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
             # self.s.sendto(("401 UNAUTHORIZED").encode("utf-8"), addr)
             print('Wyslano 401')
@@ -138,23 +137,27 @@ class Server:
         self.s.sendto(message.encode("utf-8"), addr)
         print("Wyslano WIADOMOSC" + str(type(message)) + " " + str(message) + " do " + str(addr))
 
-    def invite_person(self, communicate, addr):
-        frames = (communicate.split())
+    def invite_person(self, connection_receiver, connection_caller_ip):
         # dostaję nazwe uzytkownika osoby do ktorej chce zadzwonic
         # musze ogarnac jaki jest jej port i adres ip
-        available = self.mongo.checkAvailibility(frames[2])
-        print("Dostepnosc osoby ", frames[2])
-        data_ip = self.find_address(frames[2])
-        print("dane ip osoby: ", data_ip)
-        if (available):
+
+        available = self.mongo.checkAvailibility(connection_receiver)
+        print("Dostepnosc osoby " + str(connection_receiver) + " " + str(available))
+
+        if(available):
+            receiver_ip = self.find_address(connection_receiver)
+            print("dane ip osoby: ", receiver_ip)
 
             payload = {"type": "d","description": "OK", "status": 200}
-            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+            self.s.sendto(json.dumps(payload).encode("utf-8"), connection_caller_ip)
 
-            self.s.sendto(("d INVITE EKaczmarek").encode("utf-8"), (data_ip))
+            message = {"type": "d","description": "INVITE", "status": 200, "from_who": connection_caller_ip}
+            self.s.sendto(json.dumps(payload).encode("utf-8"), receiver_ip)
+            print(message)
         else:
-            payload = {"type": "d","description": "NOT ACCEPTABLE", "status": 406}
-            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+            payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406}
+            self.s.sendto(json.dumps(payload).encode("utf-8"), connection_caller_ip)
+            print(payload)
 
     def create_in_database(self, communicate, addr):
         frames = (communicate.split())
@@ -179,7 +182,7 @@ class Server:
             print(self.mongo.dict_ip_users)
             data = d.decode("utf-8")
             print("DEKODOWANIE: " + data)"""
-
+            print("Czekam na kolejna wiadomosc")
             d, addr = self.s.recvfrom(self.size * 2)
             print("Otrzymalem: ", d, " od ", addr)
             print(self.mongo.dict_ip_users)
@@ -196,12 +199,15 @@ class Server:
                     self.log_in(received["login"], received["password"], addr)
                 elif (received["description"] == "LOGOUT"):
                     self.log_out(addr)
+                    # usuniecie z listy klientow z ktorymi jest polaczenie
                 elif (received["description"] == "GET"):
                     self.users_from_mongo(addr)
                 elif (received["description"] == "INVITE"):
-                    self.invite_person(received, addr)
+                    self.invite_person(received["call_to"], addr)
                 elif (received["description"] == "CREATE"):
                     self.create_in_database(received, addr)
+                elif (received["description"] == "LOGOUT"):
+                    self.log_out(addr)
             #elif (data[0:1] == "s"):EK
             elif (str(received["type"]) == "s"):
                 print("Dzwiek: ")
