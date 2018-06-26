@@ -54,8 +54,7 @@ class Client:
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
         self.connectToSerwer(SERWER_IP)
-        self.thread = Thread(target=self.listening, args=[])
-        self.thread.start()
+
 
     def connectToSerwer(self, host):
         # ipadres serwera
@@ -86,6 +85,7 @@ class Client:
         data = json.dumps(payload).encode("utf-8")
         print("Wysłano do serwera:", data)
         self.sendMessage(data)
+        self.listening()
 
     def listening(self):
         print("Zaczalem sluchac lalalal...")
@@ -108,8 +108,11 @@ class Client:
 
                 if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
                     print("Dostalem 200")
+                    signal.signal(signal.SIGALRM, self.handler)
+
                     self.show_add_users()
                     self.users.show()
+                    self.users.exec_()
 
                 if received["status"] == 406:
                     print("406")
@@ -146,6 +149,8 @@ class Client:
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)
+        self.listening()
+        self.close()
 
 
 
