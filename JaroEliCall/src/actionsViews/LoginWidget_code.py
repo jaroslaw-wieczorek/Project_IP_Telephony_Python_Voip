@@ -47,7 +47,7 @@ class LoginWidget(LoginDialog):
 
     def read(self):
         print("Odczytalem ", self.toThreaad.received)
-        if(self.toThreaad.received[0] == "200"):
+        if(self.toThreaad.received[0] == "200 LOGIN"):
             self.close()
         elif(self.toThreaad.received[0] =="406 LOGIN"):
             print("Nieprawidłowe dane ")

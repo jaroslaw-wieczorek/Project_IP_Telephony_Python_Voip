@@ -142,11 +142,11 @@ class Server:
             receiver_ip = self.find_address(connection_receiver)
             print("dane ip osoby: ", receiver_ip)
 
-            payload = {"type": "d","description": "OK", "status": 200}
+            payload = {"type": "d","description": "OK", "status": 200, "answer_to": "INVITE", "IP": receiver_ip}
             self.s.sendto(json.dumps(payload).encode("utf-8"), connection_caller_ip)
 
-            message = {"type": "d","description": "INVITE", "status": 200, "from_who": connection_caller_ip}
-            self.s.sendto(json.dumps(payload).encode("utf-8"), receiver_ip)
+            message = {"type": "d", "description": "INVITE", "status": 200, "from_who": connection_caller_ip}
+            self.s.sendto(json.dumps(message).encode("utf-8"), receiver_ip)
             print(message)
         else:
             payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "INVITE"}

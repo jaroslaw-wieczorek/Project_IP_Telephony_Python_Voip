@@ -62,7 +62,9 @@ class AddUserWidget(AdduserDialog):
 
         # poszerzenie kolumn tabeli do szerokości widżetu
         self.set_fit_width()
-    
+
+
+
 
 
     def read(self):
@@ -74,6 +76,10 @@ class AddUserWidget(AdduserDialog):
         if(self.toThreaad.received[-1] == "406 INVITE"):
             self.set_info_text("Nie można polaczyc sie z klientem")
             self.show_info_text()
+        if(self.toThreaad.received[-1][0]=="200 INVITE"):
+            print("Dostalem: ", self.toThreaad.received[-1])
+            print("Chce sie polaczyc z IP ", self.toThreaad.received[-1][1])
+
 
 
     def getList(self):
@@ -87,6 +93,8 @@ class AddUserWidget(AdduserDialog):
         with self.toThreaad.lock:
             self.c.listening(self.toThreaad)
             self.read()
+
+
 
 
     def updateMongo(self):

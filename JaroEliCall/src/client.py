@@ -67,16 +67,20 @@ class Client:
             received = json.loads(packet)
             print("Dostałem wiadomość od serwera", received)
             if(str(received["type"]) == "d"):
+                print("Wchodze dalej ")
                 with toThreaad.lock:
-                    if received["status"] == 200:
-                        toThreaad.received.append("200")
-                        print("200")
-                        break
 
                     if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
                         print("Dostalem 200")
                         toThreaad.received.append("200 LOGIN")
                         break
+
+                    if received["status"] == 200 and received["answer_to"] == "INVITE":
+                        toThreaad.received.append("200 INVITE" + str(received["IP"]))
+                        print("200 INVITE", received["IP"])
+                        print("200")
+                        break
+
                     if received["status"] == 406 and received["answer_to"] == "INVITE":
                         toThreaad.received.append("406 INVITE")
                         print("406")
@@ -100,6 +104,12 @@ class Client:
                     if received["status"] == 401:
                         print("401")
                         break
+
+                    if received["status"] == 200:
+                        toThreaad.received.append("200")
+                        print("200")
+                        break
+
                         """if packet[0:1] == "d":
                             print("Komunikat: ", packet[2::])
                             print(packet[2:7])
