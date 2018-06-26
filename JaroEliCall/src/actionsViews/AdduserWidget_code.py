@@ -76,9 +76,24 @@ class AddUserWidget(AdduserDialog):
         if(self.toThreaad.received[-1] == "406 INVITE"):
             self.set_info_text("Nie można polaczyc sie z klientem")
             self.show_info_text()
-        if(self.toThreaad.received[-1][0]=="200 INVITE"):
+        if(self.toThreaad.received[-1][0:10]=="200 INVITE"):
             print("Dostalem: ", self.toThreaad.received[-1])
-            print("Chce sie polaczyc z IP ", self.toThreaad.received[-1][1])
+            print("Chce sie polaczyc z IP ", self.toThreaad.received[-1][11::])
+            data = self.toThreaad.received[-1][11::].replace('[','(')
+            ip_and_port = data.replace(']',')')
+            print(ip_and_port)
+            ip = str(ip_and_port[ip_and_port.find("'")+len("'"):ip_and_port.rfind("'")])
+            print("ip:", ip)
+            port = int(ip_and_port[ip_and_port.find(" ")+len(" "):ip_and_port.rfind(")")])
+            print("port", port)
+
+            payload = {"type": "d", "description": "INVITE"}
+            data = json.dumps(payload).encode("utf-8")
+            self.client2 = Client(ip, port)
+            self.client2.sendMessage(data)
+            print("Wysłano INVITE")
+
+
 
 
 

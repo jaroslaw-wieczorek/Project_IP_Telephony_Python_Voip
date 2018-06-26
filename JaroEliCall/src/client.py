@@ -10,8 +10,6 @@ import socket
 import json
 import threading
 
-SERWER_IP = "192.168.0.102"
-
 class Client:
     FORMAT = pyaudio.paInt16
     CHUNK = 512
@@ -21,7 +19,7 @@ class Client:
     RECORD_SECONDS = 15
     FACTOR = 2
 
-    def __init__(self):
+    def __init__(self, SERWER_IP, port):
         print("Inicjalizacja klasy Client")
         self.p = pyaudio.PyAudio()
 
@@ -31,13 +29,13 @@ class Client:
                                   input=True,
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
-        self.connectToSerwer(SERWER_IP)
+        self.connectToSerwer(SERWER_IP, port)
 
-    def connectToSerwer(self, host):
+    def connectToSerwer(self, host, port):
         # ipadres serwera
         print("Laczenie z serwerem")
         self.host = host
-        self.port = 50001
+        self.port = port
         self.size = 2048
 
         try:
@@ -76,9 +74,8 @@ class Client:
                         break
 
                     if received["status"] == 200 and received["answer_to"] == "INVITE":
-                        toThreaad.received.append("200 INVITE" + str(received["IP"]))
-                        print("200 INVITE", received["IP"])
-                        print("200")
+                        toThreaad.received.append("200 INVITE " + str(received["IP"]))
+                        print("200 INVITE ", received["IP"])
                         break
 
                     if received["status"] == 406 and received["answer_to"] == "INVITE":

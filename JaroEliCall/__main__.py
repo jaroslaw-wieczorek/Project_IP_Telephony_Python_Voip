@@ -17,7 +17,7 @@ def main():
     app = QApplication(sys.argv)
     # main_window.show()
 
-    client = Client()
+    client = Client("192.168.0.102", 50001)
     window = LoginWidget(client)
     window.show()
 

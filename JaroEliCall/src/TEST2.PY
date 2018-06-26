@@ -78,7 +78,7 @@ class ClientThread (threading.Thread, Configuration):
 
 
 def serverSide(rport,stream, chunk):
-    serverIP = '127.0.0.1'
+    serverIP = '192.168.0.102'
     serverPort = rport
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     serverSocket.bind((serverIP,serverPort))
@@ -112,7 +112,7 @@ threads = []
 
 # Create new threads
 thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-thread2 = ClientThread(2, "Client-Thread", 2, '127.0.0.1', 9999 )
+thread2 = ClientThread(2, "Client-Thread", 2, '192.168.0.104', 9999 )
 
 # Start new Threads
 thread1.start()
