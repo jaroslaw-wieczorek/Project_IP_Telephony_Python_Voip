@@ -13,9 +13,12 @@ sys.path.append(lib_path)
 lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
 sys.path.append(lib_path2)
 
+from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
 from interface_management.login import LoginDialog
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
+import threading
+import JaroEliCall.src.ClassBetweenThreads as betweenTherads
 
 
 """     Login Widget
@@ -42,15 +45,46 @@ class LoginWidget(LoginDialog):
         self.set_push_button_login(self.on_login_button_clicked)
         self.set_push_button_register(self.on_register_button_clicked)
 
+
+    def show_add_users(self):
+        self.users = AddUserWidget(self)
+        payload = {"type": "d", "description": "GET"}
+        data = json.dumps(payload).encode("utf-8")
+        print("Wysłano do serwera:", data)
+        self.sendMessage(data)
+        self.users.show()
+        self.users.exec_()
+
+
+    def read(self):
+        print("Odczytalem ", self.toThreaad.received)
+        if(self.toThreaad.received[0] == "200"):
+            self.close()
+            print("Zakmnelam")
+            lol = AddUserWidget(self)
+            print("Pokazuje")
+            lol.show()
+            print("Ece bo chce")
+            """self.users = AddUserWidget(self)
+            self.users.show()
+            self.users.exec_()"""
+
+            # print(type(self.toThreaad.received[0]))
+
     @pyqtSlot()
     def on_login_button_clicked(self):
 
         login = self.get_login()
         password = self.get_password()
         password = hashlib.sha256(password.encode()).hexdigest()
-
         print("Laczenie sie z serwerem")
         self.c.login(login, password)
+
+        self.toThreaad = betweenTherads.ClassBetweenhreads()
+
+        with self.toThreaad.lock:
+            self.c.listening(self.toThreaad)
+            self.read()
 
 
     @pyqtSlot()

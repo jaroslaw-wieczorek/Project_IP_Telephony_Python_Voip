@@ -17,7 +17,10 @@ def main():
 
     window = LoginWidget()
     window.show()
+
     sys.exit(app.exec_())
+
+    print("koNIEC LOGIN Widget")
 
 
 if __name__ == "__main__":
