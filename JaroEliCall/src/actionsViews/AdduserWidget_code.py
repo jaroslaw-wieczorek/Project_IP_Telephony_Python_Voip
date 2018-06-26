@@ -14,6 +14,7 @@ import json
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
+import JaroEliCall.src.ClassBetweenThreads as betweenTherads
 from interface_management.adduser import AdduserDialog
 from JaroEliCall.src.client import Client
 
@@ -51,11 +52,23 @@ class AddUserWidget(AdduserDialog):
         #poszerzenie kolumn tabeli do szerokości widżetu
         self.set_fit_width()
 
+    def read(self):
+        print("Odczytalem ", self.toThreaad.received)
+        print("Userzy: ", self.toThreaad.users)
+        self.add_row_to_list_of_users(self.toThreaad.users)
+
     def getList(self):
         payload = {"type": "d", "description": "GET"}
         data = json.dumps(payload).encode("utf-8")
         print("Wysłano do serwera:", data)
         self.c.sendMessage(data)
+
+        self.toThreaad = betweenTherads.ClassBetweenhreads()
+
+        with self.toThreaad.lock:
+            self.c.listening(self.toThreaad)
+            self.read()
+
 
 
     def updateMongo(self, user_ip):

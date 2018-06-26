@@ -85,8 +85,8 @@ class Client:
                         packet = received["users"]
                         print("Otrzymano ", packet)
                         toThreaad.received.append("202 USERS")
+                        toThreaad.users = packet
                         break
-                        # self.users.add_row_to_list_of_users(packet)
 
                     if received["status"] == 201:
                         print("201")
