@@ -65,10 +65,6 @@ class AddUserWidget(AdduserDialog):
         self.set_fit_width()
         self.my_username = client.username
 
-
-
-
-
     def read(self):
         print(self.toThreaad.received)
         print("Odczytalem ", self.toThreaad.received)
@@ -111,13 +107,6 @@ class AddUserWidget(AdduserDialog):
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.c.sendMessage(data)
-
-        packet, address = self.s.recvfrom(self.size)
-        packet = packet.decode("utf-8")
-        received = json.loads(packet)
-        print("Dostałem wiadomość od serwera", received)
-        if(received == "200"):
-            pass
 
     #@pyqtSlot()
     def logout(self):

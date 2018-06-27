@@ -83,26 +83,30 @@ class MongoOperations:
             return False
 
     def create_user(self, login, email, password):
+        print("loginL ", login)
+        print("email: ", email)
+        print("password ", password)
         print("Dodanie uzytkowwnika do mongo")
         try:
-            self.collection.insertOne({"login": login, "password": password, "status": "offline"})
+            self.collection.insert_one({"login": login, "password": password, "status": "offline"})
         except IndexError:
             return 0
 
+    # zwraca nazwę użytkownika na podstawie jego IP
     def get_username_from_ip(self, addr):
-        print("Adres",  addr)
-        # słownik {'EKaczmarek': adres IP}
-        for i in self.dict_ip_users:
-            print(i)
+        for key, value in self.dict_ip_users.items():
+            if(value == addr):
+                return key
 
+    # wylogowanie użytkownika mając jest adres IP oraz port w tupli addr
     def logoutUser(self, addr):
         nickname = self.get_username_from_ip(addr)
         self.runMongo()
         self.getFromMongo()
+        print("Nickname usera: ", nickname)
         try:
             self.collection.update_one({"login": nickname}, {"$set": {"status": "offline"}})
             self.getFromMongo()
             return 1
-
         except IndexError:
             return 0

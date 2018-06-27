@@ -66,7 +66,7 @@ class RegisterDialog(QDialog, Ui_RegisterDialog):
             return None
     
     def set_push_button_login(self, funct):
-        self.push_button_login.clicked.connect(funct)
+        self.psuh_button_login.clicked.connect(funct)
     
     def set_push_button_register(self, funct):
         self.push_button_register.clicked.connect(funct)

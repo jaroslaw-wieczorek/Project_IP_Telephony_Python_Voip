@@ -89,6 +89,15 @@ class Client:
                         print("406")
                         break
 
+                    if received["status"] == 406 and received["answer_to"] == "CREATE":
+                        toThreaad.received.append("406 NOT_CREATED")
+                        print("406")
+                        break
+
+                    if received["status"] == 201 and received["answer_to"] == "CREATE":
+                        toThreaad.received.append("201 CREATED")
+                        break
+
                     if received["status"] == 202:
                         packet = received["users"]
                         print("Otrzymano ", packet)
@@ -96,9 +105,7 @@ class Client:
                         toThreaad.users = packet
                         break
 
-                    if received["status"] == 201:
-                        print("201")
-                        break
+
                     if received["status"] == 401:
                         print("401")
                         break

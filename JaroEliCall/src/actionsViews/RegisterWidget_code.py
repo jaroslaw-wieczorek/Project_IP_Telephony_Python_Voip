@@ -15,6 +15,7 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import pyqtSlot
 import hashlib
 from JaroEliCall.src.client import Client
+import JaroEliCall.src.ClassBetweenThreads as betweenTherads
 
 
 #####   TO DO ####
@@ -25,14 +26,29 @@ from JaroEliCall.src.client import Client
 """
 #
 
-SERWER_IP = "127.0.0.1"
+SERWER_IP = "192.168.0.102"
 
 
 class RegisterWidget(RegisterDialog):
     def __init__(self, client):
         super(RegisterWidget, self).__init__()
         self.client = client
-        
+
+        self.set_push_button_register(self.on_register_button_clicked)
+        self.set_push_button_login(self.on_login_button_clicked)
+
+    def read(self):
+        print("Odczytalem ", self.toThreaad.received)
+        if(self.toThreaad.received[0] == "201 CREATED"):
+            print("Udało sie zarejestrować")
+            self.close()
+        elif(self.toThreaad.received[0] =="406 NOT_CREATED"):
+            print("Nie udało sie zarejestrować")
+
+
+    @pyqtSlot()
+    def on_login_button_clicked(self):
+        pass
 
     @pyqtSlot()
     def on_register_button_clicked(self):
@@ -44,16 +60,15 @@ class RegisterWidget(RegisterDialog):
 
         if(passw == repeat_passw):
             passw = hashlib.sha256(passw.encode()).hexdigest()
-            self.client.connectToSerwer(SERWER_IP)
-            ans = self.client.sendMessage(("d 0x3 CREATE " + email + " " + login + " " + passw).encode("utf-8"))
-            print(ans)
-            if(ans):
-                self.close()
-                print("uzytkownik zarejestrowany")
-            else:
-                print("Użytkownik o podanym loginie istnieje")
-        else:
-            pass
+            payload = {"type": "d", "description": "CREATE", "NICKNAME": login, "PASSWORD": passw, "EMAIL": email}
+            self.client.sendMessage(json.dumps(payload).encode("utf-8"))
+            self.toThreaad = betweenTherads.ClassBetweenhreads()
+            with self.toThreaad.lock:
+                self.client.listening(self.toThreaad)
+                self.read()
+
+
+
 
 
 

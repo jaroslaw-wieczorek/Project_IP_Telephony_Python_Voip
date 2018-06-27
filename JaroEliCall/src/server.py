@@ -122,6 +122,7 @@ class Server:
             # self.s.sendto(("401 UNAUTHORIZED").encode("utf-8"), addr)
             print('Wyslano 401')
 
+
     def users_from_mongo(self, addr):
         print("Otrzymano GET")
         self.mongo.getFromMongo()
@@ -154,18 +155,19 @@ class Server:
             print(payload)
 
     def create_in_database(self, communicate, addr):
-        frames = (communicate.split())
-        print("Tworzenie usera:", frames[4])
-        ans = self.mongo.find_in_mongo(frames[4])
+        print("Tworzenie usera:", communicate["NICKNAME"])
+        ans = self.mongo.find_in_mongo(communicate["NICKNAME"])
         print(addr)
         if (ans == 1):
-            self.mongo.create_user(frames[4], frames[3], frames[5])
-            payload = {"type": "d", "description": "CREATED", "status": 201}
+            self.mongo.create_user(communicate["NICKNAME"], communicate["EMAIL"], communicate["PASSWORD"])
+            payload = {"type": "d", "description": "CREATED", "status": 201, "answer_to": "CREATE"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+            print("Wyslano ", payload)
 
         elif (ans == 0):
             payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "REGISTER"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+            print("Wyslano ", payload)
 
 
     def listening(self):
@@ -177,35 +179,39 @@ class Server:
             data = d.decode("utf-8")
             print("DEKODOWANIE: " + data)"""
             print("Czekam na kolejna wiadomosc")
-            d, addr = self.s.recvfrom(self.size * 2)
-            print("Otrzymalem: ", d, " od ", addr)
-            print(self.mongo.dict_ip_users)
-            data = d.decode("utf-8")
-            received = json.loads(data)
-            print("DEKODOWANIE: " + str(received["type"]))
-            print("TYP" + str(type(data)))
+            try:
+                d, addr = self.s.recvfrom(self.size * 2)
+                print("Otrzymalem: ", d, " od ", addr)
+                print(self.mongo.dict_ip_users)
+                data = d.decode("utf-8")
+                received = json.loads(data)
+                print("DEKODOWANIE: " + str(received["type"]))
+                print("TYP" + str(type(data)))
 
-            #print("type: "+d["type"].decode("utf-8"))
-            #if(data[0:1] == "d"):
-            if (str(received["type"]) == "d"):
-                print("Komunikat: ", (received["description"]))
-                if (received["description"] == "LOGIN"):
-                    self.log_in(received["login"], received["password"], addr)
-                elif (received["description"] == "LOGOUT"):
-                    self.log_out(addr)
-                    # usuniecie z listy klientow z ktorymi jest polaczenie
-                elif (received["description"] == "GET"):
-                    self.users_from_mongo(addr)
-                elif (received["description"] == "INVITE"):
-                    self.invite_person(received["call_to"], addr)
-                elif (received["description"] == "CREATE"):
-                    self.create_in_database(received, addr)
-                elif (received["description"] == "LOGOUT"):
-                    self.log_out(addr)
-            #elif (data[0:1] == "s"):EK
-            elif (str(received["type"]) == "s"):
-                print("Dzwiek: ")
-                self.stream.write(d[2:])
+                #print("type: "+d["type"].decode("utf-8"))
+                #if(data[0:1] == "d"):
+                if (str(received["type"]) == "d"):
+                    print("Komunikat: ", (received["description"]))
+                    if (received["description"] == "LOGIN"):
+                        self.log_in(received["login"], received["password"], addr)
+                    elif (received["description"] == "LOGOUT"):
+                        self.log_out(addr)
+                        # usuniecie z listy klientow z ktorymi jest polaczenie
+                    elif (received["description"] == "GET"):
+                        self.users_from_mongo(addr)
+                    elif (received["description"] == "INVITE"):
+                        self.invite_person(received["call_to"], addr)
+                    elif (received["description"] == "CREATE"):
+                        self.create_in_database(received, addr)
+                    elif (received["description"] == "LOGOUT"):
+                        self.log_out(addr)
+                #elif (data[0:1] == "s"):EK
+                elif (str(received["type"]) == "s"):
+                    print("Dzwiek: ")
+                    self.stream.write(d[2:])
+            except ConnectionResetError:
+                print("Połączenie przerwane przez klienta")
+
 
         print("[*] Stop listen")
 

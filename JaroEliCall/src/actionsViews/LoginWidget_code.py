@@ -67,11 +67,9 @@ class LoginWidget(LoginDialog):
             self.c.listening(self.toThreaad)
             self.read()
 
-
-
     @pyqtSlot()
     def on_register_button_clicked(self):
-        # self.close()
+        self.close()
         reg = RegisterWidget(self.c)
         reg.show()
-        #reg.exec_()
+        reg.exec_()

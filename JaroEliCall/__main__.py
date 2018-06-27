@@ -10,11 +10,12 @@ from JaroEliCall.src.actionsViews.MainWidget_code import MainWidget
 from JaroEliCall.src.client import Client
 import JaroEliCall.src.ClassBetweenThreads as betweenTherads
 from threading import Thread
+from random import randint
 
 
-       
 SERWER_IP = '192.168.0.102'
 PORT = 50001
+
 
 def main():
     app = QApplication(sys.argv)
@@ -25,7 +26,7 @@ def main():
     window = LoginWidget(client)
     window.show()
 
-    toThread = betweenTherads.ClassBetweenhreads()
+    """toThread = betweenTherads.ClassBetweenhreads()
 
     if(app.exec_() ==QDialog.Accepted):
         print("Gramy dalej: ")
@@ -34,7 +35,7 @@ def main():
         lol = AddUserWidget(client, toThread)
         print("Pokazuje")
         lol.show()
-        print("Ece bo chce")
+        print("Ece bo chce")"""
 
     sys.exit(app.exec_())
 
