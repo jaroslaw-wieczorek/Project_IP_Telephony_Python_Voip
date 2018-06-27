@@ -34,7 +34,7 @@ class Ui_FormInterface(object):
         self.table_widget_list_of_users.setMidLineWidth(1)
         self.table_widget_list_of_users.setAutoScroll(False)
         self.table_widget_list_of_users.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.table_widget_list_of_users.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+        self.table_widget_list_of_users.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.table_widget_list_of_users.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table_widget_list_of_users.setIconSize(QtCore.QSize(20, 20))
         self.table_widget_list_of_users.setTextElideMode(QtCore.Qt.ElideMiddle)

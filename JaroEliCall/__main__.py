@@ -13,11 +13,14 @@ from JaroEliCall.src.client import Client
 from threading import Thread
 
        
+SERWER_IP = '127.0.0.1'
+PORT = 50001
+
 def main():
     app = QApplication(sys.argv)
     # main_window.show()
 
-    client = Client("192.168.0.102", 50001)
+    client = Client(SERWER_IP, PORT)
     window = LoginWidget(client)
     window.show()
 

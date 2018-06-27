@@ -10,6 +10,7 @@ import socket
 import json
 import threading
 
+
 class Client:
     FORMAT = pyaudio.paInt16
     CHUNK = 512

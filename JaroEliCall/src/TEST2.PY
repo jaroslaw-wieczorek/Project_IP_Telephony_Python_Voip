@@ -9,6 +9,7 @@ import audioop
 import threading
 from datetime import datetime
 
+IP = '127.0.0.1'
 
 class Configuration():
         FORMAT = pyaudio.paInt16
@@ -112,7 +113,7 @@ threads = []
 
 # Create new threads
 thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-thread2 = ClientThread(2, "Client-Thread", 2, '192.168.0.104', 9999 )
+thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999 )
 
 # Start new Threads
 thread1.start()

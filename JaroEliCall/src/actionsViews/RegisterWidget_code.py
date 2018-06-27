@@ -25,7 +25,7 @@ from JaroEliCall.src.client import Client
 """
 #
 
-SERWER_IP = "192.168.0.103"
+SERWER_IP = "127.0.0.1"
 
 
 class RegisterWidget(RegisterDialog):
