@@ -1,9 +1,7 @@
 import sys
 from JaroEliCall.src.actionsViews.LoginWidget_code import LoginWidget
 from JaroEliCall.src.actionsViews.LoginWidget_code import AddUserWidget
-
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
-
 from PyQt5.QtGui import QCloseEvent
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QWidget
@@ -12,8 +10,9 @@ from JaroEliCall.src.actionsViews.MainWidget_code import MainWidget
 from JaroEliCall.src.client import Client
 from threading import Thread
 
+
        
-SERWER_IP = '127.0.0.1'
+SERWER_IP = '192.168.0.102'
 PORT = 50001
 
 def main():
@@ -32,7 +31,6 @@ def main():
         print("Pokazuje")
         lol.show()
         print("Ece bo chce")
-
 
     sys.exit(app.exec_())
 

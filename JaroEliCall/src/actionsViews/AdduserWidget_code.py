@@ -62,6 +62,7 @@ class AddUserWidget(AdduserDialog):
 
         # poszerzenie kolumn tabeli do szerokości widżetu
         self.set_fit_width()
+        self.my_username = client.username
 
 
 
@@ -81,17 +82,15 @@ class AddUserWidget(AdduserDialog):
             print("Chce sie polaczyc z IP ", self.toThreaad.received[-1][11::])
             data = self.toThreaad.received[-1][11::].replace('[','(')
             ip_and_port = data.replace(']',')')
-            print(ip_and_port)
             ip = str(ip_and_port[ip_and_port.find("'")+len("'"):ip_and_port.rfind("'")])
-            print("ip:", ip)
-            port = int(ip_and_port[ip_and_port.find(" ")+len(" "):ip_and_port.rfind(")")])
-            print("port", port)
+            #port = int(ip_and_port[ip_and_port.find(" ")+len(" "):ip_and_port.rfind(")")])
+            port = 50005
 
-            payload = {"type": "d", "description": "INVITE"}
+            payload = {"type": "d", "status": "TO_YOU", "description": "INVITE", "who": self.my_username}
             data = json.dumps(payload).encode("utf-8")
             self.client2 = Client(ip, port)
             self.client2.sendMessage(data)
-            print("Wysłano INVITE")
+            print("Wysłano INVITE do " + str(ip) + " " + str(port))
 
 
     def getList(self):

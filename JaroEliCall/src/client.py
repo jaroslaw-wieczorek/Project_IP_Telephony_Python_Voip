@@ -128,6 +128,7 @@ class Client:
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)
+        self.username = login
 
 
 
