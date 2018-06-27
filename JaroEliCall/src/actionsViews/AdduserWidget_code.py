@@ -49,10 +49,11 @@ class AddUserWidget(AdduserDialog):
 
     #sig = pyqtSignal(int)
     
-    def __init__(self, client):
+    def __init__(self, client, toThreaad):
         super(AddUserWidget, self).__init__()
         self.c = client
         self.closeEvent = self.notify
+        self.toThreaad = toThreaad
         self.getList()
 
         # podpięcie metod z AddUserWidget do przycisków interfejsu
