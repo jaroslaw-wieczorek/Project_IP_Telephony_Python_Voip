@@ -41,7 +41,6 @@ class LoginWidget(LoginDialog):
         publ = 'rsa_keys/key.pub'
         """
         self.c = client
-
         self.set_push_button_login(self.on_login_button_clicked)
         self.set_push_button_register(self.on_register_button_clicked)
 
@@ -49,8 +48,9 @@ class LoginWidget(LoginDialog):
         print("Odczytalem ", self.toThreaad.received)
         if(self.toThreaad.received[0] == "200 LOGIN"):
             self.close()
+
         elif(self.toThreaad.received[0] =="406 LOGIN"):
-            print("Nieprawidłowe dane ")
+            print("TO DO label z Nieprawidłowe dane ")
 
     @pyqtSlot()
     def on_login_button_clicked(self):
@@ -69,7 +69,6 @@ class LoginWidget(LoginDialog):
 
     @pyqtSlot()
     def on_register_button_clicked(self):
-        self.close()
-        reg = RegisterWidget(self.c)
+        reg = RegisterWidget(self.c, self)
         reg.show()
         reg.exec_()

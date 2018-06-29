@@ -54,6 +54,23 @@ class Client:
         except ConnectionRefusedError as err:
             print(err)
 
+    def sendMessage_another_client(self, data, host, port):
+        try:
+            self.s.connect((host, port))
+            self.s.sendto(data, (host, port))
+            print("Wysłano ", data)
+        except ConnectionRefusedError as err:
+            print(err)
+
+    def listening_all(self, port):
+        ip = ''
+        s = socket.socket()
+        s.connect((ip, int(port)))
+        print("Slucham na ip " + str(ip) + " porcie " + str(port))
+        while 1:
+            data = s.recv(2048)
+            print("Dostalem od " + str(ip) + " wiadomosc: ", data)
+
 
     def listening(self, toThreaad):
 
@@ -72,6 +89,12 @@ class Client:
                     if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
                         print("Dostalem 200")
                         toThreaad.received.append("200 LOGIN")
+                        break
+
+                    if received["status"] == 200 and received["answer_to"] == "NOTHING":
+                        toThreaad.received.append("200 NOTHING " + str(received["from_who"]))
+                        print("200 INVITE ", received["from_who"])
+                        print("Dzwoni ", str(received["from_who"]))
                         break
 
                     if received["status"] == 200 and received["answer_to"] == "INVITE":
@@ -110,8 +133,8 @@ class Client:
                         print("401")
                         break
 
-                    if received["status"] == 200:
-                        toThreaad.received.append("200")
+                    if received["status"] == 200 and received["answer_to"] == "LOGOUT":
+                        toThreaad.received.append("200 LOGOUT")
                         print("200")
                         break
 

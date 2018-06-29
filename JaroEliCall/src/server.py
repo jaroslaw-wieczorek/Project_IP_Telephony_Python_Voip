@@ -145,8 +145,9 @@ class Server:
 
             payload = {"type": "d","description": "OK", "status": 200, "answer_to": "INVITE", "IP": receiver_ip}
             self.s.sendto(json.dumps(payload).encode("utf-8"), connection_caller_ip)
+            print(payload)
 
-            message = {"type": "d", "description": "INVITE", "status": 200, "from_who": connection_caller_ip}
+            message = {"type": "d", "description": "INVITE", "answer_to": "NOTHING", "status": 200, "from_who": connection_caller_ip}
             self.s.sendto(json.dumps(message).encode("utf-8"), receiver_ip)
             print(message)
         else:
@@ -200,7 +201,9 @@ class Server:
                     elif (received["description"] == "GET"):
                         self.users_from_mongo(addr)
                     elif (received["description"] == "INVITE"):
-                        self.invite_person(received["call_to"], addr)
+                        # self.invite_person(received["call_to"], addr)
+
+                        self.invite_person("Rafau", addr)
                     elif (received["description"] == "CREATE"):
                         self.create_in_database(received, addr)
                     elif (received["description"] == "LOGOUT"):

@@ -26,16 +26,17 @@ def main():
     window = LoginWidget(client)
     window.show()
 
-    """toThread = betweenTherads.ClassBetweenhreads()
 
-    if(app.exec_() ==QDialog.Accepted):
+    toThread = betweenTherads.ClassBetweenhreads()
+
+    if(app.exec_() == QDialog.Accepted):
         print("Gramy dalej: ")
     else:
         print("Zakmnelam LoginWidget")
         lol = AddUserWidget(client, toThread)
         print("Pokazuje")
         lol.show()
-        print("Ece bo chce")"""
+        print("Ece bo chce")
 
     sys.exit(app.exec_())
 

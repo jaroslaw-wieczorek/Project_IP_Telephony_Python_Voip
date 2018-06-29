@@ -36,7 +36,6 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidget
 from PyQt5.QtWidgets import QTableWidgetItem
 
-
 """     List of contacts Widget
     Screen to load contacts and call to people
     __init__ - get list of people to table
@@ -56,6 +55,9 @@ class AddUserWidget(AdduserDialog):
         self.toThreaad = toThreaad
         self.getList()
 
+        wait_for_conn = Thread(target=self.wait_for_calling, args=[self.toThreaad,])
+        wait_for_conn.start()
+
         # podpięcie metod z AddUserWidget do przycisków interfejsu
         self.set_push_button_logout(self.logout)
         self.set_push_button_invite(self.menu_rooms)
@@ -64,6 +66,11 @@ class AddUserWidget(AdduserDialog):
         # poszerzenie kolumn tabeli do szerokości widżetu
         self.set_fit_width()
         self.my_username = client.username
+
+    def wait_for_calling(self, toThread):
+        with self.toThreaad.lock:
+            self.c.listening(toThread)
+            self.read()
 
     def read(self):
         print(self.toThreaad.received)
@@ -74,19 +81,22 @@ class AddUserWidget(AdduserDialog):
         if(self.toThreaad.received[-1] == "406 INVITE"):
             self.set_info_text("Nie można polaczyc sie z klientem")
             self.show_info_text()
-        if(self.toThreaad.received[-1][0:10]=="200 INVITE"):
+        if(self.toThreaad.received[-1] == "200 LOGOUT"):
+            self.close()
+        if(self.toThreaad.received[-1][0:10]=="200 CALLING"):
             print("Dostalem: ", self.toThreaad.received[-1])
-            print("Chce sie polaczyc z IP ", self.toThreaad.received[-1][11::])
             data = self.toThreaad.received[-1][11::].replace('[','(')
             ip_and_port = data.replace(']',')')
             ip = str(ip_and_port[ip_and_port.find("'")+len("'"):ip_and_port.rfind("'")])
-            #port = int(ip_and_port[ip_and_port.find(" ")+len(" "):ip_and_port.rfind(")")])
-            port = 50005
+            port = int(ip_and_port[ip_and_port.find(" ")+len(" "):ip_and_port.rfind(")")])
 
             payload = {"type": "d", "status": "TO_YOU", "description": "INVITE", "who": self.my_username}
             data = json.dumps(payload).encode("utf-8")
-            self.client2 = Client(ip, port)
-            self.client2.sendMessage(data)
+            listening_client = Thread(target=self.c.listening_all, args= [port,])
+            listening_client.start()
+
+            self.c.sendMessage_another_client(data, port)
+
             print("Wysłano INVITE do " + str(ip) + " " + str(port))
 
 
@@ -101,6 +111,8 @@ class AddUserWidget(AdduserDialog):
         with self.toThreaad.lock:
             self.c.listening(self.toThreaad)
             self.read()
+
+
 
     def updateMongo(self):
         payload = {"type": "d", "description": "LOGOUT"}

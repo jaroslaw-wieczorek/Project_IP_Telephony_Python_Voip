@@ -16,7 +16,7 @@ from PyQt5.QtCore import pyqtSlot
 import hashlib
 from JaroEliCall.src.client import Client
 import JaroEliCall.src.ClassBetweenThreads as betweenTherads
-
+from validate_email import validate_email
 
 #####   TO DO ####
 """     Register Widget
@@ -30,9 +30,11 @@ SERWER_IP = "192.168.0.102"
 
 
 class RegisterWidget(RegisterDialog):
-    def __init__(self, client):
+    def __init__(self, client, login):
         super(RegisterWidget, self).__init__()
         self.client = client
+        self.login = login
+        self.login.hide()
 
         self.set_push_button_register(self.on_register_button_clicked)
         self.set_push_button_login(self.on_login_button_clicked)
@@ -42,6 +44,7 @@ class RegisterWidget(RegisterDialog):
         if(self.toThreaad.received[0] == "201 CREATED"):
             print("Udało sie zarejestrować")
             self.close()
+            self.login.show()
         elif(self.toThreaad.received[0] =="406 NOT_CREATED"):
             print("Nie udało sie zarejestrować")
 
@@ -57,8 +60,11 @@ class RegisterWidget(RegisterDialog):
         passw = self.get_password()
         repeat_passw = self.get_repeat_password()
 
-
-        if(passw == repeat_passw):
+       # sprawdzenie czy
+        # 1 hasła są takie same,
+        # 2 czy email jest poprawny,
+        # 3 czy hasło jest dłuższe niż 8 znaków
+        if(passw == repeat_passw and validate_email(email) and len(passw) > 8):
             passw = hashlib.sha256(passw.encode()).hexdigest()
             payload = {"type": "d", "description": "CREATE", "NICKNAME": login, "PASSWORD": passw, "EMAIL": email}
             self.client.sendMessage(json.dumps(payload).encode("utf-8"))
@@ -66,6 +72,8 @@ class RegisterWidget(RegisterDialog):
             with self.toThreaad.lock:
                 self.client.listening(self.toThreaad)
                 self.read()
+        else:
+            print("TO DO labele w formularzu")
 
 
 
