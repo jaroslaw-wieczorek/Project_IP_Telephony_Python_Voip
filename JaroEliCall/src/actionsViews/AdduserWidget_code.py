@@ -48,15 +48,16 @@ class AddUserWidget(AdduserDialog):
 
     #sig = pyqtSignal(int)
     
-    def __init__(self, client, toThreaad):
+    def __init__(self, client, toThreaad, login):
         super(AddUserWidget, self).__init__()
         self.c = client
         self.closeEvent = self.notify
         self.toThreaad = toThreaad
         self.getList()
+        self.login = login
 
-        wait_for_conn = Thread(target=self.wait_for_calling, args=[self.toThreaad,])
-        wait_for_conn.start()
+        # wait_for_conn = Thread(target=self.wait_for_calling, args=[self.toThreaad,])
+        # wait_for_conn.start()
 
         # podpięcie metod z AddUserWidget do przycisków interfejsu
         self.set_push_button_logout(self.logout)

@@ -40,6 +40,7 @@ class LoginWidget(LoginDialog):
         priv = 'rsa_keys/private'
         publ = 'rsa_keys/key.pub'
         """
+        self.login = ''
         self.c = client
         self.set_push_button_login(self.on_login_button_clicked)
         self.set_push_button_register(self.on_register_button_clicked)
@@ -60,7 +61,7 @@ class LoginWidget(LoginDialog):
         password = hashlib.sha256(password.encode()).hexdigest()
         print("Laczenie sie z serwerem")
         self.c.login(login, password)
-
+        self.login = login
         self.toThreaad = betweenTherads.ClassBetweenhreads()
 
         with self.toThreaad.lock:

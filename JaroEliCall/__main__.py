@@ -13,7 +13,7 @@ from threading import Thread
 from random import randint
 
 
-SERWER_IP = '192.168.0.102'
+SERWER_IP = '192.168.0.100'
 PORT = 50001
 
 
@@ -33,7 +33,8 @@ def main():
         print("Gramy dalej: ")
     else:
         print("Zakmnelam LoginWidget")
-        lol = AddUserWidget(client, toThread)
+        print("Zalogowal sie ", window.login)
+        lol = AddUserWidget(client, toThread, window.login)
         print("Pokazuje")
         lol.show()
         print("Ece bo chce")

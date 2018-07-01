@@ -57,37 +57,29 @@ class Server:
             print(test)
             if (test):
                 for key, value in self.mongo.dict_ip_users.items():
-                    print("key: ", key)
-                    print("value ", value)
                     self.users_from_mongo(value)
 
 
     def find_address(self, login):
         print(login)
         for key, value in self.mongo.dict_ip_users.items():
-            print("keys ", key)
             if (key == login):
-                print("Znaleziono ", value)
                 print(key)
                 return value
 
     def who_call(self, addr):
-        print("Kto dzwoni ?? ")
-        print(addr)
         for key, value in self.dict_ip_users.items():
-            print(key)
-            print(value)
             if (addr == value[0]):
-                print("Adres IP ", addr, " user: ", key)
                 return key
             else:
-                print("Brak usera")
                 return 0
 
     def get_username_from_ip(self, ip):
-        for key, value in self.dict_ip_users.items():
-            if (value[0] == ip[0]):
+        for key, value in self.mongo.dict_ip_users.items():
+            if (value[0] == ip[0] and value[1] == ip[1]):
                 return key
+            else:
+                return "brak usera"
 
     def log_in(self, login, password, addr):
         print("Otrzymano LOGIN")
@@ -132,27 +124,33 @@ class Server:
         self.s.sendto(message.encode("utf-8"), addr)
         print("Wyslano WIADOMOSC" + str(type(message)) + " " + str(message) + " do " + str(addr))
 
-    def invite_person(self, connection_receiver, connection_caller_ip):
+    # connection_receiver login osoby do ktorej chce zadzwonic
+    def invite_person(self, where_name, who_ip):
+    #    def invite_person(self, connection_receiver, connection_caller_ip):
+
         # dostaję nazwe uzytkownika osoby do ktorej chce zadzwonic
         # musze ogarnac jaki jest jej port i adres ip
 
-        available = self.mongo.checkAvailibility(connection_receiver)
-        print("Dostepnosc osoby " + str(connection_receiver) + " " + str(available))
+        available = self.mongo.checkAvailibility(where_name)
 
         if(available):
-            receiver_ip = self.find_address(connection_receiver)
-            print("dane ip osoby: ", receiver_ip)
+            where_ip = self.find_address(where_name)
+            print("Moje argumenty " +str(who_ip) + " dzwoni do " + str(where_name) + " o IP: " + str(where_ip))
+            who_name = self.get_username_from_ip(who_ip)
 
-            payload = {"type": "d","description": "OK", "status": 200, "answer_to": "INVITE", "IP": receiver_ip}
-            self.s.sendto(json.dumps(payload).encode("utf-8"), connection_caller_ip)
-            print(payload)
+            print("chce sie dodzwonic do ", where_ip)
 
-            message = {"type": "d", "description": "INVITE", "answer_to": "NOTHING", "status": 200, "from_who": connection_caller_ip}
-            self.s.sendto(json.dumps(message).encode("utf-8"), receiver_ip)
-            print(message)
+            # informacja do strony ktora dzwoni o danych osoby do ktorej dzwoni
+            payload = {"type": "d","description": "OK", "status": 200, "answer_to": "INVITE", "IP": where_ip}
+            self.s.sendto(json.dumps(payload).encode("utf-8"), who_ip)
+            print(str(payload) + " odbiorca: " + str(who_name) + " IP: " + str(who_ip))
+
+            message = {"type": "d", "description": "INVITE", "answer_to": "NOTHING", "status": 200, "from_who": who_name}
+            self.s.sendto(json.dumps(message).encode("utf-8"), where_ip)
+            print(str(message) + " odbiorca:  " + str(where_name) + " IP: "+ str(where_ip))
         else:
             payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "INVITE"}
-            self.s.sendto(json.dumps(payload).encode("utf-8"), connection_caller_ip)
+            self.s.sendto(json.dumps(payload).encode("utf-8"), who_ip)
             print(payload)
 
     def create_in_database(self, communicate, addr):
@@ -169,6 +167,7 @@ class Server:
             payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "REGISTER"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
             print("Wyslano ", payload)
+
 
 
     def listening(self):
