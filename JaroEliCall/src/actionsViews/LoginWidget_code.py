@@ -1,24 +1,26 @@
-from PyQt5.QtWidgets import QDialog
-from JaroEliCall.gui.loging_ui import Ui_LoginForm
-from JaroEliCall.src.client import Client
-
 import os
 import sys
 import json
-
 import hashlib
-from PyQt5.QtCore import pyqtSlot
+import threading
+
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
-lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
-sys.path.append(lib_path2)
+
+
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QDialog
+
+from JaroEliCall.src.client import Client
+from JaroEliCall.gui.loging_ui import Ui_LoginForm
+from interface_management.login import LoginDialog
+
+
+from JaroEliCall.src.ClassBetweenThreads import ClassBetweenhreads
 
 from JaroEliCall.src.actionsViews.AdduserWidget_code import AddUserWidget
-from interface_management.login import LoginDialog
-from JaroEliCall.src.client import Client
 from JaroEliCall.src.actionsViews.RegisterWidget_code import RegisterWidget
-import threading
-import JaroEliCall.src.ClassBetweenThreads as betweenTherads
+
 
 
 """     Login Widget
@@ -62,7 +64,7 @@ class LoginWidget(LoginDialog):
         print("Laczenie sie z serwerem")
         self.c.login(login, password)
         self.login = login
-        self.toThreaad = betweenTherads.ClassBetweenhreads()
+        self.toThreaad = ClassBetweenhreads()
 
         with self.toThreaad.lock:
             self.c.listening(self.toThreaad)
