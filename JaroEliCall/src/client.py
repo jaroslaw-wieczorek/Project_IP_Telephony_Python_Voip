@@ -20,6 +20,7 @@ class Client:
     RECORD_SECONDS = 15
     FACTOR = 2
 
+
     def __init__(self, SERWER_IP, port):
         print("Inicjalizacja klasy Client")
         self.p = pyaudio.PyAudio()
@@ -32,6 +33,7 @@ class Client:
                                   frames_per_buffer=self.CHUNK)
         self.connectToSerwer(SERWER_IP, port)
 
+
     def connectToSerwer(self, host, port):
         # ipadres serwera
         print("Laczenie z serwerem")
@@ -40,12 +42,16 @@ class Client:
         self.size = 2048
 
         try:
+           
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.connect((self.host, self.port))
             print("Polaczono z serwerem")
+        
         except ConnectionRefusedError as err:
+            
             print(err)
             self.s.close()
+            
 
     def sendMessage(self, data):
         try:
@@ -53,6 +59,7 @@ class Client:
             print("Wysłano ", data)
         except ConnectionRefusedError as err:
             print(err)
+            
 
     def sendMessage_another_client(self, data, host, port):
         try:
@@ -61,6 +68,7 @@ class Client:
             print("Wysłano ", data)
         except ConnectionRefusedError as err:
             print(err)
+
 
     def listening_all(self, port):
         ip = ''
@@ -73,7 +81,6 @@ class Client:
 
 
     def listening(self, toThreaad):
-
         print("Zaczalem sluchac lalalal...")
         self._is_running = True
         while self._is_running:
@@ -152,9 +159,7 @@ class Client:
 
 
     def login(self, login, password):
-
         payload = {"type": "d", "description": "LOGIN", "login": login, "password": password}
-
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)
@@ -166,9 +171,7 @@ class Client:
         print("[*] Recording")
         
         while True:
-            
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
-               
                 print("Wysylanie")
                 self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
 
@@ -185,8 +188,8 @@ class Client:
                     
         print("[*] Stop recording")
 
-    def closeConnection(self):
 
+    def closeConnection(self):
         self.stream.stop_stream()
         self.stream.close()
         self.s.close()
