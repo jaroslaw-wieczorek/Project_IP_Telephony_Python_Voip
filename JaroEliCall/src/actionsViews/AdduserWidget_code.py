@@ -98,12 +98,15 @@ class AddUserWidget(AdduserDialog):
         if(self.toThreaad.received[-1][0:10]=="200 CALLING"):
             print("Dostalem: ", self.toThreaad.received[-1])
             
+            # Potrzebne komentarze co tu się dzieje 
             data = self.toThreaad.received[-1][11::].replace('[','(')
             ip_and_port = data.replace(']',')')
             ip = str(ip_and_port[ip_and_port.find("'")+len("'"):ip_and_port.rfind("'")])
             port = int(ip_and_port[ip_and_port.find(" ")+len(" "):ip_and_port.rfind(")")])
 
-            payload = {"type": "d", "status": "TO_YOU", "description": "INVITE", "who": self.my_username}
+            payload = {"type": "d", "status": "TO_YOU", 
+                       "description": "INVITE", "who": self.my_username}
+           
             data = json.dumps(payload).encode("utf-8")
             listening_client = Thread(target=self.c.listening_all, args= [port,])
             listening_client.start()

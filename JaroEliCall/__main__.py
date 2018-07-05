@@ -44,27 +44,19 @@ class MyApp(QApplication):
         pass
 
 
+    
+
 def main():
-    app = MyApp(sys.argv)
-    # main_window.show()
-
-
+    app : QApplication = MyApp(sys.argv) 
     client = Client(SERWER_IP, PORT)
-    window = LoginWidget(client)
-    window.show()
+    logwindow = LoginWidget(client)
+    
+    logwindow.show()
 
 
     toThread = betweenTherads.ClassBetweenhreads()
 
-    if(app.exec_() == QDialog.Accepted):
-        print("Gramy dalej: ")
-    else:
-        print("Zakmnelam LoginWidget")
-        print("Zalogowal sie ", window.login)
-        lol = AddUserWidget(client, toThread, window.login)
-        print("Pokazuje")
-        lol.show()
-        print("Ece bo chce")
+
 
     sys.exit(app.exec_())
 
