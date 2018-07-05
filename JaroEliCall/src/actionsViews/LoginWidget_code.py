@@ -49,12 +49,17 @@ class LoginWidget(LoginDialog):
     def read(self):
         print("Odczytalem ", self.toThreaad.received)
         if(self.toThreaad.received[0] == "200 LOGIN"):
+            self.logging_in = 200
             self.close()
 
         elif(self.toThreaad.received[0] =="406 LOGIN"):
+            self.logging_in = 406
             print("TO DO label z Nieprawidłowe dane ")
 
-
+    def get_status(self):
+        while (self.logging_in == ''):
+            print("Czekam...")
+        return self.logging_in
     @pyqtSlot()
     def on_login_button_clicked(self):
         login = self.get_login()
