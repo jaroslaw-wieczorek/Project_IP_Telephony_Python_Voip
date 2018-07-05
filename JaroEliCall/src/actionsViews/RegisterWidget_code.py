@@ -1,7 +1,7 @@
-
 import os
 import sys
 import json
+import hashlib
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
@@ -10,13 +10,18 @@ lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
 sys.path.append(lib_path2)
 
 
-from src.interface_management.register import RegisterDialog
-from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import pyqtSlot
-import hashlib
+from PyQt5.QtWidgets import QDialog
+
 from JaroEliCall.src.client import Client
-import JaroEliCall.src.ClassBetweenThreads as betweenTherads
-from validate_email import validate_email
+
+from JaroEliCall.src.ClassBetweenThreads import ClassBetweenhreads
+from JaroEliCall.src.interface_management.register import RegisterDialog
+
+
+
+
+#from validate_email import validate_email
 
 #####   TO DO ####
 """     Register Widget
@@ -26,7 +31,7 @@ from validate_email import validate_email
 """
 #
 
-SERWER_IP = "192.168.0.102"
+SERWER_IP = "127.0.0.1"
 
 
 class RegisterWidget(RegisterDialog):
@@ -68,7 +73,7 @@ class RegisterWidget(RegisterDialog):
             passw = hashlib.sha256(passw.encode()).hexdigest()
             payload = {"type": "d", "description": "CREATE", "NICKNAME": login, "PASSWORD": passw, "EMAIL": email}
             self.client.sendMessage(json.dumps(payload).encode("utf-8"))
-            self.toThreaad = betweenTherads.ClassBetweenhreads()
+            self.toThreaad = ClassBetweenhreads()
             with self.toThreaad.lock:
                 self.client.listening(self.toThreaad)
                 self.read()
