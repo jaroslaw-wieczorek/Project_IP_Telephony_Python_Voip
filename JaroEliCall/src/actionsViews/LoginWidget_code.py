@@ -34,7 +34,7 @@ from JaroEliCall.src.interface_management.login import LoginDialog
 
 class LoginWidget(LoginDialog):
 
-    def __init__(self, client):
+    def __init__(self, client, toThread):
         super(LoginWidget, self).__init__()
         """
         priv = 'rsa_keys/private'
@@ -42,16 +42,17 @@ class LoginWidget(LoginDialog):
         """
         self.login = ''
         self.c = client
+        self.toThread = toThread
         self.set_push_button_login(self.on_login_button_clicked)
         self.set_push_button_register(self.on_register_button_clicked)
 
 
     def read(self):
-        print("Odczytalem ", self.toThreaad.received)
-        if(self.toThreaad.received[0] == "200 LOGIN"):
+        print("Odczytalem ", self.toThread.received)
+        if(self.toThread.received[0] == "200 LOGIN"):
             self.close()
 
-        elif(self.toThreaad.received[0] =="406 LOGIN"):
+        elif(self.toThread.received[0] =="406 LOGIN"):
             print("TO DO label z Nieprawidłowe dane ")
 
 
@@ -65,10 +66,10 @@ class LoginWidget(LoginDialog):
         
         self.c.login(login, password)
         self.login = login
-        self.toThreaad = ClassBetweenhreads()
 
-        with self.toThreaad.lock:
-            self.c.listening(self.toThreaad)
+
+        with self.toThread.lock:
+            self.c.listening(self.toThread)
             self.read()
 
     @pyqtSlot()

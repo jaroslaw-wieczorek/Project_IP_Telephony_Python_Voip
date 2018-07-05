@@ -40,20 +40,18 @@ class MyApp(QApplication):
     
     def setupApp(self):
         pass
-
-
     
 
 def main():
     app : QApplication = MyApp(sys.argv) 
     client = Client(SERWER_IP, PORT)
-    logwindow = LoginWidget(client)
+    toThread = betweenTherads.ClassBetweenhreads()
+
+    logwindow = LoginWidget(client, toThread)
     
     logwindow.show()
 
-
-    toThread = betweenTherads.ClassBetweenhreads()
-
+   
 
 
     sys.exit(app.exec_())
