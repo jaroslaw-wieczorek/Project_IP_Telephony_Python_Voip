@@ -125,6 +125,7 @@ class AddUserWidget(AdduserDialog):
     def logout(self):
         print("Wylogowanie")
         self.updateMongo()
+        self.hide()
 
     #@pyqtSlot()
     def menu_rooms(self):

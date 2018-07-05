@@ -13,7 +13,7 @@ from threading import Thread
 from random import randint
 
 
-SERWER_IP = '192.168.0.100'
+SERWER_IP = '192.168.0.101'
 PORT = 50001
 
 
