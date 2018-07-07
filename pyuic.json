@@ -1,8 +1,8 @@
 {
     "files": [
 	[
-		"JaroEliCall/gui/*.ui",
-		"JaroEliCall/gui"
+		"JaroEliCall/gui/ui/*.ui",
+		"JaroEliCall/gui/"
 	],
 	[
 		"JaroEliCall/gui/styles/*.qss",

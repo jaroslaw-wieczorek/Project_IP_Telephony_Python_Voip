@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/credits.ui'
+# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/credits_interface.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -8,30 +8,30 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_CreditDialog(object):
-    def setupUi(self, CreditDialog):
-        CreditDialog.setObjectName("CreditDialog")
-        CreditDialog.setWindowModality(QtCore.Qt.NonModal)
-        CreditDialog.setEnabled(True)
-        CreditDialog.resize(300, 336)
-        CreditDialog.setMaximumSize(QtCore.QSize(300, 350))
-        CreditDialog.setLocale(QtCore.QLocale(QtCore.QLocale.Polish, QtCore.QLocale.Poland))
-        self.verticalLayout = QtWidgets.QVBoxLayout(CreditDialog)
+class Ui_CreditInterfaceDialog(object):
+    def setupUi(self, CreditInterfaceDialog):
+        CreditInterfaceDialog.setObjectName("CreditInterfaceDialog")
+        CreditInterfaceDialog.setWindowModality(QtCore.Qt.NonModal)
+        CreditInterfaceDialog.setEnabled(True)
+        CreditInterfaceDialog.resize(300, 336)
+        CreditInterfaceDialog.setMaximumSize(QtCore.QSize(300, 350))
+        CreditInterfaceDialog.setLocale(QtCore.QLocale(QtCore.QLocale.Polish, QtCore.QLocale.Poland))
+        self.verticalLayout = QtWidgets.QVBoxLayout(CreditInterfaceDialog)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.text_edit = QtWidgets.QTextEdit(CreditDialog)
+        self.text_edit = QtWidgets.QTextEdit(CreditInterfaceDialog)
         self.text_edit.setEnabled(True)
         self.text_edit.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByKeyboard|QtCore.Qt.LinksAccessibleByMouse|QtCore.Qt.TextBrowserInteraction|QtCore.Qt.TextSelectableByKeyboard|QtCore.Qt.TextSelectableByMouse)
         self.text_edit.setPlaceholderText("")
         self.text_edit.setObjectName("text_edit")
         self.verticalLayout.addWidget(self.text_edit)
 
-        self.retranslateUi(CreditDialog)
-        QtCore.QMetaObject.connectSlotsByName(CreditDialog)
+        self.retranslateUi(CreditInterfaceDialog)
+        QtCore.QMetaObject.connectSlotsByName(CreditInterfaceDialog)
 
-    def retranslateUi(self, CreditDialog):
+    def retranslateUi(self, CreditInterfaceDialog):
         _translate = QtCore.QCoreApplication.translate
-        CreditDialog.setWindowTitle(_translate("CreditDialog", "Dialog"))
-        self.text_edit.setHtml(_translate("CreditDialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        CreditInterfaceDialog.setWindowTitle(_translate("CreditInterfaceDialog", "Dialog"))
+        self.text_edit.setHtml(_translate("CreditInterfaceDialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Noto Sans\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"

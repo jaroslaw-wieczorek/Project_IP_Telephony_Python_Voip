@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/login.ui'
+# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/login_interface.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -8,24 +8,24 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_LoginDialog(object):
-    def setupUi(self, LoginDialog):
-        LoginDialog.setObjectName("LoginDialog")
-        LoginDialog.resize(271, 223)
-        LoginDialog.setMinimumSize(QtCore.QSize(0, 0))
-        LoginDialog.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.verticalLayout = QtWidgets.QVBoxLayout(LoginDialog)
+class Ui_LoginInterfaceDialog(object):
+    def setupUi(self, LoginInterfaceDialog):
+        LoginInterfaceDialog.setObjectName("LoginInterfaceDialog")
+        LoginInterfaceDialog.resize(271, 247)
+        LoginInterfaceDialog.setMinimumSize(QtCore.QSize(0, 0))
+        LoginInterfaceDialog.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.verticalLayout = QtWidgets.QVBoxLayout(LoginInterfaceDialog)
         self.verticalLayout.setObjectName("verticalLayout")
         spacerItem = QtWidgets.QSpacerItem(10, 12, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout.addItem(spacerItem)
-        self.label_form_name = QtWidgets.QLabel(LoginDialog)
+        self.label_form_name = QtWidgets.QLabel(LoginInterfaceDialog)
         font = QtGui.QFont()
         font.setPointSize(15)
         self.label_form_name.setFont(font)
         self.label_form_name.setAlignment(QtCore.Qt.AlignCenter)
         self.label_form_name.setObjectName("label_form_name")
         self.verticalLayout.addWidget(self.label_form_name)
-        self.label_info = QtWidgets.QLabel(LoginDialog)
+        self.label_info = QtWidgets.QLabel(LoginInterfaceDialog)
         self.label_info.setText("")
         self.label_info.setObjectName("label_info")
         self.verticalLayout.addWidget(self.label_info)
@@ -33,7 +33,7 @@ class Ui_LoginDialog(object):
         self.verticalLayout.addItem(spacerItem1)
         self.form_layout = QtWidgets.QFormLayout()
         self.form_layout.setObjectName("form_layout")
-        self.label_login = QtWidgets.QLabel(LoginDialog)
+        self.label_login = QtWidgets.QLabel(LoginInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -43,7 +43,7 @@ class Ui_LoginDialog(object):
         self.label_login.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_login.setObjectName("label_login")
         self.form_layout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_login)
-        self.line_edit_login = QtWidgets.QLineEdit(LoginDialog)
+        self.line_edit_login = QtWidgets.QLineEdit(LoginInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -53,7 +53,7 @@ class Ui_LoginDialog(object):
         self.line_edit_login.setMaxLength(20)
         self.line_edit_login.setObjectName("line_edit_login")
         self.form_layout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_edit_login)
-        self.label_password = QtWidgets.QLabel(LoginDialog)
+        self.label_password = QtWidgets.QLabel(LoginInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -63,7 +63,7 @@ class Ui_LoginDialog(object):
         self.label_password.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_password.setObjectName("label_password")
         self.form_layout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_password)
-        self.line_edit_password = QtWidgets.QLineEdit(LoginDialog)
+        self.line_edit_password = QtWidgets.QLineEdit(LoginInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -82,12 +82,12 @@ class Ui_LoginDialog(object):
         self.horizontal_layout_5.setObjectName("horizontal_layout_5")
         spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_5.addItem(spacerItem3)
-        self.push_button_login = QtWidgets.QPushButton(LoginDialog)
+        self.push_button_login = QtWidgets.QPushButton(LoginInterfaceDialog)
         self.push_button_login.setObjectName("push_button_login")
         self.horizontal_layout_5.addWidget(self.push_button_login)
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_5.addItem(spacerItem4)
-        self.push_button_register = QtWidgets.QPushButton(LoginDialog)
+        self.push_button_register = QtWidgets.QPushButton(LoginInterfaceDialog)
         self.push_button_register.setObjectName("push_button_register")
         self.horizontal_layout_5.addWidget(self.push_button_register)
         spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
@@ -96,18 +96,18 @@ class Ui_LoginDialog(object):
         spacerItem6 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout.addItem(spacerItem6)
 
-        self.retranslateUi(LoginDialog)
-        QtCore.QMetaObject.connectSlotsByName(LoginDialog)
-        LoginDialog.setTabOrder(self.line_edit_login, self.line_edit_password)
-        LoginDialog.setTabOrder(self.line_edit_password, self.push_button_login)
-        LoginDialog.setTabOrder(self.push_button_login, self.push_button_register)
+        self.retranslateUi(LoginInterfaceDialog)
+        QtCore.QMetaObject.connectSlotsByName(LoginInterfaceDialog)
+        LoginInterfaceDialog.setTabOrder(self.line_edit_login, self.line_edit_password)
+        LoginInterfaceDialog.setTabOrder(self.line_edit_password, self.push_button_login)
+        LoginInterfaceDialog.setTabOrder(self.push_button_login, self.push_button_register)
 
-    def retranslateUi(self, LoginDialog):
+    def retranslateUi(self, LoginInterfaceDialog):
         _translate = QtCore.QCoreApplication.translate
-        LoginDialog.setWindowTitle(_translate("LoginDialog", "Dialog"))
-        self.label_form_name.setText(_translate("LoginDialog", "Logowanie użytkownika"))
-        self.label_login.setText(_translate("LoginDialog", "Login:"))
-        self.label_password.setText(_translate("LoginDialog", "Hasło:"))
-        self.push_button_login.setText(_translate("LoginDialog", "Zaloguj"))
-        self.push_button_register.setText(_translate("LoginDialog", "Rejestracja"))
+        LoginInterfaceDialog.setWindowTitle(_translate("LoginInterfaceDialog", "Dialog"))
+        self.label_form_name.setText(_translate("LoginInterfaceDialog", "Logowanie użytkownika"))
+        self.label_login.setText(_translate("LoginInterfaceDialog", "Login:"))
+        self.label_password.setText(_translate("LoginInterfaceDialog", "Hasło:"))
+        self.push_button_login.setText(_translate("LoginInterfaceDialog", "Zaloguj"))
+        self.push_button_register.setText(_translate("LoginInterfaceDialog", "Rejestracja"))
 

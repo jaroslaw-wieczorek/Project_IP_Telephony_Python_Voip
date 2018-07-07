@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/register.ui'
+# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/register_interface.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -8,17 +8,17 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_RegisterDialog(object):
-    def setupUi(self, RegisterDialog):
-        RegisterDialog.setObjectName("RegisterDialog")
-        RegisterDialog.resize(310, 290)
-        RegisterDialog.setMinimumSize(QtCore.QSize(310, 290))
-        RegisterDialog.setMaximumSize(QtCore.QSize(310, 305))
-        self.verticalLayout = QtWidgets.QVBoxLayout(RegisterDialog)
+class Ui_RegisterInterfaceDialog(object):
+    def setupUi(self, RegisterInterfaceDialog):
+        RegisterInterfaceDialog.setObjectName("RegisterInterfaceDialog")
+        RegisterInterfaceDialog.resize(310, 290)
+        RegisterInterfaceDialog.setMinimumSize(QtCore.QSize(310, 290))
+        RegisterInterfaceDialog.setMaximumSize(QtCore.QSize(310, 305))
+        self.verticalLayout = QtWidgets.QVBoxLayout(RegisterInterfaceDialog)
         self.verticalLayout.setObjectName("verticalLayout")
         spacerItem = QtWidgets.QSpacerItem(10, 12, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout.addItem(spacerItem)
-        self.label_form_name = QtWidgets.QLabel(RegisterDialog)
+        self.label_form_name = QtWidgets.QLabel(RegisterInterfaceDialog)
         font = QtGui.QFont()
         font.setPointSize(15)
         self.label_form_name.setFont(font)
@@ -29,7 +29,7 @@ class Ui_RegisterDialog(object):
         self.verticalLayout.addItem(spacerItem1)
         self.form_layout = QtWidgets.QFormLayout()
         self.form_layout.setObjectName("form_layout")
-        self.label_login = QtWidgets.QLabel(RegisterDialog)
+        self.label_login = QtWidgets.QLabel(RegisterInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -39,7 +39,7 @@ class Ui_RegisterDialog(object):
         self.label_login.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_login.setObjectName("label_login")
         self.form_layout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_login)
-        self.line_edit_login = QtWidgets.QLineEdit(RegisterDialog)
+        self.line_edit_login = QtWidgets.QLineEdit(RegisterInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -49,7 +49,7 @@ class Ui_RegisterDialog(object):
         self.line_edit_login.setMaxLength(20)
         self.line_edit_login.setObjectName("line_edit_login")
         self.form_layout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_edit_login)
-        self.label_email = QtWidgets.QLabel(RegisterDialog)
+        self.label_email = QtWidgets.QLabel(RegisterInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -59,7 +59,7 @@ class Ui_RegisterDialog(object):
         self.label_email.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_email.setObjectName("label_email")
         self.form_layout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_email)
-        self.line_edit_email = QtWidgets.QLineEdit(RegisterDialog)
+        self.line_edit_email = QtWidgets.QLineEdit(RegisterInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -69,7 +69,7 @@ class Ui_RegisterDialog(object):
         self.line_edit_email.setMaxLength(40)
         self.line_edit_email.setObjectName("line_edit_email")
         self.form_layout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.line_edit_email)
-        self.label_password = QtWidgets.QLabel(RegisterDialog)
+        self.label_password = QtWidgets.QLabel(RegisterInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -79,7 +79,7 @@ class Ui_RegisterDialog(object):
         self.label_password.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_password.setObjectName("label_password")
         self.form_layout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_password)
-        self.line_edit_password = QtWidgets.QLineEdit(RegisterDialog)
+        self.line_edit_password = QtWidgets.QLineEdit(RegisterInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -90,7 +90,7 @@ class Ui_RegisterDialog(object):
         self.line_edit_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.line_edit_password.setObjectName("line_edit_password")
         self.form_layout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.line_edit_password)
-        self.label_repeat_password = QtWidgets.QLabel(RegisterDialog)
+        self.label_repeat_password = QtWidgets.QLabel(RegisterInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -101,7 +101,7 @@ class Ui_RegisterDialog(object):
         self.label_repeat_password.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_repeat_password.setObjectName("label_repeat_password")
         self.form_layout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_repeat_password)
-        self.line_edit_repeat_password = QtWidgets.QLineEdit(RegisterDialog)
+        self.line_edit_repeat_password = QtWidgets.QLineEdit(RegisterInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -121,12 +121,12 @@ class Ui_RegisterDialog(object):
         self.horizontal_layout_5.setObjectName("horizontal_layout_5")
         spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_5.addItem(spacerItem3)
-        self.push_button_register = QtWidgets.QPushButton(RegisterDialog)
+        self.push_button_register = QtWidgets.QPushButton(RegisterInterfaceDialog)
         self.push_button_register.setObjectName("push_button_register")
         self.horizontal_layout_5.addWidget(self.push_button_register)
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_5.addItem(spacerItem4)
-        self.psuh_button_login = QtWidgets.QPushButton(RegisterDialog)
+        self.psuh_button_login = QtWidgets.QPushButton(RegisterInterfaceDialog)
         self.psuh_button_login.setObjectName("psuh_button_login")
         self.horizontal_layout_5.addWidget(self.psuh_button_login)
         spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
@@ -135,17 +135,17 @@ class Ui_RegisterDialog(object):
         spacerItem6 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout.addItem(spacerItem6)
 
-        self.retranslateUi(RegisterDialog)
-        QtCore.QMetaObject.connectSlotsByName(RegisterDialog)
+        self.retranslateUi(RegisterInterfaceDialog)
+        QtCore.QMetaObject.connectSlotsByName(RegisterInterfaceDialog)
 
-    def retranslateUi(self, RegisterDialog):
+    def retranslateUi(self, RegisterInterfaceDialog):
         _translate = QtCore.QCoreApplication.translate
-        RegisterDialog.setWindowTitle(_translate("RegisterDialog", "Dialog"))
-        self.label_form_name.setText(_translate("RegisterDialog", "Rejestracja użytkownika"))
-        self.label_login.setText(_translate("RegisterDialog", "Login:"))
-        self.label_email.setText(_translate("RegisterDialog", "E-mail:"))
-        self.label_password.setText(_translate("RegisterDialog", "Hasło:"))
-        self.label_repeat_password.setText(_translate("RegisterDialog", "Powtórz hasło:"))
-        self.push_button_register.setText(_translate("RegisterDialog", "Zarejestruj się"))
-        self.psuh_button_login.setText(_translate("RegisterDialog", "Mam już konto"))
+        RegisterInterfaceDialog.setWindowTitle(_translate("RegisterInterfaceDialog", "Dialog"))
+        self.label_form_name.setText(_translate("RegisterInterfaceDialog", "Rejestracja użytkownika"))
+        self.label_login.setText(_translate("RegisterInterfaceDialog", "Login:"))
+        self.label_email.setText(_translate("RegisterInterfaceDialog", "E-mail:"))
+        self.label_password.setText(_translate("RegisterInterfaceDialog", "Hasło:"))
+        self.label_repeat_password.setText(_translate("RegisterInterfaceDialog", "Powtórz hasło:"))
+        self.push_button_register.setText(_translate("RegisterInterfaceDialog", "Zarejestruj się"))
+        self.psuh_button_login.setText(_translate("RegisterInterfaceDialog", "Mam już konto"))
 

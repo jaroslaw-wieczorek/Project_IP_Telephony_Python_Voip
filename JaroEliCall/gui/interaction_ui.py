@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/interaction.ui'
+# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/interaction_interface.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -8,17 +8,17 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_InteractionDialog(object):
-    def setupUi(self, InteractionDialog):
-        InteractionDialog.setObjectName("InteractionDialog")
-        InteractionDialog.resize(417, 600)
-        self.verticalLayout = QtWidgets.QVBoxLayout(InteractionDialog)
+class Ui_InteractionInterfaceDialog(object):
+    def setupUi(self, InteractionInterfaceDialog):
+        InteractionInterfaceDialog.setObjectName("InteractionInterfaceDialog")
+        InteractionInterfaceDialog.resize(417, 600)
+        self.verticalLayout = QtWidgets.QVBoxLayout(InteractionInterfaceDialog)
         self.verticalLayout.setObjectName("verticalLayout")
         spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout.addItem(spacerItem)
         self.horizontal_layout_1 = QtWidgets.QHBoxLayout()
         self.horizontal_layout_1.setObjectName("horizontal_layout_1")
-        self.rich_text_user_call = QtWidgets.QLabel(InteractionDialog)
+        self.rich_text_user_call = QtWidgets.QLabel(InteractionInterfaceDialog)
         font = QtGui.QFont()
         font.setPointSize(15)
         self.rich_text_user_call.setFont(font)
@@ -28,7 +28,7 @@ class Ui_InteractionDialog(object):
         self.verticalLayout.addLayout(self.horizontal_layout_1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout.addItem(spacerItem1)
-        self.label_avatar = QtWidgets.QLabel(InteractionDialog)
+        self.label_avatar = QtWidgets.QLabel(InteractionInterfaceDialog)
         self.label_avatar.setMinimumSize(QtCore.QSize(150, 150))
         self.label_avatar.setMaximumSize(QtCore.QSize(200, 200))
         self.label_avatar.setAlignment(QtCore.Qt.AlignCenter)
@@ -40,7 +40,7 @@ class Ui_InteractionDialog(object):
         self.horizontal_layout_2.setObjectName("horizontal_layout_2")
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_2.addItem(spacerItem3)
-        self.label_reject = QtWidgets.QLabel(InteractionDialog)
+        self.label_reject = QtWidgets.QLabel(InteractionInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -48,6 +48,7 @@ class Ui_InteractionDialog(object):
         self.label_reject.setSizePolicy(sizePolicy)
         self.label_reject.setMinimumSize(QtCore.QSize(120, 120))
         self.label_reject.setMaximumSize(QtCore.QSize(120, 120))
+        self.label_reject.setText("")
         self.label_reject.setPixmap(QtGui.QPixmap(":/icon/low-signal-indicator.png"))
         self.label_reject.setScaledContents(True)
         self.label_reject.setAlignment(QtCore.Qt.AlignCenter)
@@ -55,7 +56,7 @@ class Ui_InteractionDialog(object):
         self.horizontal_layout_2.addWidget(self.label_reject)
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_2.addItem(spacerItem4)
-        self.label_accept = QtWidgets.QLabel(InteractionDialog)
+        self.label_accept = QtWidgets.QLabel(InteractionInterfaceDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -63,6 +64,7 @@ class Ui_InteractionDialog(object):
         self.label_accept.setSizePolicy(sizePolicy)
         self.label_accept.setMinimumSize(QtCore.QSize(120, 120))
         self.label_accept.setMaximumSize(QtCore.QSize(120, 120))
+        self.label_accept.setText("")
         self.label_accept.setPixmap(QtGui.QPixmap(":/icon/add-button.png"))
         self.label_accept.setScaledContents(True)
         self.label_accept.setAlignment(QtCore.Qt.AlignCenter)
@@ -78,13 +80,13 @@ class Ui_InteractionDialog(object):
         self.horizontal_layout_33.setObjectName("horizontal_layout_33")
         spacerItem7 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_33.addItem(spacerItem7)
-        self.push_button_reject = QtWidgets.QPushButton(InteractionDialog)
+        self.push_button_reject = QtWidgets.QPushButton(InteractionInterfaceDialog)
         self.push_button_reject.setMinimumSize(QtCore.QSize(100, 70))
         self.push_button_reject.setObjectName("push_button_reject")
         self.horizontal_layout_33.addWidget(self.push_button_reject)
         spacerItem8 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_33.addItem(spacerItem8)
-        self.push_button_accept = QtWidgets.QPushButton(InteractionDialog)
+        self.push_button_accept = QtWidgets.QPushButton(InteractionInterfaceDialog)
         self.push_button_accept.setMinimumSize(QtCore.QSize(100, 70))
         self.push_button_accept.setObjectName("push_button_accept")
         self.horizontal_layout_33.addWidget(self.push_button_accept)
@@ -94,16 +96,14 @@ class Ui_InteractionDialog(object):
         spacerItem10 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout.addItem(spacerItem10)
 
-        self.retranslateUi(InteractionDialog)
-        QtCore.QMetaObject.connectSlotsByName(InteractionDialog)
+        self.retranslateUi(InteractionInterfaceDialog)
+        QtCore.QMetaObject.connectSlotsByName(InteractionInterfaceDialog)
 
-    def retranslateUi(self, InteractionDialog):
+    def retranslateUi(self, InteractionInterfaceDialog):
         _translate = QtCore.QCoreApplication.translate
-        InteractionDialog.setWindowTitle(_translate("InteractionDialog", "Form"))
-        self.rich_text_user_call.setText(_translate("InteractionDialog", "<html><head/><body><p><span style=\" font-size:18pt; font-weight:600;\">Tomek dzwoni</span></p></body></html>"))
-        self.label_avatar.setText(_translate("InteractionDialog", "Avatar"))
-        self.label_reject.setText(_translate("InteractionDialog", "reject"))
-        self.label_accept.setText(_translate("InteractionDialog", "accept"))
-        self.push_button_reject.setText(_translate("InteractionDialog", "Odrzuć"))
-        self.push_button_accept.setText(_translate("InteractionDialog", "Odbierz"))
+        InteractionInterfaceDialog.setWindowTitle(_translate("InteractionInterfaceDialog", "Form"))
+        self.rich_text_user_call.setText(_translate("InteractionInterfaceDialog", "<html><head/><body><p><span style=\" font-size:18pt; font-weight:600;\">Tomek dzwoni</span></p></body></html>"))
+        self.label_avatar.setText(_translate("InteractionInterfaceDialog", "Avatar"))
+        self.push_button_reject.setText(_translate("InteractionInterfaceDialog", "Odrzuć"))
+        self.push_button_accept.setText(_translate("InteractionInterfaceDialog", "Odbierz"))
 
