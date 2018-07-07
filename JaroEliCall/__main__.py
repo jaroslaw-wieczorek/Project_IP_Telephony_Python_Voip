@@ -41,16 +41,23 @@ PORT = 50001
 
 class MyApp(QApplication):
     
-    def setupAppWindow(self, window):
-        self.mainwindow = window
-    
+    def setupAppWindow(self, main_window):
+        self.mainWindow = main_window
+        
+    def setupLoginWindow(self, login_window):
+        self.loginWindow = login_window
+
+    def setupRegisterWindow(self, register_window):
+        self.registerWindow = register_window
+
 
 def main():
     app : QApplication = MyApp(sys.argv) 
     client = Client(SERWER_IP, PORT)
     #toThread = betweenTherads.ClassBetweenhreads()
-
-    logwindow = LoginDialog(client, toThread)
+    
+    logwindow = LoginDialog(client)
+    
     """
     self.login = ''
     self.c = client
