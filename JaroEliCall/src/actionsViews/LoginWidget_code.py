@@ -30,6 +30,24 @@ class LoginWidget(QDialog, Ui_Form):
         self.pushButton.clicked.connect(self.on_login_button_clicked)
         self.pushButton_2.clicked.connect(self.on_register_button_clicked)
 
+
+    def read(self):
+        print("Odczytalem ", self.toThread.received)
+        if(self.toThread.received[0] == "200 LOGIN"):
+            self.logging_in = 200
+            self.close()
+
+        elif(self.toThread.received[0] =="406 LOGIN"):
+            self.logging_in = 406
+            print("TO DO label z Nieprawidłowe dane ")
+
+
+    def get_status(self):
+        while (self.logging_in == ''):
+            print("Czekam...")
+        return self.logging_in
+    
+    
     @pyqtSlot()
     def on_login_button_clicked(self):
         login, password = self.lineEdit.text(), self.lineEdit_2.text()
@@ -37,16 +55,11 @@ class LoginWidget(QDialog, Ui_Form):
         self.c.connectToSerwer('192.168.0.102')
         answer = (self.c.login(login, password))
 
-        print(answer, " ", login, " ", password)
+        with self.toThread.lock:
+            self.c.listening(self.toThread)
+            self.read()
+            
 
-        if (answer):
-            self.close()
-            # przekazanie klienta miedzy widokami
-            users = AddUserWidget(self.c)
-            users.show()
-            users.exec_()
-
-    @pyqtSlot()
     def on_register_button_clicked(self):
         self.close()
         reg = RegisterWidget()
