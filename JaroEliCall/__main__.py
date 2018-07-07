@@ -35,6 +35,9 @@ PORT = 50001
 
 class MyApp(QApplication):
     
+    def setup_client(self, client : Client):
+        self._client = Client
+    
         
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
