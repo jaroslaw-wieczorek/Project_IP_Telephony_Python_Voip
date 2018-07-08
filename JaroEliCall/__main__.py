@@ -41,11 +41,13 @@ def main():
     client = Client(SERWER_IP, PORT)
     toThread = ClassBetweenThreads()
     
-   # app.setupMainWindow = MainWindowDialog()
-    app.setupLoginWindow = LoginDialog()
+    # app.setupMainWindow = MainWindowDialog()
+    loginWindow = LoginDialog()
+    app.setupLoginWindow(loginWindow)
     app.showLoginWindow()
     
-    app.setupRegisterWindow = RegisterDialog()
+    registerWindow = RegisterDialog()
+    app.setupRegisterWindow(registerWindow)
     
     
     #toThread = betweenTherads.ClassBetweenhreads()
