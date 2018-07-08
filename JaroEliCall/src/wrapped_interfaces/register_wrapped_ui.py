@@ -29,7 +29,6 @@ class RegisterWrappedUI(QDialog, Ui_RegisterInterfaceDialog):
     def __init__(self):
         super(RegisterWrappedUI, self).__init__()
         self.setupUi(self)
-        self.show()
         
     def set_login(self, login):
         self.line_edit_login.setText(login)
@@ -67,8 +66,8 @@ class RegisterWrappedUI(QDialog, Ui_RegisterInterfaceDialog):
         else:
             return None
     
-    def set_push_button_login(self, funct):
-        self.psuh_button_login.clicked.connect(funct)
+    def set_push_button_already_account(self, funct):
+        self.push_button_already_account.clicked.connect(funct)
     
     def set_push_button_register(self, funct):
         self.push_button_register.clicked.connect(funct)

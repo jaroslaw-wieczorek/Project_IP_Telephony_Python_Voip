@@ -23,15 +23,29 @@ from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrapp
 
 #from validate_email import validate_email
 
+class RegisterDialog(RegisterWrappedUI):
+    
+    def __init__(self):
+        super(RegisterDialog, self).__init__()
+        
+        self.set_push_button_register(self.clickOnRegisterButton)
+        self.set_push_button_already_account(self.clickOnAlreadyAccountButton)
+        
+    def clickOnRegisterButton(self):
+        print("[*] RegisterDialog info: push_button_register was clicked")
+        pass
+        
+    
+    def clickOnAlreadyAccountButton(self):
+        print("[*] RegisterDialog info: push_button_already_account was clicked")
+        pass
+        
+        
 #####   TO DO ####
 """     Register Widget
     Screen to Register
     register - on_reg_button_clicked = 
             * fulfilling gaps with data            
-"""
-#
-
-SERWER_IP = "127.0.0.1"
 
 
 class RegisterDialog(RegisterWrappedUI):
@@ -80,7 +94,7 @@ class RegisterDialog(RegisterWrappedUI):
         else:
             print("TO DO labele w formularzu")
 
-
+"""
 
 
 

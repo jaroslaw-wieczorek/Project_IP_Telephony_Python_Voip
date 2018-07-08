@@ -30,8 +30,7 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
     
     def __init__(self):
         super(MainWrappedUI, self).__init__()
-        
-        
+            
         self.setupUi(self)
         
             

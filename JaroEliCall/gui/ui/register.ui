@@ -311,7 +311,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="psuh_button_login">
+      <widget class="QPushButton" name="push_button_already_account">
        <property name="text">
         <string>Mam już konto</string>
        </property>

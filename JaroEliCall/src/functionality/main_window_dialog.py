@@ -30,7 +30,6 @@ sys.path.append(lib_path2)
 print(lib_path2)
 
 
-
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.wrapped_interfaces.main_wrapped_ui import MainWrappedUI
 
@@ -56,8 +55,10 @@ class MainWindowDialog(MainWrappedUI):
         self.closeEvent = self.notify
         self.toThread = toThread
         self.getList()
-        self.login = login
-
+        
+        #self.login = login is not used ? 
+        self.login = "jaro"
+        
         # wait_for_conn = Thread(target=self.wait_for_calling, args=[self.toThread,])
         # wait_for_conn.start()
 

@@ -22,14 +22,11 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
 
-
+from JaroEliCall.src.functionality.my_app import MyApp
 from JaroEliCall.src.functionality.login_dialog import LoginDialog
 from JaroEliCall.src.functionality.main_window_dialog import MainWindowDialog
 from JaroEliCall.src.functionality.register_dialog import RegisterDialog
 from JaroEliCall.src.functionality.interaction_dialog import InteractionDialog
-
-
-
 
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
@@ -38,32 +35,28 @@ SERWER_IP = '127.0.0.1'
 PORT = 50001
 
 
-
-class MyApp(QApplication):
-    
-    def setupAppWindow(self, main_window):
-        self.mainWindow = main_window
-        
-    def setupLoginWindow(self, login_window):
-        self.loginWindow = login_window
-
-    def setupRegisterWindow(self, register_window):
-        self.registerWindow = register_window
-
-
 def main():
-    app : QApplication = MyApp(sys.argv) 
+    app : MyApp = MyApp(sys.argv) 
+    
     client = Client(SERWER_IP, PORT)
+    toThread = ClassBetweenThreads()
+    
+   # app.setupMainWindow = MainWindowDialog()
+    app.setupLoginWindow = LoginDialog()
+    app.showLoginWindow()
+    
+    app.setupRegisterWindow = RegisterDialog()
+    
+    
     #toThread = betweenTherads.ClassBetweenhreads()
     
-    logwindow = LoginDialog(client)
     
     """
     self.login = ''
     self.c = client
     self.toThread = toThread
     """
-    logwindow.show()
+
 
    
 

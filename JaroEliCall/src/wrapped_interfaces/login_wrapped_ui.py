@@ -29,9 +29,7 @@ class LoginWrappedUI(QDialog, Ui_LoginInterfaceDialog):
     def __init__(self):
         super(LoginWrappedUI, self).__init__()
         self.setupUi(self)
-        self.show()
-        
-        
+                
     def set_info_text(self, text):
         self.label_info.setText(text)
     

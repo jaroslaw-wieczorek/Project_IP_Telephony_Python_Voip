@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/register_interface.ui'
+# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/register.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -126,9 +126,9 @@ class Ui_RegisterInterfaceDialog(object):
         self.horizontal_layout_5.addWidget(self.push_button_register)
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_5.addItem(spacerItem4)
-        self.psuh_button_login = QtWidgets.QPushButton(RegisterInterfaceDialog)
-        self.psuh_button_login.setObjectName("psuh_button_login")
-        self.horizontal_layout_5.addWidget(self.psuh_button_login)
+        self.push_button_already_account = QtWidgets.QPushButton(RegisterInterfaceDialog)
+        self.push_button_already_account.setObjectName("push_button_already_account")
+        self.horizontal_layout_5.addWidget(self.push_button_already_account)
         spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_5.addItem(spacerItem5)
         self.verticalLayout.addLayout(self.horizontal_layout_5)
@@ -147,5 +147,5 @@ class Ui_RegisterInterfaceDialog(object):
         self.label_password.setText(_translate("RegisterInterfaceDialog", "Hasło:"))
         self.label_repeat_password.setText(_translate("RegisterInterfaceDialog", "Powtórz hasło:"))
         self.push_button_register.setText(_translate("RegisterInterfaceDialog", "Zarejestruj się"))
-        self.psuh_button_login.setText(_translate("RegisterInterfaceDialog", "Mam już konto"))
+        self.push_button_already_account.setText(_translate("RegisterInterfaceDialog", "Mam już konto"))
 

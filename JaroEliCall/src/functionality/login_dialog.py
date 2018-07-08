@@ -7,15 +7,43 @@ import threading
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
+print(lib_path)
+lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
+sys.path.append(lib_path)
+
+
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
 
 from JaroEliCall.src.client import Client
+from src.functionality.my_app import MyApp
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
-
 from JaroEliCall.src.wrapped_interfaces.login_wrapped_ui import LoginWrappedUI
 
 
+
+
+class LoginDialog(LoginWrappedUI):
+   
+    """
+    New LoginDialog
+    """
+    
+    def __init__(self):
+        super(LoginDialog, self).__init__()
+        self.parent : MyApp() 
+        self.set_push_button_login(self.clickOnLoginButton)
+        self.set_push_button_login(self.clickOnRegisterButton)
+    
+    def clickOnLoginButton(self):
+        print("Clicked on login button")
+    
+    def clickOnRegisterButton(self):
+        print("Clicked on register button")
+        self.parent().hideLoginButton()
+        self.parent().showRegisterButton()
+        
+    
 """     
     Login Widget
     Screen to login in and registerS
@@ -26,17 +54,25 @@ from JaroEliCall.src.wrapped_interfaces.login_wrapped_ui import LoginWrappedUI
             * else showing a label
     register - on_register_button_clicked = 
             * goin to register.ui screen            
-"""
-
 
 class LoginDialog(LoginWrappedUI):
+    
+     #This class is implementation of Login dialog with all functionality like 
+     #send and recive data for login users.
+     
+     #Constructor take 2 arguments used to create this widget:
+     #    First from them is Client object used to communicate between Server and App.
+     #    Secound is parent object 
+     
+    
+    
 
-    def __init__(self, client):
+    def __init__(self, client, toThread):
         super(LoginDialog, self).__init__()
-        """
-        priv = 'rsa_keys/private'
-        publ = 'rsa_keys/key.pub'
-        """
+        
+        self.toThread = toThread
+       
+    
 
         self.set_push_button_login(self.on_login_button_clicked)
         self.set_push_button_register(self.on_register_button_clicked)
@@ -45,11 +81,12 @@ class LoginDialog(LoginWrappedUI):
     def read(self):
         print("Odczytalem ", self.toThread.received)
         if(self.toThread.received[0] == "200 LOGIN"):
-            self.logging_in = 200
-            self.close()
+            
+            self.parent().hide()
+            
 
         elif(self.toThread.received[0] =="406 LOGIN"):
-            self.logging_in = 406
+
             print("TO DO label z Nieprawidłowe dane ")
 
 
@@ -81,3 +118,4 @@ class LoginDialog(LoginWrappedUI):
         #reg = RegisterWidget(self.c, self)
         #reg.show()
         #reg.exec_()
+"""
