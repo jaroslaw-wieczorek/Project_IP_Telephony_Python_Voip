@@ -36,18 +36,24 @@ PORT = 50001
 
 
 def main():
-    app : MyApp = MyApp(sys.argv) 
+    
+    myapp : MyApp = MyApp(sys.argv) 
     
     client = Client(SERWER_IP, PORT)
     toThread = ClassBetweenThreads()
     
+    window = QWidget()
+    window.resize(250, 150)
+    window.move(300,300)
+    window.setWindowTitle("Simple")
+    window.show()
     # app.setupMainWindow = MainWindowDialog()
     loginWindow = LoginDialog()
-    app.setupLoginWindow(loginWindow)
-    app.showLoginWindow()
+    myapp.setupLoginWindow(loginWindow)
+    myapp.showLoginWindow()
     
     registerWindow = RegisterDialog()
-    app.setupRegisterWindow(registerWindow)
+    myapp.setupRegisterWindow(registerWindow)
     
     
     #toThread = betweenTherads.ClassBetweenhreads()
@@ -59,11 +65,8 @@ def main():
     self.toThread = toThread
     """
 
-
-   
-
-
-    sys.exit(app.exec_())
+    
+    sys.exit(myapp.exec_())
 
 
 
