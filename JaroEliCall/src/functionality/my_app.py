@@ -3,6 +3,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
+
 src_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(src_path)
 
@@ -16,6 +17,7 @@ class MyApp(QApplication):
 
     def __init__(self, argv):
         super(MyApp).__init__()
+   
         self.mainWindow = None
         self.loginWindow = None
         self.registerWindow = None
