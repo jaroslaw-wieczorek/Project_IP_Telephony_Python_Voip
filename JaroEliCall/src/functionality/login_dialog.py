@@ -3,6 +3,9 @@ import sys
 import json
 import hashlib
 import threading
+from functools import partial
+
+from PyQt5 import QtCore
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
@@ -11,16 +14,15 @@ print(lib_path)
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path)
 
-
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QDialog
 
 from JaroEliCall.src.client import Client
-from src.functionality.my_app import MyApp
+from src.functionality.my_app import *
+from JaroEliCall.src.functionality.signal import Signal
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 from JaroEliCall.src.wrapped_interfaces.login_wrapped_ui import LoginWrappedUI
-
-
 
 
 class LoginDialog(LoginWrappedUI):
@@ -28,20 +30,43 @@ class LoginDialog(LoginWrappedUI):
     """
     New LoginDialog
     """
+    #test
+    procStart = QtCore.pyqtSignal(bool)
+    
+    registerSignal = pyqtSignal(bool)
     
     def __init__(self):
         super(LoginDialog, self).__init__()
-        self.parent : MyApp() 
+        
         self.set_push_button_login(self.clickOnLoginButton)
-        self.set_push_button_login(self.clickOnRegisterButton)
-    
+        self.set_push_button_register(self.clickOnRegisterButton)
+        
+      
+    def loginStatus(self, value):
+        return(value)
+
+    def serverResponse(self):
+        #TODO
+        return True
+      
+    @QtCore.pyqtSlot(bool)
     def clickOnLoginButton(self):
-        print("Clicked on login button")
-    
+        print("[*] LoginDialog info: push_button_login was clicked")
+        if self.serverResponse():
+            self.procStart.emit(True)
+            
+            #self.loggedSignal.emit({"abc": 123}, name="loggedSignal" )
+            print("[*] LoginDialog info: signal emited with True")
+        else:
+            self.procStart.emit(False)
+            #self.loggedSignal.emit(False)
+        
+            print("[*] LoginDialog info: signal emited with False")
+
+
     def clickOnRegisterButton(self):
-        print("Clicked on register button")
-        self.parent().hideLoginButton()
-        self.parent().showRegisterButton()
+        print("[*] LoginDialog info: push_button_register was clicked")
+        #self.registerSignal.emit(1)
         
     
 """     

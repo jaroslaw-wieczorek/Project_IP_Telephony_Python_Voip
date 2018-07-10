@@ -25,7 +25,7 @@ from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrapp
 
 class RegisterDialog(RegisterWrappedUI):
     
-    def __init__(self):
+    def __init__(self, parent=None):
         super(RegisterDialog, self).__init__()
         
         self.set_push_button_register(self.clickOnRegisterButton)
