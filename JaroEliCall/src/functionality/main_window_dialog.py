@@ -36,21 +36,28 @@ from JaroEliCall.src.wrapped_interfaces.main_wrapped_ui import MainWrappedUI
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 
 
+class MainWindowDialog(MainWrappedUI):
+    
+    def __init__(self):
+        super(MainWindowDialog, self).__init__()
 
+
+
+    
 """     List of contacts Widget
     Screen to load contacts and call to people
     __init__ - get list of people to table
     logout - logout   
     menu_rooms - going to list of available rooms
     call - call to person/people
-"""
+
 
 class MainWindowDialog(MainWrappedUI):
 
     #sig = pyqtSignal(int)
     
     def __init__(self, client, toThread, login):
-        super(MainWindowDialog, self).__init__()
+        super(MainWiFalsendowDialog, self).__init__()
         self.c = client
         self.closeEvent = self.notify
         self.toThread = toThread
@@ -179,3 +186,4 @@ if __name__  == '__main__':
   
     window.show()
     sys.exit(app.exec_())
+"""

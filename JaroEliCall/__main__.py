@@ -8,7 +8,11 @@ sys.path.append(lib_path)
 lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
 sys.path.append(lib_path2)
 
+
+from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSignal
+
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QMainWindow
 
@@ -29,11 +33,8 @@ from JaroEliCall.src.functionality.main_window_dialog import MainWindowDialog
 from JaroEliCall.src.functionality.register_dialog import RegisterDialog
 from JaroEliCall.src.functionality.interaction_dialog import InteractionDialog
 
-from JaroEliCall.src.client import Client
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 
-SERWER_IP = '127.0.0.1'
-PORT = 50001
 
    
 def main():
@@ -41,7 +42,7 @@ def main():
 
  
     #widgetB.procDone.connect(self.widgetA.on_widgetB_procDone)
-    client = Client(SERWER_IP, PORT)
+    
     toThread = ClassBetweenThreads()
     
     #window = QWidget()
@@ -54,18 +55,27 @@ def main():
     loginWindow = LoginDialog()
     myapp.setupLoginWindow(loginWindow)
     
-    myapp.loginWindow.procStart.connect(myapp.on_procStart)
-    #myapp.procDone.connect(myapp.loginWindow.on_procDone)
+    registerWindow = RegisterDialog()
+    myapp.setupRegisterWindow(registerWindow)
     
-    #myapp.loginWindow.onstart.connect(myapp.on_procStart)
-
-    #signal = Signal()
-    #signal.connect(myapp.loginWindow.loginStatus)
+    
+    mainappWindow = MainWindowDialog()
+    myapp.setupMainWindow(mainappWindow)
+    
+    
+    
+    # Signal use to hide login dialog when logging passeds
+    myapp.loginWindow.loggingSignal.connect(myapp.loggingSignalResponse)
+    myapp.loginWindow.registerAccountSignal.connect(myapp.registerAccountSignalResponse)
+       
+   
+    # Signal use to hide login dialog and show register dialog
+   # myapp.registerWindow.registrationSignal.connect(myapp.registerSignalResponse)
+    myapp.registerWindow.alreadyAccountSignal.connect(myapp.alreadyAccountSignalResponse)
+    
 
     myapp.showLoginWindow()
 
-    registerWindow = RegisterDialog(parent=myapp)
-    myapp.setupRegisterWindow(registerWindow)
     
     
     #toThread = betweenTherads.ClassBetweenhreads()

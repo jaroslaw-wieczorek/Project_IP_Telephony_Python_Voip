@@ -9,8 +9,9 @@ sys.path.append(lib_path)
 lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
 sys.path.append(lib_path2)
 
-
+from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QDialog
 
 from JaroEliCall.src.client import Client
@@ -25,20 +26,43 @@ from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrapp
 
 class RegisterDialog(RegisterWrappedUI):
     
+    # Signal used when user register new account after clicked on push_button_register.
+    # Return true or false. 
+    # The "False" value is always emitted if the Server does not confirm the account registration.  
+    registrationSignal = pyqtSignal(bool)
+    
+    # Signal used for return user to login window after push_button_already_account.
+    # This the signal always emit value equal True.
+    alreadyAccountSignal = QtCore.pyqtSignal(bool)
+   
+    
     def __init__(self, parent=None):
         super(RegisterDialog, self).__init__()
         
         self.set_push_button_register(self.clickOnRegisterButton)
         self.set_push_button_already_account(self.clickOnAlreadyAccountButton)
         
+        
+    def serverResponse(self):
+        #TODO
+        return True
+        
+    
+   
     def clickOnRegisterButton(self):
         print("[*] RegisterDialog info: push_button_register was clicked")
-        pass
-        
+        if self.serverResponse():
+            self.registrationSignal.emit(True)
+            print("[*] RegisterDialog info: registrationSignal was emitted with True")
+        else:
+            self.registrationSignal.emit(False)
+            print("[*] RegisterDialog info: registrationSignal was emitted with False")
+            
     
     def clickOnAlreadyAccountButton(self):
         print("[*] RegisterDialog info: push_button_already_account was clicked")
-        pass
+        self.alreadyAccountSignal.emit(True)
+
         
         
 #####   TO DO ####

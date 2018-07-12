@@ -5,7 +5,7 @@ import hashlib
 import threading
 from functools import partial
 
-from PyQt5 import QtCore
+
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
@@ -14,6 +14,8 @@ print(lib_path)
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path)
 
+
+from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QDialog
@@ -28,45 +30,48 @@ from JaroEliCall.src.wrapped_interfaces.login_wrapped_ui import LoginWrappedUI
 class LoginDialog(LoginWrappedUI):
    
     """
-    New LoginDialog
+        New LoginDialog
     """
     #test
-    procStart = QtCore.pyqtSignal(bool)
-    
-    registerSignal = pyqtSignal(bool)
-    
+    loggingSignal = QtCore.pyqtSignal(bool)
+    registerAccountSignal = QtCore.pyqtSignal(bool)
+
     def __init__(self):
         super(LoginDialog, self).__init__()
         
         self.set_push_button_login(self.clickOnLoginButton)
         self.set_push_button_register(self.clickOnRegisterButton)
-        
-      
+
+
     def loginStatus(self, value):
         return(value)
+
 
     def serverResponse(self):
         #TODO
         return True
-      
+
+
     @QtCore.pyqtSlot(bool)
     def clickOnLoginButton(self):
         print("[*] LoginDialog info: push_button_login was clicked")
+    
         if self.serverResponse():
-            self.procStart.emit(True)
+            self.loggingSignal.emit(True)
             
             #self.loggedSignal.emit({"abc": 123}, name="loggedSignal" )
-            print("[*] LoginDialog info: signal emited with True")
+            print("[*] LoginDialog info: loggingSignal was emitted with True")
         else:
-            self.procStart.emit(False)
-            #self.loggedSignal.emit(False)
+            self.loggingSignal.emit(False)
         
-            print("[*] LoginDialog info: signal emited with False")
+            print("[*] LoginDialog info: loggingSignal was emitted with False")
 
 
+    @QtCore.pyqtSlot(bool)
     def clickOnRegisterButton(self):
         print("[*] LoginDialog info: push_button_register was clicked")
-        #self.registerSignal.emit(1)
+        self.registerAccountSignal.emit(True)
+        print("[*] LoginDialog info: registerAccountSignal was emitted with True")
         
     
 """     
