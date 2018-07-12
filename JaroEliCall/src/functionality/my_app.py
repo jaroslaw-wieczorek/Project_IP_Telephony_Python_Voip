@@ -37,6 +37,9 @@ class MyApp(QApplication):
         self.loginWindow = None
         self.registerWindow = None
         
+        self.closeEvent = self.closingSignalResponse
+
+
     # MainWindow Dialog methods
     def setupMainWindow(self, main_window):
         self.mainWindow = main_window
@@ -74,7 +77,9 @@ class MyApp(QApplication):
             print("(*) MyApp registerSignalResponse received:", value)
             self.hideRegisterWindow()
             self.showLoginWindow()
-            # TO DO:  show info about registration email in status bar.
+            # TO DO:  
+            # Display an information on status bar, about sending email with
+            # confirm registration link.
         else:
             print("(*) MyApp registerSignalResponse received:", value)    
             
@@ -88,8 +93,20 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp alreadyAccountSignalResponse received:", value) 
             
+            
+    @QtCore.pyqtSlot(bool)
+    def closingSignalResponse(self,value):
+        if value:
+            print("(*) MyApp closingSignalResponse received:", value)
+            # TO DO: 
+            # Show Dialog Message with 
+            
+            
+        else:
+            print("(*) MyApp closingSignalResponse received:", value)
+            
     
-        
+    
     def showMainWindow(self):
         self.mainWindow.show()
      
@@ -100,14 +117,13 @@ class MyApp(QApplication):
     def hideLoginWindow(self):
         self.loginWindow.hide()
 
-    #@pyqtSlot(bool)
     def showLoginWindow(self):
         self.loginWindow.show()
 
     # Register Dialog methods
     def setupRegisterWindow(self, register_window):
         self.registerWindow = register_window
-
+        
 
     def hideRegisterWindow(self):
         self.registerWindow.hide()
@@ -115,3 +131,4 @@ class MyApp(QApplication):
 
     def showRegisterWindow(self):
         self.registerWindow.show()
+    

@@ -52,7 +52,7 @@ class LoginDialog(LoginWrappedUI):
         return True
 
 
-    @QtCore.pyqtSlot(bool)
+   #@QtCore.pyqtSlot(bool)
     def clickOnLoginButton(self):
         print("[*] LoginDialog info: push_button_login was clicked")
     
@@ -67,7 +67,7 @@ class LoginDialog(LoginWrappedUI):
             print("[*] LoginDialog info: loggingSignal was emitted with False")
 
 
-    @QtCore.pyqtSlot(bool)
+    #@QtCore.pyqtSlot(bool)
     def clickOnRegisterButton(self):
         print("[*] LoginDialog info: push_button_register was clicked")
         self.registerAccountSignal.emit(True)

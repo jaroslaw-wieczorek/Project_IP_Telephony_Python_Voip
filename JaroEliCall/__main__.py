@@ -25,6 +25,7 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMessageBox
 
 from JaroEliCall.src.functionality.signal import Signal
 from JaroEliCall.src.functionality.my_app import MyApp
@@ -59,9 +60,8 @@ def main():
     myapp.setupRegisterWindow(registerWindow)
     
     
-    mainappWindow = MainWindowDialog()
-    myapp.setupMainWindow(mainappWindow)
-    
+    mainAppWindow = MainWindowDialog()
+    myapp.setupMainWindow(mainAppWindow)
     
     
     # Signal use to hide login dialog when logging passeds
@@ -70,10 +70,11 @@ def main():
        
    
     # Signal use to hide login dialog and show register dialog
-   # myapp.registerWindow.registrationSignal.connect(myapp.registerSignalResponse)
+    # myapp.registerWindow.registrationSignal.connect(myapp.registerSignalResponse)
     myapp.registerWindow.alreadyAccountSignal.connect(myapp.alreadyAccountSignalResponse)
     
-
+    
+    myapp.mainWindow.closingSignal.connect(myapp.closingSignalResponse)
     myapp.showLoginWindow()
 
     

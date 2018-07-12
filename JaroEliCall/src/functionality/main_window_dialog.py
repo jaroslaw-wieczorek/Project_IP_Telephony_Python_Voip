@@ -27,8 +27,11 @@ sys.path.append(lib_path)
 lib_path2 = os.path.abspath(os.path.join(__file__, '..', '..', '..','..'))
 sys.path.append(lib_path2)
 
-print(lib_path2)
 
+from PyQt5 import QtCore
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QDialog
 
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.wrapped_interfaces.main_wrapped_ui import MainWrappedUI
@@ -38,10 +41,39 @@ from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 
 class MainWindowDialog(MainWrappedUI):
     
+    
+    # Signal used when user close app after clicked esc or cros to close app.
+    # If user clicked Yes on message box return True other way return False. 
+   
+    closingSignal = pyqtSignal(bool)
+    
     def __init__(self):
         super(MainWindowDialog, self).__init__()
+        
+        self.closeEvent = self.closeApp
+
+        
+    def keyPressEvent(self, event):
+        """
+            Close application from escape key.
+        """
+        if event.key() == QtCore.Qt.Key_Escape:
+            self.closeApp()
 
 
+    
+    def closeApp(self, event):
+        title = "Uwaga!"
+        message = "Wyjście spowoduje automatyczne wylogowanie z aplikacji"
+        
+        if QMessageBox.question(self, title, message) == QMessageBox.Yes:
+            print("[*] MainWindowDialog info: Button Yes was clicked")
+            self.closingSignal.emit(True)      
+        else:
+            print("[*] MainWindowDialog info: Button No was clicked")
+            self.closingSignal.emit(False)
+
+        #self.logout()
 
     
 """     List of contacts Widget
