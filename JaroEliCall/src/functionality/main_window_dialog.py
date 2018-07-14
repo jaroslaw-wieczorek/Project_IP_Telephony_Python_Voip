@@ -47,11 +47,13 @@ class MainWindowDialog(MainWrappedUI):
    
     closingSignal = pyqtSignal(bool)
     
-    def __init__(self):
+    def __init__(self, client, toThread):
         super(MainWindowDialog, self).__init__()
+                
+        self.client = client
+        self.toThread = toThread
         
-        self.closeEvent = self.closeApp
-
+        #self.closeEvent = self.closeApp
         
     def keyPressEvent(self, event):
         """
@@ -61,8 +63,8 @@ class MainWindowDialog(MainWrappedUI):
             self.closeApp()
 
 
-    
-    def closeApp(self, event):
+
+    def closeApp(self):
         title = "Uwaga!"
         message = "Wyjście spowoduje automatyczne wylogowanie z aplikacji"
         
@@ -82,7 +84,9 @@ class MainWindowDialog(MainWrappedUI):
     logout - logout   
     menu_rooms - going to list of available rooms
     call - call to person/people
+"""
 
+"""
 
 class MainWindowDialog(MainWrappedUI):
 

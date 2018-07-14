@@ -31,6 +31,7 @@ class Client:
                                   input=True,
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
+        
         self.connectToSerwer(SERWER_IP, port)
 
 
@@ -81,14 +82,17 @@ class Client:
 
 
     def listening(self, toThreaad):
-        print("Zaczalem sluchac lalalal...")
+        print("\tClinet : info >> Setup listening")
         self._is_running = True
+        print("\tClinet : info >> Set _is_running on True")
         while self._is_running:
-            print("Słucham jaaaa")
+            
+            print("\tClinet : info >> Listen now")
             packet, address = self.s.recvfrom(self.size)
             packet = packet.decode("utf-8")
             received = json.loads(packet)
-            print("Dostałem wiadomość od serwera", received)
+            
+            print("\tClinet : info >> Get response from server", received)
             if(str(received["type"]) == "d"):
                 print("Wchodze dalej ")
                 with toThreaad.lock:

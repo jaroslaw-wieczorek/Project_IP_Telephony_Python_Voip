@@ -20,31 +20,26 @@ from JaroEliCall.src.functionality.signal import Signal
 # from JaroEliCall.src.functionality.register_dialog import RegisterDialog
 # from JaroEliCall.src.functionality.interaction_dialog import InteractionDialog
 
-SERWER_IP = '127.0.0.1'
-PORT = 50001
+
 
    
-class MyApp(QApplication):
-
-    #loggingSignalResponse = QtCore.pyqtSignal(bool)
-    registerSignalResponse = QtCore.pyqtSignal(bool)
-    client = Client(SERWER_IP, PORT)
+class MyApp(QApplication): 
+    
     
     def __init__(self, *agrs, **kwargs):
         super(MyApp, self).__init__(*agrs, **kwargs)
         
+        self.client : Client = None
+        self.toThread : Client = None
+                
         self.mainWindow = None
         self.loginWindow = None
         self.registerWindow = None
         
-        self.closeEvent = self.closingSignalResponse
+        self.eventClose = self.closingSignalResponse
 
-
-    # MainWindow Dialog methods
-    def setupMainWindow(self, main_window):
-        self.mainWindow = main_window
-       
-        
+          
+    # Slots for communicate 
     @QtCore.pyqtSlot(bool)
     def loggingSignalResponse(self, value):
         print("(*) MyApp loggingSignalResponse received:", value)
@@ -95,30 +90,48 @@ class MyApp(QApplication):
             
             
     @QtCore.pyqtSlot(bool)
-    def closingSignalResponse(self,value):
+    def closingSignalResponse(self, value):
         if value:
             print("(*) MyApp closingSignalResponse received:", value)
-            # TO DO: 
-            # Show Dialog Message with 
-            
+            self.closeAllWindows()
             
         else:
             print("(*) MyApp closingSignalResponse received:", value)
             
+
+    def setupThread(self, to_thread):
+        self.toThread = to_thread
+       
+        
+    # Managment clinet and connection        
+    def setupClient(self, client):
+        self.client = client
     
+    
+    def connectToServer(self):
+        self.client
+    
+
+    # MainWindow Dialog methods
+    def setupMainWindow(self, main_window):
+        self.mainWindow = main_window
     
     def showMainWindow(self):
         self.mainWindow.show()
+        
      
     # Login Dialog methods
     def setupLoginWindow(self, login_window):
         self.loginWindow = login_window
 
+
     def hideLoginWindow(self):
         self.loginWindow.hide()
+        
 
     def showLoginWindow(self):
         self.loginWindow.show()
+
 
     # Register Dialog methods
     def setupRegisterWindow(self, register_window):

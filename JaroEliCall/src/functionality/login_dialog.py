@@ -19,6 +19,8 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QStatusBar
+from PyQt5.QtWidgets import QMessageBox
 
 from JaroEliCall.src.client import Client
 from src.functionality.my_app import *
@@ -32,48 +34,98 @@ class LoginDialog(LoginWrappedUI):
     """
         New LoginDialog
     """
+    
     #test
+    closingSignal = pyqtSignal(bool)
     loggingSignal = QtCore.pyqtSignal(bool)
     registerAccountSignal = QtCore.pyqtSignal(bool)
 
-    def __init__(self):
+    def __init__(self, client, toThread):
         super(LoginDialog, self).__init__()
+        
+        self.client = client
+        self.toThread = toThread
         
         self.set_push_button_login(self.clickOnLoginButton)
         self.set_push_button_register(self.clickOnRegisterButton)
 
+        #self.closeEvent = self.closeApp
+        
+    def keyPressEvent(self, event):
+        """
+            Close application from escape key.
+        """
+        if event.key() == QtCore.Qt.Key_Escape:
+            self.closeApp()
 
-    def loginStatus(self, value):
-        return(value)
 
-
-    def serverResponse(self):
-        #TODO
+    def validateData(self):
+        # TO DO 
         return True
 
 
-   #@QtCore.pyqtSlot(bool)
+    def showLoginStatus(self, value):
+        self.statusBar = QStatusBar(value)
+        self.setStatusBar(self.statusBar)
+        
+        
+    def getLoggingStatus(self):
+        print("Odczytalem ", self.toThread.received)
+        if self.toThread.received[-1] == "200 LOGIN":
+
+            return True
+            
+        elif self.toThread.received[-1] =="406 LOGIN":
+
+            return False
+        
+
+    def loggingToServer(self, login, password):
+        self.client.login(login, password)
+        
+        with self.toThread.lock:
+            self.client.listening(self.toThread)
+            return self.getLoggingStatus()
+
+
     def clickOnLoginButton(self):
         print("[*] LoginDialog info: push_button_login was clicked")
-    
-        if self.serverResponse():
-            self.loggingSignal.emit(True)
+          
+        if self.validateData:
+            print("[*] LoginDialog info: validateData returned True")
+            if self.loggingToServer(self.get_login(), self.get_password()):
+                
+                self.loggingSignal.emit(True)
             
-            #self.loggedSignal.emit({"abc": 123}, name="loggedSignal" )
-            print("[*] LoginDialog info: loggingSignal was emitted with True")
+                #self.loggedSignal.emit({"abc": 123}, name="loggedSignal" )
+                print("[*] LoginDialog info: loggingSignal was emitted with True")
         else:
+            print("[*] LoginDialog info: validateData returned False")
             self.loggingSignal.emit(False)
-        
             print("[*] LoginDialog info: loggingSignal was emitted with False")
 
 
-    #@QtCore.pyqtSlot(bool)
     def clickOnRegisterButton(self):
         print("[*] LoginDialog info: push_button_register was clicked")
         self.registerAccountSignal.emit(True)
         print("[*] LoginDialog info: registerAccountSignal was emitted with True")
         
     
+    def closeApp(self):
+        title = "Uwaga!"
+        message = "Czy napewno chesz zamknąć aplikacje ?"
+        
+        if QMessageBox.question(self, title, message) == QMessageBox.Yes:
+            print("[*]  LoginDialog info: selected Yes")
+            self.closingSignal.emit(True) 
+            print("[*]  LoginDialog info: closingSignal was emitted with True")
+        else:
+            print("[*]  LoginDialog info: selected No")
+            self.closingSignal.emit(False)
+            print("[*]  LoginDialog info: closingSignal was emitted with False")
+            
+            
+            
 """     
     Login Widget
     Screen to login in and registerS
@@ -84,6 +136,9 @@ class LoginDialog(LoginWrappedUI):
             * else showing a label
     register - on_register_button_clicked = 
             * goin to register.ui screen            
+"""
+
+"""
 
 class LoginDialog(LoginWrappedUI):
     

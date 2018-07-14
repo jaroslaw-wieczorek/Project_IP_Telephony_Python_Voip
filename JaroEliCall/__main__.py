@@ -34,17 +34,26 @@ from JaroEliCall.src.functionality.main_window_dialog import MainWindowDialog
 from JaroEliCall.src.functionality.register_dialog import RegisterDialog
 from JaroEliCall.src.functionality.interaction_dialog import InteractionDialog
 
+from JaroEliCall.src.client import Client
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 
 
-   
+SERWER_IP = '127.0.0.1'
+PORT = 50001
+
+
 def main():
+    
+    client = Client(SERWER_IP, PORT)
+    toThread = ClassBetweenThreads()
+    
     myapp = MyApp(sys.argv)
 
  
     #widgetB.procDone.connect(self.widgetA.on_widgetB_procDone)
     
-    toThread = ClassBetweenThreads()
+    myapp.setupClient(client)
+    myapp.setupThread(toThread)
     
     #window = QWidget()
     #window.resize(250, 150)
@@ -53,14 +62,14 @@ def main():
     #window.show()pomnik kanadzie
     # app.setupMainWindow = MainWindowDialog()
 
-    loginWindow = LoginDialog()
+    loginWindow = LoginDialog(myapp.client, myapp.toThread)
     myapp.setupLoginWindow(loginWindow)
     
-    registerWindow = RegisterDialog()
+    registerWindow = RegisterDialog(myapp.client, myapp.toThread)
     myapp.setupRegisterWindow(registerWindow)
     
     
-    mainAppWindow = MainWindowDialog()
+    mainAppWindow = MainWindowDialog(myapp.client, myapp.toThread)
     myapp.setupMainWindow(mainAppWindow)
     
     
@@ -75,6 +84,9 @@ def main():
     
     
     myapp.mainWindow.closingSignal.connect(myapp.closingSignalResponse)
+    myapp.loginWindow.closingSignal.connect(myapp.closingSignalResponse)
+    myapp.registerWindow.closingSignal.connect(myapp.closingSignalResponse)
+    
     myapp.showLoginWindow()
 
     

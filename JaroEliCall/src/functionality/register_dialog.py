@@ -12,10 +12,11 @@ sys.path.append(lib_path2)
 from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import pyqtSignal
+
 from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QMessageBox
 
 from JaroEliCall.src.client import Client
-
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrappedUI
 
@@ -36,18 +37,24 @@ class RegisterDialog(RegisterWrappedUI):
     alreadyAccountSignal = QtCore.pyqtSignal(bool)
    
     
-    def __init__(self, parent=None):
+    # Close signal 
+    closingSignal = pyqtSignal(bool)
+    
+    def __init__(self, client, toThread):
         super(RegisterDialog, self).__init__()
+                
+        self.client = client
+        self.toThread = toThread
         
         self.set_push_button_register(self.clickOnRegisterButton)
         self.set_push_button_already_account(self.clickOnAlreadyAccountButton)
         
+        #self.closeEvent = self.closeApp      
         
     def serverResponse(self):
         #TODO
         return True
         
-    
    
     def clickOnRegisterButton(self):
         print("[*] RegisterDialog info: push_button_register was clicked")
@@ -63,7 +70,25 @@ class RegisterDialog(RegisterWrappedUI):
         print("[*] RegisterDialog info: push_button_already_account was clicked")
         self.alreadyAccountSignal.emit(True)
 
+    
+    def keyPressEvent(self, event):
+        """
+            Close application from escape key.
+        """
+        if event.key() == QtCore.Qt.Key_Escape:
+            self.closeApp()
+
+    
+    def closeApp(self):
+        title = "Uwaga!"
+        message = "Czy napewno chesz zamknąć aplikacje ?"
         
+        if QMessageBox.question(self, title, message) == QMessageBox.Yes:
+            print("[*] MainWindowDialog info: Button Yes was clicked")
+            self.closingSignal.emit(True)      
+        else:
+            print("[*] MainWindowDialog info: Button No was clicked")
+            self.closingSignal.emit(False)
         
 #####   TO DO ####
 """     Register Widget

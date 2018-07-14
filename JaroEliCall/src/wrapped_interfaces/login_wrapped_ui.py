@@ -5,15 +5,15 @@ Created on Wed May 30 18:49:11 2018
 
 @author: afar
 """
-
+import os
+import sys
+import hashlib
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication
 from PyQt5.QtGui import QPixmap, QIcon, QImage
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 
-import os
-import sys
 
 # importing data accc
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
@@ -26,6 +26,7 @@ from gui.resources import icons_wrapper_rc
 
 
 class LoginWrappedUI(QDialog, Ui_LoginInterfaceDialog):
+
     def __init__(self):
         super(LoginWrappedUI, self).__init__()
         self.setupUi(self)
@@ -60,7 +61,7 @@ class LoginWrappedUI(QDialog, Ui_LoginInterfaceDialog):
             return None
         
     def get_password(self):
-        return self.line_edit_password.text()
+        return  hashlib.sha256(self.line_edit_password.text().encode()).hexdigest()
 
     
     def set_push_button_login(self, funct):
