@@ -6,8 +6,9 @@ Overview
 
 Tools
 -------
->- Pycharm / Spyder
+>- Pycharm / Spyder3
 >- Wireshark
+>- Ubuntu 18.04
 
 Files
 -------------
