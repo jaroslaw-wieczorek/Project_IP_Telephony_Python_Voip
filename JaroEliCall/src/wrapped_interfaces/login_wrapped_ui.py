@@ -9,9 +9,15 @@ import os
 import sys
 import hashlib
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication
+from PyQt5 import QtGui
 from PyQt5.QtGui import QPixmap, QIcon, QImage
+
+from PyQt5 import QtCore
+
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QStatusBar
+from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 
 
@@ -30,6 +36,8 @@ class LoginWrappedUI(QDialog, Ui_LoginInterfaceDialog):
     def __init__(self):
         super(LoginWrappedUI, self).__init__()
         self.setupUi(self)
+        self.statusBar = QStatusBar()
+        self.verticalLayout.addWidget(self.statusBar)
                 
     def set_info_text(self, text):
         self.label_info.setText(text)

@@ -65,22 +65,21 @@ class LoginDialog(LoginWrappedUI):
 
 
     def showLoginStatus(self, value):
-        self.statusBar = QStatusBar(value)
-        self.setStatusBar(self.statusBar)
+        #self.addWidget(self.statusBar)
+        self.statusBar.showMessage("Błąd podczas logowania")
         
         
     def getLoggingStatus(self):
-        print("Odczytalem ", self.toThread.received)
-        if self.toThread.received[-1] == "200 LOGIN":
-
+        print("[*] LoginDialog info: Get response from server ", self.toThread.received)
+        if self.toThread.received == "200 LOGIN":
             return True
             
-        elif self.toThread.received[-1] =="406 LOGIN":
-
+        elif self.toThread.received =="406 LOGIN":
             return False
         
 
     def loggingToServer(self, login, password):
+        print("[*] LoginDialog info: Trying to log in to the server.", self.toThread.received)
         self.client.login(login, password)
         
         with self.toThread.lock:
@@ -89,26 +88,32 @@ class LoginDialog(LoginWrappedUI):
 
 
     def clickOnLoginButton(self):
-        print("[*] LoginDialog info: push_button_login was clicked")
+        print("[*] LoginDialog info: The push_button_login was clicked")
           
         if self.validateData:
-            print("[*] LoginDialog info: validateData returned True")
-            if self.loggingToServer(self.get_login(), self.get_password()):
-                
-                self.loggingSignal.emit(True)
+            print("[*] LoginDialog info: The validateData method returned True")
             
+            if self.loggingToServer(self.get_login(), self.get_password()):
+                print("[*] LoginDialog info: The loggingToServer method returned True")
+                self.loggingSignal.emit(True)
                 #self.loggedSignal.emit({"abc": 123}, name="loggedSignal" )
-                print("[*] LoginDialog info: loggingSignal was emitted with True")
+                print("[*] LoginDialog info: The loggingSignal was emitted with True")
+          
+            else:
+                print("[*] LoginDialog info: The loggingToServer method returned False")
+                self.loggingSignal.emit(False)
+                print("[*] LoginDialog info: The loggingSignal was emitted with False")
+
         else:
-            print("[*] LoginDialog info: validateData returned False")
+            print("[*] LoginDialog info: The validateData method returned False")
             self.loggingSignal.emit(False)
-            print("[*] LoginDialog info: loggingSignal was emitted with False")
+            print("[*] LoginDialog info: The loggingSignal was emitted with False")
 
 
     def clickOnRegisterButton(self):
-        print("[*] LoginDialog info: push_button_register was clicked")
+        print("[*] LoginDialog info: The push_button_register was clicked")
         self.registerAccountSignal.emit(True)
-        print("[*] LoginDialog info: registerAccountSignal was emitted with True")
+        print("[*] LoginDialog info: The registerAccountSignal was emitted with True")
         
     
     def closeApp(self):
@@ -116,13 +121,13 @@ class LoginDialog(LoginWrappedUI):
         message = "Czy napewno chesz zamknąć aplikacje ?"
         
         if QMessageBox.question(self, title, message) == QMessageBox.Yes:
-            print("[*]  LoginDialog info: selected Yes")
+            print("[*]  LoginDialog info: Selected answer = \'Yes\'")
             self.closingSignal.emit(True) 
-            print("[*]  LoginDialog info: closingSignal was emitted with True")
+            print("[*]  LoginDialog info: The closingSignal was emitted with True")
         else:
-            print("[*]  LoginDialog info: selected No")
+            print("[*]  LoginDialog info: Selected answer = \'No\'")
             self.closingSignal.emit(False)
-            print("[*]  LoginDialog info: closingSignal was emitted with False")
+            print("[*]  LoginDialog info: The closingSignal was emitted with False")
             
             
             

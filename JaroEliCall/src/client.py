@@ -99,43 +99,43 @@ class Client:
 
                     if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
                         print("Dostalem 200")
-                        toThreaad.received.append("200 LOGIN")
+                        toThreaad.received = ("200 LOGIN")
                         break
 
                     if received["status"] == 200 and received["answer_to"] == "NOTHING":
-                        toThreaad.received.append("200 NOTHING " + str(received["from_who"]))
+                        toThreaad.received = ("200 NOTHING " + str(received["from_who"]))
                         print("200 INVITE ", received["from_who"])
                         print("Dzwoni ", str(received["from_who"]))
                         break
 
                     if received["status"] == 200 and received["answer_to"] == "INVITE":
-                        toThreaad.received.append("200 INVITE " + str(received["IP"]))
+                        toThreaad.received = ("200 INVITE " + str(received["IP"]))
                         print("200 INVITE ", received["IP"])
                         break
 
                     if received["status"] == 406 and received["answer_to"] == "INVITE":
-                        toThreaad.received.append("406 INVITE")
+                        toThreaad.received = ("406 INVITE")
                         print("406")
                         break
 
                     if received["status"] == 406 and received["answer_to"] == "LOGIN":
-                        toThreaad.received.append("406 LOGIN")
+                        toThreaad.received = ("406 LOGIN")
                         print("406")
                         break
 
                     if received["status"] == 406 and received["answer_to"] == "CREATE":
-                        toThreaad.received.append("406 NOT_CREATED")
+                        toThreaad.received = ("406 NOT_CREATED")
                         print("406")
                         break
 
                     if received["status"] == 201 and received["answer_to"] == "CREATE":
-                        toThreaad.received.append("201 CREATED")
+                        toThreaad.received = ("201 CREATED")
                         break
 
                     if received["status"] == 202:
                         packet = received["users"]
                         print("Otrzymano ", packet)
-                        toThreaad.received.append("202 USERS")
+                        toThreaad.received = ("202 USERS")
                         toThreaad.users = packet
                         break
 
@@ -145,7 +145,7 @@ class Client:
                         break
 
                     if received["status"] == 200 and received["answer_to"] == "LOGOUT":
-                        toThreaad.received.append("200 LOGOUT")
+                        toThreaad.received = ("200 LOGOUT")
                         print("200")
                         break
 

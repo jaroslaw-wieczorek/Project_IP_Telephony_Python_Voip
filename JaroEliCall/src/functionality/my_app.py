@@ -29,6 +29,7 @@ class MyApp(QApplication):
     def __init__(self, *agrs, **kwargs):
         super(MyApp, self).__init__(*agrs, **kwargs)
         
+        self.username : str = None
         self.client : Client = None
         self.toThread : Client = None
                 
@@ -42,12 +43,13 @@ class MyApp(QApplication):
     # Slots for communicate 
     @QtCore.pyqtSlot(bool)
     def loggingSignalResponse(self, value):
-        print("(*) MyApp loggingSignalResponse received:", value)
         if value:
+            print("(*) MyApp loggingSignalResponse received:", value)
             self.hideLoginWindow()
             self.showMainWindow()
         else:
             print("(*) MyApp loggingSignalResponse received:", value)
+            self.loginWindow.showLoginStatus("406")
             # TO DO: 
             # Displays an error in the status bar that was received during
             # a failed login attempt.
