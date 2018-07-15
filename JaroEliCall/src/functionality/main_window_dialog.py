@@ -1,7 +1,10 @@
 import os
 import sys
 import json
+
+from functools import partial
 from threading import Thread
+
 
 from PyQt5.QtGui import QIcon
 from PyQt5.QtGui import QPixmap 
@@ -9,6 +12,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import QMetaType
+from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import QItemSelection
 
@@ -27,11 +31,6 @@ sys.path.append(lib_path)
 lib_path2 = os.path.abspath(os.path.join(__file__, '..', '..', '..','..'))
 sys.path.append(lib_path2)
 
-
-from PyQt5 import QtCore
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtWidgets import QDialog
 
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.wrapped_interfaces.main_wrapped_ui import MainWrappedUI
@@ -52,21 +51,21 @@ class MainWindowDialog(MainWrappedUI):
                 
         self.client = client
         self.toThread = toThread
-        
-        #self.closeEvent = self.closeApp
+
+        self.set_push_button_logout(partial(self.closeApp, "Uwaga!", "Czy napewno chesz się wylogować?"))
         
     def keyPressEvent(self, event):
         """
             Close application from escape key.
         """
         if event.key() == QtCore.Qt.Key_Escape:
-            self.closeApp()
+            title = "Uwaga!"
+            message = "Wyjście spowoduje automatyczne wylogowanie z aplikacji"
+        
+            self.closeApp(title, message)
 
 
-
-    def closeApp(self):
-        title = "Uwaga!"
-        message = "Wyjście spowoduje automatyczne wylogowanie z aplikacji"
+    def closeApp(self, title, message):
         
         if QMessageBox.question(self, title, message) == QMessageBox.Yes:
             print("[*] MainWindowDialog info: Button Yes was clicked")
