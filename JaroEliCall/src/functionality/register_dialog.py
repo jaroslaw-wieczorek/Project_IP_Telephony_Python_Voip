@@ -25,6 +25,19 @@ from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrapp
 
 #from validate_email import validate_email
 
+class LoginLengthError(ValueError):
+    pass
+
+class PasswdEqualError(ValueError):
+    pass
+
+class PasswdLengthError(ValueError):
+    pass
+
+class EmailValidError(ValueError):
+    pass
+
+
 class RegisterDialog(RegisterWrappedUI):
     
     # Signal used when user register new account after clicked on push_button_register.
@@ -50,15 +63,104 @@ class RegisterDialog(RegisterWrappedUI):
         self.set_push_button_already_account(self.clickOnAlreadyAccountButton)
         
         #self.closeEvent = self.closeApp      
+    
+    def validateLogin(self, login):
+        # TO DO and CHECK
+        if login is None or login == "":
+            raise TypeError("Login is empty!")
+            return False
         
-    def serverResponse(self):
-        #TODO
+        if type(login) != str:
+            raise TypeError("Login is not text!")    
+            return False
+        
         return True
+    
+    
+    def validateEmail(self, email):
+        # TO DO and CHECK
+        return True
+    
+    
+    def validatePasswords(self, password, repeat_password):
+        # TO DO
+        if len(password) < 8:
+            raise PasswdLengthError("Passwords is too short")
+            return False
         
+        if len(password) > 20:
+            raise PasswdLengthError("Passwords is too long")
+            return False
+                
+        if password != repeat_password:
+            raise PasswdEqualError("Passwords are not equal")
+            return False
+        
+        return True
+    
+    
+    def validateData(self, login, email, passwd, repeat_passwd):
+
+        try:
+            if self.validateLogin(login):
+                
+                if self.validateEmail(email):
+            
+                    if self.validatePasswords(passwd, repeat_passwd):
+                            return True
+                        
+        except Exception as e:
+            self.showRegisterStatus(str(e.args[0]))
+            return False
+            
+        
+    def showRegisterStatus(self, status):
+        #self.addWidget(self.statusBar)
+        self.statusBar.showMessage(status)
+
+
+    def getRegisterStatus(self):
+        print("[*] RegisterDialog info: Get response from server ", self.toThread.received)
+
+        if self.toThread.received == "201 CREATED":
+            status = "Status rejestracji | " + str(self.toThread.received)
+            self.showRegisterStatus(status)
+            return True
+
+        elif self.toThread.received =="406 NOT_CREATED":
+            status = "Status rejestracji | " + str(self.toThread.received)
+            self.showRegisterStatus(status)
+            return False
+
+
+    def registerAccount(self):
+        
+        login = self.get_login()
+        email = self.get_email()
+        passwd = self.get_password()
+        repeat_passwd = self.get_repeat_password()
+
+        if self.validateData(login, email, passwd, repeat_passwd):
+                
+            payload = {
+                    "type": "d",
+                   "description": "CREATE", 
+                   "NICKNAME": login, 
+                   "PASSWORD": passwd, 
+                   "EMAIL": email
+            }
+        
+            self.client.sendMessage(json.dumps(payload).encode("utf-8"))
+        
+            with self.toThread.lock:
+                self.client.listening(self.toThread)
+                return self.getRegisterStatus()
+        else:
+            return False
    
     def clickOnRegisterButton(self):
         print("[*] RegisterDialog info: push_button_register was clicked")
-        if self.serverResponse():
+        if self.registerAccount():
             self.registrationSignal.emit(True)
             print("[*] RegisterDialog info: registrationSignal was emitted with True")
         else:

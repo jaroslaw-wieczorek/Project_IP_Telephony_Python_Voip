@@ -49,10 +49,6 @@ class MyApp(QApplication):
             self.showMainWindow()
         else:
             print("(*) MyApp loggingSignalResponse received:", value)
-            self.loginWindow.showLoginStatus("406")
-            # TO DO: 
-            # Displays an error in the status bar that was received during
-            # a failed login attempt.
 
             
     @QtCore.pyqtSlot(bool)
@@ -63,9 +59,6 @@ class MyApp(QApplication):
             self.showRegisterWindow()
         else:
             print("(*) Myapp registerAccountSignalResponse recived:", value)
-            # TO DO: 
-            # Displays an error received during a failed registration
-            # in the status bar.
 
 
     @QtCore.pyqtSlot(bool)

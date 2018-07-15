@@ -57,14 +57,12 @@ class LoginWrappedUI(QDialog, Ui_LoginInterfaceDialog):
       
         
     def set_password(self, password):
-        """ Metoda dodatkowa """
         self.line_edit_password.setText(password)
         
         
     def get_login(self):
-        """ Metoda typu get służy do pobrania wpisanego loginu"""
-        if self.line_edit_login.text() != '' and self.line_edit_login.text() !=None:
-            return self.line_edit_login.text()
+        if self.line_edit_login.text() != '' and self.line_edit_login.text() != None:
+            return str(self.line_edit_login.text())
         else:
             return None
         

@@ -64,19 +64,23 @@ class LoginDialog(LoginWrappedUI):
         return True
 
 
-    def showLoginStatus(self, value):
+    def showLoginStatus(self, status):
         #self.addWidget(self.statusBar)
-        self.statusBar.showMessage("Błąd podczas logowania")
+        self.statusBar.showMessage(status)
         
         
     def getLoggingStatus(self):
         print("[*] LoginDialog info: Get response from server ", self.toThread.received)
         if self.toThread.received == "200 LOGIN":
+            status = "Status logowania |" + str(self.toThread.received)
+            self.showLoginStatus(status)
             return True
             
         elif self.toThread.received =="406 LOGIN":
+            status = "Status logowania | " + str(self.toThread.received)
+            self.showLoginStatus(status)
             return False
-        
+
 
     def loggingToServer(self, login, password):
         print("[*] LoginDialog info: Trying to log in to the server.", self.toThread.received)
