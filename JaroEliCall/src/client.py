@@ -44,19 +44,19 @@ class Client:
 
         try:
            
-            self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.s.connect((self.host, self.port))
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self.socket.connect((self.host, self.port))
             print("Polaczono z serwerem")
         
         except ConnectionRefusedError as err:
             
             print(err)
-            self.s.close()
+            self.socket.close()
             
 
     def sendMessage(self, data):
         try:
-            self.s.sendto(data, (self.host, self.port))
+            self.socket.sendto(data, (self.host, self.port))
             print("Wysłano ", data)
         except ConnectionRefusedError as err:
             print(err)
@@ -64,8 +64,8 @@ class Client:
 
     def sendMessage_another_client(self, data, host, port):
         try:
-            self.s.connect((host, port))
-            self.s.sendto(data, (host, port))
+            self.socket.connect((host, port))
+            self.socket.sendto(data, (host, port))
             print("Wysłano ", data)
         except ConnectionRefusedError as err:
             print(err)
@@ -73,12 +73,12 @@ class Client:
 
     def listening_all(self, port):
         ip = ''
-        s = socket.socket()
-        s.connect((ip, int(port)))
-        print("Slucham na ip " + str(ip) + " porcie " + str(port))
+        socket = socket.socket()
+        socket.connect((ip, int(port)))
+        print("\tClinet : info >> Listen IP:", str(ip), "PORT:", str(port))
         while 1:
-            data = s.recv(2048)
-            print("Dostalem od " + str(ip) + " wiadomosc: ", data)
+            data = socket.recv(2048)
+            print("\tClinet : info >> Got message:", data, "from:", str(ip))
 
 
     def listening(self, toThreaad):
@@ -88,13 +88,13 @@ class Client:
         while self._is_running:
             
             print("\tClinet : info >> Listen now")
-            packet, address = self.s.recvfrom(self.size)
+            packet, address = self.socket.recvfrom(self.size)
             packet = packet.decode("utf-8")
             received = json.loads(packet)
             
             print("\tClinet : info >> Get response from server", received)
             if(str(received["type"]) == "d"):
-                print("Wchodze dalej ")
+                
                 with toThreaad.lock:
 
                     if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
@@ -113,24 +113,29 @@ class Client:
                         print("200 INVITE ", received["IP"])
                         break
 
+
                     if received["status"] == 406 and received["answer_to"] == "INVITE":
                         toThreaad.received = ("406 INVITE")
                         print("406")
                         break
 
+
                     if received["status"] == 406 and received["answer_to"] == "LOGIN":
                         toThreaad.received = ("406 LOGIN")
                         print("406")
                         break
+                    
 
                     if received["status"] == 406 and received["answer_to"] == "CREATE":
                         toThreaad.received = ("406 NOT_CREATED")
                         print("406")
                         break
 
+
                     if received["status"] == 201 and received["answer_to"] == "CREATE":
                         toThreaad.received = ("201 CREATED")
                         break
+
 
                     if received["status"] == 202:
                         packet = received["users"]
@@ -143,6 +148,7 @@ class Client:
                     if received["status"] == 401:
                         print("401")
                         break
+
 
                     if received["status"] == 200 and received["answer_to"] == "LOGOUT":
                         toThreaad.received = ("200 LOGOUT")
@@ -157,7 +163,7 @@ class Client:
                                 print("Dzwoni ", packet[9::])
                                 self._is_running = False
                                 break"""
-                        print("Nadal slucham")
+                        print("\tClinet : warrning >> Still listen")
                     else:
                         continue
 
@@ -172,29 +178,37 @@ class Client:
 
 
     def sendingVoice(self):
-        print("[*] Recording")
+        print("\tClinet : info >> Start recording")
         
         while True:
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
-                print("Wysylanie")
+                print("\t send:", i)
+                
                 self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
 
                 if self.data:
                     # Write data to pyaudio stream
                     self.stream.write(self.data)  # Stream the recieved audio data
+                    
                     try:
-                        print("Wysłano :)")
-                        self.s.send(self.data)
-                        
+                        self.socket.send(self.data)
+                        print("< Client > Info: Send data", self.data)
                     except ConnectionRefusedError as err:
+                        # TO DO throw this exception upper to managment 
+                        # for try reconnect 
                         print(err)
                         break
                     
-        print("[*] Stop recording")
+        print("\tClinet : info >> Stop recording")
 
 
     def closeConnection(self):
         self.stream.stop_stream()
         self.stream.close()
-        self.s.close()
+        self.socket.close()
 
+
+    def logout(self):
+        # TO DO: 
+        print("\tClinet : info >> Logout")
+        

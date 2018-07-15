@@ -3,7 +3,10 @@ import sys
 
 from functools import partial
 
-from PyQt5 import QtCore
+
+from PyQt5.QtCore import Qt
+
+from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QApplication
 
 
@@ -41,7 +44,7 @@ class MyApp(QApplication):
 
           
     # Slots for communicate 
-    @QtCore.pyqtSlot(bool)
+    @pyqtSlot(bool)
     def loggingSignalResponse(self, value):
         if value:
             print("(*) MyApp loggingSignalResponse received:", value)
@@ -51,7 +54,7 @@ class MyApp(QApplication):
             print("(*) MyApp loggingSignalResponse received:", value)
 
             
-    @QtCore.pyqtSlot(bool)
+    @pyqtSlot(bool)
     def registerAccountSignalResponse(self, value):
         if value:
             print("(*) Myapp registerAccountSignalResponse recived:", value)
@@ -61,7 +64,7 @@ class MyApp(QApplication):
             print("(*) Myapp registerAccountSignalResponse recived:", value)
 
 
-    @QtCore.pyqtSlot(bool)
+    @pyqtSlot(bool)
     def registerSignalResponse(self, value):
         if value:
             print("(*) MyApp registerSignalResponse received:", value)
@@ -74,7 +77,7 @@ class MyApp(QApplication):
             print("(*) MyApp registerSignalResponse received:", value)    
             
             
-    @QtCore.pyqtSlot(bool)
+    @pyqtSlot(bool)
     def alreadyAccountSignalResponse(self, value):
         if value:
             print("(*) MyApp alreadyAccountSignalResponse received:", value)
@@ -84,7 +87,7 @@ class MyApp(QApplication):
             print("(*) MyApp alreadyAccountSignalResponse received:", value) 
             
             
-    @QtCore.pyqtSlot(bool)
+    @pyqtSlot(bool)
     def closingSignalResponse(self, value):
         if value:
             print("(*) MyApp closingSignalResponse received:", value)

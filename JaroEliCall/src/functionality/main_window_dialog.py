@@ -9,6 +9,7 @@ from threading import Thread
 from PyQt5.QtGui import QIcon
 from PyQt5.QtGui import QPixmap 
 
+from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import QMetaType
@@ -58,7 +59,7 @@ class MainWindowDialog(MainWrappedUI):
         """
             Close application from escape key.
         """
-        if event.key() == QtCore.Qt.Key_Escape:
+        if event.key() == Qt.Key_Escape:
             title = "Uwaga!"
             message = "Wyjście spowoduje automatyczne wylogowanie z aplikacji"
         
@@ -70,11 +71,11 @@ class MainWindowDialog(MainWrappedUI):
         if QMessageBox.question(self, title, message) == QMessageBox.Yes:
             print("[*] MainWindowDialog info: Button Yes was clicked")
             self.closingSignal.emit(True)      
+            self.client.closeConnection()
         else:
             print("[*] MainWindowDialog info: Button No was clicked")
             self.closingSignal.emit(False)
 
-        #self.logout()
 
     
 """     List of contacts Widget
