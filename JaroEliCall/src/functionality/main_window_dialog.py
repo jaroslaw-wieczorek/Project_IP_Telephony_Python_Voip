@@ -52,6 +52,34 @@ class MainWindowDialog(MainWrappedUI):
                 
         self.client = client
         self.toThread = toThread
+        #self.__session_id = None
+        
+        self.username = self.setUserName()
+        
+        self.getList()
+        
+    def setUserName(self, user_name):
+        self.username = user_name
+        
+        
+    def getList(self):
+        payload = {"type": "d", "description": "GET"}
+        data = json.dumps(payload).encode("utf-8")
+        print("{*} MainWindow info : Sended data to server:", data)
+        self.client.sendMessage(data)
+
+        with self.toThread.lock:
+            self.client.listening(self.toThread)
+            self.read()
+
+
+    def read(self):
+        print("{*} MainWindow getting from Server : ", self.toThread.received)
+        
+        if(self.toThread.received == "202 USERS"):
+            print("{*} MainWindow users: ", self.toThread.users)
+            self.add_row_to_list_of_users(self.toThread.users)
+            
 
         self.set_push_button_logout(partial(self.closeApp, "Uwaga!", "Czy napewno chesz się wylogować?"))
         

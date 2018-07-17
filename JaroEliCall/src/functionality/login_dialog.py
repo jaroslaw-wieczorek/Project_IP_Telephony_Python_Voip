@@ -98,18 +98,18 @@ class LoginDialog(LoginWrappedUI):
             
             if self.loggingToServer(self.get_login(), self.get_password()):
                 print("[*] LoginDialog info: The loggingToServer method returned True")
-                self.loggingSignal.emit(True)
+                self.loggingSignal.emit(True, self.get_login())
                 #self.loggedSignal.emit({"abc": 123}, name="loggedSignal" )
                 print("[*] LoginDialog info: The loggingSignal was emitted with True")
           
             else:
                 print("[*] LoginDialog info: The loggingToServer method returned False")
-                self.loggingSignal.emit(False)
+                self.loggingSignal.emit(False, self.get_login())
                 print("[*] LoginDialog info: The loggingSignal was emitted with False")
 
         else:
             print("[*] LoginDialog info: The validateData method returned False")
-            self.loggingSignal.emit(False)
+            self.loggingSignal.emit(False, "")
             print("[*] LoginDialog info: The loggingSignal was emitted with False")
 
 

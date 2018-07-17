@@ -44,14 +44,15 @@ class MyApp(QApplication):
 
           
     # Slots for communicate 
-    @pyqtSlot(bool)
-    def loggingSignalResponse(self, value):
-        if value:
-            print("(*) MyApp loggingSignalResponse received:", value)
+    @pyqtSlot(bool, str)
+    def loggingSignalResponse(self, status, login):
+        if status:
+            print("(*) MyApp loggingSignalResponse received:", status)
             self.hideLoginWindow()
+            self.mainWindow.setUserName(login)
             self.showMainWindow()
         else:
-            print("(*) MyApp loggingSignalResponse received:", value)
+            print("(*) MyApp loggingSignalResponse received:", status)
 
             
     @pyqtSlot(bool)
