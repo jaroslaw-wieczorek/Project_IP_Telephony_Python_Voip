@@ -13,7 +13,9 @@ from mongoOperations import MongoOperations
 
 
 # class Server(Validator):
+
 class Server:
+    
     FORMAT = pyaudio.paInt16
     CHUNK = 512
     WIDTH = 1
@@ -21,6 +23,7 @@ class Server:
     RATE = 16000
     RECORD_SECONDS = 15
     FACTOR = 2
+    
 
     def __init__(self):
         # Validator.__init__(self, priv, publ)
@@ -38,6 +41,7 @@ class Server:
                                   frames_per_buffer=self.CHUNK)
         self.mongo = MongoOperations()
 
+
     def connectWithClient(self):
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -45,6 +49,7 @@ class Server:
         except ConnectionRefusedError as err:
             print(err)
             self.s.close()
+
 
     def sendAnything(self):
         self.mongo.runMongo()
@@ -66,6 +71,7 @@ class Server:
             if (key == login):
                 print(key)
                 return value
+            
 
     def who_call(self, addr):
         for key, value in self.dict_ip_users.items():
@@ -73,6 +79,7 @@ class Server:
                 return key
             else:
                 return 0
+            
 
     def get_username_from_ip(self, ip):
         for key, value in self.mongo.dict_ip_users.items():
@@ -80,6 +87,7 @@ class Server:
                 return key
             else:
                 return "brak usera"
+            
 
     def log_in(self, login, password, addr):
         print("Otrzymano LOGIN")
@@ -97,6 +105,7 @@ class Server:
             payload = {"type": "d","description": "NOT ACCEPTABLE", "status": 406, "answer_to": "LOGIN"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
             print('Wyslano 406')
+            
 
     def log_out(self, addr):
         print("Otrzymano LOGOUT")
@@ -123,6 +132,7 @@ class Server:
         message = json.dumps(payload)
         self.s.sendto(message.encode("utf-8"), addr)
         print("Wyslano WIADOMOSC" + str(type(message)) + " " + str(message) + " do " + str(addr))
+
 
     # connection_receiver login osoby do ktorej chce zadzwonic
     def invite_person(self, where_name, who_ip):
@@ -152,6 +162,7 @@ class Server:
             payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "INVITE"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), who_ip)
             print(payload)
+    
 
     def create_in_database(self, communicate, addr):
         print("Tworzenie usera:", communicate["NICKNAME"])
@@ -167,7 +178,6 @@ class Server:
             payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "REGISTER"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
             print("Wyslano ", payload)
-
 
 
     def listening(self):
@@ -216,6 +226,7 @@ class Server:
 
 
         print("[*] Stop listen")
+
 
     def stopConnection(self):
         self.stream.stop_stream()

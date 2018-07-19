@@ -14,7 +14,7 @@ class Limiter:
         self.delay_line = zeros(delay, dtype=dtype)
         self.release_coeff = release_coeff
         self.attack_coeff = attack_coeff
-
+        
     def limit(self, signal, threshold):
         for i in arange(len(signal)):
             self.delay_line[self.delay_index] = signal[i]
@@ -41,7 +41,7 @@ def callback(in_data, frame_count, time_info, flag):
     if flag:
         print("Playback Error: %i" % flag)
     played_frames = 0
-    counter += frame_count
+    counter = frame_count
     limiter.limit(signal[played_frames:counter], threshold)
     return signal[played_frames:counter], paContinue               
                 

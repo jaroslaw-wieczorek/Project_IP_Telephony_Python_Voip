@@ -36,7 +36,7 @@ class LoginDialog(LoginWrappedUI):
     """
     
     closingSignal = pyqtSignal(bool)
-    loggingSignal = QtCore.pyqtSignal(bool)
+    loggingSignal = QtCore.pyqtSignal(bool, str)
     registerAccountSignal = QtCore.pyqtSignal(bool)
 
     def __init__(self, client, toThread):

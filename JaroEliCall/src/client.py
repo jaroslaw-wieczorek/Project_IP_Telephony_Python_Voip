@@ -19,7 +19,7 @@ class Client:
     RATE = 16000
     RECORD_SECONDS = 15
     FACTOR = 2
-
+    
 
     def __init__(self, SERWER_IP, port):
         print("Inicjalizacja klasy Client")
@@ -33,6 +33,7 @@ class Client:
                                   frames_per_buffer=self.CHUNK)
         
         self.connectToSerwer(SERWER_IP, port)
+        self.username = None
 
 
     def connectToSerwer(self, host, port):

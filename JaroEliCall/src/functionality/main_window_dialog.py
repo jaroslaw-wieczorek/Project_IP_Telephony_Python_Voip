@@ -41,7 +41,6 @@ from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 
 class MainWindowDialog(MainWrappedUI):
     
-    
     # Signal used when user close app after clicked esc or cros to close app.
     # If user clicked Yes on message box return True other way return False. 
    
@@ -54,7 +53,7 @@ class MainWindowDialog(MainWrappedUI):
         self.toThread = toThread
         #self.__session_id = None
         
-        self.username = self.setUserName()
+        self.username = self.setUserName(self.client.username)
         
         self.getList()
         
