@@ -108,7 +108,7 @@ class Client(QtCore.QObject):
     def react_on_communicate(self):
         if self.received["status"] == 200 and self.received["answer_to"] == "LOGIN":
             print("Dostalem 200")
-            self.received = ("200 LOGIN")
+            self.received = "200 LOGIN"
             self.getMessage.emit(True)
                         #self.toThread.lock.release()
             # toThread.self.received = ("200 LOGIN")
@@ -127,7 +127,7 @@ class Client(QtCore.QObject):
             print("406")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
-            # toThread.self.received = ("406 LOGIN")
+            self.received = "406 LOGIN"
             print("406")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "CREATE":
