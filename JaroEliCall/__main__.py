@@ -45,8 +45,7 @@ PORT = 50001
 def main():
     
 
-    toThread = ClassBetweenThreads()
-    client = Client(SERWER_IP, PORT, toThread)
+    client = Client(SERWER_IP, PORT)
     
     myapp = MyApp(sys.argv)
 

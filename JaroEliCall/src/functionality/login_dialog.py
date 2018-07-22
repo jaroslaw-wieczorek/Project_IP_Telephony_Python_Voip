@@ -74,14 +74,14 @@ class LoginDialog(LoginWrappedUI):
         
     def getLoggingStatus(self):     
         #time.sleep(5)
-        print("[*] LoginDialog info: Get response from server ", self.client.toThread.received)
-        if self.client.toThread.received == "200 LOGIN":
-            status = "Status logowania |" + str(self.client.toThread.received)
+        print("[*] LoginDialog info: Get response from server ", self.client.received)
+        if self.client.received == "200 LOGIN":
+            status = "Status logowania |" + str(self.client.received)
             self.showLoginStatus(status)
             return True
             
-        elif self.client.toThread.received =="406 LOGIN":
-            status = "Status logowania | " + str(self.client.toThread.received)
+        elif self.client.received =="406 LOGIN":
+            status = "Status logowania | " + str(self.client.received)
             self.showLoginStatus(status)
             return False
     
@@ -102,7 +102,7 @@ class LoginDialog(LoginWrappedUI):
 
             
     def loggingToServer(self, login, password):
-        print("[*] LoginDialog info: Trying to log in to the server.", self.client.toThread.received)
+        print("[*] LoginDialog info: Trying to log in to the server.", self.client.received)
         
         self.client.login(login, password)
         self.waiting_for_signal()

@@ -119,15 +119,15 @@ class RegisterDialog(RegisterWrappedUI):
 
 
     def getRegisterStatus(self):
-        print("[*] RegisterDialog info: Get response from server ", self.client.toThread.received)
+        print("[*] RegisterDialog info: Get response from server ", self.client.received)
 
-        if self.client.toThread.received == "201 CREATED":
-            status = "Status rejestracji | " + str(self.client.toThread.received)
+        if self.client.received == "201 CREATED":
+            status = "Status rejestracji | " + str(self.client.received)
             self.showRegisterStatus(status)
             return True
 
-        elif self.client.toThread.received =="406 NOT_CREATED":
-            status = "Status rejestracji | " + str(self.client.toThread.received)
+        elif self.client.received =="406 NOT_CREATED":
+            status = "Status rejestracji | " + str(self.client.received)
             self.showRegisterStatus(status)
             return False
 
@@ -151,7 +151,6 @@ class RegisterDialog(RegisterWrappedUI):
         
             self.client.sendMessage(json.dumps(payload).encode("utf-8"))
         
-            #self.client.listeningServer(self.client.toThread)
             return self.getRegisterStatus()
         else:
             return False

@@ -33,7 +33,7 @@ class Client(QtCore.QObject):
 
     getMessage = QtCore.pyqtSignal(bool)
     
-    def __init__(self, SERWER_IP, port, toThread):
+    def __init__(self, SERWER_IP, port):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
         self.p = pyaudio.PyAudio()
@@ -45,7 +45,7 @@ class Client(QtCore.QObject):
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
         
-        self.toThread = toThread
+        self.received = None
         self.connectToSerwer(SERWER_IP, port)
 
         self.username = None
@@ -87,16 +87,6 @@ class Client(QtCore.QObject):
         except ConnectionRefusedError as err:
             print(err)
 
-    """
-    def listening_all(self, port):
-        ip = ''
-        socket = socket.socket()
-        socket.connect((ip, int(port)))
-        print("\tClinet : info >> Listen IP:", str(ip), "PORT:", str(port))
-        while 1:
-            data = socket.recv(2048)
-            print("\tClinet : info >> Got message:", data, "from:", str(ip))
-    """        
 
     def listeningServer(self):
         print("\tClinet : info >> Setup listeningServer")
@@ -107,11 +97,18 @@ class Client(QtCore.QObject):
            
             packet, address = self.socket.recvfrom(self.size)
             
-            print("\tClinet : info >> Get response from server", received)
-            if(str(received["type"]) == "d"):
-                
-                #with toThread.lock:
-                self.react_on_communicate(received)
+            
+            print("\tClinet : info >> Get response from server", packet)
+            
+            packet, address = self.socket.recvfrom(self.size)
+            packet = packet.decode("utf-8")
+
+            self.received = json.loads(packet)
+            print(self.received)
+            
+            if str(self.received["type"]) == "d":
+                self.react_on_communicate()
+                print("EJEJEBONGO" )
             else:
                 continue
 
@@ -119,49 +116,49 @@ class Client(QtCore.QObject):
 
 
 
+    def react_on_communicate(self):
 
-
-    def react_on_communicate(self, received):
-
-        if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
+        if self.received["status"] == 200 and self.received["answer_to"] == "LOGIN":
             print("Dostalem 200")
-            # toThread.received = ("200 LOGIN")
+            self.getMessage.emit(True)
+                        #self.toThread.lock.release()
+            # toThread.self.received = ("200 LOGIN")
 
-        elif received["status"] == 200 and received["answer_to"] == "NOTHING":
-            # toThread.received = ("200 NOTHING " + str(received["from_who"]))
-            print("200 INVITE ", received["from_who"])
-            print("Dzwoni ", str(received["from_who"]))
+        elif self.received["status"] == 200 and self.received["answer_to"] == "NOTHING":
+            # toThread.self.received = ("200 NOTHING " + str(self.received["from_who"]))
+            print("200 INVITE ", self.received["from_who"])
+            print("Dzwoni ", str(self.received["from_who"]))
 
-        elif received["status"] == 200 and received["answer_to"] == "INVITE":
-            # toThread.received = ("200 INVITE " + str(received["IP"]))
-            print("200 INVITE ", received["IP"])
+        elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
+            # toThread.self.received = ("200 INVITE " + str(self.received["IP"]))
+            print("200 INVITE ", self.received["IP"])
 
-        elif received["status"] == 406 and received["answer_to"] == "INVITE":
-            # toThread.received = ("406 INVITE")
+        elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
+            # toThread.self.received = ("406 INVITE")
             print("406")
 
-        elif received["status"] == 406 and received["answer_to"] == "LOGIN":
-            # toThread.received = ("406 LOGIN")
+        elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
+            # toThread.self.received = ("406 LOGIN")
             print("406")
 
-        elif received["status"] == 406 and received["answer_to"] == "CREATE":
-            # toThread.received = ("406 NOT_CREATED")
+        elif self.received["status"] == 406 and self.received["answer_to"] == "CREATE":
+            # toThread.self.received = ("406 NOT_CREATED")
             print("406")
 
-        elif received["status"] == 201 and received["answer_to"] == "CREATE":
-            #toThread.received = ("201 CREATED")
+        elif self.received["status"] == 201 and self.received["answer_to"] == "CREATE":
+            #toThread.self.received = ("201 CREATED")
             print("201 CREATE ")
 
-        elif received["status"] == 202:
-            packet = received["users"]
+        elif self.received["status"] == 202:
+            packet = self.received["users"]
             print("Otrzymano ", packet)
-            #toThread.received = ("202 USERS")
+            #toThread.self.received = ("202 USERS")
 
-        elif received["status"] == 401:
+        elif self.received["status"] == 401:
             print("401")
 
-        elif received["status"] == 200 and received["answer_to"] == "LOGOUT":
-            #toThread.received = ("200 LOGOUT")
+        elif self.received["status"] == 200 and self.received["answer_to"] == "LOGOUT":
+            #toThread.self.received = ("200 LOGOUT")
             print("200")
 
 
