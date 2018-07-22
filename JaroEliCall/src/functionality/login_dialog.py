@@ -106,8 +106,6 @@ class LoginDialog(LoginWrappedUI):
         
         self.client.login(login, password)
         self.waiting_for_signal()
-        
-        return self.getLoggingStatus()
 
 
     def clickOnLoginButton(self):

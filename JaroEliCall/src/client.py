@@ -97,20 +97,13 @@ class Client(QtCore.QObject):
            
             packet, address = self.socket.recvfrom(self.size)
             data = packet.decode("utf-8")
-            received = json.loads(data)
-            
+            self.received = json.loads(data)
             
             print("\tClinet : info >> Get response from server", packet)
             
-            packet, address = self.socket.recvfrom(self.size)
-            packet = packet.decode("utf-8")
-
-            self.received = json.loads(packet)
-            print(self.received)
             
             if str(self.received["type"]) == "d":
                 self.react_on_communicate()
-                print("EJEJEBONGO" )
             else:
                 continue
 
