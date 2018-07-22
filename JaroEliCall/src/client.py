@@ -96,6 +96,8 @@ class Client(QtCore.QObject):
             
            
             packet, address = self.socket.recvfrom(self.size)
+            data = packet.decode("utf-8")
+            received = json.loads(data)
             
             
             print("\tClinet : info >> Get response from server", packet)
