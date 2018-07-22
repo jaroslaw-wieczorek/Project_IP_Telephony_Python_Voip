@@ -45,15 +45,16 @@ class MainWindowDialog(MainWrappedUI):
     # If user clicked Yes on message box return True other way return False. 
    
     closingSignal = pyqtSignal(bool)
+    callSignal = pyqtSignal(bool, str)
     
-    def __init__(self, client, toThread):
+    def __init__(self, client):
         super(MainWindowDialog, self).__init__()
                 
         self.client = client
-        self.toThread = toThread
         #self.__session_id = None
         
         self.username = self.setUserName(self.client.username)
+        self.set_push_button_logout(partial(self.closeApp, "Uwaga!", "Czy napewno chesz się wylogować?"))
         
         #self.getList()
         
@@ -67,20 +68,18 @@ class MainWindowDialog(MainWrappedUI):
         print("{*} MainWindow info : Sended data to server:", data)
         self.client.sendMessage(data)
 
-        #with self.toThread.lock:
-        self.client.listening(self.toThread)
+        #with self.client.toThread.lock:
+        #self.client.listeningServer(self.client.toThread)
         self.read()
 
 
     def read(self):
-        print("{*} MainWindow getting from Server : ", self.toThread.received)
+        print("{*} MainWindow getting from Server : ", self.client.toThread.received)
         
-        if(self.toThread.received == "202 USERS"):
-            print("{*} MainWindow users: ", self.toThread.users)
-            self.add_row_to_list_of_users(self.toThread.users)
+        if(self.client.toThread.received == "202 USERS"):
+            print("{*} MainWindow users: ", self.client.toThread.users)
+            self.add_row_to_list_of_users(self.client.toThread.users)
             
-
-        self.set_push_button_logout(partial(self.closeApp, "Uwaga!", "Czy napewno chesz się wylogować?"))
         
     def keyPressEvent(self, event):
         """
@@ -123,13 +122,13 @@ class MainWindowDialog(MainWrappedUI):
         super(MainWiFalsendowDialog, self).__init__()
         self.c = client
         self.closeEvent = self.notify
-        self.toThread = toThread
+        self.client.toThread = toThread
         self.getList()
         
         #self.login = login is not used ? 
         self.login = "jaro"
         
-        # wait_for_conn = Thread(target=self.wait_for_calling, args=[self.toThread,])
+        # wait_for_conn = Thread(target=self.wait_for_calling, args=[self.client.toThread,])
         # wait_for_conn.start()
 
         # podpięcie metod z AddUserWidget do przycisków interfejsu
@@ -143,31 +142,31 @@ class MainWindowDialog(MainWrappedUI):
         
 
     def wait_for_calling(self, toThread):
-        with self.toThread.lock:
+        with self.client.toThread.lock:
             self.c.listening(toThread)
             self.read()
             
 
     def read(self):
-        print(self.toThread.received)
-        print("Odczytalem ", self.toThread.received)
+        print(self.client.toThread.received)
+        print("Odczytalem ", self.client.toThread.received)
         
-        if(self.toThread.received[-1] == "202 USERS"):
-            print("Userzy: ", self.toThread.users)
-            self.add_row_to_list_of_users(self.toThread.users)
+        if(self.client.toThread.received[-1] == "202 USERS"):
+            print("Userzy: ", self.client.toThread.users)
+            self.add_row_to_list_of_users(self.client.toThread.users)
             
-        if(self.toThread.received[-1] == "406 INVITE"):
+        if(self.client.toThread.received[-1] == "406 INVITE"):
             self.set_info_text("Nie można polaczyc sie z klientem")
             self.show_info_text()
             
-        if(self.toThread.received[-1] == "200 LOGOUT"):
+        if(self.client.toThread.received[-1] == "200 LOGOUT"):
             self.close()
             
-        if(self.toThread.received[-1][0:10]=="200 CALLING"):
-            print("Dostalem: ", self.toThread.received[-1])
+        if(self.client.toThread.received[-1][0:10]=="200 CALLING"):
+            print("Dostalem: ", self.client.toThread.received[-1])
             
             # Potrzebne komentarze co tu się dzieje 
-            data = self.toThread.received[-1][11::].replace('[','(')
+            data = self.client.toThread.received[-1][11::].replace('[','(')
             ip_and_port = data.replace(']',')')
             ip = str(ip_and_port[ip_and_port.find("'")+len("'"):ip_and_port.rfind("'")])
             port = int(ip_and_port[ip_and_port.find(" ")+len(" "):ip_and_port.rfind(")")])
@@ -190,10 +189,10 @@ class MainWindowDialog(MainWrappedUI):
         print("Wysłano do serwera:", data)
         self.c.sendMessage(data)
 
-        self.toThread = betweenTherads.ClassBetweenhreads()
+        self.client.toThread = betweenTherads.ClassBetweenhreads()
 
-        with self.toThread.lock:
-            self.c.listening(self.toThread)
+        with self.client.toThread.lock:
+            self.c.listening(self.client.toThread)
             self.read()
 
 
@@ -226,8 +225,8 @@ class MainWindowDialog(MainWrappedUI):
             print(data)
             self.c.sendMessage(data)
 
-            with self.toThread.lock:
-                self.c.listening(self.toThread)
+            with self.client.toThread.lock:
+                self.c.listening(self.client.toThread)
                 self.read()
 
 

@@ -44,16 +44,17 @@ PORT = 50001
 
 def main():
     
-    client = Client(SERWER_IP, PORT)
+
     toThread = ClassBetweenThreads()
+    client = Client(SERWER_IP, PORT, toThread)
     
     myapp = MyApp(sys.argv)
 
  
     #widgetB.procDone.connect(self.widgetA.on_widgetB_procDone)
-    
+
     myapp.setupClient(client)
-    myapp.setupThread(toThread)
+
     
     #window = QWidget()
     #window.resize(250, 150)
@@ -62,14 +63,14 @@ def main():
     #window.show()pomnik kanadzie
     # app.setupMainWindow = MainWindowDialog()
 
-    loginWindow = LoginDialog(myapp.client, myapp.toThread)
+    loginWindow = LoginDialog(myapp.client)
     myapp.setupLoginWindow(loginWindow)
     
-    registerWindow = RegisterDialog(myapp.client, myapp.toThread)
+    registerWindow = RegisterDialog(myapp.client)
     myapp.setupRegisterWindow(registerWindow)
     
     
-    mainAppWindow = MainWindowDialog(myapp.client, myapp.toThread)
+    mainAppWindow = MainWindowDialog(myapp.client)
     myapp.setupMainWindow(mainAppWindow)
     
     
@@ -85,6 +86,7 @@ def main():
     
     myapp.mainWindow.closingSignal.connect(myapp.closingSignalResponse)
     myapp.loginWindow.closingSignal.connect(myapp.closingSignalResponse)
+    myapp.client.getMessage.connect(myapp.loginWindow.loop.exit)
     myapp.registerWindow.closingSignal.connect(myapp.closingSignalResponse)
     
     myapp.showLoginWindow()

@@ -23,7 +23,6 @@ from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrapp
 
 
 
-
 #from validate_email import validate_email
 
 class LoginLengthError(ValueError):
@@ -54,11 +53,10 @@ class RegisterDialog(RegisterWrappedUI):
     # Close signal 
     closingSignal = pyqtSignal(bool)
     
-    def __init__(self, client, toThread):
+    def __init__(self, client):
         super(RegisterDialog, self).__init__()
                 
         self.client = client
-        self.toThread = toThread
         
         self.set_push_button_register(self.clickOnRegisterButton)
         self.set_push_button_already_account(self.clickOnAlreadyAccountButton)
@@ -121,15 +119,15 @@ class RegisterDialog(RegisterWrappedUI):
 
 
     def getRegisterStatus(self):
-        print("[*] RegisterDialog info: Get response from server ", self.toThread.received)
+        print("[*] RegisterDialog info: Get response from server ", self.client.toThread.received)
 
-        if self.toThread.received == "201 CREATED":
-            status = "Status rejestracji | " + str(self.toThread.received)
+        if self.client.toThread.received == "201 CREATED":
+            status = "Status rejestracji | " + str(self.client.toThread.received)
             self.showRegisterStatus(status)
             return True
 
-        elif self.toThread.received =="406 NOT_CREATED":
-            status = "Status rejestracji | " + str(self.toThread.received)
+        elif self.client.toThread.received =="406 NOT_CREATED":
+            status = "Status rejestracji | " + str(self.client.toThread.received)
             self.showRegisterStatus(status)
             return False
 
@@ -153,9 +151,8 @@ class RegisterDialog(RegisterWrappedUI):
         
             self.client.sendMessage(json.dumps(payload).encode("utf-8"))
         
-            with self.toThread.lock:
-                self.client.listening(self.toThread)
-                return self.getRegisterStatus()
+            #self.client.listeningServer(self.client.toThread)
+            return self.getRegisterStatus()
         else:
             return False
    

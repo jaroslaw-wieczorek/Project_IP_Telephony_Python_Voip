@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import time
 import hashlib
 import threading
 from functools import partial
@@ -39,16 +40,19 @@ class LoginDialog(LoginWrappedUI):
     loggingSignal = QtCore.pyqtSignal(bool, str)
     registerAccountSignal = QtCore.pyqtSignal(bool)
 
-    def __init__(self, client, toThread):
+    def __init__(self, client):
         super(LoginDialog, self).__init__()
         
-        self.client = client
-        self.toThread = toThread
-        
+        self.client : Client = client
+                
         self.set_push_button_login(self.clickOnLoginButton)
         self.set_push_button_register(self.clickOnRegisterButton)
 
         #self.closeEvent = self.closeApp
+        self.loop = QtCore.QEventLoop()
+        self.timer = QtCore.QTimer()
+        self.timer.setSingleShot(True)
+        self.timer.timeout.connect(lambda: self.loop.exit(1))
         
     def keyPressEvent(self, event):
         """
@@ -68,26 +72,42 @@ class LoginDialog(LoginWrappedUI):
         self.statusBar.showMessage(status)
         
         
-    def getLoggingStatus(self):
-        print("[*] LoginDialog info: Get response from server ", self.toThread.received)
-        if self.toThread.received == "200 LOGIN":
-            status = "Status logowania |" + str(self.toThread.received)
+    def getLoggingStatus(self):     
+        #time.sleep(5)
+        print("[*] LoginDialog info: Get response from server ", self.client.toThread.received)
+        if self.client.toThread.received == "200 LOGIN":
+            status = "Status logowania |" + str(self.client.toThread.received)
             self.showLoginStatus(status)
             return True
             
-        elif self.toThread.received =="406 LOGIN":
-            status = "Status logowania | " + str(self.toThread.received)
+        elif self.client.toThread.received =="406 LOGIN":
+            status = "Status logowania | " + str(self.client.toThread.received)
             self.showLoginStatus(status)
             return False
+    
+    
 
-
-    def loggingToServer(self, login, password):
-        print("[*] LoginDialog info: Trying to log in to the server.", self.toThread.received)
-        self.client.login(login, password)
+    def waiting_for_signal(self):
+      
+        self.timer.start(10000) # 10 second time-out
         
-        with self.toThread.lock:
-            self.client.listening(self.toThread)
+        print('fetching request...')
+        if self.loop.exec_() == 0:
+            self.timer.stop()
+            print("Timer stop - get message")
             return self.getLoggingStatus()
+        else:
+            print('request timed-out :(')
+    
+
+            
+    def loggingToServer(self, login, password):
+        print("[*] LoginDialog info: Trying to log in to the server.", self.client.toThread.received)
+        
+        self.client.login(login, password)
+        self.waiting_for_signal()
+        
+        return self.getLoggingStatus()
 
 
     def clickOnLoginButton(self):

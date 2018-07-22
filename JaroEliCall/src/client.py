@@ -8,10 +8,19 @@ sys.path.append(lib_path)
 import pyaudio
 import socket
 import json
+import time
 import threading
 
+import PyQt5
 
-class Client:
+from PyQt5 import QtCore
+
+from PyQt5.QtCore import Qt
+
+from PyQt5.QtCore import pyqtSignal
+
+class Client(QtCore.QObject):
+
     FORMAT = pyaudio.paInt16
     CHUNK = 512
     WIDTH = 1
@@ -20,8 +29,12 @@ class Client:
     RECORD_SECONDS = 2
     FACTOR = 2
     
+    
 
-    def __init__(self, SERWER_IP, port):
+    getMessage = QtCore.pyqtSignal(bool)
+    
+    def __init__(self, SERWER_IP, port, toThread):
+        super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
         self.p = pyaudio.PyAudio()
 
@@ -32,7 +45,9 @@ class Client:
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
         
+        self.toThread = toThread
         self.connectToSerwer(SERWER_IP, port)
+
         self.username = None
 
 
@@ -59,6 +74,7 @@ class Client:
         try:
             self.socket.sendto(data, (self.host, self.port))
             print("Wysłano ", data)
+            
         except ConnectionRefusedError as err:
             print(err)
             
@@ -71,7 +87,7 @@ class Client:
         except ConnectionRefusedError as err:
             print(err)
 
-
+    """
     def listening_all(self, port):
         ip = ''
         socket = socket.socket()
@@ -80,94 +96,97 @@ class Client:
         while 1:
             data = socket.recv(2048)
             print("\tClinet : info >> Got message:", data, "from:", str(ip))
+    """        
 
-
-    def listening(self, toThread):
-        print("\tClinet : info >> Setup listening")
-        self._is_running = True
-        print("\tClinet : info >> Set _is_running on True")
-        while self._is_running:
+    def listeningServer(self):
+        print("\tClinet : info >> Setup listeningServer")
+        while True:
             
             print("\tClinet : info >> Listen now")
-            packet, address = self.socket.recvfrom(self.size)
-            packet = packet.decode("utf-8")
-            received = json.loads(packet)
             
-            print("\tClinet : info >> Get response from server", received)
-            if(str(received["type"]) == "d"):
-                
-                with toThread.lock:
-
+           
+            packet, address = self.socket.recvfrom(self.size)
+            
+            if packet is not None:
+                packet = packet.decode("utf-8")
+                received = json.loads(packet)
+            
+                print("\tClinet : info >> Get response from server", received)
+                if(str(received["type"]) == "d"):
+                                
                     if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
                         print("Dostalem 200")
-                        toThread.received = ("200 LOGIN")
-                        break
-
-                    if received["status"] == 200 and received["answer_to"] == "NOTHING":
-                        toThread.received = ("200 NOTHING " + str(received["from_who"]))
+                        self.toThread.received = ("200 LOGIN")
+                        self.getMessage.emit(True)
+                        #self.toThread.lock.release()
+                            
+                        #break
+                            
+                    elif received["status"] == 200 and received["answer_to"] == "NOTHING":
+                        self.toThread.received = ("200 NOTHING " + str(received["from_who"]))
                         print("200 INVITE ", received["from_who"])
                         print("Dzwoni ", str(received["from_who"]))
-                        break
+                        #break
 
-                    if received["status"] == 200 and received["answer_to"] == "INVITE":
-                        toThread.received = ("200 INVITE " + str(received["IP"]))
+                    elif received["status"] == 200 and received["answer_to"] == "INVITE":
+                        self.toThread.received = ("200 INVITE " + str(received["IP"]))
                         print("200 INVITE ", received["IP"])
-                        break
+                        #break
 
 
-                    if received["status"] == 406 and received["answer_to"] == "INVITE":
-                        toThread.received = ("406 INVITE")
+                    elif received["status"] == 406 and received["answer_to"] == "INVITE":
+                        self.toThread.received = ("406 INVITE")
                         print("406")
-                        break
+                        #break
 
 
-                    if received["status"] == 406 and received["answer_to"] == "LOGIN":
-                        toThread.received = ("406 LOGIN")
+                    elif received["status"] == 406 and received["answer_to"] == "LOGIN":
+                        self.toThread.received = ("406 LOGIN")
                         print("406")
-                        break
+                            #break
                     
 
-                    if received["status"] == 406 and received["answer_to"] == "CREATE":
-                        toThread.received = ("406 NOT_CREATED")
+                    elif received["status"] == 406 and received["answer_to"] == "CREATE":
+                        self.toThread.received = ("406 NOT_CREATED")
                         print("406")
-                        break
+                            #break
 
 
-                    if received["status"] == 201 and received["answer_to"] == "CREATE":
-                        toThread.received = ("201 CREATED")
-                        break
+                    elif received["status"] == 201 and received["answer_to"] == "CREATE":
+                        self.toThread.received = ("201 CREATED")
+                        #break
 
 
-                    if received["status"] == 202:
+                    elif received["status"] == 202:
                         packet = received["users"]
                         print("Otrzymano ", packet)
-                        toThread.received = ("202 USERS")
-                        toThread.users = packet
-                        break
+                        self.toThread.received = ("202 USERS")
+                        self.toThread.users = packet
+                        #break
 
 
-                    if received["status"] == 401:
+                    elif received["status"] == 401:
                         print("401")
-                        break
+                        #break
 
 
-                    if received["status"] == 200 and received["answer_to"] == "LOGOUT":
-                        toThread.received = ("200 LOGOUT")
+                    elif received["status"] == 200 and received["answer_to"] == "LOGOUT":
+                        self.toThread.received = ("200 LOGOUT")
                         print("200")
-                        break
+                            #break
 
-                        """if packet[0:1] == "d":
+                        """
+                        if packet[0:1] == "d":
                             print("Komunikat: ", packet[2::])
                             print(packet[2:7])
-                            
-                            if packet[2:8] == "INVITE":
-                                print("Dzwoni ", packet[9::])
-                                self._is_running = False
-                                break"""
-                        print("\tClinet : warrning >> Still listen")
-                    else:
-                        continue
-
+                                
+                                if packet[2:8] == "INVITE":
+                                    print("Dzwoni ", packet[9::])
+                                    self._is_running = False
+                                    break
+                        """
+                    print("\tClinet : warrning >> Still listen")
+                        
 
     def login(self, login, password):
         payload = {"type": "d", "description": "LOGIN", "login": login, "password": password}

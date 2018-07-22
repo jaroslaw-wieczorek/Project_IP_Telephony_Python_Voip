@@ -1,12 +1,15 @@
 import os
 import sys
 
+from threading import Thread
+
 from functools import partial
 
 
 from PyQt5.QtCore import Qt
 
 from PyQt5.QtCore import pyqtSlot
+
 from PyQt5.QtWidgets import QApplication
 
 
@@ -34,7 +37,7 @@ class MyApp(QApplication):
         
         self.username : str = None
         self.client : Client = None
-        self.toThread : Client = None
+        #self.toThread = None
                 
         self.mainWindow = None
         self.loginWindow = None
@@ -97,15 +100,25 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp closingSignalResponse received:", value)
             
+            
+    def callSignalResponse(self, value, username):
+        if value:
+            print("(*) MyApp callSignalResponse received:", value)
+           # self.client.c
+            
+        else:
+            print("(*) MyApp closingSignalResponse received:", value)
 
-    def setupThread(self, to_thread):
-        self.toThread = to_thread
+   # def setupThread(self, to_thread):
+        #self.toThread = to_thread
        
         
     # Managment clinet and connection        
     def setupClient(self, client):
         self.client = client
-    
+        self.listen_server_thread = Thread(
+                target=self.client.listeningServer, daemon=True)
+        self.listen_server_thread.start()
     
     def connectToServer(self):
         self.client
