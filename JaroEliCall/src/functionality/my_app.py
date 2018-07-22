@@ -115,9 +115,10 @@ class MyApp(QApplication):
     def setupMainWindow(self, main_window):
         self.mainWindow = main_window
     
+    
     def showMainWindow(self):
         self.mainWindow.show()
-        
+        self.mainWindow.getList()
      
     # Login Dialog methods
     def setupLoginWindow(self, login_window):

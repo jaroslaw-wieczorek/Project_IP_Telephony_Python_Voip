@@ -82,7 +82,7 @@ class Client:
             print("\tClinet : info >> Got message:", data, "from:", str(ip))
 
 
-    def listening(self, toThreaad):
+    def listening(self, toThread):
         print("\tClinet : info >> Setup listening")
         self._is_running = True
         print("\tClinet : info >> Set _is_running on True")
@@ -96,53 +96,53 @@ class Client:
             print("\tClinet : info >> Get response from server", received)
             if(str(received["type"]) == "d"):
                 
-                with toThreaad.lock:
+                with toThread.lock:
 
                     if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
                         print("Dostalem 200")
-                        toThreaad.received = ("200 LOGIN")
+                        toThread.received = ("200 LOGIN")
                         break
 
                     if received["status"] == 200 and received["answer_to"] == "NOTHING":
-                        toThreaad.received = ("200 NOTHING " + str(received["from_who"]))
+                        toThread.received = ("200 NOTHING " + str(received["from_who"]))
                         print("200 INVITE ", received["from_who"])
                         print("Dzwoni ", str(received["from_who"]))
                         break
 
                     if received["status"] == 200 and received["answer_to"] == "INVITE":
-                        toThreaad.received = ("200 INVITE " + str(received["IP"]))
+                        toThread.received = ("200 INVITE " + str(received["IP"]))
                         print("200 INVITE ", received["IP"])
                         break
 
 
                     if received["status"] == 406 and received["answer_to"] == "INVITE":
-                        toThreaad.received = ("406 INVITE")
+                        toThread.received = ("406 INVITE")
                         print("406")
                         break
 
 
                     if received["status"] == 406 and received["answer_to"] == "LOGIN":
-                        toThreaad.received = ("406 LOGIN")
+                        toThread.received = ("406 LOGIN")
                         print("406")
                         break
                     
 
                     if received["status"] == 406 and received["answer_to"] == "CREATE":
-                        toThreaad.received = ("406 NOT_CREATED")
+                        toThread.received = ("406 NOT_CREATED")
                         print("406")
                         break
 
 
                     if received["status"] == 201 and received["answer_to"] == "CREATE":
-                        toThreaad.received = ("201 CREATED")
+                        toThread.received = ("201 CREATED")
                         break
 
 
                     if received["status"] == 202:
                         packet = received["users"]
                         print("Otrzymano ", packet)
-                        toThreaad.received = ("202 USERS")
-                        toThreaad.users = packet
+                        toThread.received = ("202 USERS")
+                        toThread.users = packet
                         break
 
 
@@ -152,7 +152,7 @@ class Client:
 
 
                     if received["status"] == 200 and received["answer_to"] == "LOGOUT":
-                        toThreaad.received = ("200 LOGOUT")
+                        toThread.received = ("200 LOGOUT")
                         print("200")
                         break
 

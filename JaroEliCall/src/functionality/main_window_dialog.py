@@ -55,21 +55,21 @@ class MainWindowDialog(MainWrappedUI):
         
         self.username = self.setUserName(self.client.username)
         
-        self.getList()
+        #self.getList()
         
     def setUserName(self, user_name):
         self.username = user_name
         
-        
+    
     def getList(self):
         payload = {"type": "d", "description": "GET"}
         data = json.dumps(payload).encode("utf-8")
         print("{*} MainWindow info : Sended data to server:", data)
         self.client.sendMessage(data)
 
-        with self.toThread.lock:
-            self.client.listening(self.toThread)
-            self.read()
+        #with self.toThread.lock:
+        self.client.listening(self.toThread)
+        self.read()
 
 
     def read(self):
