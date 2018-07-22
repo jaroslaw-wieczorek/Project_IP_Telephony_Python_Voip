@@ -1,10 +1,11 @@
 import os
 import sys
+import json
+import time
 import pyaudio
 import socket
 from threading import Thread
-import json
-import time
+
 from bson.json_util import dumps
 from mongoOperations import MongoOperations
 

@@ -17,7 +17,7 @@ class Client:
     WIDTH = 1
     CHANNELS = 1
     RATE = 16000
-    RECORD_SECONDS = 15
+    RECORD_SECONDS = 2
     FACTOR = 2
     
 
