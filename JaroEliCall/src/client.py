@@ -28,8 +28,7 @@ class Client(QtCore.QObject):
     RATE = 16000
     RECORD_SECONDS = 2
     FACTOR = 2
-    
-    
+
 
     getMessage = QtCore.pyqtSignal(bool)
     
@@ -91,30 +90,25 @@ class Client(QtCore.QObject):
     def listeningServer(self):
         print("\tClinet : info >> Setup listeningServer")
         while True:
-            
             print("\tClinet : info >> Listen now")
-            
            
             packet, address = self.socket.recvfrom(self.size)
             data = packet.decode("utf-8")
             self.received = json.loads(data)
             
-            print("\tClinet : info >> Get response from server", packet)
-            
+            print("\tClinet : info >> Get response from server - type ", self.received)
             
             if str(self.received["type"]) == "d":
                 self.react_on_communicate()
-            else:
-                continue
 
             print("\tClinet : warrning >> Still listen")
 
 
 
     def react_on_communicate(self):
-
         if self.received["status"] == 200 and self.received["answer_to"] == "LOGIN":
             print("Dostalem 200")
+            self.received = ("200 LOGIN")
             self.getMessage.emit(True)
                         #self.toThread.lock.release()
             # toThread.self.received = ("200 LOGIN")

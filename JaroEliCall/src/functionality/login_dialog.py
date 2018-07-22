@@ -98,14 +98,15 @@ class LoginDialog(LoginWrappedUI):
             return self.getLoggingStatus()
         else:
             print('request timed-out :(')
-    
 
             
     def loggingToServer(self, login, password):
-        print("[*] LoginDialog info: Trying to log in to the server.", self.client.received)
-        
-        self.client.login(login, password)
-        self.waiting_for_signal()
+        print("Trying to log in with " + str(login) + " " + str(password))
+        if(self.client.received != None):
+            print("[*] LoginDialog info: Trying to log in to the server.", self.client.received)
+
+            self.client.login(login, password)
+            self.waiting_for_signal()
 
 
     def clickOnLoginButton(self):
@@ -113,13 +114,14 @@ class LoginDialog(LoginWrappedUI):
           
         if self.validateData:
             print("[*] LoginDialog info: The validateData method returned True")
+            print("[-] Answer loggingToServer ", self.loggingToServer(self.get_login(), self.get_password()))
             
             if self.loggingToServer(self.get_login(), self.get_password()):
                 print("[*] LoginDialog info: The loggingToServer method returned True")
                 self.loggingSignal.emit(True, self.get_login())
                 #self.loggedSignal.emit({"abc": 123}, name="loggedSignal" )
                 print("[*] LoginDialog info: The loggingSignal was emitted with True")
-          
+
             else:
                 print("[*] LoginDialog info: The loggingToServer method returned False")
                 self.loggingSignal.emit(False, self.get_login())
