@@ -113,6 +113,15 @@ class Client(QtCore.QObject):
                         #self.toThread.lock.release()
             # toThread.self.received = ("200 LOGIN")
 
+        # below to change on signals
+        elif self.received["status"] == 202:
+            packet = self.received["users"]
+            print("Otrzymano ", packet)
+            self.received = "200 LOGIN"
+
+            # toThread.self.received = ("202 USERS")
+
+
         elif self.received["status"] == 200 and self.received["answer_to"] == "NOTHING":
             # toThread.self.received = ("200 NOTHING " + str(self.received["from_who"]))
             print("200 INVITE ", self.received["from_who"])
@@ -138,10 +147,7 @@ class Client(QtCore.QObject):
             #toThread.self.received = ("201 CREATED")
             print("201 CREATE ")
 
-        elif self.received["status"] == 202:
-            packet = self.received["users"]
-            print("Otrzymano ", packet)
-            #toThread.self.received = ("202 USERS")
+
 
         elif self.received["status"] == 401:
             print("401")
