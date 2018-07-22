@@ -96,77 +96,59 @@ class Client:
             print("\tClinet : info >> Get response from server", received)
             if(str(received["type"]) == "d"):
                 
-                with toThread.lock:
+                #with toThread.lock:
+                self.react_on_communicate(received)
+            else:
+                continue
 
-                    if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
-                        print("Dostalem 200")
-                        toThread.received = ("200 LOGIN")
-                        break
-
-                    if received["status"] == 200 and received["answer_to"] == "NOTHING":
-                        toThread.received = ("200 NOTHING " + str(received["from_who"]))
-                        print("200 INVITE ", received["from_who"])
-                        print("Dzwoni ", str(received["from_who"]))
-                        break
-
-                    if received["status"] == 200 and received["answer_to"] == "INVITE":
-                        toThread.received = ("200 INVITE " + str(received["IP"]))
-                        print("200 INVITE ", received["IP"])
-                        break
+            print("\tClinet : warrning >> Still listen")
 
 
-                    if received["status"] == 406 and received["answer_to"] == "INVITE":
-                        toThread.received = ("406 INVITE")
-                        print("406")
-                        break
 
 
-                    if received["status"] == 406 and received["answer_to"] == "LOGIN":
-                        toThread.received = ("406 LOGIN")
-                        print("406")
-                        break
-                    
 
-                    if received["status"] == 406 and received["answer_to"] == "CREATE":
-                        toThread.received = ("406 NOT_CREATED")
-                        print("406")
-                        break
+    def react_on_communicate(self, received):
 
+        if (received["status"] == 200) and (received["answer_to"] == "LOGIN"):
+            print("Dostalem 200")
+            # toThread.received = ("200 LOGIN")
 
-                    if received["status"] == 201 and received["answer_to"] == "CREATE":
-                        toThread.received = ("201 CREATED")
-                        break
+        elif received["status"] == 200 and received["answer_to"] == "NOTHING":
+            # toThread.received = ("200 NOTHING " + str(received["from_who"]))
+            print("200 INVITE ", received["from_who"])
+            print("Dzwoni ", str(received["from_who"]))
 
+        elif received["status"] == 200 and received["answer_to"] == "INVITE":
+            # toThread.received = ("200 INVITE " + str(received["IP"]))
+            print("200 INVITE ", received["IP"])
 
-                    if received["status"] == 202:
-                        packet = received["users"]
-                        print("Otrzymano ", packet)
-                        toThread.received = ("202 USERS")
-                        toThread.users = packet
-                        break
+        elif received["status"] == 406 and received["answer_to"] == "INVITE":
+            # toThread.received = ("406 INVITE")
+            print("406")
 
+        elif received["status"] == 406 and received["answer_to"] == "LOGIN":
+            # toThread.received = ("406 LOGIN")
+            print("406")
 
-                    if received["status"] == 401:
-                        print("401")
-                        break
+        elif received["status"] == 406 and received["answer_to"] == "CREATE":
+            # toThread.received = ("406 NOT_CREATED")
+            print("406")
 
+        elif received["status"] == 201 and received["answer_to"] == "CREATE":
+            #toThread.received = ("201 CREATED")
+            print("201 CREATE ")
 
-                    if received["status"] == 200 and received["answer_to"] == "LOGOUT":
-                        toThread.received = ("200 LOGOUT")
-                        print("200")
-                        break
+        elif received["status"] == 202:
+            packet = received["users"]
+            print("Otrzymano ", packet)
+            #toThread.received = ("202 USERS")
 
-                        """if packet[0:1] == "d":
-                            print("Komunikat: ", packet[2::])
-                            print(packet[2:7])
-                            
-                            if packet[2:8] == "INVITE":
-                                print("Dzwoni ", packet[9::])
-                                self._is_running = False
-                                break"""
-                        print("\tClinet : warrning >> Still listen")
-                    else:
-                        continue
+        elif received["status"] == 401:
+            print("401")
+
+        elif received["status"] == 200 and received["answer_to"] == "LOGOUT":
+            #toThread.received = ("200 LOGOUT")
+            print("200")
 
 
     def login(self, login, password):
