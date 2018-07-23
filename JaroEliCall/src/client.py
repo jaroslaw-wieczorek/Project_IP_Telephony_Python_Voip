@@ -33,7 +33,7 @@ class Client(QtCore.QObject):
     getMessage = QtCore.pyqtSignal(bool)
 
     getCall = QtCore.pyqtSignal(bool)
-    
+
     def __init__(self, SERWER_IP, port):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
@@ -45,7 +45,7 @@ class Client(QtCore.QObject):
                                   input=True,
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
-        
+
         self.received = None
         self.connectToSerwer(SERWER_IP, port)
 
@@ -60,25 +60,25 @@ class Client(QtCore.QObject):
         self.size = 2048
 
         try:
-           
+
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.socket.connect((self.host, self.port))
             print("Polaczono z serwerem")
-        
+
         except ConnectionRefusedError as err:
-            
+
             print(err)
             self.socket.close()
-            
+
 
     def sendMessage(self, data):
         try:
             self.socket.sendto(data, (self.host, self.port))
             print("Wysłano ", data)
-            
+
         except ConnectionRefusedError as err:
             print(err)
-            
+
 
     def sendMessage_another_client(self, data, host, port):
         try:
@@ -93,13 +93,13 @@ class Client(QtCore.QObject):
         print("\tClinet : info >> Setup listeningServer")
         while True:
             print("\tClinet : info >> Listen now")
-           
+
             packet, address = self.socket.recvfrom(self.size)
             data = packet.decode("utf-8")
             self.received = json.loads(data)
-            
+
             print("\tClinet : info >> Get response from server - type ", self.received)
-            
+
             if str(self.received["type"]) == "d":
                 self.react_on_communicate()
 
@@ -118,7 +118,7 @@ class Client(QtCore.QObject):
         # below to change on signals
         elif self.received["status"] == 202:
             data = self.received["users"]
-            # TU POTRZEBA POPRAWIĆ 
+            # TU POTRZEBA POPRAWIĆ
             print("Client get data from server:", data)
             self.received = "202 USERS"
             self.users = data
@@ -149,21 +149,26 @@ class Client(QtCore.QObject):
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
             self.received = "406 LOGIN"
             print("406")
+            self.getMessage.emit(True)
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "CREATE":
             # toThread.self.received = ("406 NOT_CREATED")
             print("406")
+            self.getMessage.emit(True)
 
         elif self.received["status"] == 201 and self.received["answer_to"] == "CREATE":
             #toThread.self.received = ("201 CREATED")
             print("201 CREATE ")
+            self.getMessage.emit(True)
 
         elif self.received["status"] == 401:
             print("401")
+            self.getMessage.emit(True)
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "LOGOUT":
             #toThread.self.received = ("200 LOGOUT")
             print("200")
+            self.getMessage.emit(True)
 
 
     def login(self, login, password):
@@ -177,26 +182,26 @@ class Client(QtCore.QObject):
 
     def sendingVoice(self):
         print("\tClinet : info >> Start recording")
-        
+
         while True:
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
                 print("\t send:", i)
-                
+
                 self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
 
                 if self.data:
                     # Write data to pyaudio stream
                     self.stream.write(self.data)  # Stream the recieved audio data
-                    
+
                     try:
                         self.socket.send(self.data)
                         print("< Client > Info: Send data", self.data)
                     except ConnectionRefusedError as err:
-                        # TO DO throw this exception upper to managment 
-                        # for try reconnect 
+                        # TO DO throw this exception upper to managment
+                        # for try reconnect
                         print(err)
                         break
-                    
+
         print("\tClinet : info >> Stop recording")
 
 
@@ -207,6 +212,5 @@ class Client(QtCore.QObject):
 
 
     def logout(self):
-        # TO DO: 
+        # TO DO:
         print("\tClinet : info >> Logout")
-        

@@ -31,20 +31,20 @@ from JaroEliCall.src.wrapped_interfaces.login_wrapped_ui import LoginWrappedUI
 
 
 class LoginDialog(LoginWrappedUI):
-   
+
     """
        New LoginDialog
     """
-    
+
     closingSignal = pyqtSignal(bool)
     loggingSignal = QtCore.pyqtSignal(bool, str)
     registerAccountSignal = QtCore.pyqtSignal(bool)
 
     def __init__(self, client):
         super(LoginDialog, self).__init__()
-        
+
         self.client : Client = client
-                
+
         self.set_push_button_login(self.clickOnLoginButton)
         self.set_push_button_register(self.clickOnRegisterButton)
 
@@ -53,7 +53,7 @@ class LoginDialog(LoginWrappedUI):
         self.timer = QtCore.QTimer()
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(lambda: self.loop.exit(1))
-        
+
     def keyPressEvent(self, event):
         """
             Close application from escape key.
@@ -63,16 +63,16 @@ class LoginDialog(LoginWrappedUI):
 
 
     def validateData(self):
-        # TO DO 
+        # TO DO
         return True
 
 
     def showLoginStatus(self, status):
         #self.addWidget(self.statusBar)
         self.statusBar.showMessage(status)
-        
-        
-    def getLoggingStatus(self):     
+
+
+    def getLoggingStatus(self):
         #time.sleep(5)
         print("[*] LoginDialog info: Get response from server", self.client.received)
         if self.client.received == "200 LOGIN":
@@ -80,19 +80,19 @@ class LoginDialog(LoginWrappedUI):
             print(status)
             self.showLoginStatus(status)
             return True
-            
+
         elif self.client.received =="406 LOGIN":
             status = "Status logowania | " + str(self.client.received)
             print(status)
             self.showLoginStatus(status)
             return False
-    
-    
+
+
 
     def waiting_for_signal(self):
-      
-        self.timer.start(10000) # 10 second time-out
-        
+
+        self.timer.start(2000) # 1 second time-out
+
         print('[*] LoginDialog info: waiting for response')
 
         if self.loop.exec_() == 0:
@@ -107,9 +107,10 @@ class LoginDialog(LoginWrappedUI):
     def loggingToServer(self, login, password):
 
         self.client.login(login, password)
+
         if self.waiting_for_signal():
             return self.getLoggingStatus()
-        else: 
+        else:
             return False
 
 
@@ -141,19 +142,17 @@ class LoginDialog(LoginWrappedUI):
         print("[*] LoginDialog info: The push_button_register was clicked")
         self.registerAccountSignal.emit(True)
         print("[*] LoginDialog info: The registerAccountSignal was emitted with True")
-        
-    
+
+
     def closeApp(self):
         title = "Uwaga!"
         message = "Czy napewno chesz zamknąć aplikacje ?"
-        
+
         if QMessageBox.question(self, title, message) == QMessageBox.Yes:
             print("[*]  LoginDialog info: Selected answer = \'Yes\'")
-            self.closingSignal.emit(True) 
+            self.closingSignal.emit(True)
             print("[*]  LoginDialog info: The closingSignal was emitted with True")
         else:
             print("[*]  LoginDialog info: Selected answer = \'No\'")
             self.closingSignal.emit(False)
             print("[*]  LoginDialog info: The closingSignal was emitted with False")
-            
-            
