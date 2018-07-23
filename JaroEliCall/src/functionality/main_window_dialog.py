@@ -98,7 +98,7 @@ class MainWindowDialog(MainWrappedUI):
     def read(self):
         if self.waiting_for_signal():
             print("{*} MainWindow getting from Server : ", self.client.received)
-            if(self.client.received["Status"] == "202 USERS"):
+            if(self.client.received == "202 USERS"):
                 print("{*} MainWindow users: ", self.client.users)
                 self.add_row_to_list_of_users(self.client.users)
         else: 
