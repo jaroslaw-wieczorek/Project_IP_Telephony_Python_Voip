@@ -125,7 +125,7 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
-            user_name = str(self.received['from_who'])
+            user_name = str(self.received["from_who"])
             for i in self.received['IP']:
                 print(i)
             self.params = self.received['IP'][0] # TO CHECK
@@ -138,7 +138,7 @@ class Client(QtCore.QObject):
             print("Client : info >> getCall signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
-            user_name = str(self.received['from_who'])
+            user_name = str(self.received["from_who"])
             self.received = "406 INVITE"
             print("406 INVITE")
             self.makeCallSignal.emit(False, user_name) # NEED CHANEGE ON OTHER
@@ -191,22 +191,8 @@ class Client(QtCore.QObject):
         self.username = login
 
 
-    def sendingVoice(self, host, port):
-        self.host = host
-        self.port = port
-        self.size = 2048
-
-        try:
-            self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.socket.connect((self.host, self.port))
-            print("Polaczono z serwerem")
-
-        except ConnectionRefusedError as err:
-
-            print(err)
-            self.socket.close()
-
-        print("\tClinet : info >> Start recording")
+    def sendingVoice(self):
+        print("\tClient : info >> Start recording")
         while True:
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
                 print("\t send:", i)

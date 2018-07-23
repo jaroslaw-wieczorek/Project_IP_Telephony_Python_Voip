@@ -16,7 +16,7 @@ from mongoOperations import MongoOperations
 # class Server(Validator):
 
 class Server:
-    
+
     FORMAT = pyaudio.paInt16
     CHUNK = 512
     WIDTH = 1
@@ -24,12 +24,12 @@ class Server:
     RATE = 16000
     RECORD_SECONDS = 15
     FACTOR = 2
-    
+
 
     def __init__(self):
         # Validator.__init__(self, priv, publ)
         print("Inicjalizacja klasy Server")
-        self.host = ''
+        self.host = '0.0.0.0'
         self.port = 50001
         self.size = 2048
         self.p = pyaudio.PyAudio()
@@ -72,7 +72,7 @@ class Server:
             if (key == login):
                 print(key)
                 return value
-            
+
 
     def who_call(self, addr):
         for key, value in self.dict_ip_users.items():
@@ -80,7 +80,7 @@ class Server:
                 return key
             else:
                 return 0
-            
+
 
     def get_username_from_ip(self, ip):
         print("w funkcji get_username_from_ip")
@@ -115,7 +115,7 @@ class Server:
         payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "LOGIN"}
         self.sending(addr, payload)
 
-            
+
 
     def log_out(self, addr):
         print("Otrzymano LOGOUT")
@@ -251,5 +251,3 @@ serwer = Server()
 serwer.connectWithClient()
 thread = Thread(target=serwer.listening, args=[])
 thread.start()
-
-
