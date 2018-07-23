@@ -9,7 +9,6 @@ import audioop
 import threading
 from datetime import datetime
 
-IP = '127.0.0.1'
 
 class Configuration():
         FORMAT = pyaudio.paInt16
@@ -79,7 +78,8 @@ class ClientThread (threading.Thread, Configuration):
 
 
 def serverSide(rport,stream, chunk):
-    serverIP = '192.168.0.102'
+    # ip local computer
+    serverIP = '192.168.0.101'
     serverPort = rport
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     serverSocket.bind((serverIP,serverPort))
@@ -110,6 +110,9 @@ def clientSide(ip, port, stream, chunk):
 # threadLock = threading.Lock()
     
 threads = []
+
+# IP remote computer
+IP = '192.168.0.104'
 
 # Create new threads
 thread1 = ServerThread(1, "Server-Thread", 1, 9999)
