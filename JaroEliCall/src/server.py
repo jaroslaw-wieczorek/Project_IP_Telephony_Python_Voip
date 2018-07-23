@@ -162,7 +162,7 @@ class Server:
         else:
             payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "INVITE"}
             self.s.sendto(json.dumps(payload).encode("utf-8"), who_ip)
-            print(payload)
+            print("Wysłano ", payload)
     
 
     def create_in_database(self, communicate, addr):
@@ -184,23 +184,14 @@ class Server:
     def listening(self):
         print("[*] Start listen")
         while 1:
-            """d, addr = self.s.recvfrom(self.size * 2)
-            print("Otrzymalem: ", d, " od ", addr)
-            print(self.mongo.dict_ip_users)
-            data = d.decode("utf-8")
-            print("DEKODOWANIE: " + data)"""
-            print("Czekam na kolejna wiadomosc")
+            print("[*] Czekam na kolejna wiadomosc")
             try:
                 d, addr = self.s.recvfrom(self.size * 2)
                 print("Otrzymalem: ", d, " od ", addr)
                 print(self.mongo.dict_ip_users)
                 data = d.decode("utf-8")
                 received = json.loads(data)
-                print("DEKODOWANIE: " + str(received["type"]))
-                print("TYP" + str(type(data)))
 
-                #print("type: "+d["type"].decode("utf-8"))
-                #if(data[0:1] == "d"):
                 if (str(received["type"]) == "d"):
                     print("Komunikat: ", (received["description"]))
                     if (received["description"] == "LOGIN"):
@@ -218,7 +209,6 @@ class Server:
                         self.create_in_database(received, addr)
                     elif (received["description"] == "LOGOUT"):
                         self.log_out(addr)
-                #elif (data[0:1] == "s"):EK
                 elif (str(received["type"]) == "s"):
                     print("Dzwiek: ")
                     self.stream.write(d[2:])

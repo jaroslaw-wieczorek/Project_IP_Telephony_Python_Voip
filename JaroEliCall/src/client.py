@@ -131,12 +131,12 @@ class Client(QtCore.QObject):
             print("Dzwoni ", str(self.received["from_who"]))
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
-            # toThread.self.received = ("200 INVITE " + str(self.received["IP"]))
-            print("200 INVITE ", self.received["IP"])
+            self.received = "406 INVITE"
+            print("406 INVITE ", self.received["IP"])
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
-            # toThread.self.received = ("406 INVITE")
-            print("406")
+            self.received = "406 INVITE"
+            print("406 INVITE")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
             self.received = "406 LOGIN"
@@ -149,8 +149,6 @@ class Client(QtCore.QObject):
         elif self.received["status"] == 201 and self.received["answer_to"] == "CREATE":
             #toThread.self.received = ("201 CREATED")
             print("201 CREATE ")
-
-
 
         elif self.received["status"] == 401:
             print("401")

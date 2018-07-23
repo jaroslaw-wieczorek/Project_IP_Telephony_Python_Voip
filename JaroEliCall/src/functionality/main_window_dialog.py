@@ -62,7 +62,7 @@ class MainWindowDialog(MainWrappedUI):
         
         self.username = self.setUserName(self.client.username)
         self.set_push_button_logout(partial(self.closeApp, "Uwaga!", "Czy napewno chesz się wylogować?"))
-        
+        self.set_push_button_call(self.call_someone)
         #self.getList()
         
     def setUserName(self, user_name):
@@ -101,6 +101,8 @@ class MainWindowDialog(MainWrappedUI):
             if(self.client.received == "202 USERS"):
                 print("{*} MainWindow users: ", self.client.users)
                 self.add_row_to_list_of_users(self.client.users)
+            elif (self.client.received == "406 INVITE"):
+                print("Nie mozna zreazlizowac polaczenia")
         else: 
             print("{!} MainWindow error: Didn't get resposne")
         
@@ -127,6 +129,14 @@ class MainWindowDialog(MainWrappedUI):
             print("[*] MainWindowDialog info: Button No was clicked")
             self.closingSignal.emit(False)
 
+    def call_someone(self):
+        where = self.table_widget_list_of_users.currentItem().text()
+        if (where != ''):
+            print("Wybrano dzwonienie do ", where)
+            payload = {"type": "d", "description": "INVITE", "call_to": where}
+            data = json.dumps(payload).encode("utf-8")
+            print(data)
+            self.client.sendMessage(data)
 
     
 """     List of contacts Widget
