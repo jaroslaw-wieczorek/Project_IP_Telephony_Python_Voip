@@ -120,7 +120,7 @@ class MainWindowDialog(MainWrappedUI):
                 print("lololo")
                 ip, port = self.client.params[0], self.client.params[1]
 
-                status = "Nawiązywanie polaczenia z " + self.client.where 
+                status = "Nawiązywanie polaczenia z " + self.client.where
                 self.showConnectionStatus(status)
                 print(status)
 
