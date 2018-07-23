@@ -27,26 +27,24 @@ from JaroEliCall.src.functionality.signal import Signal
 # from JaroEliCall.src.functionality.interaction_dialog import InteractionDialog
 
 
+class MyApp(QApplication):
 
-   
-class MyApp(QApplication): 
-    
-    
+
     def __init__(self, *agrs, **kwargs):
         super(MyApp, self).__init__(*agrs, **kwargs)
-        
+
         self.username : str = None
         self.client : Client = None
         #self.toThread = None
-                
+
         self.mainWindow = None
         self.loginWindow = None
         self.registerWindow = None
-        
+
         self.eventClose = self.closingSignalResponse
 
-          
-    # Slots for communicate 
+
+    # Slots for communicate
     @pyqtSlot(bool, str)
     def loggingSignalResponse(self, status, login):
         if status:
@@ -57,7 +55,7 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp loggingSignalResponse received:", status)
 
-            
+
     @pyqtSlot(bool)
     def registerAccountSignalResponse(self, value):
         if value:
@@ -74,13 +72,13 @@ class MyApp(QApplication):
             print("(*) MyApp registerSignalResponse received:", value)
             self.hideRegisterWindow()
             self.showLoginWindow()
-            # TO DO:  
+            # TO DO:
             # Display an information on status bar, about sending email with
             # confirm registration link.
         else:
-            print("(*) MyApp registerSignalResponse received:", value)    
-            
-            
+            print("(*) MyApp registerSignalResponse received:", value)
+
+
     @pyqtSlot(bool)
     def alreadyAccountSignalResponse(self, value):
         if value:
@@ -88,51 +86,51 @@ class MyApp(QApplication):
             self.hideRegisterWindow()
             self.showLoginWindow()
         else:
-            print("(*) MyApp alreadyAccountSignalResponse received:", value) 
-            
-            
+            print("(*) MyApp alreadyAccountSignalResponse received:", value)
+
+
     @pyqtSlot(bool)
     def closingSignalResponse(self, value):
         if value:
             print("(*) MyApp closingSignalResponse received:", value)
             self.closeAllWindows()
-            
+
         else:
             print("(*) MyApp closingSignalResponse received:", value)
-            
-            
+
+
     def callSignalResponse(self, value, username):
         if value:
             print("(*) MyApp callSignalResponse received:", value)
            # self.client.c
-            
+
         else:
             print("(*) MyApp closingSignalResponse received:", value)
 
    # def setupThread(self, to_thread):
         #self.toThread = to_thread
-       
-        
-    # Managment clinet and connection        
+
+
+    # Managment clinet and connection
     def setupClient(self, client):
         self.client = client
         self.listen_server_thread = Thread(
                 target=self.client.listeningServer, daemon=True)
         self.listen_server_thread.start()
-    
+
     def connectToServer(self):
         self.client
-    
+
 
     # MainWindow Dialog methods
     def setupMainWindow(self, main_window):
         self.mainWindow = main_window
-    
-    
+
+
     def showMainWindow(self):
         self.mainWindow.show()
         self.mainWindow.getList()
-     
+
     # Login Dialog methods
     def setupLoginWindow(self, login_window):
         self.loginWindow = login_window
@@ -140,7 +138,7 @@ class MyApp(QApplication):
 
     def hideLoginWindow(self):
         self.loginWindow.hide()
-        
+
 
     def showLoginWindow(self):
         self.loginWindow.show()
@@ -149,7 +147,7 @@ class MyApp(QApplication):
     # Register Dialog methods
     def setupRegisterWindow(self, register_window):
         self.registerWindow = register_window
-        
+
 
     def hideRegisterWindow(self):
         self.registerWindow.hide()
@@ -157,4 +155,3 @@ class MyApp(QApplication):
 
     def showRegisterWindow(self):
         self.registerWindow.show()
-    
