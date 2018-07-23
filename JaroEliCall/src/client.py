@@ -136,7 +136,7 @@ class Client(QtCore.QObject):
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
             self.received = "200 INVITE"
-            print("200 INVITE ", self.received["IP"])
+            print("200 INVITE ", self.received)
             self.getCall.emit(True)
 
 
