@@ -38,7 +38,7 @@ from JaroEliCall.src.client import Client
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 
 
-SERWER_IP = '192.168.0.101'
+SERWER_IP = '127.0.0.1'
 PORT = 50001
 
 
