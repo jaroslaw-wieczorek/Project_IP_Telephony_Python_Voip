@@ -68,9 +68,11 @@ def main():
     registerWindow = RegisterDialog(myapp.client)
     myapp.setupRegisterWindow(registerWindow)
 
-
     mainAppWindow = MainWindowDialog(myapp.client)
     myapp.setupMainWindow(mainAppWindow)
+
+    interactionWindow = InteractionDialog(myapp.client)
+    myapp.setupInteractionWindow(interactionWindow)
 
 
     # Signal use to hide login dialog when logging passeds
