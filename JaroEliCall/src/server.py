@@ -83,11 +83,15 @@ class Server:
             
 
     def get_username_from_ip(self, ip):
+        print("w funkcji get_username_from_ip")
+        ans = "brak usera"
         for key, value in self.mongo.dict_ip_users.items():
+            print(ip)
+            print(key, '', value)
             if (value[0] == ip[0] and value[1] == ip[1]):
-                return key
-            else:
-                return "brak usera"
+                ans = key
+        return ans
+
 
     def sending(self, addr, payload):
         self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
@@ -157,12 +161,13 @@ class Server:
                 print("chce sie dodzwonic do ", where_ip)
 
                 # informacja do strony ktora dzwoni o danych osoby do ktorej dzwoni
-                self.send_invite_200_to_caller(who_ip)
+                self.send_invite_200_to_caller(where_ip, who_ip)
 
                 # informacja do odbiorcy o tym że ktoś dzwoni
                 self.send_invite_200_to_recipient(where_ip, who_name)
 
             else:
+                print("brak usera")
                 self.send_invite_406(who_ip)
 
         else:
@@ -172,9 +177,9 @@ class Server:
         payload = {"type": "d", "description": "INVITE", "answer_to": "NOTHING", "status": 200, "from_who": who_name}
         self.sending(where_ip, payload)
 
-    def send_invite_200_to_caller(self, addr):
+    def send_invite_200_to_caller(self, addr, caller):
         payload = {"type": "d", "description": "OK", "status": 200, "answer_to": "INVITE", "IP": addr}
-        self.sending(addr, payload)
+        self.sending(caller, payload)
 
 
     def send_invite_406(self, addr):

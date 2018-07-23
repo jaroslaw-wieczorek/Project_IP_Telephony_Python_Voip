@@ -127,11 +127,16 @@ class Client(QtCore.QObject):
             print("Clinet : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
-            for i in self.received['IP']:
+            self.params = []
+            for i in self.received["IP"]:
                 print(i)
-            self.params = self.received['IP'][0]
-            print("200 INVITE ")
+                self.params.append(i)
+            print("huehuehuehueheuheue")
+
+            print(self.params)
+            print(self.received)
             self.received = "200 INVITE"
+
             self.getCall.emit(True)
             print("Clinet : info >> getCall signal was emited with True")
 
