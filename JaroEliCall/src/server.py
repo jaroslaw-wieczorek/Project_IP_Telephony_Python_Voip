@@ -202,9 +202,9 @@ class Server:
                     elif (received["description"] == "GET"):
                         self.users_from_mongo(addr)
                     elif (received["description"] == "INVITE"):
-                        # self.invite_person(received["call_to"], addr)
-
-                        self.invite_person("Rafau", addr)
+                        recipient = received["call_to"]
+                        print("recipient ", recipient)
+                        self.invite_person(recipient, addr)
                     elif (received["description"] == "CREATE"):
                         self.create_in_database(received, addr)
                     elif (received["description"] == "LOGOUT"):
@@ -214,7 +214,6 @@ class Server:
                     self.stream.write(d[2:])
             except ConnectionResetError:
                 print("Połączenie przerwane przez klienta")
-
 
         print("[*] Stop listen")
 
