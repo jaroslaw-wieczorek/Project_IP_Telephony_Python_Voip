@@ -98,7 +98,7 @@ class Client(QtCore.QObject):
             data = packet.decode("utf-8")
             self.received = json.loads(data)
 
-            print("\tClinet : info >> Get response from server - type ", self.received)
+            print("\tClinet : info >> Get response from server ", self.received)
 
             if str(self.received["type"]) == "d":
                 self.react_on_communicate()
@@ -126,7 +126,20 @@ class Client(QtCore.QObject):
             self.getMessage.emit(True)
             print("Clinet : info >> getMessage signal was emited with True")
 
-            # toThread.self.received = ("202 USERS")
+        elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
+            for i in self.received['IP']:
+                print(i)
+            self.params = self.received['IP'][0]
+            print("200 INVITE ")
+            self.received = "200 INVITE"
+            self.getCall.emit(True)
+            print("Clinet : info >> getCall signal was emited with True")
+
+        elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
+            self.received = "406 INVITE"
+            print("406 INVITE")
+            self.getCall.emit(True)
+            print("Clinet : info >> getCall signal was emited with True")
 
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "NOTHING":
@@ -137,18 +150,6 @@ class Client(QtCore.QObject):
             print("Clinet : info >> getCall signal was emited with True")
 
 
-        elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
-            self.received = "200 INVITE"
-            print("200 INVITE ", self.received)
-            self.getCall.emit(True)
-            print("Clinet : info >> getCall signal was emited with True")
-
-
-        elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
-            self.received = "406 INVITE"
-            print("406 INVITE")
-            self.getCall.emit(True)
-            print("Clinet : info >> getCall signal was emited with True")
 
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":

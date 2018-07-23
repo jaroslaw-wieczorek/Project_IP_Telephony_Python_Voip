@@ -116,9 +116,10 @@ class MainWindowDialog(MainWrappedUI):
                 print("{*} MainWindow users: ", self.client.users)
                 self.add_row_to_list_of_users(self.client.users)
             elif self.client.received == "200 INVITE":
-                status = "Nawiązywanie polaczenia"
+                status = "Nawiązywanie polaczenia z " + self.params[0]
                 self.showConnectionStatus(status)
                 print(status)
+
             elif self.client.received == "406 INVITE":
                 status = "Nie można się połączyć z wybranym użytkownikiem"
                 self.showConnectionStatus(status)
