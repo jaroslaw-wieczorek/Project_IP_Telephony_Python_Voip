@@ -191,8 +191,22 @@ class Client(QtCore.QObject):
         self.username = login
 
 
-    def sendingVoice(self):
-        print("\tClient : info >> Start recording")
+    def sendingVoice(self, host, port):
+        self.host = host
+        self.port = port
+        self.size = 2048
+
+        try:
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self.socket.connect((self.host, self.port))
+            print("Polaczono z serwerem")
+
+        except ConnectionRefusedError as err:
+
+            print(err)
+            self.socket.close()
+
+        print("\tClinet : info >> Start recording")
         while True:
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
                 print("\t send:", i)
