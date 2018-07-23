@@ -24,7 +24,7 @@ from PyQt5.QtWidgets import QStatusBar
 from PyQt5.QtWidgets import QMessageBox
 
 from JaroEliCall.src.client import Client
-from src.functionality.my_app import *
+from JaroEliCall.src.functionality.my_app import *
 from JaroEliCall.src.functionality.signal import Signal
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 from JaroEliCall.src.wrapped_interfaces.login_wrapped_ui import LoginWrappedUI

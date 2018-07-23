@@ -79,7 +79,7 @@ def main():
 
 
     # Signal use to hide login dialog and show register dialog
-    # myapp.registerWindow.registrationSignal.connect(myapp.registerSignalResponse)
+    myapp.registerWindow.registrationSignal.connect(myapp.registerSignalResponse)
     myapp.registerWindow.alreadyAccountSignal.connect(myapp.alreadyAccountSignalResponse)
 
 

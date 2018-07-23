@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/main_interface.ui'
+# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.1
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainInterfaceDialog(object):
     def setupUi(self, MainInterfaceDialog):
         MainInterfaceDialog.setObjectName("MainInterfaceDialog")
-        MainInterfaceDialog.resize(780, 500)
+        MainInterfaceDialog.resize(530, 498)
+        MainInterfaceDialog.setMinimumSize(QtCore.QSize(530, 498))
         self.horizontalLayout = QtWidgets.QHBoxLayout(MainInterfaceDialog)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.horizontal_layout_main = QtWidgets.QHBoxLayout()
@@ -25,6 +26,10 @@ class Ui_MainInterfaceDialog(object):
         self.label_list_users.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_list_users.setObjectName("label_list_users")
         self.vertical_layout_left.addWidget(self.label_list_users)
+        self.label_info = QtWidgets.QLabel(MainInterfaceDialog)
+        self.label_info.setText("")
+        self.label_info.setObjectName("label_info")
+        self.vertical_layout_left.addWidget(self.label_info)
         self.table_widget_list_of_users = QtWidgets.QTableWidget(MainInterfaceDialog)
         self.table_widget_list_of_users.setMinimumSize(QtCore.QSize(400, 100))
         self.table_widget_list_of_users.setMaximumSize(QtCore.QSize(500, 16777215))
@@ -46,29 +51,31 @@ class Ui_MainInterfaceDialog(object):
         item = QtWidgets.QTableWidgetItem()
         self.table_widget_list_of_users.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
+        item.setText("Awatar")
+        font = QtGui.QFont()
+        font.setKerning(False)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        item.setFont(font)
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        item.setForeground(brush)
         self.table_widget_list_of_users.setHorizontalHeaderItem(2, item)
         self.table_widget_list_of_users.horizontalHeader().setCascadingSectionResizes(True)
         self.table_widget_list_of_users.horizontalHeader().setDefaultSectionSize(100)
         self.table_widget_list_of_users.verticalHeader().setMinimumSectionSize(100)
         self.vertical_layout_left.addWidget(self.table_widget_list_of_users)
-        self.label_info = QtWidgets.QLabel(MainInterfaceDialog)
-        self.label_info.setText("")
-        self.label_info.setObjectName("label_info")
-        self.vertical_layout_left.addWidget(self.label_info)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.push_button_call = QtWidgets.QPushButton(MainInterfaceDialog)
         self.push_button_call.setObjectName("push_button_call")
         self.horizontalLayout_5.addWidget(self.push_button_call)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem1)
         self.push_button_invite = QtWidgets.QPushButton(MainInterfaceDialog)
         self.push_button_invite.setObjectName("push_button_invite")
         self.horizontalLayout_5.addWidget(self.push_button_invite)
         self.vertical_layout_left.addLayout(self.horizontalLayout_5)
         self.horizontal_layout_main.addLayout(self.vertical_layout_left)
-        spacerItem2 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-        self.horizontal_layout_main.addItem(spacerItem2)
+        spacerItem1 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.horizontal_layout_main.addItem(spacerItem1)
         self.vertical_layout_right = QtWidgets.QVBoxLayout()
         self.vertical_layout_right.setObjectName("vertical_layout_right")
         self.push_button_logout = QtWidgets.QPushButton(MainInterfaceDialog)
@@ -83,13 +90,13 @@ class Ui_MainInterfaceDialog(object):
         self.label_avatar.setIndent(0)
         self.label_avatar.setObjectName("label_avatar")
         self.vertical_layout_right.addWidget(self.label_avatar)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.vertical_layout_right.addItem(spacerItem3)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.vertical_layout_right.addItem(spacerItem2)
         self.horizontal_layout_main.addLayout(self.vertical_layout_right)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontal_layout_main.addItem(spacerItem3)
         spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_main.addItem(spacerItem4)
-        spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontal_layout_main.addItem(spacerItem5)
         self.horizontalLayout.addLayout(self.horizontal_layout_main)
 
         self.retranslateUi(MainInterfaceDialog)
@@ -107,8 +114,6 @@ class Ui_MainInterfaceDialog(object):
         item.setText(_translate("MainInterfaceDialog", "Kto"))
         item = self.table_widget_list_of_users.horizontalHeaderItem(1)
         item.setText(_translate("MainInterfaceDialog", "Status"))
-        item = self.table_widget_list_of_users.horizontalHeaderItem(2)
-        item.setText(_translate("MainInterfaceDialog", "Awatar"))
         self.push_button_call.setText(_translate("MainInterfaceDialog", "Zadzwoń"))
         self.push_button_invite.setText(_translate("MainInterfaceDialog", "Zaproś do pokoju"))
         self.push_button_logout.setText(_translate("MainInterfaceDialog", "Wyloguj"))

@@ -224,9 +224,10 @@ class Client(QtCore.QObject):
     def closeConnection(self):
         self.stream.stop_stream()
         self.stream.close()
+        self.logout()
         self.socket.close()
-
 
     def logout(self):
         # TO DO:
+        payload = {"type": "d", "description": "LOGOUT", "login": login, "password": password}
         print("\tClinet : info >> Logout")

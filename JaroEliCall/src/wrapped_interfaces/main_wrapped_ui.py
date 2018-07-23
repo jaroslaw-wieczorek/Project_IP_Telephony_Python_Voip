@@ -28,77 +28,85 @@ from gui.resources import icons_wrapper_rc
 #Q_DECLARE_METATYPE(namespace.QItemSelection)
 
 class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
-    
+
     def __init__(self):
         super(MainWrappedUI, self).__init__()
-            
         self.setupUi(self)
         self.statusBar = QStatusBar()
-        self.vertical_layout_right.addWidget(self.statusBar)
+        self.vertical_layout_left.addWidget(self.statusBar)
+        self.set_fit_width()
 
-            
+
     def set_info_text(self, text):
         self.label_info.setText(text)
-    
+
+
     def clear_info_text(self):
         self.label_info.clear()
-       
+
+
     def hide_info_text(self):
         self.label_info.hide()
-        
+
+
     def show_info_text(self):
         self.label_info.show()
-        
+
+
     def keyPressEvent(self, e):
-        
+
         if e.key() == QtCore.Qt.Key_Escape:
             self.close()
-        
+
+
     def get_pixmap_from_resources(self, name):
         pixmap = QPixmap(str(":/icon/" + name))
-        return pixmap 
-        
+        return pixmap
+
+
     def get_icon_from_resources(self, name):
         icon = QIcon(QPixmap(str(":/icon/" + name)))
         return icon
-    
+
+
     def get_img_from_resources(self, name):
         img = QImage(str(":/icon/" + name))
         return img
-        
+
+
     def set_push_button_logout(self, funct):
         self.push_button_logout.clicked.connect(funct)
-        
-        
+
+
     def set_push_button_call(self, funct):
-        self.push_button_call.clicked.connect(funct)    
-        
-        
+        self.push_button_call.clicked.connect(funct)
+
+
     def set_push_button_invite(self, funct):
         self.push_button_invite.clicked.connect(funct)
-        
-        
+
+
     def set_avatar(self, pixmap : QPixmap):
         self.label_avatar.setPixmap(QPixmap(str(pixmap)))
-    
-    
+
+
     def set_fit_width(self):
         self.table_widget_list_of_users.horizontalHeader().setStretchLastSection(True);
-        
-        
+
+
     def set_value_on_list_of_users(self, row, col, item: QTableWidgetItem):
         self.table_widget_list_of_users.setItem(row, col, item)
-        
-        
+
+
     def add_row_to_list_of_users(self, users : list):
-        print("add USER ***")               
+        print("add USER ***")
         for user in users:
             newRowNum = self.table_widget_list_of_users.rowCount()
             self.table_widget_list_of_users.insertRow(newRowNum)
             self.table_widget_list_of_users.setItem(newRowNum, 0, QTableWidgetItem(str(user['login'])))
             self.table_widget_list_of_users.setItem(newRowNum, 1, QTableWidgetItem(str(user['status'])))
             self.table_widget_list_of_users.setItem(newRowNum, 2, QTableWidgetItem("Avatar"))
-    
+
 
     def close_event_message_box(self, event):
         print("event")
@@ -107,10 +115,11 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         
         return reply
 
+
     def nothing(self):
         print("Do nothing!")
-        
-        
+
+
 """
 #Fot tests
 
@@ -122,11 +131,11 @@ if __name__  == '__main__':
     window.set_push_button_invite(window.nothing)
     window.set_fit_width()
     #window.add_row_to_list_of_users(["jaro", "online","avatar"])
-  
+
     item = QTableWidgetItem()
     item.setIcon(window.get_icon_from_resources("strategy.png"))
-    
-    window.set_value_on_list_of_users(1,0,item)    
+
+    window.set_value_on_list_of_users(1,0,item)
     #window.test_add()
     window.show()
     sys.exit(app.exec_())
