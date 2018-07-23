@@ -93,20 +93,24 @@ class LoginDialog(LoginWrappedUI):
       
         self.timer.start(10000) # 10 second time-out
         
-        print('fetching request...')
+        print('[*] LoginDialog info: waiting for response')
 
-        if self.loop.exec_() == 1:
+        if self.loop.exec_() == 0:
             self.timer.stop()
-            print("Timer stop - get message")
-            return self.getLoggingStatus()
+            print("[*] LoginDialog info: stop timer")
+            return True
         else:
-            print('request timed-out :(')
+            print('[!] LoginDialog error: timed-out')
+            return False
 
 
     def loggingToServer(self, login, password):
 
         self.client.login(login, password)
-        return self.waiting_for_signal()
+        if self.waiting_for_signal():
+            return self.getLoggingStatus()
+        else: 
+            return False
 
 
     def clickOnLoginButton(self):
@@ -128,7 +132,7 @@ class LoginDialog(LoginWrappedUI):
                 print("[*] LoginDialog info: The loggingSignal was emitted with False")
 
         else:
-            print("[*] LoginDialog info: The validateData method returned False")
+            print("[*] LoginDialog error: The validateData method returned False")
             self.loggingSignal.emit(False, "")
             print("[*] LoginDialog info: The loggingSignal was emitted with False")
 

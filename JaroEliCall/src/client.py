@@ -115,9 +115,12 @@ class Client(QtCore.QObject):
 
         # below to change on signals
         elif self.received["status"] == 202:
-            packet = self.received["users"]
-            print("Otrzymano ", packet)
-            self.received = "200 LOGIN"
+            data= self.received["users"]
+            # TU POTRZEBA POPRAWIĆ 
+            print("Client get data from server:", data)
+            self.received = "202 USERS"
+            
+            self.getMessage.emit(True)
 
             # toThread.self.received = ("202 USERS")
 

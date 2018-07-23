@@ -10,11 +10,13 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtGui import QPixmap 
 
 from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QTimer
 from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import QMetaType
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import QEventLoop
 from PyQt5.QtCore import QItemSelection
 
 from PyQt5.QtWidgets import QDialog
@@ -53,6 +55,11 @@ class MainWindowDialog(MainWrappedUI):
         self.client = client
         #self.__session_id = None
         
+        self.loop = QEventLoop()
+        self.timer = QTimer()
+        self.timer.setSingleShot(True)
+        self.timer.timeout.connect(lambda: self.loop.exit(1))
+        
         self.username = self.setUserName(self.client.username)
         self.set_push_button_logout(partial(self.closeApp, "Uwaga!", "Czy napewno chesz się wylogować?"))
         
@@ -73,12 +80,30 @@ class MainWindowDialog(MainWrappedUI):
         self.read()
 
 
-    def read(self):
-        print("{*} MainWindow getting from Server : ", self.client.received)
+    def waiting_for_signal(self):
+      
+        self.timer.start(10000) # 10 second time-out
+        
+        print('{*} MainWindow info:  waiting for response')
 
-        if(self.client.received == "202 USERS"):
-            print("{*} MainWindow users: ", self.client.users)
-            self.add_row_to_list_of_users(self.client.users)
+        if self.loop.exec_() == 0:
+            self.timer.stop()
+            print("{*} MainWindow info: stop timer")
+            return True
+        else:
+            print('{!} MainWindow error: time-out :(')
+            return False
+        
+        
+    def read(self):
+        if self.waiting_for_signal():
+            print("{*} MainWindow getting from Server : ", self.client.received)
+            if(self.client.received["Status"] == "202 USERS"):
+                print("{*} MainWindow users: ", self.client.users)
+                self.add_row_to_list_of_users(self.client.users)
+        else: 
+            print("{!} MainWindow error: Didn't get resposne")
+        
             
         
     def keyPressEvent(self, event):
