@@ -116,7 +116,10 @@ class MainWindowDialog(MainWrappedUI):
                 print("{*} MainWindow users: ", self.client.users)
                 self.add_row_to_list_of_users(self.client.users)
             elif self.client.received == "200 INVITE":
-                status = "Nawiązywanie polaczenia z " + self.params[0]
+                print("lololo")
+                ip, port = self.client.params[0], self.client.params[1]
+
+                status = "Nawiązywanie polaczenia z " + str(ip) + " " + str(port)
                 self.showConnectionStatus(status)
                 print(status)
 

@@ -35,11 +35,11 @@ class MyApp(QApplication):
 
         self.username : str = None
         self.client : Client = None
-        #self.toThread = None
 
         self.mainWindow = None
         self.loginWindow = None
         self.registerWindow = None
+        self.interactionWindow = None
 
         self.eventClose = self.closingSignalResponse
 
@@ -155,3 +155,16 @@ class MyApp(QApplication):
 
     def showRegisterWindow(self):
         self.registerWindow.show()
+
+
+    # Interaction Dialog methods
+    def setupInteractionWindow(self, interaction_window):
+        self.interactionWindow = interaction_window
+
+
+    def hideInteractionWindow(self):
+        self.interactionWindow.hide()
+
+
+    def showInteractionWindow(self):
+        self.interactionWindow.show()
