@@ -9,16 +9,8 @@ import os
 import sys
 import hashlib
 
-from PyQt5 import QtGui
-from PyQt5.QtGui import QPixmap, QIcon, QImage
-
-from PyQt5 import QtCore
-
-from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QStatusBar
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 
 
 # importing data accc

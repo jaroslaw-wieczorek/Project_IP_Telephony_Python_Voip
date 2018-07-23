@@ -47,7 +47,8 @@ class MainWindowDialog(MainWrappedUI):
     # If user clicked Yes on message box return True other way return False. 
    
     closingSignal = pyqtSignal(bool)
-    callSignal = pyqtSignal(bool, str)
+
+    callSignal = pyqtSignal(bool)
     
     def __init__(self, client):
         super(MainWindowDialog, self).__init__()
@@ -75,10 +76,20 @@ class MainWindowDialog(MainWrappedUI):
         print("{*} MainWindow info : Sended data to server:", data)
         self.client.sendMessage(data)
 
-        #with self.client.lock:
-        #self.client.listeningServer(self.client.
         self.read()
 
+    def call_someone(self):
+        self.callSignal.emit(True)
+
+        where = self.table_widget_list_of_users.currentItem().text()
+        if (where != ''):
+            print("Wybrano dzwonienie do ", where)
+            payload = {"type": "d", "description": "INVITE", "call_to": where}
+            data = json.dumps(payload).encode("utf-8")
+            print(data)
+            self.client.sendMessage(data)
+
+            self.read()
 
     def waiting_for_signal(self):
       
@@ -93,18 +104,27 @@ class MainWindowDialog(MainWrappedUI):
         else:
             print('{!} MainWindow error: time-out :(')
             return False
-        
-        
+
+    def showConnectionStatus(self, status):
+        # self.addWidget(self.statusBar)
+        self.statusBar.showMessage(status)
+
     def read(self):
         if self.waiting_for_signal():
             print("{*} MainWindow getting from Server : ", self.client.received)
-            if(self.client.received == "202 USERS"):
+            if self.client.received == "202 USERS":
                 print("{*} MainWindow users: ", self.client.users)
                 self.add_row_to_list_of_users(self.client.users)
-            elif (self.client.received == "406 INVITE"):
-                print("Nie mozna zreazlizowac polaczenia")
+            elif self.client.received == "200 INVITE":
+                status = "Nawiązywanie polaczenia"
+                self.showConnectionStatus(status)
+                print(status)
+            elif self.client.received == "406 INVITE":
+                status = "Nie można się połączyć z wybranym użytkownikiem"
+                self.showConnectionStatus(status)
+                print(status)
         else: 
-            print("{!} MainWindow error: Didn't get resposne")
+            print("{!} MainWindow error: Didn't get response")
         
             
         
@@ -115,7 +135,6 @@ class MainWindowDialog(MainWrappedUI):
         if event.key() == Qt.Key_Escape:
             title = "Uwaga!"
             message = "Wyjście spowoduje automatyczne wylogowanie z aplikacji"
-        
             self.closeApp(title, message)
 
 
@@ -129,23 +148,8 @@ class MainWindowDialog(MainWrappedUI):
             print("[*] MainWindowDialog info: Button No was clicked")
             self.closingSignal.emit(False)
 
-    def call_someone(self):
-        where = self.table_widget_list_of_users.currentItem().text()
-        if (where != ''):
-            print("Wybrano dzwonienie do ", where)
-            payload = {"type": "d", "description": "INVITE", "call_to": where}
-            data = json.dumps(payload).encode("utf-8")
-            print(data)
-            self.client.sendMessage(data)
 
-    
-"""     List of contacts Widget
-    Screen to load contacts and call to people
-    __init__ - get list of people to table
-    logout - logout   
-    menu_rooms - going to list of available rooms
-    call - call to person/people
-"""
+
 
 """
 

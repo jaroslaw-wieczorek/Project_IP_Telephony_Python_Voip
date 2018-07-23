@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 
 import os
 import sys
+from PyQt5.QtWidgets import QStatusBar
 
 # importing data accc
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
@@ -32,7 +33,9 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         super(MainWrappedUI, self).__init__()
             
         self.setupUi(self)
-        
+        self.statusBar = QStatusBar()
+        self.vertical_layout_right.addWidget(self.statusBar)
+
             
     def set_info_text(self, text):
         self.label_info.setText(text)

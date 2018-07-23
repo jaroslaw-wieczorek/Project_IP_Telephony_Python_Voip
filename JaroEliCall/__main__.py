@@ -89,7 +89,9 @@ def main():
     
     myapp.client.getMessage.connect(myapp.loginWindow.loop.quit)
     myapp.client.getMessage.connect(myapp.mainWindow.loop.quit)
-    
+
+    myapp.client.getCall.connect(myapp.mainWindow.loop.quit)
+
     myapp.showLoginWindow()
 
     

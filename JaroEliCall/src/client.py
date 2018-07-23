@@ -31,6 +31,8 @@ class Client(QtCore.QObject):
 
 
     getMessage = QtCore.pyqtSignal(bool)
+
+    getCall = QtCore.pyqtSignal(bool)
     
     def __init__(self, SERWER_IP, port):
         super(Client, self).__init__()
@@ -129,14 +131,20 @@ class Client(QtCore.QObject):
             # toThread.self.received = ("200 NOTHING " + str(self.received["from_who"]))
             print("200 INVITE ", self.received["from_who"])
             print("Dzwoni ", str(self.received["from_who"]))
+            self.getCall.emit(True)
+
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
-            self.received = "406 INVITE"
-            print("406 INVITE ", self.received["IP"])
+            self.received = "200 INVITE"
+            print("200 INVITE ", self.received["IP"])
+            self.getCall.emit(True)
+
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
             self.received = "406 INVITE"
             print("406 INVITE")
+            self.getCall.emit(True)
+
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
             self.received = "406 LOGIN"
