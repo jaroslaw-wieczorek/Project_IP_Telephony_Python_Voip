@@ -124,7 +124,7 @@ class MainWindowDialog(MainWrappedUI):
                 self.showConnectionStatus(status)
                 print(status)
 
-                self.client.sendingVoice(ip, port)
+                # self.client.sendingVoice(ip, port)
 
             elif self.client.received == "406 INVITE":
                 status = "Nie można się połączyć z wybranym użytkownikiem"
