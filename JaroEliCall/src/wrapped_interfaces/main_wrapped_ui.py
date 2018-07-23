@@ -15,7 +15,6 @@ import os
 import sys
 from PyQt5.QtWidgets import QStatusBar
 
-# importing data accc
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path)
 print(lib_path)
@@ -25,7 +24,6 @@ from gui.main_ui import Ui_MainInterfaceDialog
 #from gui.testpic_ui import Ui_Dialog
 from gui.resources import icons_wrapper_rc
 
-#Q_DECLARE_METATYPE(namespace.QItemSelection)
 
 class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
 
@@ -54,7 +52,6 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
 
 
     def keyPressEvent(self, e):
-
         if e.key() == QtCore.Qt.Key_Escape:
             self.close()
 
@@ -112,7 +109,7 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         print("event")
         reply = QMessageBox.question(self, 'Wylogowywanie',
             "Czy napewno chcesz zakończyć? ", QMessageBox.Yes, QMessageBox.No)
-        
+
         return reply
 
 

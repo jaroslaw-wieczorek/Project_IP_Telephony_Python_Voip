@@ -1,23 +1,20 @@
 
 import os
 import sys
+import json
+import time
+import socket
+import pyaudio
+import threading
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
-import pyaudio
-import socket
-import json
-import time
-import threading
-
 import PyQt5
-
 from PyQt5 import QtCore
-
 from PyQt5.QtCore import Qt
-
 from PyQt5.QtCore import pyqtSignal
+
 
 class Client(QtCore.QObject):
 
@@ -30,9 +27,9 @@ class Client(QtCore.QObject):
     FACTOR = 2
 
 
+    getCall = QtCore.pyqtSignal(bool)
     getMessage = QtCore.pyqtSignal(bool)
 
-    getCall = QtCore.pyqtSignal(bool)
 
     def __init__(self, SERWER_IP, port):
         super(Client, self).__init__()
@@ -48,7 +45,6 @@ class Client(QtCore.QObject):
 
         self.received = None
         self.connectToSerwer(SERWER_IP, port)
-
         self.username = None
 
 
@@ -60,7 +56,6 @@ class Client(QtCore.QObject):
         self.size = 2048
 
         try:
-
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.socket.connect((self.host, self.port))
             print("Polaczono z serwerem")
@@ -104,8 +99,6 @@ class Client(QtCore.QObject):
                 self.react_on_communicate()
 
 
-
-
     def react_on_communicate(self):
         if self.received["status"] == 200 and self.received["answer_to"] == "LOGIN":
             print("Clinet : info >> React on comunicate: 200")
@@ -113,8 +106,7 @@ class Client(QtCore.QObject):
             self.getMessage.emit(True)
             print("Clinet : info >> getMessage signal was emited with True")
                         #self.toThread.lock.release()
-            # toThread.self.received = ("200 LOGIN")
-
+        # toThread.self.received = ("200 LOGIN")
         # below to change on signals
         elif self.received["status"] == 202:
             data = self.received["users"]
@@ -141,16 +133,12 @@ class Client(QtCore.QObject):
             self.getCall.emit(True)
             print("Clinet : info >> getCall signal was emited with True")
 
-
         elif self.received["status"] == 200 and self.received["answer_to"] == "NOTHING":
             # toThread.self.received = ("200 NOTHING " + str(self.received["from_who"]))
             print("200 INVITE ", self.received["from_who"])
             print("Dzwoni ", str(self.received["from_who"]))
             self.getCall.emit(True)
             print("Clinet : info >> getCall signal was emited with True")
-
-
-
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
             self.received = "406 LOGIN"
@@ -183,17 +171,17 @@ class Client(QtCore.QObject):
 
 
     def login(self, login, password):
-        payload = {"type": "d", "description": "LOGIN", "login": login, "password": password}
+        payload = {"type": "d", "description": "LOGIN",
+                   "login": login, "password": password}
+
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)
         self.username = login
 
 
-
     def sendingVoice(self):
         print("\tClinet : info >> Start recording")
-
         while True:
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
                 print("\t send:", i)
@@ -222,7 +210,8 @@ class Client(QtCore.QObject):
         self.logout()
         self.socket.close()
 
+
     def logout(self):
-        # TO DO:
-        payload = {"type": "d", "description": "LOGOUT", "login": login, "password": password}
-        print("\tClinet : info >> Logout")
+        payload = {"type": "d", "description": "LOGOUT"}
+        data = json.dumps(payload).encode("utf-8")
+        self.sendMessage(data)

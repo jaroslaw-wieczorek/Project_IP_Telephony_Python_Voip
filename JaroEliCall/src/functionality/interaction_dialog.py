@@ -11,21 +11,21 @@ sys.path.append(lib_path2)
 from src.wrapped_interfaces.interaction_wrapped_ui import InteractionWrappedUI
 
 from PyQt5.QtWidgets import QDialog
-#rom JaroEliCall.gui.interaction_ui import Ui_InteractionDialog
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidget
 from PyQt5.QtWidgets import QTableWidgetItem
 
 from PyQt5.QtCore import pyqtSlot
 
-from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QPixmap
 
 
 
-class InteractionDialog(InteractionWrappedUI):    
+class InteractionDialog(InteractionWrappedUI):
     def __init__(self, kto):
         super(InteractionDialog, self).__init__()
-        
+
         self.kto = kto
         self.set_user_call_text("{0} dzwoni".format(kto))
 
@@ -34,8 +34,8 @@ class InteractionDialog(InteractionWrappedUI):
 
         self.set_push_button_accept(self.accept_connection_clicked)
         self.set_push_button_reject(self.reject_connection_clicked)
-        
-        
+
+
     #@pyqtSlot()
     def reject_connection_clicked(self):
         print("Odrzucono polaczenie")
@@ -46,12 +46,12 @@ class InteractionDialog(InteractionWrappedUI):
     def accept_connection_clicked(self):
         print("Odebrano połączenie")
         self.close()
-        
 
 
+"""
 if __name__  == '__main__':
     app = QApplication(sys.argv)
     window = InteractionWidget("Maciek")
     window.show()
     sys.exit(app.exec_())
-    
+"""
