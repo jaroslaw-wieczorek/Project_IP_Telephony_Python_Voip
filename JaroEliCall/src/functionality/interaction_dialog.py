@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidget
 from PyQt5.QtWidgets import QTableWidgetItem
 
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSignal
 
 from PyQt5.QtGui import QIcon
 from PyQt5.QtGui import QPixmap
@@ -23,11 +23,11 @@ from PyQt5.QtGui import QPixmap
 
 
 class InteractionDialog(InteractionWrappedUI):
-    def __init__(self, kto):
-        super(InteractionDialog, self).__init__()
 
-        self.kto = kto
-        self.set_user_call_text("{0} dzwoni".format(kto))
+    callAnswerSignal = pyqtSignal(bool, str)
+
+    def __init__(self, client):
+        super(InteractionDialog, self).__init__()
 
         self.set_label_accept_pixmap("call-in-progress.png")
         self.set_label_reject_pixmap("call-ended.png")
@@ -35,17 +35,28 @@ class InteractionDialog(InteractionWrappedUI):
         self.set_push_button_accept(self.accept_connection_clicked)
         self.set_push_button_reject(self.reject_connection_clicked)
 
+        self.client = client
+        self.userName = None
 
-    #@pyqtSlot()
+
+    def setupCallerName(self, user_name : str):
+        self.userName = user_name
+        self.set_user_call_text(self.userName)
+
+
     def reject_connection_clicked(self):
-        print("Odrzucono polaczenie")
+        print("(*) InteractionDialog info: Not answer the call.")
+        self.callAnswerSignal.emit(False, self.userName)
+        print("(*) InteractionDialog info: callAnswerSignal emited with False.")
         self.close()
 
 
-    #@pyqtSlot()
     def accept_connection_clicked(self):
-        print("Odebrano połączenie")
-        self.close()
+        print("(*) InteractionDialog info: Answer the call.")
+        self.callAnswerSignal.emit(True, self.userName)
+        self.push_button_accept.setEnable(False)
+        print("(*) InteractionDialog info: push_button_accept disabled.")
+        print("(*) InteractionDialog info: callAnswerSignal emited with True.")
 
 
 """

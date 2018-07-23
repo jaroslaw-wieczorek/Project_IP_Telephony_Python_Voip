@@ -27,9 +27,15 @@ class Client(QtCore.QObject):
     FACTOR = 2
 
 
-    getCall = QtCore.pyqtSignal(bool)
-    getMessage = QtCore.pyqtSignal(bool)
 
+    # Signal to make calls
+    makeCallSignal = QtCore.pyqtSignal(bool, str)
+
+    # Signal to received calls
+    getCallSignal = QtCore.pyqtSignal(bool, str) #WILL BE EXTEND ON AVATAR
+
+
+    getMessage = QtCore.pyqtSignal(bool)
 
     def __init__(self, SERWER_IP, port):
         super(Client, self).__init__()
@@ -85,15 +91,15 @@ class Client(QtCore.QObject):
 
 
     def listeningServer(self):
-        print("\tClinet : info >> run listeningServer")
+        print("\tClient : info >> run listeningServer")
         while True:
-            print("\tClinet : info >> Listen now")
+            print("\tClient : info >> Listen now")
 
             packet, address = self.socket.recvfrom(self.size)
             data = packet.decode("utf-8")
             self.received = json.loads(data)
 
-            print("\tClinet : info >> Get response from server ", self.received)
+            print("\tClient : info >> Get response from server ", self.received)
 
             if str(self.received["type"]) == "d":
                 self.react_on_communicate()
@@ -101,10 +107,10 @@ class Client(QtCore.QObject):
 
     def react_on_communicate(self):
         if self.received["status"] == 200 and self.received["answer_to"] == "LOGIN":
-            print("Clinet : info >> React on comunicate: 200")
+            print("Client : info >> React on comunicate: 200")
             self.received = "200 LOGIN"
             self.getMessage.emit(True)
-            print("Clinet : info >> getMessage signal was emited with True")
+            print("Client : info >> getMessage signal was emited with True")
                         #self.toThread.lock.release()
         # toThread.self.received = ("200 LOGIN")
         # below to change on signals
@@ -116,63 +122,63 @@ class Client(QtCore.QObject):
             self.received = "202 USERS"
             self.users = data
             self.getMessage.emit(True)
-            print("Clinet : info >> getMessage signal was emited with True")
+            print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
-            self.params = []
-            for i in self.received["IP"]:
+            user_name = str(self.received['from_who'])
+            for i in self.received['IP']:
                 print(i)
-                self.params.append(i)
-            print("huehuehuehueheuheue")
-
-            print(self.params)
-            print(self.received)
+            self.params = self.received['IP'][0] # TO CHECK
+            print("200 INVITE ")
             self.received = "200 INVITE"
 
-            self.getCall.emit(True)
-            print("Clinet : info >> getCall signal was emited with True")
+            # I EMIT SIGNAL getCall BECAUSE SOMEONE CALL TO ME
+            self.makeCallSignal.emit(True, user_name)
+
+            print("Client : info >> getCall signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
+            user_name = str(self.received['from_who'])
             self.received = "406 INVITE"
             print("406 INVITE")
-            self.getCall.emit(True)
-            print("Clinet : info >> getCall signal was emited with True")
+            self.makeCallSignal.emit(False, user_name) # NEED CHANEGE ON OTHER
+            print("Client : info >> getCall signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "NOTHING":
             # toThread.self.received = ("200 NOTHING " + str(self.received["from_who"]))
             print("200 INVITE ", self.received["from_who"])
             print("Dzwoni ", str(self.received["from_who"]))
-            self.getCall.emit(True)
-            print("Clinet : info >> getCall signal was emited with True")
+            self.getCallSignal.emit(True)
+            print("Client : info >> getCall signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
             self.received = "406 LOGIN"
             print("406")
             self.getMessage.emit(True)
-            print("Clinet : info >> getMessage signal was emited with True")
+            print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "CREATE":
             # toThread.self.received = ("406 NOT_CREATED")
             print("406")
             self.getMessage.emit(True)
-            print("Clinet : info >> getMessage signal was emited with True")
+            print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 201 and self.received["answer_to"] == "CREATE":
             #toThread.self.received = ("201 CREATED")
             print("201 CREATE ")
             self.getMessage.emit(True)
-            print("Clinet : info >> getMessage signal was emited with True")
+            print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 401:
             print("401")
             self.getMessage.emit(True)
-            print("Clinet : info >> getMessage signal was emited with True")
+            print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "LOGOUT":
             #toThread.self.received = ("200 LOGOUT")
             print("200")
             self.getMessage.emit(True)
-            print("Clinet : info >> getMessage signal was emited with True")
+            print("Client : info >> getMessage signal was emited with True")
 
 
     def login(self, login, password):
@@ -220,7 +226,7 @@ class Client(QtCore.QObject):
                         print(err)
                         break
 
-        print("\tClinet : info >> Stop recording")
+        print("\tClient : info >> Stop recording")
 
 
     def closeConnection(self):
