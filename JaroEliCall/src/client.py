@@ -90,7 +90,7 @@ class Client(QtCore.QObject):
 
 
     def listeningServer(self):
-        print("\tClinet : info >> Setup listeningServer")
+        print("\tClinet : info >> run listeningServer")
         while True:
             print("\tClinet : info >> Listen now")
 
@@ -103,15 +103,15 @@ class Client(QtCore.QObject):
             if str(self.received["type"]) == "d":
                 self.react_on_communicate()
 
-            print("\tClinet : warrning >> Still listen")
 
 
 
     def react_on_communicate(self):
         if self.received["status"] == 200 and self.received["answer_to"] == "LOGIN":
-            print("Dostalem 200")
+            print("Clinet : info >> React on comunicate: 200")
             self.received = "200 LOGIN"
             self.getMessage.emit(True)
+            print("Clinet : info >> getMessage signal was emited with True")
                         #self.toThread.lock.release()
             # toThread.self.received = ("200 LOGIN")
 
@@ -120,9 +120,11 @@ class Client(QtCore.QObject):
             data = self.received["users"]
             # TU POTRZEBA POPRAWIĆ
             print("Client get data from server:", data)
+
             self.received = "202 USERS"
             self.users = data
             self.getMessage.emit(True)
+            print("Clinet : info >> getMessage signal was emited with True")
 
             # toThread.self.received = ("202 USERS")
 
@@ -132,43 +134,51 @@ class Client(QtCore.QObject):
             print("200 INVITE ", self.received["from_who"])
             print("Dzwoni ", str(self.received["from_who"]))
             self.getCall.emit(True)
+            print("Clinet : info >> getCall signal was emited with True")
 
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
             self.received = "200 INVITE"
             print("200 INVITE ", self.received)
             self.getCall.emit(True)
+            print("Clinet : info >> getCall signal was emited with True")
 
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
             self.received = "406 INVITE"
             print("406 INVITE")
             self.getCall.emit(True)
+            print("Clinet : info >> getCall signal was emited with True")
 
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
             self.received = "406 LOGIN"
             print("406")
             self.getMessage.emit(True)
+            print("Clinet : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "CREATE":
             # toThread.self.received = ("406 NOT_CREATED")
             print("406")
             self.getMessage.emit(True)
+            print("Clinet : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 201 and self.received["answer_to"] == "CREATE":
             #toThread.self.received = ("201 CREATED")
             print("201 CREATE ")
             self.getMessage.emit(True)
+            print("Clinet : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 401:
             print("401")
             self.getMessage.emit(True)
+            print("Clinet : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "LOGOUT":
             #toThread.self.received = ("200 LOGOUT")
             print("200")
             self.getMessage.emit(True)
+            print("Clinet : info >> getMessage signal was emited with True")
 
 
     def login(self, login, password):

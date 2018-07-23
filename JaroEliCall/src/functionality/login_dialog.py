@@ -74,16 +74,16 @@ class LoginDialog(LoginWrappedUI):
 
     def getLoggingStatus(self):
         #time.sleep(5)
-        print("[*] LoginDialog info: Get response from server", self.client.received)
+        print("[*] LoginDialog info:  from server", self.client.received)
         if self.client.received == "200 LOGIN":
             status = "Status logowania |" + str(self.client.received)
-            print(status)
+            #print(status)
             self.showLoginStatus(status)
             return True
 
-        elif self.client.received =="406 LOGIN":
+        elif self.client.received == "406 LOGIN":
             status = "Status logowania | " + str(self.client.received)
-            print(status)
+            #print(status)
             self.showLoginStatus(status)
             return False
 
@@ -107,7 +107,6 @@ class LoginDialog(LoginWrappedUI):
     def loggingToServer(self, login, password):
 
         self.client.login(login, password)
-
         if self.waiting_for_signal():
             return self.getLoggingStatus()
         else:
@@ -119,7 +118,7 @@ class LoginDialog(LoginWrappedUI):
 
         if self.validateData:
             print("[*] LoginDialog info: The validateData method returned True")
-            print("[-] Answer loggingToServer ", self.loggingToServer(self.get_login(), self.get_password()))
+            #print("[*] Answer loggingToServer ", self.loggingToServer(self.get_login(), self.get_password()))
 
             if self.loggingToServer(self.get_login(), self.get_password()):
                 print("[*] LoginDialog info: The loggingToServer method returned True")
