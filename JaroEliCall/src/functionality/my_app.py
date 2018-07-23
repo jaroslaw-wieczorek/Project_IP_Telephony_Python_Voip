@@ -99,19 +99,19 @@ class MyApp(QApplication):
             print("(*) MyApp closingSignalResponse received:", value)
 
 
-    def callSignalResponse(self, value, username):
+    @pyqtSlot(bool, str)
+    def getCallSignalResponse(self, value, username):
         if value:
-            print("(*) MyApp callSignalResponse received:", value)
-           # self.client.c
+            print("(*) MyApp getCallSignalResponse received:", value)
+            self.interactionWindow.setupCallerName(username)
+            self.showInteractionWindow()
 
         else:
-            print("(*) MyApp closingSignalResponse received:", value)
-
-   # def setupThread(self, to_thread):
-        #self.toThread = to_thread
+            print("(*) MyApp getCallSignalResponse received:", value)
 
 
-    # Managment clinet and connection
+
+    # Managment client and connection
     def setupClient(self, client):
         self.client = client
         self.listen_server_thread = Thread(
@@ -167,4 +167,5 @@ class MyApp(QApplication):
 
 
     def showInteractionWindow(self):
+        self.interactionWindow.push_button_accept.setEnable(True)
         self.interactionWindow.show()
