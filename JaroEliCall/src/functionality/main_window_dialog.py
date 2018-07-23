@@ -84,6 +84,7 @@ class MainWindowDialog(MainWrappedUI):
         where = self.table_widget_list_of_users.currentItem().text()
         if (where != ''):
             print("Wybrano dzwonienie do ", where)
+            self.client.where = where
             payload = {"type": "d", "description": "INVITE", "call_to": where}
             data = json.dumps(payload).encode("utf-8")
             print(data)
@@ -119,7 +120,7 @@ class MainWindowDialog(MainWrappedUI):
                 print("lololo")
                 ip, port = self.client.params[0], self.client.params[1]
 
-                status = "Nawiązywanie polaczenia z " + str(ip) + " " + str(port)
+                status = "Nawiązywanie polaczenia z " + self.client.where 
                 self.showConnectionStatus(status)
                 print(status)
 
