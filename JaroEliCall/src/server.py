@@ -193,15 +193,18 @@ class Server:
         print(addr)
         if (ans == 1):
             self.mongo.create_user(communicate["NICKNAME"], communicate["EMAIL"], communicate["PASSWORD"])
-            payload = {"type": "d", "description": "CREATED", "status": 201, "answer_to": "CREATE"}
-            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-            print("Wyslano ", payload)
-
+            self.send_created_200(addr)
         elif (ans == 0):
-            payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "REGISTER"}
-            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-            print("Wyslano ", payload)
+            self.send_created_406(addr)
 
+
+    def send_created_200(self, addr):
+        payload = {"type": "d", "description": "CREATED", "status": 201, "answer_to": "CREATE"}
+        self.sending(addr, payload)
+
+    def send_created_406(self, addr):
+        payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "REGISTER"}
+        self.sending(addr, payload)
 
     def listening(self):
         print("[*] Start listen")

@@ -1,7 +1,8 @@
 from sys import platform
 from pymongo import MongoClient
 import os
-
+from itsdangerous import URLSafeSerializer, BadSignature
+from JaroEliCall.src.functionality.sending_activation_key import  ExpiringTokenGenerator
 
 class MongoOperations:
 
@@ -87,8 +88,14 @@ class MongoOperations:
         print("email: ", email)
         print("password ", password)
         print("Dodanie uzytkowwnika do mongo")
+
+        """token = ExpiringTokenGenerator()
+        t = token.generate_token(email)
+        print("token ", t)
+        print("wartosc token ", token.get_token_value(t))"""
+
         try:
-            self.collection.insert_one({"login": login, "password": password, "status": "offline"})
+            self.collection.insert_one({"login": login, "password": password, "status": "offline", "activated": False})
         except IndexError:
             return 0
 

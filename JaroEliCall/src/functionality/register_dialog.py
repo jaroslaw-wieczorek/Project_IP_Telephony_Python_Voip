@@ -20,7 +20,7 @@ from PyQt5.QtWidgets import QMessageBox
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrappedUI
-
+from validate_email import validate_email
 
 
 #from validate_email import validate_email
@@ -77,8 +77,11 @@ class RegisterDialog(RegisterWrappedUI):
     
     
     def validateEmail(self, email):
-        # TO DO and CHECK
-        return True
+        if validate_email(email):
+            return True
+        else:
+            raise EmailValidError("Email is not correct!")
+            return False
     
     
     def validatePasswords(self, password, repeat_password):
@@ -137,6 +140,7 @@ class RegisterDialog(RegisterWrappedUI):
         login = self.get_login()
         email = self.get_email()
         passwd = self.get_password()
+        passwd_hash = hashlib.sha256(passwd.encode()).hexdigest()
         repeat_passwd = self.get_repeat_password()
 
         if self.validateData(login, email, passwd, repeat_passwd):
@@ -145,7 +149,7 @@ class RegisterDialog(RegisterWrappedUI):
                     "type": "d",
                    "description": "CREATE", 
                    "NICKNAME": login, 
-                   "PASSWORD": passwd, 
+                   "PASSWORD": passwd_hash,
                    "EMAIL": email
             }
         

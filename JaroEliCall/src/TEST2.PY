@@ -36,7 +36,6 @@ class ServerThread (threading.Thread, Configuration):
                                   rate=self.RATE,
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
-
         super()
         
     def run(self):
@@ -79,7 +78,7 @@ class ClientThread (threading.Thread, Configuration):
 
 def serverSide(rport,stream, chunk):
     # ip local computer
-    serverIP = '127.0.0.1'
+    serverIP = '192.168.0.101'
     serverPort = rport
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     serverSocket.bind((serverIP,serverPort))
@@ -109,11 +108,13 @@ def clientSide(ip, port, stream, chunk):
 
 # threadLock = threading.Lock()
 
+
+
 """
 threads = []
 
 # IP remote computer
-IP = '127.0.0.1'
+IP = '192.168.0.104'
 
 # Create new threads
 thread1 = ServerThread(1, "Server-Thread", 1, 9999)
