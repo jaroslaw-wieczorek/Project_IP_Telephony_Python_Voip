@@ -65,10 +65,8 @@ class Client(QtCore.QObject):
             print("Polaczono z serwerem")
 
         except ConnectionRefusedError as err:
-
             print(err)
             self.socket.close()
-
 
     def sendMessage(self, data):
         try:
@@ -222,7 +220,7 @@ class Client(QtCore.QObject):
         if(self.user_name_ip != ''):
             print("Someone is calling to me - her/his ip is ", self.user_name_ip)
             print("\tClient : info >> Start recording")
-            # self.voice()
+            self.voice()
 
 
             """while True:
