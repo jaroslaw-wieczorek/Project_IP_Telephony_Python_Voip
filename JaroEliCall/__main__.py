@@ -102,8 +102,10 @@ def main():
     # People receive info that they can show interface "Rozmowa z ...
     myapp.client.callSignal.connect(myapp.callSignalResponse)
 
+    myapp.client.callSignal.connect(myapp.client.sendingVoice())
+
     # Reaction on clicked accept or reject button
-    myapp.interactionWindow.callAnswerSignal.connect(myapp.client.sendingVoice)
+    #myapp.interactionWindow.callAnswerSignal.connect(myapp.client.sendingVoice)
 
     myapp.showLoginWindow()
 

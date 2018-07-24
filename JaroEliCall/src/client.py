@@ -210,13 +210,54 @@ class Client(QtCore.QObject):
         print(data)
         self.sendMessage(data)
 
+    def voice(self):
+        threads = []
+
+        # Create new threads
+        thread1 = ServerThread(1, "Server-Thread", 1, 9999)
+        thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999)
+
+        # Start new Threads
+        thread1.start()
+        thread2.start()
+
+        # Add threads to thread list
+        threads.append(thread1)
+        threads.append(thread2)
+
+        # Wait for all threads to complete
+        for t in threads:
+            t.join()
+
+        print("Exiting Main Thread")
 
     def sendingVoice(self):
 
         if(self.user_name_ip != ''):
             print("Someone is calling to me - her/his ip is ", self.user_name_ip)
             print("\tClient : info >> Start recording")
-            # self.voice()
+
+            IP = '192.168.0.104'
+
+            threads = []
+
+            # Create new threads
+            thread1 = ServerThread(1, "Server-Thread", 1, 9999)
+            thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999)
+
+            # Start new Threads
+            thread1.start()
+            thread2.start()
+
+            # Add threads to thread list
+            threads.append(thread1)
+            threads.append(thread2)
+
+            # Wait for all threads to complete
+            for t in threads:
+                t.join()
+
+            print("Exiting Main Thread")
 
 
             """while True:
