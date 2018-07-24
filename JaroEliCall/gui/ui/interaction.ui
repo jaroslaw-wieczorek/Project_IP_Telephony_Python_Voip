@@ -252,7 +252,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="push_button_reject">
+      <widget class="QPushButton" name="push_button_accept">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -260,7 +260,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Odrzuć</string>
+        <string>Odbierz</string>
        </property>
       </widget>
      </item>
@@ -281,7 +281,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="push_button_accept">
+      <widget class="QPushButton" name="push_button_reject">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -289,7 +289,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Odbierz</string>
+        <string>Odrzuć</string>
        </property>
       </widget>
      </item>
@@ -329,6 +329,10 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>push_button_accept</tabstop>
+  <tabstop>push_button_reject</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -91,13 +91,18 @@ def main():
 
     myapp.client.getMessage.connect(myapp.loginWindow.loop.quit)
     myapp.client.getMessage.connect(myapp.mainWindow.loop.quit)
+
     myapp.client.getCallSignal.connect(myapp.mainWindow.loop.quit)
+
+
+    myapp.client.makeCallSignal.connect(myapp.interactionWindow.loop.quit)
 
     # Connect recive invite from someone to show interaction_dialog
     myapp.client.getCallSignal.connect(myapp.getCallSignalResponse)
 
     # Reaction on clicked accpet or reject button
     myapp.interactionWindow.callAnswerSignal.connect(myapp.client.sendingVoice)
+
     myapp.showLoginWindow()
 
 

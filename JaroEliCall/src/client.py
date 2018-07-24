@@ -1,19 +1,16 @@
-
 import os
 import sys
 import json
-import time
 import socket
 import pyaudio
-import threading
+
+from PyQt5 import QtCore
+from JaroEliCall.src.TEST2 import ServerThread
+from JaroEliCall.src.TEST2 import ClientThread
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
-import PyQt5
-from PyQt5 import QtCore
-from PyQt5.QtCore import Qt
-from PyQt5.QtCore import pyqtSignal
 
 
 class Client(QtCore.QObject):
@@ -76,7 +73,6 @@ class Client(QtCore.QObject):
         try:
             self.socket.sendto(data, (self.host, self.port))
             print("Wysłano ", data)
-
         except ConnectionRefusedError as err:
             print(err)
 
@@ -125,33 +121,34 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
-            user_name = "ela"
-            #user_name = str(self.received["from_who"])
+            self.params = []
             for i in self.received['IP']:
                 print(i)
-            self.params = self.received['IP'][0] # TO CHECK
-            print("200 INVITE ")
+                self.params.append(i)
+
             self.received = "200 INVITE"
+            print("200 INVITE ")
 
             # I EMIT SIGNAL getCall BECAUSE SOMEONE CALL TO ME
-            self.makeCallSignal.emit(True, user_name)
-
-            print("Client : info >> getCall signal was emited with True")
+            self.getMessage.emit(True)
+            print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
-            user_name = str(self.received["from_who"])
             self.received = "406 INVITE"
             print("406 INVITE")
-            self.makeCallSignal.emit(False, user_name) # NEED CHANEGE ON OTHER
-            print("Client : info >> getCall signal was emited with True")
+            self.getMessage.emit(True)
+            print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "NOTHING":
+
             user_name = str(self.received["from_who"])
-            print("200 INVITE ", user_name)
-            print("Dzwoni ", user_name)
+            print("200 INVITE ", self.received["from_who"])
+            print("Dzwoni ", str(self.received["from_who"]))
+            self.user_name_ip = self.received["from_who_ip"]
 
             self.getCallSignal.emit(True, user_name)
-            print("Client : info >> getCall signal was emited with True")
+            print("Client : info >> makeCallSignal signal was emited with True")
+
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
             self.received = "406 LOGIN"
@@ -160,13 +157,11 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "CREATE":
-            # toThread.self.received = ("406 NOT_CREATED")
             print("406")
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 201 and self.received["answer_to"] == "CREATE":
-            #toThread.self.received = ("201 CREATED")
             print("201 CREATE ")
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
@@ -177,7 +172,6 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "LOGOUT":
-            #toThread.self.received = ("200 LOGOUT")
             print("200")
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
@@ -192,39 +186,75 @@ class Client(QtCore.QObject):
         self.sendMessage(data)
         self.username = login
 
-
-    def sendingVoice(self):
-        print("\tClient : info >> Start recording")
-        while True:
-            for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
-                print("\t send:", i)
-
-                self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
-
-                if self.data:
-                    # Write data to pyaudio stream
-                    self.stream.write(self.data)  # Stream the recieved audio data
-
-                    try:
-                        self.socket.send(self.data)
-                        print("< Client > Info: Send data", self.data)
-                    except ConnectionRefusedError as err:
-                        # TO DO throw this exception upper to managment
-                        # for try reconnect
-                        print(err)
-                        break
-
-        print("\tClient : info >> Stop recording")
-
-
-    def closeConnection(self):
-        self.stream.stop_stream()
-        self.stream.close()
-        self.logout()
-        self.socket.close()
-
-
     def logout(self):
         payload = {"type": "d", "description": "LOGOUT"}
         data = json.dumps(payload).encode("utf-8")
         self.sendMessage(data)
+
+    def sendingVoice(self):
+
+
+        if(self.user_name_ip != ''):
+            print("Someone is calling to me - her/his ip is ", self.user_name_ip)
+            print("\tClient : info >> Start recording")
+
+            threads = []
+
+            # IP remote computer
+            IP = '127.0.0.1'
+
+            # Create new threads
+            thread1 = ServerThread(1, "Server-Thread", 1, 9999)
+            thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999)
+
+            # Start new Threads
+            thread1.start()
+            thread2.start()
+
+            # Add threads to thread list
+            threads.append(thread1)
+            threads.append(thread2)
+
+            # Wait for all threads to complete
+            for t in threads:
+                t.join()
+
+            print("Exiting Main Thread")
+
+            """while True:
+                for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
+                    print("\t send:", i)
+    
+                    self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
+    
+                    if self.data:
+                        # Write data to pyaudio stream
+                        self.stream.write(self.data)  # Stream the recieved audio data
+    
+                        try:
+                            self.socket.send(self.data)
+                            print("< Client > Info: Send data", self.data)
+                        except ConnectionRefusedError as err:
+                            # TO DO throw this exception upper to managment
+                            # for try reconnect
+                            print(err)
+                            break
+            """
+
+            print("\tClient : info >> Stop recording")
+        self.user_name_ip = ''
+
+        #self.closeSendingVoice()
+
+
+    def closeSendingVoice(self):
+        self.stream.stop_stream()
+        self.stream.close()
+
+
+    def closeConnection(self):
+        self.logout()
+        self.socket.close()
+
+
+

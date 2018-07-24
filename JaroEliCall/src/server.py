@@ -163,7 +163,7 @@ class Server:
                 self.send_invite_200_to_caller(where_ip, who_ip)
 
                 # informacja do odbiorcy o tym że ktoś dzwoni
-                self.send_invite_200_to_recipient(where_ip, who_name)
+                self.send_inf_connection_is_comming_200_to_recipient(where_ip, who_name, who_ip)
 
             else:
                 print("brak usera")
@@ -172,9 +172,8 @@ class Server:
         else:
             self.send_invite_406(who_ip)
 
-
-    def send_invite_200_to_recipient(self, where_ip, who_name):
-        payload = {"type": "d", "description": "INVITE", "answer_to": "NOTHING", "status": 200, "from_who": who_name}
+    def send_inf_connection_is_comming_200_to_recipient(self, where_ip, who_name, who_ip):
+        payload = {"type": "d", "description": "INVITE", "answer_to": "NOTHING", "status": 200, "from_who": who_name, "from_who_ip" : who_ip}
         self.sending(where_ip, payload)
 
 

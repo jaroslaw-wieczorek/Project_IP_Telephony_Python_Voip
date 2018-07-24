@@ -3,27 +3,15 @@ import sys
 import json
 
 from functools import partial
-from threading import Thread
-
-
-from PyQt5.QtGui import QIcon
-from PyQt5.QtGui import QPixmap
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QTimer
-from PyQt5.QtCore import QThread
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtCore import QMetaType
-from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import QEventLoop
-from PyQt5.QtCore import QItemSelection
-
-from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QTableWidget
-from PyQt5.QtWidgets import QTableWidgetItem
+
+from JaroEliCall.src.TEST2 import ServerThread
+from JaroEliCall.src.TEST2 import ClientThread
+
 
 #(QItemSelection)
 #self.emit(SIGNAL("newStatuses(PyQt_PyObject)"), statusy)
@@ -87,6 +75,28 @@ class MainWindowDialog(MainWrappedUI):
             print(data)
             self.client.sendMessage(data)
             self.read()
+
+
+            threads = []
+
+            # IP remote computer
+            IP = '127.0.0.1'
+
+            # Create new threads
+            thread1 = ServerThread(1, "Server-Thread", 1, 9999)
+            thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999)
+
+            # Start new Threads
+            thread1.start()
+            thread2.start()
+
+            # Add threads to thread list
+            threads.append(thread1)
+            threads.append(thread2)
+
+            # Wait for all threads to complete
+            for t in threads:
+                t.join()
 
 
     def waiting_for_signal(self):
