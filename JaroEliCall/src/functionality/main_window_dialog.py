@@ -29,6 +29,7 @@ from JaroEliCall.src.wrapped_interfaces.main_wrapped_ui import MainWrappedUI
 
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 
+remoteClientIP = '127.0.0.1'
 
 class MainWindowDialog(MainWrappedUI):
 
@@ -81,11 +82,11 @@ class MainWindowDialog(MainWrappedUI):
             threads = []
 
             # IP remote computer
-            IP = '192.168.43.70'
+            global remoteClientIP
 
             # Create new threads
             thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-            thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999)
+            thread2 = ClientThread(2, "Client-Thread", 2, remoteClientIP, 9999)
 
             # Start new Threads
             thread1.start()

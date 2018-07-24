@@ -7,6 +7,7 @@ import pyaudio
 import audioop
 import threading
 
+serverIP = '127.0.0.1'
 
 class Configuration():
         FORMAT = pyaudio.paInt16
@@ -65,7 +66,7 @@ class ClientThread (threading.Thread, Configuration):
 
         super()
 
-        
+
     def run(self):
         print ("Starting: " + self.name)
         # Get lock to synchronize threads
@@ -78,7 +79,7 @@ class ClientThread (threading.Thread, Configuration):
 
 def serverSide(rport,stream, chunk):
     # ip local computer
-    serverIP = '192.168.0.101'
+    global serverIP
     serverPort = rport
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     serverSocket.bind((serverIP,serverPort))

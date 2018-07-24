@@ -13,6 +13,8 @@ from src.functionality.sending_activation_key import  ExpiringTokenGenerator
 
 class MongoOperations:
 
+    MongoIP, MongoPort = ("127.0.0.1", 27017)
+
     def __init__(self):
         self.dict_ip_users = {}
 
@@ -23,7 +25,7 @@ class MongoOperations:
             os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
 
     def runMongo(self):
-        client = MongoClient('localhost', 27017)
+        client = MongoClient(self.MongoIP, self.MongoPort)
         db = client['VOIP']
         self.collection = db['Users']
 
@@ -41,7 +43,7 @@ class MongoOperations:
             return 0
 
     def getFromMongo(self):
-        client = MongoClient('localhost', 27017)
+        client = MongoClient(self.MongoIP, self.MongoPort)
         db = client['VOIP']
         collection = db['Users']
         users = []
