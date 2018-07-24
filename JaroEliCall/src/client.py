@@ -14,6 +14,9 @@ print(lib_path)
 from JaroEliCall.src.test2 import ServerThread
 from JaroEliCall.src.test2 import ClientThread
 
+remoteClientIP = '127.0.0.1'
+
+
 class Client(QtCore.QObject):
 
     FORMAT = pyaudio.paInt16
@@ -212,11 +215,11 @@ class Client(QtCore.QObject):
         threads = []
 
         # IP remote computer
-        IP = '192.168.0.104'
+        global remoteClientIP
 
         # Create new threads
         thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-        thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999)
+        thread2 = ClientThread(2, "Client-Thread", 2, remoteClientIP, 9999)
 
         # Start new Threads
         thread1.start()
