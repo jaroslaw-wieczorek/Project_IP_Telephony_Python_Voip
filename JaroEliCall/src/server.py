@@ -162,16 +162,14 @@ class Server:
             if(who_name != "brak usera"):
                 print("chce sie dodzwonic do ", where_ip)
 
-                # informacja do strony ktora dzwoni o danych osoby do ktorej dzwoni
-                self.send_invite_200_to_caller(where_ip, who_ip)
-
                 # informacja do odbiorcy o tym że ktoś dzwoni
                 self.send_inf_connection_is_comming_200_to_recipient(where_ip, who_name, who_ip)
 
-            else:
-                print("brak usera")
-                self.send_invite_406(who_ip)
+                # informacja do strony ktora dzwoni o danych osoby do ktorej dzwoni
+                self.send_invite_200_to_caller(where_ip, who_ip)
 
+            else:
+                self.send_invite_406(who_ip)
         else:
             self.send_invite_406(who_ip)
 
@@ -237,9 +235,10 @@ class Server:
                         self.create_in_database(received, addr)
                     elif (received["description"] == "LOGOUT"):
                         self.log_out(addr)
-                elif (str(received["type"]) == "s"):
-                    print("Dzwiek: ")
-                    self.stream.write(d[2:])
+                    elif (received["description"] == "NOTHING"):
+                        print("informacja od recipient czy odebral lub odrzucil")
+                        print(received["status"])
+
             except ConnectionResetError:
                 print("Połączenie przerwane przez klienta")
 

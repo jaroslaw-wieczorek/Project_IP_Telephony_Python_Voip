@@ -41,7 +41,6 @@ class InteractionDialog(InteractionWrappedUI):
         self.loop = QEventLoop()
 
 
-
     def setupCallerName(self, user_name : str):
         self.userName = user_name
         self.set_user_call_text(self.userName)
@@ -50,6 +49,8 @@ class InteractionDialog(InteractionWrappedUI):
     def reject_connection_clicked(self):
         print("(*) InteractionDialog info: Not answer the call.")
         self.callAnswerSignal.emit(False, self.userName)
+        self.client.reject_connection(self.userName)
+
         print("(*) InteractionDialog info: callAnswerSignal emited with False.")
         self.close()
 
@@ -58,6 +59,8 @@ class InteractionDialog(InteractionWrappedUI):
         print("(*) InteractionDialog info: Answer the call.")
         self.callAnswerSignal.emit(True, self.userName)
         self.push_button_accept.setEnabled(False)
+        self.client.answer_call(self.userName)
+
         print("(*) InteractionDialog info: push_button_accept disabled.")
         print("(*) InteractionDialog info: callAnswerSignal emited with True.")
 

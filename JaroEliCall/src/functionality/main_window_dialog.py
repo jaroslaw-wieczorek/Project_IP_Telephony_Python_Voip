@@ -77,11 +77,11 @@ class MainWindowDialog(MainWrappedUI):
             self.client.sendMessage(data)
             self.read()
 
-
+            # threadLock = threading.Lock()
             threads = []
 
             # IP remote computer
-            IP = '127.0.0.1'
+            IP = '192.168.43.70'
 
             # Create new threads
             thread1 = ServerThread(1, "Server-Thread", 1, 9999)
@@ -98,6 +98,8 @@ class MainWindowDialog(MainWrappedUI):
             # Wait for all threads to complete
             for t in threads:
                 t.join()
+
+            print("Exiting Main Thread")
 
 
     def waiting_for_signal(self):

@@ -145,7 +145,6 @@ class Client(QtCore.QObject):
             print("200 INVITE ", self.received["from_who"])
             print("Dzwoni ", str(self.received["from_who"]))
             self.user_name_ip = self.received["from_who_ip"]
-
             self.getCallSignal.emit(True, user_name)
             print("Client : info >> makeCallSignal signal was emited with True")
 
@@ -186,16 +185,34 @@ class Client(QtCore.QObject):
         self.sendMessage(data)
         self.username = login
 
+
     def logout(self):
         payload = {"type": "d", "description": "LOGOUT"}
         data = json.dumps(payload).encode("utf-8")
         self.sendMessage(data)
 
+
+    def reject_connection(self, from_who):
+        payload = {"type": "d", "description": "NOTHING", "status": 406,
+                   "from_who": from_who}
+        data = json.dumps(payload).encode("utf-8")
+        print(data)
+        self.sendMessage(data)
+
+    def answer_call(self, from_who):
+        payload = {"type": "d", "description": "NOTHING", "status": 200,
+                   "from_who": from_who}
+        data = json.dumps(payload).encode("utf-8")
+        print(data)
+        self.sendMessage(data)
+
+
     def voice(self):
+        # threadLock = threading.Lock()
         threads = []
 
         # IP remote computer
-        IP = '192.168.0.104'
+        IP = '192.168.43.70'
 
         # Create new threads
         thread1 = ServerThread(1, "Server-Thread", 1, 9999)
@@ -204,12 +221,11 @@ class Client(QtCore.QObject):
         # Start new Threads
         thread1.start()
         thread2.start()
-        print("WATKI ROZPOCZELY SIE")
+
         # Add threads to thread list
         threads.append(thread1)
         threads.append(thread2)
 
-        print("Watki leca...")
         # Wait for all threads to complete
         for t in threads:
             t.join()

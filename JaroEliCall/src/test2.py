@@ -3,21 +3,18 @@ import os
 import sys
 import time
 import socket
-import asyncio
 import pyaudio
 import audioop
 import threading
-from datetime import datetime
 
 
 class Configuration():
         FORMAT = pyaudio.paInt16
         CHUNK = 512
-        BYTES_PER_SAMPLE = 8
-        WIDTH = 3
+        WIDTH = 2
         CHANNELS = 1
         RATE = 16000
-        FACTOR = 1
+        FACTOR = 2
         REMOTE_IP = None
         REMOTE_PORT = None
 
@@ -32,7 +29,7 @@ class ServerThread (threading.Thread, Configuration):
         self.REMOTE_PORT = rport
         self.p = pyaudio.PyAudio()
 
-        self.stream = self.p.open(format=self.FORMAT,
+        self.stream = self.p.open(format=self.p.get_format_from_width(self.WIDTH),
                                   channels=self.CHANNELS,
                                   rate=self.RATE,
                                   output=True,
@@ -81,7 +78,7 @@ class ClientThread (threading.Thread, Configuration):
 
 def serverSide(rport,stream, chunk):
     # ip local computer
-    serverIP = '192.168.43.70'
+    serverIP = '192.168.0.101'
     serverPort = rport
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     serverSocket.bind((serverIP,serverPort))
@@ -92,8 +89,6 @@ def serverSide(rport,stream, chunk):
         stream.write(message)
         mx = audioop.max(message, 2)
         #print(mx)
-
-
 
 
 def clientSide(ip, port, stream, chunk):
@@ -109,19 +104,17 @@ def clientSide(ip, port, stream, chunk):
         #print(mx)
     #clientSocket.close() # Close the socket
 
+"""
+
 # threadLock = threading.Lock()
-
-
-
-
 threads = []
 
 # IP remote computer
-IP = '192.168.43.130'
+IP = '192.168.0.104'
 
 # Create new threads
 thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999 )
+thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999)
 
 # Start new Threads
 thread1.start()
@@ -136,3 +129,5 @@ for t in threads:
     t.join()
 
 print ("Exiting Main Thread")
+
+"""
