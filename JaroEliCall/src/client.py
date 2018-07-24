@@ -14,7 +14,7 @@ print(lib_path)
 from JaroEliCall.src.test2 import ServerThread
 from JaroEliCall.src.test2 import ClientThread
 
-remoteClientIP = '127.0.0.1'
+SERWER_IP = '127.0.0.1'
 
 
 class Client(QtCore.QObject):
@@ -27,14 +27,11 @@ class Client(QtCore.QObject):
     RECORD_SECONDS = 2
     FACTOR = 2
 
-
-
     # Signal to make calls
     makeCallSignal = QtCore.pyqtSignal(bool, str)
 
     # Signal to received calls
     getCallSignal = QtCore.pyqtSignal(bool, str) #WILL BE EXTEND ON AVATAR
-
 
     getMessage = QtCore.pyqtSignal(bool)
 
