@@ -38,7 +38,7 @@ from JaroEliCall.src.client import Client
 from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 import random
 
-SERWER_IP = '192.168.0.101'
+SERWER_IP = '127.0.0.1'
 PORT = 50001
 
 
@@ -100,7 +100,7 @@ def main():
     myapp.client.getCallSignal.connect(myapp.mainWindow.loop.quit)
     myapp.client.getCallSignal.connect(myapp.getCallSignalResponse)
 
-    # Reaction on clicked accpet or reject button
+    # Reaction on clicked accept or reject button
     myapp.interactionWindow.callAnswerSignal.connect(myapp.client.sendingVoice)
 
     myapp.showLoginWindow()

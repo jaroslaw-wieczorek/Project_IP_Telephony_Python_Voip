@@ -48,19 +48,18 @@ class InteractionDialog(InteractionWrappedUI):
 
     def reject_connection_clicked(self):
         print("(*) InteractionDialog info: Not answer the call.")
-        self.callAnswerSignal.emit(False, self.userName)
         self.client.reject_connection(self.userName)
-
+        self.callAnswerSignal.emit(False, self.userName)
         print("(*) InteractionDialog info: callAnswerSignal emited with False.")
         self.close()
 
 
     def accept_connection_clicked(self):
         print("(*) InteractionDialog info: Answer the call.")
-        self.callAnswerSignal.emit(True, self.userName)
-        self.push_button_accept.setEnabled(False)
         self.client.answer_call(self.userName)
 
+        self.callAnswerSignal.emit(True, self.userName)
+        self.push_button_accept.setEnabled(False)
         print("(*) InteractionDialog info: push_button_accept disabled.")
         print("(*) InteractionDialog info: callAnswerSignal emited with True.")
 

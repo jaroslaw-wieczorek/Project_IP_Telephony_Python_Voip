@@ -207,6 +207,22 @@ class Server:
         payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "REGISTER"}
         self.sending(addr, payload)
 
+    def send_info_to_caller(self, status, who_answer_rej_conn):
+        who_ansewer_on_con_ip = self.find_address(who_answer_rej_conn)
+        print("who_ansewer_on_con_ip ", who_ansewer_on_con_ip)
+        if(status == 406):
+            self.send_rejected_406(who_ansewer_on_con_ip)
+        elif status == 200:
+            self.send_answered_200(who_ansewer_on_con_ip)
+
+    def send_rejected_406(self, addr):
+        payload = {"type": "d", "description": "REJECTED", "status": 406, "answer_to": "INVITE"}
+        self.sending(addr, payload)
+
+    def send_answered_200(self, addr):
+        payload = {"type": "d", "description": "ANSWERED", "status": 200, "answer_to": "INVITE"}
+        self.sending(addr, payload)
+
     def listening(self):
         print("[*] Start listen")
         while 1:
@@ -237,7 +253,7 @@ class Server:
                         self.log_out(addr)
                     elif (received["description"] == "NOTHING"):
                         print("informacja od recipient czy odebral lub odrzucil")
-                        print(received["status"])
+                        # self.send_info_to_caller(received["status"], received["from_who"])
 
             except ConnectionResetError:
                 print("Połączenie przerwane przez klienta")

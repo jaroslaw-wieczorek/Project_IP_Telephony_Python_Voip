@@ -212,7 +212,7 @@ class Client(QtCore.QObject):
         threads = []
 
         # IP remote computer
-        IP = '192.168.43.70'
+        IP = '192.168.0.104'
 
         # Create new threads
         thread1 = ServerThread(1, "Server-Thread", 1, 9999)
@@ -237,7 +237,7 @@ class Client(QtCore.QObject):
         if(self.user_name_ip != ''):
             print("Someone is calling to me - her/his ip is ", self.user_name_ip)
             print("\tClient : info >> Start recording")
-            self.voice()
+            #self.voice()
 
 
             """while True:
