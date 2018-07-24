@@ -5,13 +5,14 @@ import socket
 import pyaudio
 
 from PyQt5 import QtCore
-from JaroEliCall.src.TEST2 import ServerThread
-from JaroEliCall.src.TEST2 import ClientThread
 
-lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
+
+lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path)
+print(lib_path)
 
-
+from JaroEliCall.src.test2 import ServerThread
+from JaroEliCall.src.test2 import ClientThread
 
 class Client(QtCore.QObject):
 
@@ -228,13 +229,13 @@ class Client(QtCore.QObject):
             """while True:
                 for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
                     print("\t send:", i)
-    
+
                     self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
-    
+
                     if self.data:
                         # Write data to pyaudio stream
                         self.stream.write(self.data)  # Stream the recieved audio data
-    
+
                         try:
                             self.socket.send(self.data)
                             print("< Client > Info: Send data", self.data)
@@ -259,6 +260,3 @@ class Client(QtCore.QObject):
     def closeConnection(self):
         self.logout()
         self.socket.close()
-
-
-

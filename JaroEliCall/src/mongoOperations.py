@@ -1,8 +1,15 @@
-from sys import platform
-from pymongo import MongoClient
 import os
-from itsdangerous import URLSafeSerializer, BadSignature
-from JaroEliCall.src.functionality.sending_activation_key import  ExpiringTokenGenerator
+import sys
+from sys import platform
+
+from pymongo import MongoClient
+from itsdangerous import BadSignature
+from itsdangerous import URLSafeSerializer
+
+lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
+sys.path.append(lib_path)
+
+from src.functionality.sending_activation_key import  ExpiringTokenGenerator
 
 class MongoOperations:
 
