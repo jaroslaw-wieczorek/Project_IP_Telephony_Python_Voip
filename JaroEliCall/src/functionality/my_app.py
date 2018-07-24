@@ -167,5 +167,5 @@ class MyApp(QApplication):
 
 
     def showInteractionWindow(self):
-        self.interactionWindow.push_button_accept.setEnable(True)
+        self.interactionWindow.push_button_accept.setEnabled(True)
         self.interactionWindow.show()

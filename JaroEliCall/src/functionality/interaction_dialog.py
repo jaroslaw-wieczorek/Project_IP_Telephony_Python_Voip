@@ -54,7 +54,7 @@ class InteractionDialog(InteractionWrappedUI):
     def accept_connection_clicked(self):
         print("(*) InteractionDialog info: Answer the call.")
         self.callAnswerSignal.emit(True, self.userName)
-        self.push_button_accept.setEnable(False)
+        self.push_button_accept.setEnabled(False)
         print("(*) InteractionDialog info: push_button_accept disabled.")
         print("(*) InteractionDialog info: callAnswerSignal emited with True.")
 

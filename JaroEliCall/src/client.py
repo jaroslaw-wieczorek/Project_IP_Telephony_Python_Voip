@@ -125,7 +125,8 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
-            user_name = str(self.received["from_who"])
+            user_name = "ela"
+            #user_name = str(self.received["from_who"])
             for i in self.received['IP']:
                 print(i)
             self.params = self.received['IP'][0] # TO CHECK
@@ -145,10 +146,11 @@ class Client(QtCore.QObject):
             print("Client : info >> getCall signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "NOTHING":
-            # toThread.self.received = ("200 NOTHING " + str(self.received["from_who"]))
-            print("200 INVITE ", self.received["from_who"])
-            print("Dzwoni ", str(self.received["from_who"]))
-            self.getCallSignal.emit(True)
+            user_name = str(self.received["from_who"])
+            print("200 INVITE ", user_name)
+            print("Dzwoni ", user_name)
+
+            self.getCallSignal.emit(True, user_name)
             print("Client : info >> getCall signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
