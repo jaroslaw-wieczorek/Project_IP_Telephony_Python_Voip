@@ -9,9 +9,6 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import QEventLoop
 from PyQt5.QtWidgets import QMessageBox
 
-from JaroEliCall.src.TEST2 import ServerThread
-from JaroEliCall.src.TEST2 import ClientThread
-
 
 #(QItemSelection)
 #self.emit(SIGNAL("newStatuses(PyQt_PyObject)"), statusy)
@@ -21,6 +18,10 @@ sys.path.append(lib_path)
 
 lib_path2 = os.path.abspath(os.path.join(__file__, '..', '..', '..','..'))
 sys.path.append(lib_path2)
+
+
+from JaroEliCall.src.test2 import ServerThread
+from JaroEliCall.src.test2 import ClientThread
 
 
 from JaroEliCall.src.client import Client

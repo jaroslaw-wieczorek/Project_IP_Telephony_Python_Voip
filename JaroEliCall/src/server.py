@@ -4,14 +4,17 @@ import json
 import time
 import pyaudio
 import socket
-from threading import Thread
 
+from threading import Thread
 from bson.json_util import dumps
-from mongoOperations import MongoOperations
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
+from mongoOperations import MongoOperations
+
+
+print(lib_path)
 
 # class Server(Validator):
 
