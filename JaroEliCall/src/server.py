@@ -83,7 +83,7 @@ class Server:
 
 
     def get_username_from_ip(self, ip):
-        print("w funkcji get_username_from_ip")
+        print("Server w funkcji get_username_from_ip")
         ans = "brak usera"
         for key, value in self.mongo.dict_ip_users.items():
             print(ip)
@@ -95,12 +95,12 @@ class Server:
 
     def sending(self, addr, payload):
         self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-        print("Wysłano: " + str(payload) + " do " + str(addr))
+        print("Server : Sended: " + str(payload) + " to " + str(addr))
 
 
 
     def log_in(self, login, password, addr):
-        print("Otrzymano LOGIN")
+        print("Server log_in: get LOGIN")
         is_login_ok = self.mongo.checkWithMongo(login, password, addr)
         if (is_login_ok):
             self.send_login_200(addr)
@@ -118,7 +118,7 @@ class Server:
 
 
     def log_out(self, addr):
-        print("Otrzymano LOGOUT")
+        print("Server log_out get: LOGOUT")
         ans = self.mongo.logoutUser(addr)
         print("Odp na wylogowanie: ", ans)
         if (ans == 1):
@@ -133,7 +133,6 @@ class Server:
     def send_logout_406(self, addr):
         payload = {"type": "d", "description": "UNAUTHORIZED", "status": 401, "answer_to": "LOGOUT"}
         self.sending(addr, payload)
-
 
 
     def users_from_mongo(self, addr):
@@ -176,6 +175,7 @@ class Server:
     def send_inf_connection_is_comming_200_to_recipient(self, where_ip, who_name, who_ip):
         payload = {"type": "d", "description": "INVITE", "answer_to": "NOTHING", "status": 200, "from_who": who_name, "from_who_ip" : who_ip}
         self.sending(where_ip, payload)
+
 
     def send_invite_200_to_caller(self, addr, caller):
         payload = {"type": "d", "description": "OK", "status": 200, "answer_to": "INVITE", "IP": addr}
