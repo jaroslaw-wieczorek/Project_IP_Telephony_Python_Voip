@@ -125,31 +125,33 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
-            user_name = str(self.received["from_who"])
+            self.params = []
             for i in self.received['IP']:
                 print(i)
-            self.params = self.received['IP'][0] # TO CHECK
-            print("200 INVITE ")
+                self.params.append(i)
+
             self.received = "200 INVITE"
+            print("200 INVITE ")
 
             # I EMIT SIGNAL getCall BECAUSE SOMEONE CALL TO ME
-            self.makeCallSignal.emit(True, user_name)
-
-            print("Client : info >> getCall signal was emited with True")
+            self.getMessage.emit(True)
+            print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
-            user_name = str(self.received["from_who"])
             self.received = "406 INVITE"
             print("406 INVITE")
-            self.makeCallSignal.emit(False, user_name) # NEED CHANEGE ON OTHER
-            print("Client : info >> getCall signal was emited with True")
+            self.getMessage.emit(True)
+            print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "NOTHING":
-            # toThread.self.received = ("200 NOTHING " + str(self.received["from_who"]))
+
+            user_name = str(self.received["from_who"])
             print("200 INVITE ", self.received["from_who"])
             print("Dzwoni ", str(self.received["from_who"]))
-            self.getCallSignal.emit(True)
-            print("Client : info >> getCall signal was emited with True")
+
+            self.getCallSignal.emit(True, user_name)
+            print("Client : info >> makeCallSignal signal was emited with True")
+
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
             self.received = "406 LOGIN"
@@ -158,13 +160,11 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "CREATE":
-            # toThread.self.received = ("406 NOT_CREATED")
             print("406")
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 201 and self.received["answer_to"] == "CREATE":
-            #toThread.self.received = ("201 CREATED")
             print("201 CREATE ")
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
@@ -175,7 +175,6 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "LOGOUT":
-            #toThread.self.received = ("200 LOGOUT")
             print("200")
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")

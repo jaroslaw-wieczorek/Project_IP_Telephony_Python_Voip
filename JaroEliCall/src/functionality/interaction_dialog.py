@@ -19,6 +19,7 @@ from PyQt5.QtCore import pyqtSignal
 
 from PyQt5.QtGui import QIcon
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import QEventLoop
 
 
 
@@ -37,6 +38,8 @@ class InteractionDialog(InteractionWrappedUI):
 
         self.client = client
         self.userName = None
+        self.loop = QEventLoop()
+
 
 
     def setupCallerName(self, user_name : str):
