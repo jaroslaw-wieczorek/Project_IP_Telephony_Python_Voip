@@ -27,7 +27,6 @@ from JaroEliCall.src.test2 import ClientThread
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.wrapped_interfaces.main_wrapped_ui import MainWrappedUI
 
-from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 
 remoteClientIP = '127.0.0.1'
 
@@ -77,30 +76,6 @@ class MainWindowDialog(MainWrappedUI):
             print(data)
             self.client.sendMessage(data)
             self.read()
-
-            # threadLock = threading.Lock()
-            threads = []
-
-            # IP remote computer
-            global remoteClientIP
-
-            # Create new threads
-            thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-            thread2 = ClientThread(2, "Client-Thread", 2, remoteClientIP, 9999)
-
-            # Start new Threads
-            thread1.start()
-            thread2.start()
-
-            # Add threads to thread list
-            threads.append(thread1)
-            threads.append(thread2)
-
-            # Wait for all threads to complete
-            for t in threads:
-                t.join()
-
-            print("Exiting Main Thread")
 
 
     def waiting_for_signal(self):

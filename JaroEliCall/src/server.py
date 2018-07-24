@@ -253,7 +253,7 @@ class Server:
                         self.log_out(addr)
                     elif (received["description"] == "NOTHING"):
                         print("informacja od recipient czy odebral lub odrzucil")
-                        # self.send_info_to_caller(received["status"], received["from_who"])
+                        self.send_info_to_caller(received["status"], received["from_who"])
 
             except ConnectionResetError:
                 print("Połączenie przerwane przez klienta")

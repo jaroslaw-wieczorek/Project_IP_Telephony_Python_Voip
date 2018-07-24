@@ -1,4 +1,3 @@
-
 import os
 import sys
 import time
@@ -7,28 +6,26 @@ import pyaudio
 import audioop
 import threading
 
-serverIP = '127.0.0.1'
-
 # IP remote computer
 IP = '127.0.0.1'
 
 # IP local computer
 IP_local = '127.0.0.1'
 
+
 class Configuration():
-        FORMAT = pyaudio.paInt16
-        CHUNK = 512
-        WIDTH = 2
-        CHANNELS = 1
-        RATE = 16000
-        FACTOR = 2
-        REMOTE_IP = None
-        REMOTE_PORT = None
+    FORMAT = pyaudio.paInt16
+    CHUNK = 512
+    WIDTH = 2
+    CHANNELS = 1
+    RATE = 16000
+    FACTOR = 2
+    REMOTE_IP = None
+    REMOTE_PORT = None
 
 
-
-class ServerThread (threading.Thread, Configuration):
-    def __init__(self, threadID, name, counter, rport ):
+class ServerThread(threading.Thread, Configuration):
+    def __init__(self, threadID, name, counter, rport):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
@@ -44,7 +41,7 @@ class ServerThread (threading.Thread, Configuration):
         super()
 
     def run(self):
-        print ("Starting: " + self.name)
+        print("Starting: " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()
         serverSide(self.REMOTE_PORT, self.stream, self.CHUNK)
@@ -52,9 +49,7 @@ class ServerThread (threading.Thread, Configuration):
         # threadLock.release()
 
 
-
-class ClientThread (threading.Thread, Configuration):
-
+class ClientThread(threading.Thread, Configuration):
     def __init__(self, threadID, name, counter, rip, rport):
         threading.Thread.__init__(self)
         self.threadID = threadID
@@ -72,9 +67,8 @@ class ClientThread (threading.Thread, Configuration):
 
         super()
 
-
     def run(self):
-        print ("Starting: " + self.name)
+        print("Starting: " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()
         clientSide(self.REMOTE_IP, self.REMOTE_PORT, self.stream, self.CHUNK)
@@ -82,19 +76,19 @@ class ClientThread (threading.Thread, Configuration):
         # threadLock.release()
 
 
-
-def serverSide(rport,stream, chunk):
+def serverSide(rport, stream, chunk):
+    # ip local computer
     serverIP = IP_local
     serverPort = rport
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    serverSocket.bind((serverIP,serverPort))
+    serverSocket.bind((serverIP, serverPort))
     print("Listen on: ", serverIP, serverPort)
     time.sleep(2)
     while True:
-        message, clientAddress = serverSocket.recvfrom(chunk*2)
+        message, clientAddress = serverSocket.recvfrom(chunk * 2)
         stream.write(message)
         mx = audioop.max(message, 2)
-        #print(mx)
+        # print(mx)
 
 
 def clientSide(ip, port, stream, chunk):
@@ -105,10 +99,11 @@ def clientSide(ip, port, stream, chunk):
     time.sleep(2)
     while True:
         message = stream.read(chunk)
-        clientSocket.sendto(message,(serverIP, serverPort))
+        clientSocket.sendto(message, (serverIP, serverPort))
         mx = audioop.max(message, 2)
-        #print(mx)
-    #clientSocket.close() # Close the socket
+        # print(mx)
+        # clientSocket.close() # Close the socket
+
 
 """
 

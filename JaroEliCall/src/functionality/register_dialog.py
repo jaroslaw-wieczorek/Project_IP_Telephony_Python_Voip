@@ -18,7 +18,6 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QMessageBox
 
 from JaroEliCall.src.client import Client
-from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrappedUI
 #from validate_email import validate_email
 

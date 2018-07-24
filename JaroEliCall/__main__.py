@@ -35,10 +35,9 @@ from JaroEliCall.src.functionality.register_dialog import RegisterDialog
 from JaroEliCall.src.functionality.interaction_dialog import InteractionDialog
 
 from JaroEliCall.src.client import Client
-from JaroEliCall.src.class_between_threads import ClassBetweenThreads
 import random
 
-SERWER_IP = '127.0.0.1'
+SERWER_IP = '192.168.0.101'
 PORT = 50001
 
 

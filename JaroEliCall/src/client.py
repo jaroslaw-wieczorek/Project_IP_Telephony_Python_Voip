@@ -123,12 +123,13 @@ class Client(QtCore.QObject):
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
 
-        elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE":
+        elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE" and self.received["description"] == "OK":
             self.params = []
             for i in self.received['IP']:
                 print(i)
                 self.params.append(i)
 
+        elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE" and self.received["description"] == "ANSWERED":
             self.received = "200 INVITE"
             print("200 INVITE ")
 
@@ -210,37 +211,12 @@ class Client(QtCore.QObject):
         self.sendMessage(data)
 
 
-    def voice(self):
-        # threadLock = threading.Lock()
-        threads = []
-
-        # IP remote computer
-        global remoteClientIP
-
-        # Create new threads
-        thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-        thread2 = ClientThread(2, "Client-Thread", 2, remoteClientIP, 9999)
-
-        # Start new Threads
-        thread1.start()
-        thread2.start()
-
-        # Add threads to thread list
-        threads.append(thread1)
-        threads.append(thread2)
-
-        # Wait for all threads to complete
-        for t in threads:
-            t.join()
-
-        print("Exiting Main Thread")
-
     def sendingVoice(self):
 
         if(self.user_name_ip != ''):
             print("Someone is calling to me - her/his ip is ", self.user_name_ip)
             print("\tClient : info >> Start recording")
-            #self.voice()
+            # self.voice()
 
 
             """while True:
@@ -266,7 +242,6 @@ class Client(QtCore.QObject):
             print("\tClient : info >> Stop recording")
         self.user_name_ip = ''
 
-        #self.closeSendingVoice()
 
 
     def closeSendingVoice(self):
