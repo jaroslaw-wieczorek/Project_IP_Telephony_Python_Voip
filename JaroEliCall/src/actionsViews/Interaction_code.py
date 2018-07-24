@@ -28,6 +28,7 @@ class InteractionWidget(InteractionDialog):
         
         self.kto = kto
         self.set_user_call_text("{0} dzwoni".format(kto))
+        self.set_call_text("Rozmowa z {0}".format(kto))
 
         self.set_label_accept_pixmap("call-in-progress.png")
         self.set_label_reject_pixmap("call-ended.png")

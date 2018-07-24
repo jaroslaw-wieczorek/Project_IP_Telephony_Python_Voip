@@ -76,15 +76,6 @@ class Server:
                 print(key)
                 return value
 
-
-    def who_call(self, addr):
-        for key, value in self.dict_ip_users.items():
-            if (addr == value[0]):
-                return key
-            else:
-                return 0
-
-
     def get_username_from_ip(self, ip):
         print("Server w funkcji get_username_from_ip")
         ans = "brak usera"
@@ -207,20 +198,21 @@ class Server:
         payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "REGISTER"}
         self.sending(addr, payload)
 
-    def send_info_to_caller(self, status, who_answer_rej_conn):
-        who_ansewer_on_con_ip = self.find_address(who_answer_rej_conn)
-        print("who_ansewer_on_con_ip ", who_ansewer_on_con_ip)
+    def send_info_to_caller(self, status, who_ans_or_rejected_ip, addr_nickname):
+        who_ansewer_on_con = self.get_username_from_ip(who_ans_or_rejected_ip)
+        addr = self.find_address(addr_nickname)
+        print("who_ansewer_on_con ", who_ansewer_on_con)
         if(status == 406):
-            self.send_rejected_406(who_ansewer_on_con_ip)
+            self.send_rejected_406(addr, who_ansewer_on_con)
         elif status == 200:
-            self.send_answered_200(who_ansewer_on_con_ip)
+            self.send_answered_200(addr, who_ansewer_on_con)
 
-    def send_rejected_406(self, addr):
-        payload = {"type": "d", "description": "REJECTED", "status": 406, "answer_to": "INVITE"}
+    def send_rejected_406(self, addr, conn_with_who):
+        payload = {"type": "d", "description": "REJECTED", "status": 406, "answer_to": "INVITE", "from_who": conn_with_who}
         self.sending(addr, payload)
 
-    def send_answered_200(self, addr):
-        payload = {"type": "d", "description": "ANSWERED", "status": 200, "answer_to": "INVITE"}
+    def send_answered_200(self, addr, conn_with_who):
+        payload = {"type": "d", "description": "ANSWERED", "status": 200, "answer_to": "INVITE", "from_who": conn_with_who}
         self.sending(addr, payload)
 
     def listening(self):
@@ -253,7 +245,7 @@ class Server:
                         self.log_out(addr)
                     elif (received["description"] == "NOTHING"):
                         print("informacja od recipient czy odebral lub odrzucil")
-                        self.send_info_to_caller(received["status"], received["from_who"])
+                        self.send_info_to_caller(received["status"], addr, received["from_who"])
 
             except ConnectionResetError:
                 print("Połączenie przerwane przez klienta")

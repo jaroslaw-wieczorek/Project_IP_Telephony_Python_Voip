@@ -35,6 +35,8 @@ class Client(QtCore.QObject):
 
     getMessage = QtCore.pyqtSignal(bool)
 
+    callSignal = QtCore.pyqtSignal(bool, str)
+
     def __init__(self, SERWER_IP, port):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
@@ -127,11 +129,12 @@ class Client(QtCore.QObject):
                 self.params.append(i)
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE" and self.received["description"] == "ANSWERED":
+            self.callSignal.emit(True, self.received["from_who"])
+
             self.received = "200 INVITE"
             print("200 INVITE ")
-
             # I EMIT SIGNAL getCall BECAUSE SOMEONE CALL TO ME
-            self.getMessage.emit(True)
+            # self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":

@@ -49,6 +49,9 @@ class InteractionWrappedUI(QDialog, Ui_InteractionInterfaceDialog):
     def set_user_call_text(self, who):
         self.rich_text_user_call.setText(str(who))
 
+    def set_call_text(self, who):
+        self.rich_text_user_call.setText(str(who))
+
     def set_push_button_accept(self, funct):
         self.push_button_accept.clicked.connect(funct)
 

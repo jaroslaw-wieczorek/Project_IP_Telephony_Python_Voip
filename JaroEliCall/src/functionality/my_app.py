@@ -108,7 +108,15 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp getCallSignalResponse received:", value)
 
-
+    @pyqtSlot(bool, str)
+    def callSignalResponse(self, value, username):
+        if value:
+            print("(*) MyApp callSignalResponse received:", value)
+            self.interactionWindow.showCallerName(username)
+            print("(*) MyApp callSignalResponse shown")
+            self.showInteractionWindow()
+        else:
+            print("(*) MyApp callSignalResponse received:", value)
 
     # Managment client and connection
     def setupClient(self, client):

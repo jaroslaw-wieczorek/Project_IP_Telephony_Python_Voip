@@ -45,6 +45,11 @@ class InteractionDialog(InteractionWrappedUI):
         self.userName = user_name
         self.set_user_call_text(self.userName)
 
+    def showCallerName(self, user_name : str):
+        self.userName = user_name
+        self.set_call_text(self.userName)
+
+
 
     def reject_connection_clicked(self):
         print("(*) InteractionDialog info: Not answer the call.")
