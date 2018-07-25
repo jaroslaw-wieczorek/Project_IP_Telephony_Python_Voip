@@ -101,6 +101,7 @@ def main():
 
     myapp.client.changedUsersStatusSignal.connect(myapp.changedUsersStatusResponse)
 
+    myapp.interactionWindow.endCallSignal.connect(myapp.endCallResponse)
     # myapp.client.callSignal.connect(myapp.client.sendingVoice)
 
     # Reaction on clicked accept or reject button

@@ -142,12 +142,17 @@ class MyApp(QApplication):
 
     @pyqtSlot(bool, list)
     def changedUsersStatusResponse(self, value, users_list):
-        if(value):
+        if value:
             if(self.client.last_list_users != users_list):
                 self.mainWindow.delete_rows_users()
                 self.mainWindow.add_row_to_list_of_users(users_list)
                 self.client.last_list_users = users_list
 
+    @pyqtSlot(bool)
+    def endCallResponse(self, value):
+        if value:
+            self.interactionWindow.hide()
+            self.mainWindow.showConnectionStatus("Połączenie zakończono")
 
     # Managment client and connection
     def setupClient(self, client):
@@ -208,4 +213,5 @@ class MyApp(QApplication):
 
 
     def blockAcceptConnButton(self):
+        self.interactionWindow.is_connection_begin = True
         self.interactionWindow.push_button_accept.setEnabled(False)

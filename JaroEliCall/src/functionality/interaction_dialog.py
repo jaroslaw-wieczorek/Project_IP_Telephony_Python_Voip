@@ -27,6 +27,8 @@ class InteractionDialog(InteractionWrappedUI):
 
     callAnswerSignal = pyqtSignal(bool, str)
 
+    endCallSignal = pyqtSignal(bool)
+
     def __init__(self, client):
         super(InteractionDialog, self).__init__()
 
@@ -41,6 +43,8 @@ class InteractionDialog(InteractionWrappedUI):
         self.userName_ip = None
         self.loop = QEventLoop()
 
+        self.is_connection_begin = False
+
 
 
     def setupCallerName(self, user_name : str):
@@ -53,17 +57,24 @@ class InteractionDialog(InteractionWrappedUI):
 
 
     def reject_connection_clicked(self):
-        print("(*) InteractionDialog info: Not answer the call.")
-        self.client.reject_connection(self.userName)
-        self.callAnswerSignal.emit(False, self.userName)
-        print("(*) InteractionDialog info: callAnswerSignal emited with False.")
-        self.close()
+        if self.is_connection_begin == False :
+            print("Polaczenie zostalo odrzucone")
+            print("(*) InteractionDialog info: Not answer the call.")
+            self.client.reject_connection(self.userName)
+            self.callAnswerSignal.emit(False, self.userName)
+            print("(*) InteractionDialog info: callAnswerSignal emited with False.")
+            self.close()
+        elif self.is_connection_begin == True:
+            print("Polaczenie zostalo zakonczone")
+            self.client.send_end_connection(self.userName)
+            self.client.end_connection()
+            self.endCallSignal.emit(True)
+            self.close()
 
 
     def accept_connection_clicked(self):
         print("(*) InteractionDialog info: Answer the call.")
         self.client.answer_call(self.userName)
-
         self.client.voice(self.client.from_who_ip, 9998, 9999)
 
         # thread_voice = Thread(target=self.voice, args=[self.client.from_who_ip, 9998, 9999])
@@ -71,6 +82,8 @@ class InteractionDialog(InteractionWrappedUI):
 
         self.callAnswerSignal.emit(True, self.userName)
         self.push_button_accept.setEnabled(False)
+
+        self.is_connection_begin = True
         print("(*) InteractionDialog info: push_button_accept disabled.")
         print("(*) InteractionDialog info: callAnswerSignal emited with True.")
 
