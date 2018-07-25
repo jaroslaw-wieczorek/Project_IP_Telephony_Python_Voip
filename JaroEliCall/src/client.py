@@ -15,7 +15,7 @@ from JaroEliCall.src.test2 import ClientThread
 from threading import Thread
 
 # Server computer IP
-IP_server = '127.0.0.1'
+IP_server = '192.168.0.101'
 PORT_server = 50001
 
 class Client(QtCore.QObject):
@@ -156,6 +156,16 @@ class Client(QtCore.QObject):
             self.getMessage.emit(True)
             self.status = "200 INVITE"
             print("Client : info >> makeCallSignal signal was emited with True")
+
+        elif self.received["status"] == 200 and self.received["description"] == "END" and self.received["answer_to"] == "CONN_END":
+            print("Połączenie zakończone")
+
+            """self.status = "200 END"
+            print("200 END")
+            self.getMessage.emit(True)
+            self.end_connection()"""
+
+            print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
             self.received = "406 LOGIN"

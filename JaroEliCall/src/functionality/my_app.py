@@ -105,12 +105,6 @@ class MyApp(QApplication):
             event.ignore()
             print("[*]  MyApp info: The closingSignal was emitted with False")
 
-            # if value:
-            # print("(*) MyApp closingSignalResponse received:", value)
-
-
-            #else:
-            #print("(*) MyApp closingSignalResponse received:", value)
 
 
     @pyqtSlot(bool, str)

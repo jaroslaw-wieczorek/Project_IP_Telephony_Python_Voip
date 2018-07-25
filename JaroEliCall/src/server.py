@@ -31,6 +31,7 @@ class Server:
         self.size = 2048
 
         self.mongo = MongoOperations()
+        self.converstation_dictionary = {}
 
 
     def connectWithClient(self):
@@ -189,6 +190,10 @@ class Server:
         if(status == 406):
             self.send_rejected_406(addr, who_ansewer_on_con)
         elif status == 200:
+
+            self.converstation_dictionary[addr_nickname] = who_ansewer_on_con
+            self.converstation_dictionary[who_ansewer_on_con] = addr_nickname
+            print("converstation_dictionary" + str(self.converstation_dictionary))
             self.send_answered_200(addr, who_ansewer_on_con)
 
     def send_rejected_406(self, addr, conn_with_who):
@@ -230,9 +235,25 @@ class Server:
                     elif (received["description"] == "NOTHING"):
                         # # print("informacja od recipient czy odebral lub odrzucil")
                         self.send_info_to_caller(received["status"], addr, received["from_who"])
+
+                    elif received["description"] == "END":
+                        self.check_caller(received["from_who"])
+
             except ConnectionResetError:
                 print("Połączenie przerwane przez klienta")
         # print("[*] Stop listen")
+
+    def check_caller(self, from_who):
+        caller = self.converstation_dictionary[from_who]
+        print(str(from_who) + " rozmawia z " + str(caller))
+        self.send_end_connection_person(caller, from_who)
+        self.converstation_dictionary[caller] = ''
+        self.converstation_dictionary[from_who] = ''
+
+    def send_end_connection_person(self, person, from_who):
+        ip = self.find_address(person)
+        payload = {"type": "d", "description": "END", "status": 200, "from_who": from_who, "answer_to" : "CONN_END"}
+        self.sending(ip, payload)
 
 
     def stopConnection(self):

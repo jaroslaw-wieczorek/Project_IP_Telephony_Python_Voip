@@ -129,6 +129,10 @@ class MainWindowDialog(MainWrappedUI):
                 status = "Nie można się połączyć z wybranym użytkownikiem"
                 self.showConnectionStatus(status)
                 print(status)
+            elif self.client.status == "200 END":
+                status = "Zakonczono polaczenie"
+                self.showConnectionStatus(status)
+                print(status)
 
         else:
             print("{!} MainWindow error: Didn't get response")

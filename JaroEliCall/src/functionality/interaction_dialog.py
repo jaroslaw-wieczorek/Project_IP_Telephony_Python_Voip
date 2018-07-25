@@ -67,8 +67,10 @@ class InteractionDialog(InteractionWrappedUI):
         elif self.is_connection_begin == True:
             print("Polaczenie zostalo zakonczone")
             self.client.send_end_connection(self.userName)
-            self.client.end_connection()
             self.endCallSignal.emit(True)
+
+            # self.client.end_connection()
+
             self.close()
 
 
