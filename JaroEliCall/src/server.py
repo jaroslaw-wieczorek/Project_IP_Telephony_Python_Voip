@@ -23,30 +23,13 @@ Listen_IP = '0.0.0.0'
 
 class Server:
 
-    FORMAT = pyaudio.paInt16
-    CHUNK = 512
-    WIDTH = 1
-    CHANNELS = 1
-    RATE = 16000
-    RECORD_SECONDS = 15
-    FACTOR = 2
-
-
     def __init__(self):
-        # Validator.__init__(self, priv, publ)
         print("Inicjalizacja klasy Server")
         global Listen_IP
         self.host = Listen_IP
         self.port = 50001
         self.size = 2048
-        self.p = pyaudio.PyAudio()
 
-        self.stream = self.p.open(format=self.FORMAT,
-                                  channels=self.CHANNELS,
-                                  rate=self.RATE,
-                                  input=True,
-                                  output=True,
-                                  frames_per_buffer=self.CHUNK)
         self.mongo = MongoOperations()
 
 
@@ -54,24 +37,26 @@ class Server:
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.bind((self.host, self.port))
+
         except ConnectionRefusedError as err:
             print(err)
             self.s.close()
 
+    def send_update_users(self):
+        while True:
+            time.sleep(5)
+            print(" [*][*] BEGINNING UPDATE USERS METHOD [*][*] ")
+            self.mongo.getFromMongo()
+            print("Uzytkownicy: " + str(self.mongo.users))
+            self.send_to_all_users(self.mongo.users)
+            print(" [*][*] END UPDATE USERS METHOD [*][*] ")
 
-    def sendAnything(self):
-        self.mongo.runMongo()
-        self.collection = self.mongo.collection
 
-        while 1:
-            time.sleep(2)
-            test = self.collection.find({"status": "online"}, {"login": 1, "_id": 0})
-            test = dumps(test)
-            print(test)
-            if (test):
-                for key, value in self.mongo.dict_ip_users.items():
-                    self.users_from_mongo(value)
-
+    def send_to_all_users(self, users):
+        payload = {"type": "d", "description": "USERS_UPDATE", "USERS": users}
+        print(payload)
+        for key, value in self.mongo.dict_ip_users.items():
+            print(key, " ", value)
 
     def find_address(self, login):
         print(login)
@@ -96,7 +81,6 @@ class Server:
         print("Server : Sended: " + str(payload) + " to " + str(addr))
 
 
-
     def log_in(self, login, password, addr):
         print("Server log_in: get LOGIN")
         is_login_ok = self.mongo.checkWithMongo(login, password, addr)
@@ -112,8 +96,6 @@ class Server:
     def send_login_406(self, addr):
         payload = {"type": "d", "description": "NOT ACCEPTABLE", "status": 406, "answer_to": "LOGIN"}
         self.sending(addr, payload)
-
-
 
     def log_out(self, addr):
         print("Server log_out get: LOGOUT")
@@ -134,9 +116,7 @@ class Server:
 
 
     def users_from_mongo(self, addr):
-        print("Otrzymano GET")
         self.mongo.getFromMongo()
-        print("Uzytkownicy: " + str(self.mongo.users))
         self.send_get_202(addr)
 
 
@@ -155,7 +135,6 @@ class Server:
             who_name = self.get_username_from_ip(who_ip)
 
             if(who_name != "brak usera"):
-                print("chce sie dodzwonic do ", where_ip)
 
                 # informacja do odbiorcy o tym że ktoś dzwoni
                 self.send_inf_connection_is_comming_200_to_recipient(where_ip, who_name, who_ip)
@@ -250,10 +229,8 @@ class Server:
                     elif (received["description"] == "NOTHING"):
                         print("informacja od recipient czy odebral lub odrzucil")
                         self.send_info_to_caller(received["status"], addr, received["from_who"])
-
             except ConnectionResetError:
                 print("Połączenie przerwane przez klienta")
-
         print("[*] Stop listen")
 
 
@@ -268,3 +245,7 @@ serwer = Server()
 serwer.connectWithClient()
 thread = Thread(target=serwer.listening, args=[])
 thread.start()
+
+thread2 = Thread(target=serwer.send_update_users, args = [])
+thread2.start()
+

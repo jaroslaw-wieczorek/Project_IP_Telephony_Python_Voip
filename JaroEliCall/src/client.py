@@ -127,8 +127,8 @@ class Client(QtCore.QObject):
             # I EMIT SIGNAL getCall BECAUSE SOMEONE CALL TO ME
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
+            self.voice(user_name_ip, 9999, 9998)
 
-            self.voice(user_name_ip)
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
             self.status = "406 INVITE"
@@ -137,16 +137,16 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "NOTHING":
+            # save name and ip of person who is calling
+            self.name_who = self.received["from_who"]
+            self.from_who_ip = self.received["from_who_ip"]
 
-            user_name = str(self.received["from_who"])
-            print("200 INVITE ", self.received["from_who"])
             print("Dzwoni ", str(self.received["from_who"]))
-            self.user_name_ip = self.received["from_who_ip"]
-            self.getCallSignal.emit(True, user_name)
+
+            self.getCallSignal.emit(True, self.name_who)
             self.getMessage.emit(True)
             self.status = "200 INVITE"
             print("Client : info >> makeCallSignal signal was emited with True")
-
 
         elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
             self.received = "406 LOGIN"
@@ -206,12 +206,13 @@ class Client(QtCore.QObject):
         self.sendMessage(data)
 
 
-    def voice(self, user_name_ip):
+
+    def voice(self, user_name_ip, port_serwer, port_client):
         threads = []
 
         # Create new threads
-        thread1 = ServerThread(1, "Server-Thread", 1, 9998)
-        thread2 = ClientThread(2, "Client-Thread", 2, user_name_ip, 9999)
+        thread1 = ServerThread(1, "Server-Thread", 1, port_serwer)
+        thread2 = ClientThread(2, "Client-Thread", 2, user_name_ip, port_client)
 
         # Start new Threads
         thread1.start()
@@ -234,7 +235,7 @@ class Client(QtCore.QObject):
             print("Someone is calling to me - her/his ip is ", self.user_name_ip)
             print("\tClient : info >> Start recording")
 
-            self.voice(self.user_name_ip)
+            self.voice(self.user_name_ip, 9998, 9999)
 
             """while True:
                 for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):

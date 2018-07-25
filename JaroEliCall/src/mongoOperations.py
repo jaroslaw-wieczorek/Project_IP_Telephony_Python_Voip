@@ -50,8 +50,6 @@ class MongoOperations:
 
         for user in collection.find({}, {"login": 1, "status": 1, "_id": 0}):
             users.append(user)
-            print("Dodano: " + str(user))
-        print("Lista: " + str(users))
         self.users = users
 
     def logoutAll(self):

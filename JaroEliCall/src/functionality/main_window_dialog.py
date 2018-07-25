@@ -55,9 +55,9 @@ class MainWindowDialog(MainWrappedUI):
         self.set_push_button_call(self.call_someone)
 
 
+
     def setUserName(self, user_name):
         self.username = user_name
-
 
     def getList(self):
         payload = {"type": "d", "description": "GET"}

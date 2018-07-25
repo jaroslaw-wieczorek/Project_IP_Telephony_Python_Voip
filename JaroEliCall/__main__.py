@@ -102,7 +102,7 @@ def main():
     # myapp.client.callSignal.connect(myapp.client.sendingVoice)
 
     # Reaction on clicked accept or reject button
-    #myapp.interactionWindow.callAnswerSignal.connect(myapp.client.sendingVoice)
+    # myapp.interactionWindow.callAnswerSignal.connect(myapp.client.sendingVoice)
 
     myapp.showLoginWindow()
 
