@@ -3,19 +3,20 @@ import sys
 import json
 import hashlib
 
+from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QEvent
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSignal
+
+from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QMessageBox
+
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
 lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
 sys.path.append(lib_path2)
 
-
-from PyQt5.QtCore import Qt
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtCore import pyqtSignal
-
-from PyQt5.QtWidgets import QDialog
-from PyQt5.QtWidgets import QMessageBox
 
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrappedUI
@@ -50,7 +51,7 @@ class RegisterDialog(RegisterWrappedUI):
 
 
     # Close signal
-    closingSignal = pyqtSignal(bool)
+    closingSignal = pyqtSignal(QEvent)
 
     def __init__(self, client):
         super(RegisterDialog, self).__init__()
@@ -59,8 +60,8 @@ class RegisterDialog(RegisterWrappedUI):
 
         self.set_push_button_register(self.clickOnRegisterButton)
         self.set_push_button_already_account(self.clickOnAlreadyAccountButton)
-
-        #self.closeEvent = self.closeApp
+        self.closingSignal.connect(self.closingSignalResponse)
+        # self.closeEvent = self.closeEvent
 
     def validateLogin(self, login):
         # TO DO and CHECK
@@ -158,6 +159,7 @@ class RegisterDialog(RegisterWrappedUI):
         else:
             return False
 
+
     def clickOnRegisterButton(self):
         print("[*] RegisterDialog info: push_button_register was clicked")
         if self.registerAccount():
@@ -173,21 +175,34 @@ class RegisterDialog(RegisterWrappedUI):
         self.alreadyAccountSignal.emit(True)
 
 
+    def closeEvent(self, event):
+        self.closingSignal.emit(event)
+        
+        
+    def closeApp(self, event):
+        print(event)
+        self.close()
+        
+
     def keyPressEvent(self, event):
         """
             Close application from escape key.
         """
         if event.key() == Qt.Key_Escape:
-            self.closeApp()
+            self.close()
+            
+    
+    @pyqtSlot(QEvent)
+    def closingSignalResponse(self, event):
 
-
-    def closeApp(self):
-        title = "Uwaga!"
-        message = "Czy napewno chesz zamknąć aplikacje ?"
-
-        if QMessageBox.question(self, title, message) == QMessageBox.Yes:
-            print("[*] MainWindowDialog info: Button Yes was clicked")
-            self.closingSignal.emit(True)
+        if QMessageBox.question(self, 'Uwaga!', 'Czy napewno chesz zamknąć aplikacje ?') == QMessageBox.Yes:
+            print("[*]  LoginDialog info: Selected answer = \'Yes\'")
+            event.accept()
+            #self.client.closeConnection()
+            self.client.socket.close()
+            print("[*]  LoginDialog info: The QCloseEvent accept")
         else:
-            print("[*] MainWindowDialog info: Button No was clicked")
-            self.closingSignal.emit(False)
+            print("[*]  LoginDialog info: Selected answer = \'No\'")
+            #self.closingSignal.emit(False)
+            event.ignore()
+            print("[*]  LoginDialog info: The QCloseEvent ignore")

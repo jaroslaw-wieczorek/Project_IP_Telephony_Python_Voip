@@ -7,9 +7,10 @@ from functools import partial
 
 
 from PyQt5.QtCore import Qt
-
+from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSlot
 
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QApplication
 
 
@@ -89,14 +90,27 @@ class MyApp(QApplication):
             print("(*) MyApp alreadyAccountSignalResponse received:", value)
 
 
-    @pyqtSlot(bool)
-    def closingSignalResponse(self, value):
-        if value:
-            print("(*) MyApp closingSignalResponse received:", value)
-            self.closeAllWindows()
+    @pyqtSlot(QEvent)
+    def closingSignalResponse(self, event):
 
+        if QMessageBox.question(self.mainWindow, 'Uwaga!', 'Czy napewno chesz zamknąć aplikacje ?') == QMessageBox.Yes:
+            print("[*]  MyApp info: Selected answer = \'Yes\'")
+            event.accept()
+            self.client.closeConnection()
+            self.closeAllWindows()
+            print("[*]  MyApp info: The closingSignal was emitted with True")
         else:
-            print("(*) MyApp closingSignalResponse received:", value)
+            print("[*]  MyApp info: Selected answer = \'No\'")
+            #self.closingSignal.emit(False)
+            event.ignore()
+            print("[*]  MyApp info: The closingSignal was emitted with False")
+
+            # if value:
+            # print("(*) MyApp closingSignalResponse received:", value)
+
+
+            #else:
+            #print("(*) MyApp closingSignalResponse received:", value)
 
 
     @pyqtSlot(bool, str)
@@ -107,6 +121,7 @@ class MyApp(QApplication):
             self.showInteractionWindow()
         else:
             print("(*) MyApp getCallSignalResponse received:", value)
+
 
     @pyqtSlot(bool, str, list)
     def callSignalResponse(self, value, username):
@@ -123,6 +138,7 @@ class MyApp(QApplication):
             self.mainWindow.showConnectionStatus(status)
             print(status)
             print("(*) MyApp callSignalResponse received:", value)
+
 
     @pyqtSlot(bool, list)
     def changedUsersStatusResponse(self, value, users_list):
@@ -145,6 +161,7 @@ class MyApp(QApplication):
                 target=self.client.listeningServer, daemon=True)
         self.listen_server_thread.start()
 
+
     # MainWindow Dialog methods
     def setupMainWindow(self, main_window):
         self.mainWindow = main_window
@@ -153,6 +170,7 @@ class MyApp(QApplication):
     def showMainWindow(self):
         self.mainWindow.show()
         self.mainWindow.getList()
+
 
     # Login Dialog methods
     def setupLoginWindow(self, login_window):
@@ -197,5 +215,3 @@ class MyApp(QApplication):
     def blockAcceptConnButton(self):
         self.interactionWindow.is_connection_begin = True
         self.interactionWindow.push_button_accept.setEnabled(False)
-
-

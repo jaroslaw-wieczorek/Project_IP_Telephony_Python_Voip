@@ -82,8 +82,8 @@ def main():
 
 
     myapp.mainWindow.closingSignal.connect(myapp.closingSignalResponse)
-    myapp.loginWindow.closingSignal.connect(myapp.closingSignalResponse)
-    myapp.registerWindow.closingSignal.connect(myapp.closingSignalResponse)
+    #myapp.loginWindow.closingSignal.connect(myapp.closingSignalResponse)
+    #myapp.registerWindow.closingSignal.connect(myapp.closingSignalResponse)
 
     myapp.client.getMessage.connect(myapp.loginWindow.loop.quit)
     myapp.client.getMessage.connect(myapp.mainWindow.loop.quit)
