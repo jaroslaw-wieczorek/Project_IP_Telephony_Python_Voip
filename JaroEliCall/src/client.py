@@ -214,6 +214,12 @@ class Client(QtCore.QObject):
         print(data)
         self.sendMessage(data)
 
+    def send_end_connection(self, from_who):
+        payload = {"type": "d", "description": "END", "status": 200,
+                   "from_who": from_who}
+        data = json.dumps(payload).encode("utf-8")
+        print(data)
+        self.sendMessage(data)
 
 
     def voice(self, user_name_ip, port_serwer, port_client):
@@ -221,17 +227,17 @@ class Client(QtCore.QObject):
         self.threads = []
 
         # Create new threads
-        thread1 = ServerThread(1, "Server-Thread", 1, port_serwer)
-        thread2 = ClientThread(2, "Client-Thread", 2, user_name_ip, port_client)
+        self.thread1 = ServerThread(1, "Server-Thread", 1, port_serwer)
+        self.thread2 = ClientThread(2, "Client-Thread", 2, user_name_ip, port_client)
 
         # Start new Threads
-        thread1.start()
-        thread2.start()
+        self.thread1.start()
+        self.thread2.start()
         print("lol3")
 
         # Add threads to thread list
-        self.threads.append(thread1)
-        self.threads.append(thread2)
+        self.threads.append(self.thread1)
+        self.threads.append(self.thread2)
         print("lol4")
 
         # Wait for all threads to complete
@@ -275,9 +281,9 @@ class Client(QtCore.QObject):
 
 
 
-    def closeSendingVoice(self):
-        self.stream.stop_stream()
-        self.stream.close()
+    def end_connection(self):
+        self.thread1.close_serverSocket()
+        self.thread2.close_clientSocket()
 
 
     def closeConnection(self):

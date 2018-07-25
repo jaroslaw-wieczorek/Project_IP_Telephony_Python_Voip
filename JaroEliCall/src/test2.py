@@ -37,10 +37,28 @@ class ServerThread(threading.Thread, Configuration):
         print("Starting: " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()
-        serverSide(self.REMOTE_PORT, self.stream, self.CHUNK)
+        self.serverSide(self.REMOTE_PORT, self.stream, self.CHUNK)
         # Free lock to release next thread
         # threadLock.release()
 
+
+    def serverSide(self, rport, stream, chunk):
+        # ip local computer
+        serverIP = socket.gethostbyname(socket.gethostname())
+
+        serverPort = rport
+        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.serverSocket.bind((serverIP, serverPort))
+        print("Listen on: ", serverIP, serverPort)
+        time.sleep(2)
+        while True:
+            message, clientAddress = self.serverSocket.recvfrom(chunk * 2)
+            stream.write(message)
+            mx = audioop.max(message, 2)
+            # print(mx)
+
+    def close_serverSocket(self):
+        self.serverSocket.close()
 
 class ClientThread(threading.Thread, Configuration):
     def __init__(self, threadID, name, counter, rip, rport):
@@ -64,39 +82,31 @@ class ClientThread(threading.Thread, Configuration):
         print("Starting: " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()
-        clientSide(self.REMOTE_IP, self.REMOTE_PORT, self.stream, self.CHUNK)
+        self.clientSide(self.REMOTE_IP, self.REMOTE_PORT, self.stream, self.CHUNK)
         # Free lock to release next thread
         # threadLock.release()
 
+    def clientSide(self, ip, port, stream, chunk):
+        serverIP = ip[0]
+        serverPort = port
+        self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        print("Send on: ", serverIP, serverPort)
+        time.sleep(2)
+        while True:
+            message = stream.read(chunk)
+            self.clientSocket.sendto(message, (serverIP, serverPort))
+            mx = audioop.max(message, 2)
+            # print(mx)
 
-def serverSide(rport, stream, chunk):
-    # ip local computer
-    serverIP = socket.gethostbyname(socket.gethostname())
-
-    serverPort = rport
-    serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    serverSocket.bind((serverIP, serverPort))
-    print("Listen on: ", serverIP, serverPort)
-    time.sleep(2)
-    while True:
-        message, clientAddress = serverSocket.recvfrom(chunk * 2)
-        stream.write(message)
-        mx = audioop.max(message, 2)
-        # print(mx)
+    def close_clientSocket(self):
+        self.clientSocket.close()
 
 
-def clientSide(ip, port, stream, chunk):
-    serverIP = ip[0]
-    serverPort = port
-    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    print("Send on: ", serverIP, serverPort)
-    time.sleep(2)
-    while True:
-        message = stream.read(chunk)
-        clientSocket.sendto(message, (serverIP, serverPort))
-        mx = audioop.max(message, 2)
-        # print(mx)
-        # clientSocket.close() # Close the socket
+
+
+
+
+
 
 
 
