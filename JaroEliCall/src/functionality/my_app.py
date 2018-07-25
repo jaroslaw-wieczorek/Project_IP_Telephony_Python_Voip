@@ -109,13 +109,14 @@ class MyApp(QApplication):
             print("(*) MyApp getCallSignalResponse received:", value)
 
     @pyqtSlot(bool, str, list)
-    def callSignalResponse(self, value, username, address):
+    def callSignalResponse(self, value, username):
         if value:
             print("(*) MyApp callSignalResponse received:", value)
             print(username)
             self.interactionWindow.showCallerName(username)
             self.showInteractionWindow()
             self.blockAcceptConnButton()
+
             print("(*) MyApp callSignalResponse shown")
         else:
             status = "Uzytkownik odrzucił połączenie"
