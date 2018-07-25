@@ -6,13 +6,6 @@ import pyaudio
 import audioop
 import threading
 
-# IP remote computer
-IP_remote = '192.168.0.104'
-
-# IP local computer
-IP_local = '192.168.0.101'
-
-
 class Configuration():
     FORMAT = pyaudio.paInt16
     CHUNK = 512
@@ -78,8 +71,7 @@ class ClientThread(threading.Thread, Configuration):
 
 def serverSide(rport, stream, chunk):
     # ip local computer
-    global IP_local
-    serverIP = IP_local
+    serverIP = socket.gethostbyname(socket.gethostname())
 
     serverPort = rport
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

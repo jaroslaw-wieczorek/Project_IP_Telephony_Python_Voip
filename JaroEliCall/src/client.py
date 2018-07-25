@@ -3,7 +3,6 @@ import sys
 import json
 import socket
 import pyaudio
-from threading import Thread
 from PyQt5 import QtCore
 
 
@@ -15,16 +14,9 @@ from JaroEliCall.src.test2 import ServerThread
 from JaroEliCall.src.test2 import ClientThread
 
 
-# Local computer IP
-IP_local = '192.168.0.101'
-
 # Server computer IP
 IP_server = '192.168.0.101'
 PORT_server = 50001
-
-# Remote computer IP
-IP_remote = '192.168.0.104'
-
 
 class Client(QtCore.QObject):
     FORMAT = pyaudio.paInt16
@@ -50,15 +42,6 @@ class Client(QtCore.QObject):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
 
-        self.p = pyaudio.PyAudio()
-
-        self.stream = self.p.open(format=self.FORMAT,
-                                  channels=self.CHANNELS,
-                                  rate=self.RATE,
-                                  input=True,
-                                  output=True,
-                                  frames_per_buffer=self.CHUNK)
-
         global IP_server
         global PORT_server
 
@@ -74,14 +57,9 @@ class Client(QtCore.QObject):
 
 
     def connectToSerwer(self):
-        # ipadres serwera
-        print("Laczenie z serwerem")
-
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.socket.connect((self.serverIP, self.serverPORT))
-            print("Polaczono z serwerem")
-
         except ConnectionRefusedError as err:
             print(err)
             self.socket.close()
@@ -115,9 +93,7 @@ class Client(QtCore.QObject):
             self.received = "200 LOGIN"
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
-                        #self.toThread.lock.release()
-        # toThread.self.received = ("200 LOGIN")
-        # below to change on s ignals
+
         elif self.received["status"] == 202:
             data = self.received["users"]
             # TU POTRZEBA POPRAWIĆ
@@ -233,9 +209,6 @@ class Client(QtCore.QObject):
     def voice(self, user_name_ip):
         threads = []
 
-        #global IP_remote
-        # global IP_remote
-        IP_remote = '192.168.0.104'
         # Create new threads
         thread1 = ServerThread(1, "Server-Thread", 1, 9998)
         thread2 = ClientThread(2, "Client-Thread", 2, user_name_ip, 9999)

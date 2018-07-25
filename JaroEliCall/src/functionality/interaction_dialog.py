@@ -38,7 +38,9 @@ class InteractionDialog(InteractionWrappedUI):
 
         self.client = client
         self.userName = None
+        self.userName_ip = None
         self.loop = QEventLoop()
+
 
 
     def setupCallerName(self, user_name : str):
