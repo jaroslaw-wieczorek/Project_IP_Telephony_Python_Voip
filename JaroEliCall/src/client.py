@@ -37,6 +37,7 @@ class Client(QtCore.QObject):
 
     callSignal = QtCore.pyqtSignal(bool, str, list)
 
+    changedUsersStatusSignal = QtCore.pyqtSignal(bool, list)
 
     def __init__(self):
         super(Client, self).__init__()
@@ -50,6 +51,7 @@ class Client(QtCore.QObject):
         self.serverIP = IP_server
         self.serverPORT = PORT_server
         self.size = 2048
+        self.last_list_users = []
 
         self.received = None
         self.connectToSerwer()
@@ -94,8 +96,14 @@ class Client(QtCore.QObject):
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
 
+        elif self.received["status"] == 203 and self.received["answer_to"] == "AUTOMATIC_USERS_UPDATE":
+            #print("!!!! DOSTALEM UPDATE")
+            if(self.last_list_users != []):
+                self.changedUsersStatusSignal.emit(True, self.received["USERS"])
+
         elif self.received["status"] == 202:
             data = self.received["users"]
+            self.last_list_users = data
             # TU POTRZEBA POPRAWIĆ
             print("Client get data from server:", data)
 

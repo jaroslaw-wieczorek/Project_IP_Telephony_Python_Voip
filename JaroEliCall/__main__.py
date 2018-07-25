@@ -99,6 +99,8 @@ def main():
     # People receive info that they can show interface "Rozmowa z ...
     myapp.client.callSignal.connect(myapp.callSignalResponse)
 
+    myapp.client.changedUsersStatusSignal.connect(myapp.changedUsersStatusResponse)
+
     # myapp.client.callSignal.connect(myapp.client.sendingVoice)
 
     # Reaction on clicked accept or reject button

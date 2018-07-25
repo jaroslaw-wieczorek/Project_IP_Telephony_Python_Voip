@@ -124,6 +124,14 @@ class MyApp(QApplication):
             print(status)
             print("(*) MyApp callSignalResponse received:", value)
 
+    @pyqtSlot(bool, list)
+    def changedUsersStatusResponse(self, value, users_list):
+        if(value):
+            if(self.client.last_list_users != users_list):
+                self.mainWindow.delete_rows_users()
+                self.mainWindow.add_row_to_list_of_users(users_list)
+                self.client.last_list_users = users_list
+
     # Managment client and connection
     def setupClient(self, client):
         self.client = client

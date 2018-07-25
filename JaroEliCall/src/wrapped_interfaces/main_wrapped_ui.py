@@ -96,7 +96,6 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
 
 
     def add_row_to_list_of_users(self, users : list):
-        print("add USER ***")
         for user in users:
             newRowNum = self.table_widget_list_of_users.rowCount()
             self.table_widget_list_of_users.insertRow(newRowNum)
@@ -104,6 +103,8 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
             self.table_widget_list_of_users.setItem(newRowNum, 1, QTableWidgetItem(str(user['status'])))
             self.table_widget_list_of_users.setItem(newRowNum, 2, QTableWidgetItem("Avatar"))
 
+    def delete_rows_users(self):
+        self.table_widget_list_of_users.setRowCount(0)
 
     def close_event_message_box(self, event):
         print("event")

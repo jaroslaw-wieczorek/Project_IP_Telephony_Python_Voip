@@ -45,18 +45,19 @@ class Server:
     def send_update_users(self):
         while True:
             time.sleep(5)
-            print(" [*][*] BEGINNING UPDATE USERS METHOD [*][*] ")
+            # print(" [*][*] BEGINNING UPDATE USERS METHOD [*][*] ")
             self.mongo.getFromMongo()
-            print("Uzytkownicy: " + str(self.mongo.users))
+            # print("Uzytkownicy: " + str(self.mongo.users))
             self.send_to_all_users(self.mongo.users)
-            print(" [*][*] END UPDATE USERS METHOD [*][*] ")
+            # print(" [*][*] END UPDATE USERS METHOD [*][*] ")
 
 
     def send_to_all_users(self, users):
-        payload = {"type": "d", "description": "USERS_UPDATE", "USERS": users}
+        payload = {"type": "d", "status": 203, "description": "USERS_UPDATE", "answer_to":  "AUTOMATIC_USERS_UPDATE","USERS": users}
         print(payload)
         for key, value in self.mongo.dict_ip_users.items():
             print(key, " ", value)
+            self.sending(value, payload)
 
     def find_address(self, login):
         print(login)
