@@ -12,7 +12,7 @@ print(lib_path)
 
 from JaroEliCall.src.test2 import ServerThread
 from JaroEliCall.src.test2 import ClientThread
-
+from threading import Thread
 
 # Server computer IP
 IP_server = '127.0.0.1'
@@ -135,6 +135,7 @@ class Client(QtCore.QObject):
             # I EMIT SIGNAL getCall BECAUSE SOMEONE CALL TO ME
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
+
             self.voice(user_name_ip, 9999, 9998)
 
 
@@ -216,7 +217,8 @@ class Client(QtCore.QObject):
 
 
     def voice(self, user_name_ip, port_serwer, port_client):
-        threads = []
+        print("lol2")
+        self.threads = []
 
         # Create new threads
         thread1 = ServerThread(1, "Server-Thread", 1, port_serwer)
@@ -225,16 +227,19 @@ class Client(QtCore.QObject):
         # Start new Threads
         thread1.start()
         thread2.start()
+        print("lol3")
 
         # Add threads to thread list
-        threads.append(thread1)
-        threads.append(thread2)
+        self.threads.append(thread1)
+        self.threads.append(thread2)
+        print("lol4")
 
         # Wait for all threads to complete
-        for t in threads:
+        """for t in threads:
             t.join()
+        print("lol5")
 
-        print("Exiting Main Thread")
+        print("Exiting Main Thread")"""
 
 
     def sendingVoice(self):

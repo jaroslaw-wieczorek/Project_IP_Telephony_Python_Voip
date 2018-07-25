@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import QTableWidget
 from PyQt5.QtWidgets import QTableWidgetItem
 
 from PyQt5.QtCore import pyqtSignal
-
+from threading import Thread
 from PyQt5.QtGui import QIcon
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QEventLoop
@@ -65,6 +65,9 @@ class InteractionDialog(InteractionWrappedUI):
         self.client.answer_call(self.userName)
 
         self.client.voice(self.client.from_who_ip, 9998, 9999)
+
+        # thread_voice = Thread(target=self.voice, args=[self.client.from_who_ip, 9998, 9999])
+        # thread_voice.start()
 
         self.callAnswerSignal.emit(True, self.userName)
         self.push_button_accept.setEnabled(False)
