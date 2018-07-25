@@ -17,6 +17,8 @@ sys.path.append(lib_path)
 
 
 from PyQt5 import QtCore
+from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QDialog
@@ -35,9 +37,11 @@ class LoginDialog(LoginWrappedUI):
        New LoginDialog
     """
 
-    closingSignal = pyqtSignal(bool)
+    closingSignal = pyqtSignal(QEvent)
     loggingSignal = QtCore.pyqtSignal(bool, str)
     registerAccountSignal = QtCore.pyqtSignal(bool)
+
+
 
     def __init__(self, client):
         super(LoginDialog, self).__init__()
@@ -46,21 +50,17 @@ class LoginDialog(LoginWrappedUI):
 
         self.set_push_button_login(self.clickOnLoginButton)
         self.set_push_button_register(self.clickOnRegisterButton)
+        self.closingSignal.connect(self.closingSignalResponse)
 
         #self.closeEvent = self.closeApp
         self.loop = QtCore.QEventLoop()
         self.timer = QtCore.QTimer()
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(lambda: self.loop.exit(1))
-
-    def keyPressEvent(self, event):
-        """
-            Close application from escape key.
-        """
-        if event.key() == QtCore.Qt.Key_Escape:
-            self.closeApp()
-
-
+        
+        #self.closeEvent = self.closeEvent
+        
+        
     def validateData(self):
         # TO DO
         return True
@@ -142,15 +142,35 @@ class LoginDialog(LoginWrappedUI):
         print("[*] LoginDialog info: The registerAccountSignal was emitted with True")
 
 
-    def closeApp(self):
-        title = "Uwaga!"
-        message = "Czy napewno chesz zamknąć aplikacje ?"
+    def closeEvent(self, event):
+        self.closingSignal.emit(event)
+        
+        
+    def closeApp(self, event):
+        print(event)
+        self.close()
+        
 
-        if QMessageBox.question(self, title, message) == QMessageBox.Yes:
+    def keyPressEvent(self, event):
+        """
+            Close application from escape key.
+        """
+        if event.key() == Qt.Key_Escape:
+            self.close()
+            
+    
+    @pyqtSlot(QEvent)
+    def closingSignalResponse(self, event):
+
+        if QMessageBox.question(self, 'Uwaga!', 'Czy napewno chesz zamknąć aplikacje ?') == QMessageBox.Yes:
             print("[*]  LoginDialog info: Selected answer = \'Yes\'")
-            self.closingSignal.emit(True)
-            print("[*]  LoginDialog info: The closingSignal was emitted with True")
+            event.accept()
+            #self.client.closeConnection()
+            self.client.socket.close()
+            print("[*]  LoginDialog info: The QCloseEvent accept")
         else:
             print("[*]  LoginDialog info: Selected answer = \'No\'")
-            self.closingSignal.emit(False)
-            print("[*]  LoginDialog info: The closingSignal was emitted with False")
+            #self.closingSignal.emit(False)
+            event.ignore()
+            print("[*]  LoginDialog info: The QCloseEvent ignore")
+

@@ -15,7 +15,7 @@ from JaroEliCall.src.test2 import ClientThread
 
 
 # Server computer IP
-IP_server = '192.168.0.101'
+IP_server = '127.0.0.1'
 PORT_server = 50001
 
 class Client(QtCore.QObject):

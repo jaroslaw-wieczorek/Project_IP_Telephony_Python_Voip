@@ -6,14 +6,24 @@ Created on Sat May 26 13:42:22 2018
 @author: afar
 """
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication, QMessageBox
-from PyQt5.QtGui import QPixmap, QIcon, QImage
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
-
 import os
 import sys
+
+from PyQt5 import QtGui
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
+
+from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QImage
+from PyQt5.QtGui import QPixmap
+
+from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QStatusBar
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QTableWidget
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QTableWidgetItem
+
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path)
@@ -21,7 +31,6 @@ print(lib_path)
 
 
 from gui.main_ui import Ui_MainInterfaceDialog
-#from gui.testpic_ui import Ui_Dialog
 from gui.resources import icons_wrapper_rc
 
 
@@ -32,6 +41,7 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         self.setupUi(self)
         self.statusBar = QStatusBar()
         self.vertical_layout_left.addWidget(self.statusBar)
+
         self.set_fit_width()
 
 

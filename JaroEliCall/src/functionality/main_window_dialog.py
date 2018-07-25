@@ -3,15 +3,14 @@ import sys
 import json
 
 from functools import partial
+from PyQt5 import QtCore
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import QEventLoop
 from PyQt5.QtWidgets import QMessageBox
-
-
-#(QItemSelection)
-#self.emit(SIGNAL("newStatuses(PyQt_PyObject)"), statusy)
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
@@ -35,7 +34,7 @@ class MainWindowDialog(MainWrappedUI):
     # Signal used when user close app after clicked esc or cros to close app.
     # If user clicked Yes on message box return True other way return False.
 
-    closingSignal = pyqtSignal(bool)
+    closingSignal = pyqtSignal(QEvent)
 
     callSignal = pyqtSignal(bool)
 
@@ -51,10 +50,29 @@ class MainWindowDialog(MainWrappedUI):
         self.timer.timeout.connect(lambda: self.loop.exit(1))
 
         self.username = self.setUserName(self.client.username)
-        self.set_push_button_logout(partial(self.closeApp, "Uwaga!", "Czy napewno chesz się wylogować?"))
+        self.set_push_button_logout(self.closeApp)
         self.set_push_button_call(self.call_someone)
+        self.setWindowFlags(Qt.CustomizeWindowHint)
 
 
+        self.setWindowFlags(
+                QtCore.Qt.Window |
+                QtCore.Qt.CustomizeWindowHint |
+                QtCore.Qt.WindowTitleHint |
+                QtCore.Qt.WindowCloseButtonHint |
+                QtCore.Qt.WindowStaysOnTopHint
+        )
+        #self.setAttribute(Qt.WA_TranslucentBackground)
+
+        #connect(self.close_event_message_box)
+    def closeApp(self, event):
+        print(event)
+        self.close()
+    
+    
+    def closeEvent(self, event):
+        self.closingSignal.emit(event)
+        
 
     def setUserName(self, user_name):
         self.username = user_name
@@ -122,21 +140,8 @@ class MainWindowDialog(MainWrappedUI):
             Close application from escape key.
         """
         if event.key() == Qt.Key_Escape:
-            title = "Uwaga!"
-            message = "Wyjście spowoduje automatyczne wylogowanie z aplikacji"
-            self.closeApp(title, message)
+            self.close()
 
-
-    def closeApp(self, title, message):
-
-        if QMessageBox.question(self, title, message) == QMessageBox.Yes:
-            print("[*] MainWindowDialog info: Button Yes was clicked")
-            self.closingSignal.emit(True)
-            self.client.logout()
-            self.client.closeConnection()
-        else:
-            print("[*] MainWindowDialog info: Button No was clicked")
-            self.closingSignal.emit(False)
 
 
 
