@@ -212,11 +212,11 @@ class Server:
             self.send_answered_200(addr, who_ansewer_on_con)
 
     def send_rejected_406(self, addr, conn_with_who):
-        payload = {"type": "d", "description": "REJECTED", "status": 406, "answer_to": "INVITE", "from_who": conn_with_who}
+        payload = {"type": "d", "description": "REJECTED", "status": 406, "answer_to": "INVITE", "from_who": conn_with_who, "from_who_ip": self.find_address(conn_with_who)}
         self.sending(addr, payload)
 
     def send_answered_200(self, addr, conn_with_who):
-        payload = {"type": "d", "description": "ANSWERED", "status": 200, "answer_to": "INVITE", "from_who": conn_with_who}
+        payload = {"type": "d", "description": "ANSWERED", "status": 200, "answer_to": "INVITE", "from_who": conn_with_who, "from_who_ip": self.find_address(conn_with_who)}
         self.sending(addr, payload)
 
     def listening(self):

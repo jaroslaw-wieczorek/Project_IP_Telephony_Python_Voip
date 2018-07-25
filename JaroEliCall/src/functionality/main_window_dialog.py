@@ -53,7 +53,7 @@ class MainWindowDialog(MainWrappedUI):
         self.username = self.setUserName(self.client.username)
         self.set_push_button_logout(partial(self.closeApp, "Uwaga!", "Czy napewno chesz się wylogować?"))
         self.set_push_button_call(self.call_someone)
-        #self.getList()
+
 
     def setUserName(self, user_name):
         self.username = user_name
@@ -100,20 +100,18 @@ class MainWindowDialog(MainWrappedUI):
     def read(self):
         if self.waiting_for_signal():
             print("{*} MainWindow getting from Server : ", self.client.received)
-            if self.client.received == "202 USERS":
+            if self.client.status == "202 USERS":
                 print("{*} MainWindow users: ", self.client.users)
                 self.add_row_to_list_of_users(self.client.users)
-            elif self.client.received == "200 INVITE":
+            elif self.client.status == "200 INVITE":
                 status = "Nawiązywanie polaczenia"
                 self.showConnectionStatus(status)
                 print(status)
-
-                # self.client.sendingVoice(ip, port)
-
-            elif self.client.received == "406 INVITE":
+            elif self.client.status == "406 INVITE":
                 status = "Nie można się połączyć z wybranym użytkownikiem"
                 self.showConnectionStatus(status)
                 print(status)
+
         else:
             print("{!} MainWindow error: Didn't get response")
 

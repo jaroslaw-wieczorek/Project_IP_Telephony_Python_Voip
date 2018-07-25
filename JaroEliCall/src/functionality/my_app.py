@@ -108,14 +108,19 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp getCallSignalResponse received:", value)
 
-    @pyqtSlot(bool, str)
-    def callSignalResponse(self, value, username):
+    @pyqtSlot(bool, str, list)
+    def callSignalResponse(self, value, username, address):
         if value:
             print("(*) MyApp callSignalResponse received:", value)
+            print(username)
             self.interactionWindow.showCallerName(username)
-            print("(*) MyApp callSignalResponse shown")
             self.showInteractionWindow()
+            self.blockAcceptConnButton()
+            print("(*) MyApp callSignalResponse shown")
         else:
+            status = "Uzytkownik odrzucił połączenie"
+            self.mainWindow.showConnectionStatus(status)
+            print(status)
             print("(*) MyApp callSignalResponse received:", value)
 
     # Managment client and connection
@@ -124,10 +129,6 @@ class MyApp(QApplication):
         self.listen_server_thread = Thread(
                 target=self.client.listeningServer, daemon=True)
         self.listen_server_thread.start()
-
-    def connectToServer(self):
-        self.client
-
 
     # MainWindow Dialog methods
     def setupMainWindow(self, main_window):
@@ -174,5 +175,11 @@ class MyApp(QApplication):
 
 
     def showInteractionWindow(self):
-        self.interactionWindow.push_button_accept.setEnabled(True)
         self.interactionWindow.show()
+        self.interactionWindow.push_button_accept.setEnabled(True)
+
+
+    def blockAcceptConnButton(self):
+        self.interactionWindow.push_button_accept.setEnabled(False)
+
+

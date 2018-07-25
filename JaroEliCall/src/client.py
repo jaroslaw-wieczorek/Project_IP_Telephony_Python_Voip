@@ -3,7 +3,7 @@ import sys
 import json
 import socket
 import pyaudio
-
+from threading import Thread
 from PyQt5 import QtCore
 
 
@@ -16,14 +16,14 @@ from JaroEliCall.src.test2 import ClientThread
 
 
 # Local computer IP
-IP_local = '127.0.0.1'
+IP_local = '192.168.0.101'
 
 # Server computer IP
-IP_server = '127.0.0.2'
+IP_server = '192.168.0.101'
 PORT_server = 50001
 
 # Remote computer IP
-IP_remote = '127.0.0.3'
+IP_remote = '192.168.0.104'
 
 
 class Client(QtCore.QObject):
@@ -43,7 +43,7 @@ class Client(QtCore.QObject):
 
     getMessage = QtCore.pyqtSignal(bool)
 
-    callSignal = QtCore.pyqtSignal(bool, str)
+    callSignal = QtCore.pyqtSignal(bool, str, list)
 
 
     def __init__(self):
@@ -79,26 +79,16 @@ class Client(QtCore.QObject):
 
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.socket.connect((self.serverIP, self.serverPort))
+            self.socket.connect((self.serverIP, self.serverPORT))
             print("Polaczono z serwerem")
 
         except ConnectionRefusedError as err:
             print(err)
             self.socket.close()
 
-
     def sendMessage(self, data):
         try:
-            self.socket.sendto(data, (self.serverIP, self.serverPort))
-            print("Wysłano ", data)
-        except ConnectionRefusedError as err:
-            print(err)
-
-
-    def sendMessage_another_client(self, data, anotherIP, anotherPort):
-        try:
-            self.socket.connect((anotherIP, anotherPort))
-            self.socket.sendto(data, (anotherIP, anotherPort))
+            self.socket.sendto(data, (self.serverIP, self.serverPORT))
             print("Wysłano ", data)
         except ConnectionRefusedError as err:
             print(err)
@@ -127,34 +117,45 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
                         #self.toThread.lock.release()
         # toThread.self.received = ("200 LOGIN")
-        # below to change on signals
+        # below to change on s ignals
         elif self.received["status"] == 202:
             data = self.received["users"]
             # TU POTRZEBA POPRAWIĆ
             print("Client get data from server:", data)
 
-            self.received = "202 USERS"
+            self.status = "202 USERS"
             self.users = data
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE" and self.received["description"] == "OK":
             self.params = []
+            self.status = "200 INVITE"
+            self.getMessage.emit(True)
             for i in self.received['IP']:
                 print(i)
                 self.params.append(i)
 
-        elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE" and self.received["description"] == "ANSWERED":
-            self.callSignal.emit(True, self.received["from_who"])
+        elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE" and self.received["description"] == "REJECTED":
+            self.status = "406 REJECTED"
+            self.callSignal.emit(False, self.received["from_who"], [])
 
-            self.received = "200 INVITE"
-            print("200 INVITE ")
+
+        elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE" and self.received["description"] == "ANSWERED":
+            user_name = self.received["from_who"]
+            user_name_ip = self.received["from_who_ip"]
+            self.callSignal.emit(True, user_name, user_name_ip)
+
+            self.status = "200 INVITE"
+            print(user_name + " " + str(user_name_ip))
             # I EMIT SIGNAL getCall BECAUSE SOMEONE CALL TO ME
-            # self.getMessage.emit(True)
+            self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
 
+            self.voice(user_name_ip)
+
         elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
-            self.received = "406 INVITE"
+            self.status = "406 INVITE"
             print("406 INVITE")
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")
@@ -166,6 +167,8 @@ class Client(QtCore.QObject):
             print("Dzwoni ", str(self.received["from_who"]))
             self.user_name_ip = self.received["from_who_ip"]
             self.getCallSignal.emit(True, user_name)
+            self.getMessage.emit(True)
+            self.status = "200 INVITE"
             print("Client : info >> makeCallSignal signal was emited with True")
 
 
@@ -227,15 +230,15 @@ class Client(QtCore.QObject):
         self.sendMessage(data)
 
 
-    def voice(self):
+    def voice(self, user_name_ip):
         threads = []
 
         #global IP_remote
-        global IP_remote
-
+        # global IP_remote
+        IP_remote = '192.168.0.104'
         # Create new threads
-        thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-        thread2 = ClientThread(2, "Client-Thread", 2, IP_remote, 9999)
+        thread1 = ServerThread(1, "Server-Thread", 1, 9998)
+        thread2 = ClientThread(2, "Client-Thread", 2, user_name_ip, 9999)
 
         # Start new Threads
         thread1.start()
@@ -258,28 +261,7 @@ class Client(QtCore.QObject):
             print("Someone is calling to me - her/his ip is ", self.user_name_ip)
             print("\tClient : info >> Start recording")
 
-            global IP_remote
-
-            threads = []
-
-            # Create new threads
-            thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-            thread2 = ClientThread(2, "Client-Thread", 2, IP_remote, 9999)
-
-            # Start new Threads
-            thread1.start()
-            thread2.start()
-
-            # Add threads to thread list
-            threads.append(thread1)
-            threads.append(thread2)
-
-            # Wait for all threads to complete
-            for t in threads:
-                t.join()
-
-            print("Exiting Main Thread")
-
+            self.voice(self.user_name_ip)
 
             """while True:
                 for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):

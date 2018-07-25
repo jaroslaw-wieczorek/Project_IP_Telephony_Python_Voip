@@ -7,10 +7,10 @@ import audioop
 import threading
 
 # IP remote computer
-IP_remote = '127.0.0.1'
+IP_remote = '192.168.0.104'
 
 # IP local computer
-IP_local = '127.0.0.1'
+IP_local = '192.168.0.101'
 
 
 class Configuration():
@@ -94,7 +94,7 @@ def serverSide(rport, stream, chunk):
 
 
 def clientSide(ip, port, stream, chunk):
-    serverIP = ip
+    serverIP = ip[0]
     serverPort = port
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     print("Send on: ", serverIP, serverPort)
@@ -109,23 +109,3 @@ def clientSide(ip, port, stream, chunk):
 
 
 
-# threadLock = threading.Lock()
-threads = []
-
-# Create new threads
-thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-thread2 = ClientThread(2, "Client-Thread", 2, IP_remote, 9999)
-
-# Start new Threads
-thread1.start()
-thread2.start()
-
-# Add threads to thread list
-threads.append(thread1)
-threads.append(thread2)
-
-# Wait for all threads to complete
-for t in threads:
-    t.join()
-
-print ("Exiting Main Thread")
