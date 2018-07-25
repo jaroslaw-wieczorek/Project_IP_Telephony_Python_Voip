@@ -112,9 +112,11 @@ class MyApp(QApplication):
     def callSignalResponse(self, value, username):
         if value:
             print("(*) MyApp callSignalResponse received:", value)
+            print(username)
             self.interactionWindow.showCallerName(username)
-            print("(*) MyApp callSignalResponse shown")
             self.showInteractionWindow()
+            self.blockAcceptConnButton()
+            print("(*) MyApp callSignalResponse shown")
         else:
             print("(*) MyApp callSignalResponse received:", value)
 
@@ -124,10 +126,6 @@ class MyApp(QApplication):
         self.listen_server_thread = Thread(
                 target=self.client.listeningServer, daemon=True)
         self.listen_server_thread.start()
-
-    def connectToServer(self):
-        self.client
-
 
     # MainWindow Dialog methods
     def setupMainWindow(self, main_window):
@@ -174,5 +172,11 @@ class MyApp(QApplication):
 
 
     def showInteractionWindow(self):
-        self.interactionWindow.push_button_accept.setEnabled(True)
         self.interactionWindow.show()
+        self.interactionWindow.push_button_accept.setEnabled(True)
+
+
+    def blockAcceptConnButton(self):
+        self.interactionWindow.push_button_accept.setEnabled(False)
+
+

@@ -108,7 +108,7 @@ def clientSide(ip, port, stream, chunk):
 
 
 
-
+"""
 # threadLock = threading.Lock()
 threads = []
 
@@ -129,3 +129,4 @@ for t in threads:
     t.join()
 
 print ("Exiting Main Thread")
+"""

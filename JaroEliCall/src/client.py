@@ -11,19 +11,19 @@ lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path)
 print(lib_path)
 
-from JaroEliCall.src.test2 import ServerThread
-from JaroEliCall.src.test2 import ClientThread
+# from JaroEliCall.src.test2 import ServerThread
+# from JaroEliCall.src.test2 import ClientThread
 
 
 # Local computer IP
 IP_local = '127.0.0.1'
 
 # Server computer IP
-IP_server = '127.0.0.2'
+IP_server = '127.0.0.1'
 PORT_server = 50001
 
 # Remote computer IP
-IP_remote = '127.0.0.3'
+IP_remote = '127.0.0.1'
 
 
 class Client(QtCore.QObject):
@@ -79,26 +79,16 @@ class Client(QtCore.QObject):
 
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.socket.connect((self.serverIP, self.serverPort))
+            self.socket.connect((self.serverIP, self.serverPORT))
             print("Polaczono z serwerem")
 
         except ConnectionRefusedError as err:
             print(err)
             self.socket.close()
 
-
     def sendMessage(self, data):
         try:
-            self.socket.sendto(data, (self.serverIP, self.serverPort))
-            print("Wysłano ", data)
-        except ConnectionRefusedError as err:
-            print(err)
-
-
-    def sendMessage_another_client(self, data, anotherIP, anotherPort):
-        try:
-            self.socket.connect((anotherIP, anotherPort))
-            self.socket.sendto(data, (anotherIP, anotherPort))
+            self.socket.sendto(data, (self.serverIP, self.serverPORT))
             print("Wysłano ", data)
         except ConnectionRefusedError as err:
             print(err)
@@ -127,7 +117,7 @@ class Client(QtCore.QObject):
             print("Client : info >> getMessage signal was emited with True")
                         #self.toThread.lock.release()
         # toThread.self.received = ("200 LOGIN")
-        # below to change on signals
+        # below to change on s ignals
         elif self.received["status"] == 202:
             data = self.received["users"]
             # TU POTRZEBA POPRAWIĆ
@@ -146,6 +136,7 @@ class Client(QtCore.QObject):
 
         elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE" and self.received["description"] == "ANSWERED":
             self.callSignal.emit(True, self.received["from_who"])
+            self.user_name_ip = self.received["from_who"]
 
             self.received = "200 INVITE"
             print("200 INVITE ")
@@ -258,27 +249,7 @@ class Client(QtCore.QObject):
             print("Someone is calling to me - her/his ip is ", self.user_name_ip)
             print("\tClient : info >> Start recording")
 
-            global IP_remote
-
-            threads = []
-
-            # Create new threads
-            thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-            thread2 = ClientThread(2, "Client-Thread", 2, IP_remote, 9999)
-
-            # Start new Threads
-            thread1.start()
-            thread2.start()
-
-            # Add threads to thread list
-            threads.append(thread1)
-            threads.append(thread2)
-
-            # Wait for all threads to complete
-            for t in threads:
-                t.join()
-
-            print("Exiting Main Thread")
+            #self.voice()
 
 
             """while True:

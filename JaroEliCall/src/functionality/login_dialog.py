@@ -90,7 +90,7 @@ class LoginDialog(LoginWrappedUI):
 
     def waiting_for_signal(self):
 
-        self.timer.start(2000) # 1 second time-out
+        self.timer.start(10000) # 1 second time-out
 
         print('[*] LoginDialog info: waiting for response')
 
@@ -122,7 +122,7 @@ class LoginDialog(LoginWrappedUI):
             if self.loggingToServer(self.get_login(), self.get_password()):
                 print("[*] LoginDialog info: The loggingToServer method returned True")
                 self.loggingSignal.emit(True, self.get_login())
-                #self.loggedSignal.emit({"abc": 123}, name="loggedSignal" )
+                # self.loggedSignal.emit({"abc": 123}, name="loggedSignal")
                 print("[*] LoginDialog info: The loggingSignal was emitted with True")
 
             else:
