@@ -42,6 +42,7 @@ def main():
 
 
     client = Client(SERWER_IP, PORT)
+    client = Client()
 
     myapp = MyApp(sys.argv)
 
