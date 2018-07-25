@@ -5,6 +5,7 @@ import socket
 import pyaudio
 import audioop
 import threading
+from queue import Queue
 
 class Configuration():
     FORMAT = pyaudio.paInt16
@@ -24,7 +25,7 @@ class ServerThread(threading.Thread, Configuration):
         self.name = name
         self.counter = counter
         self.REMOTE_PORT = rport
-        self.p = pyaudio.PyAudio()
+        self.p = pyaudio.PyAudio() 
 
         self.stream = self.p.open(format=self.p.get_format_from_width(self.WIDTH),
                                   channels=self.CHANNELS,
@@ -57,6 +58,7 @@ class ClientThread(threading.Thread, Configuration):
                                   rate=self.RATE,
                                   input=True,
                                   frames_per_buffer=self.CHUNK)
+        self.queue = Queue()
 
         super()
 
@@ -64,7 +66,7 @@ class ClientThread(threading.Thread, Configuration):
         print("Starting: " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()
-        clientSide(self.REMOTE_IP, self.REMOTE_PORT, self.stream, self.CHUNK)
+        clientSide(self.REMOTE_IP, self.REMOTE_PORT, self.stream, self.CHUNK, self.queue)
         # Free lock to release next thread
         # threadLock.release()
 
@@ -85,7 +87,7 @@ def serverSide(rport, stream, chunk):
         # print(mx)
 
 
-def clientSide(ip, port, stream, chunk):
+def clientSide(ip, port, stream, chunk, queue):
     serverIP = ip[0]
     serverPort = port
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -93,7 +95,8 @@ def clientSide(ip, port, stream, chunk):
     time.sleep(2)
     while True:
         message = stream.read(chunk)
-        clientSocket.sendto(message, (serverIP, serverPort))
+        queue.put(chunk)
+        clientSocket.sendto(queue.get(), (serverIP, serverPort))
         mx = audioop.max(message, 2)
         # print(mx)
         # clientSocket.close() # Close the socket
