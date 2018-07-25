@@ -18,6 +18,9 @@ print(lib_path)
 
 # class Server(Validator):
 
+# IP to listen
+Listen_IP = '0.0.0.0'
+
 class Server:
 
     FORMAT = pyaudio.paInt16
@@ -32,7 +35,8 @@ class Server:
     def __init__(self):
         # Validator.__init__(self, priv, publ)
         print("Inicjalizacja klasy Server")
-        self.host = '0.0.0.0'
+        global Listen_IP
+        self.host = Listen_IP
         self.port = 50001
         self.size = 2048
         self.p = pyaudio.PyAudio()

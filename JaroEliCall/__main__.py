@@ -37,9 +37,6 @@ from JaroEliCall.src.functionality.interaction_dialog import InteractionDialog
 from JaroEliCall.src.client import Client
 import random
 
-SERWER_IP = '192.168.0.101'
-PORT = 50001
-
 
 def main():
 

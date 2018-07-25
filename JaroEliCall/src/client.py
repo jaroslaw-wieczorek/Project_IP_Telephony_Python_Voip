@@ -14,11 +14,19 @@ print(lib_path)
 from JaroEliCall.src.test2 import ServerThread
 from JaroEliCall.src.test2 import ClientThread
 
-SERWER_IP = '127.0.0.1'
+
+# Local computer IP
+IP_local = '127.0.0.1'
+
+# Server computer IP
+IP_server = '127.0.0.2'
+PORT_server = 50001
+
+# Remote computer IP
+IP_remote = '127.0.0.3'
 
 
 class Client(QtCore.QObject):
-
     FORMAT = pyaudio.paInt16
     CHUNK = 512
     WIDTH = 1
@@ -37,7 +45,8 @@ class Client(QtCore.QObject):
 
     callSignal = QtCore.pyqtSignal(bool, str)
 
-    def __init__(self, SERWER_IP, port):
+
+    def __init__(self):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
 
@@ -50,39 +59,46 @@ class Client(QtCore.QObject):
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
 
+        global IP_server
+        global PORT_server
+
+        # Copy ip and port to class variables
+
+        self.serverIP = IP_server
+        self.serverPORT = PORT_server
+        self.size = 2048
+
         self.received = None
-        self.connectToSerwer(SERWER_IP, port)
+        self.connectToSerwer()
         self.username = None
 
 
-    def connectToSerwer(self, host, port):
+    def connectToSerwer(self):
         # ipadres serwera
         print("Laczenie z serwerem")
-        self.host = host
-        self.port = port
-        self.size = 2048
 
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.socket.connect((self.host, self.port))
+            self.socket.connect((self.serverIP, self.serverPort))
             print("Polaczono z serwerem")
 
         except ConnectionRefusedError as err:
             print(err)
             self.socket.close()
 
+
     def sendMessage(self, data):
         try:
-            self.socket.sendto(data, (self.host, self.port))
+            self.socket.sendto(data, (self.serverIP, self.serverPort))
             print("Wysłano ", data)
         except ConnectionRefusedError as err:
             print(err)
 
 
-    def sendMessage_another_client(self, data, host, port):
+    def sendMessage_another_client(self, data, anotherIP, anotherPort):
         try:
-            self.socket.connect((host, port))
-            self.socket.sendto(data, (host, port))
+            self.socket.connect((anotherIP, anotherPort))
+            self.socket.sendto(data, (anotherIP, anotherPort))
             print("Wysłano ", data)
         except ConnectionRefusedError as err:
             print(err)
@@ -210,12 +226,16 @@ class Client(QtCore.QObject):
         print(data)
         self.sendMessage(data)
 
+
     def voice(self):
         threads = []
 
+        #global IP_remote
+        global IP_remote
+
         # Create new threads
         thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-        thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999)
+        thread2 = ClientThread(2, "Client-Thread", 2, IP_remote, 9999)
 
         # Start new Threads
         thread1.start()
@@ -231,19 +251,20 @@ class Client(QtCore.QObject):
 
         print("Exiting Main Thread")
 
+
     def sendingVoice(self):
 
         if(self.user_name_ip != ''):
             print("Someone is calling to me - her/his ip is ", self.user_name_ip)
             print("\tClient : info >> Start recording")
 
-            IP = '192.168.0.104'
+            global IP_remote
 
             threads = []
 
             # Create new threads
             thread1 = ServerThread(1, "Server-Thread", 1, 9999)
-            thread2 = ClientThread(2, "Client-Thread", 2, IP, 9999)
+            thread2 = ClientThread(2, "Client-Thread", 2, IP_remote, 9999)
 
             # Start new Threads
             thread1.start()
