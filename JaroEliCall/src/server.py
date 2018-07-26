@@ -108,10 +108,10 @@ class Server:
         # print("Server log_out get: LOGOUT")
         ans = self.mongo.logoutUser(addr)
         # print("Odp na wylogowanie: ", ans)
-        if (ans == 1):
+        """if (ans == 1):
             self.send_logout_200(addr)
         elif (ans == 0):
-            self.send_logout_406(addr)
+            self.send_logout_406(addr)"""
 
     def send_logout_200(self, addr):
         payload = {"type": "d", "description": "OK", "status": 200, "answer_to": "LOGOUT"}
