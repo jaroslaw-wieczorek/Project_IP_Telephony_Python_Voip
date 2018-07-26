@@ -39,6 +39,7 @@ class Client(QtCore.QObject):
 
     changedUsersStatusSignal = QtCore.pyqtSignal(bool, list)
 
+    endCallResponse = QtCore.pyqtSignal(bool)
     def __init__(self):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
@@ -159,11 +160,13 @@ class Client(QtCore.QObject):
 
         elif self.received["status"] == 200 and self.received["description"] == "END" and self.received["answer_to"] == "CONN_END":
             print("Połączenie zakończone")
+            self.endCallResponse.emit(True)
 
-            """self.status = "200 END"
+            self.status = "200 END"
             print("200 END")
+
             self.getMessage.emit(True)
-            self.end_connection()"""
+            self.end_connection()
 
             print("Client : info >> getMessage signal was emited with True")
 
@@ -197,7 +200,7 @@ class Client(QtCore.QObject):
     def login(self, login, password):
         payload = {"type": "d", "description": "LOGIN",
                    "login": login, "password": password}
-
+        self.who_signed = login
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)
@@ -292,8 +295,8 @@ class Client(QtCore.QObject):
 
 
     def end_connection(self):
-        self.thread1.close_serverSocket()
         self.thread2.close_clientSocket()
+        self.thread1.close_serverSocket()
 
 
     def closeConnection(self):

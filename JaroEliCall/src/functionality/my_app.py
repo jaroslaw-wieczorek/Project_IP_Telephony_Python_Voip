@@ -133,6 +133,13 @@ class MyApp(QApplication):
             print(status)
             print("(*) MyApp callSignalResponse received:", value)
 
+    @pyqtSlot(bool)
+    def endCallResponseResponse(self, value):
+        if value:
+            print("w endCallResponseResponse")
+            self.interactionWindow.hide()
+            self.mainWindow.showConnectionStatus("Połączenie zakończono")
+            self.client.end_connection()
 
     @pyqtSlot(bool, list)
     def changedUsersStatusResponse(self, value, users_list):
@@ -145,8 +152,10 @@ class MyApp(QApplication):
     @pyqtSlot(bool)
     def endCallResponse(self, value):
         if value:
+            print("w endCallResponse")
             self.interactionWindow.hide()
             self.mainWindow.showConnectionStatus("Połączenie zakończono")
+            self.client.end_connection()
 
     # Managment client and connection
     def setupClient(self, client):

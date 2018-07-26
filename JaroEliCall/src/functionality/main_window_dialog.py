@@ -120,7 +120,8 @@ class MainWindowDialog(MainWrappedUI):
             print("{*} MainWindow getting from Server : ", self.client.received)
             if self.client.status == "202 USERS":
                 print("{*} MainWindow users: ", self.client.users)
-                self.add_row_to_list_of_users(self.client.users)
+
+                self.add_row_to_list_of_users(self.client.users, self.client.who_signed)
             elif self.client.status == "200 INVITE":
                 status = "Nawiązywanie polaczenia"
                 self.showConnectionStatus(status)
@@ -133,6 +134,7 @@ class MainWindowDialog(MainWrappedUI):
                 status = "Zakonczono polaczenie"
                 self.showConnectionStatus(status)
                 print(status)
+
 
         else:
             print("{!} MainWindow error: Didn't get response")

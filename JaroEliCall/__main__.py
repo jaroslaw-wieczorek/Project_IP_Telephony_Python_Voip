@@ -96,6 +96,8 @@ def main():
     myapp.client.getCallSignal.connect(myapp.mainWindow.loop.quit)
     myapp.client.getCallSignal.connect(myapp.getCallSignalResponse)
 
+    myapp.client.endCallResponse.connect(myapp.endCallResponseResponse)
+
     # People receive info that they can show interface "Rozmowa z ...
     myapp.client.callSignal.connect(myapp.callSignalResponse)
 

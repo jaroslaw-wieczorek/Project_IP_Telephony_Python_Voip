@@ -33,6 +33,8 @@ class Server:
         self.mongo = MongoOperations()
         self.converstation_dictionary = {}
 
+        self.end_of_conn = ''
+
 
     def connectWithClient(self):
         try:
@@ -54,11 +56,14 @@ class Server:
 
 
     def send_to_all_users(self, users):
-        payload = {"type": "d", "status": 203, "description": "USERS_UPDATE", "answer_to":  "AUTOMATIC_USERS_UPDATE","USERS": users}
+        payload = {"type": "d", "status": 203, "description": "USERS_UPDATE", "answer_to":  "AUTOMATIC_USERS_UPDATE", "USERS": users}
+        if(self.end_of_conn) != '':
+            payload = self.end_of_conn
         # print(payload)
         for key, value in self.mongo.dict_ip_users.items():
             # print(key, " ", value)
             self.sending(value, payload)
+        self.end_of_conn = ''
 
     def find_address(self, login):
         # print(login)
@@ -80,7 +85,7 @@ class Server:
 
     def sending(self, addr, payload):
         self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-        ## print("Server : Sended: " + str(payload) + " to " + str(addr))
+        print("Server : Sended: " + str(payload) + " to " + str(addr))
 
 
     def log_in(self, login, password, addr):
@@ -253,6 +258,7 @@ class Server:
     def send_end_connection_person(self, person, from_who):
         ip = self.find_address(person)
         payload = {"type": "d", "description": "END", "status": 200, "from_who": from_who, "answer_to" : "CONN_END"}
+        self.end_of_conn = payload
         self.sending(ip, payload)
 
 

@@ -53,10 +53,11 @@ class ServerThread(threading.Thread, Configuration):
         print("Listen on: ", serverIP, serverPort)
         time.sleep(2)
         while True:
-            message, clientAddress = self.serverSocket.recvfrom(chunk * 2)
-            stream.write(message)
-            mx = audioop.max(message, 2)
-            # print(mx)
+            if self.serverSocket:
+                message, clientAddress = self.serverSocket.recvfrom(chunk * 2)
+                stream.write(message)
+                mx = audioop.max(message, 2)
+                # print(mx)
 
     def close_serverSocket(self):
         self.serverSocket.close()
@@ -84,7 +85,7 @@ class ClientThread(threading.Thread, Configuration):
         print("Starting: " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()
-        self.clientSide(self.REMOTE_IP, self.REMOTE_PORT, self.stream, self.CHUNK, self.queue)
+        self.clientSide(self.REMOTE_IP, self.REMOTE_PORT, self.stream, self.CHUNK)
         # Free lock to release next thread
         # threadLock.release()
 
@@ -95,14 +96,14 @@ class ClientThread(threading.Thread, Configuration):
         print("Send on: ", serverIP, serverPort)
         time.sleep(2)
         while True:
-            message = stream.read(chunk)
-            self.clientSocket.sendto(message, (serverIP, serverPort))
-            mx = audioop.max(message, 2)
-            # print(mx)
+            if self.clientSocket:
+                message = stream.read(chunk)
+                self.clientSocket.sendto(message, (serverIP, serverPort))
+                mx = audioop.max(message, 2)
+                # print(mx)
 
     def close_clientSocket(self):
         self.clientSocket.close()
-
 
 
 def clientSide(ip, port, stream, chunk):
