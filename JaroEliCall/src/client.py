@@ -19,13 +19,6 @@ IP_server = '192.168.43.130'
 PORT_server = 50001
 
 class Client(QtCore.QObject):
-    FORMAT = pyaudio.paInt16
-    CHUNK = 512
-    WIDTH = 1
-    CHANNELS = 1
-    RATE = 16000
-    RECORD_SECONDS = 2
-    FACTOR = 2
 
     # Signal to make calls
     makeCallSignal = QtCore.pyqtSignal(bool, str)
@@ -40,6 +33,8 @@ class Client(QtCore.QObject):
     changedUsersStatusSignal = QtCore.pyqtSignal(bool, list)
 
     endCallResponse = QtCore.pyqtSignal(bool)
+
+
     def __init__(self):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
