@@ -29,7 +29,7 @@ class ServerThread(threading.Thread, Configuration):
         self.REMOTE_PORT = rport
         self.p = pyaudio.PyAudio()
 
-        self.stream = self.p.open(format=self.FORMAT
+        self.stream = self.p.open(format=self.FORMAT,
                                   channels=self.CHANNELS,
                                   rate=self.RATE,
                                   output=True,
