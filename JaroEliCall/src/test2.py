@@ -74,7 +74,7 @@ class ClientThread(threading.Thread, Configuration):
         self.threadID = threadID
         self.name = name
         self.counter = counter
-        self.REMOTE_IP = rip
+        self.REMOTE_IP = rip[0]
         self.REMOTE_PORT = rport
         self.p = pyaudio.PyAudio()
 
