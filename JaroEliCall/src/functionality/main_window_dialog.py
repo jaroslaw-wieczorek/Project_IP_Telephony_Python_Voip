@@ -27,7 +27,7 @@ from JaroEliCall.src.client import Client
 from JaroEliCall.src.wrapped_interfaces.main_wrapped_ui import MainWrappedUI
 
 
-remoteClientIP = '127.0.0.1'
+#remoteClientIP = '127.0.0.1'
 
 class MainWindowDialog(MainWrappedUI):
 
@@ -52,6 +52,7 @@ class MainWindowDialog(MainWrappedUI):
         self.username = self.setUserName(self.client.username)
         self.set_push_button_logout(self.closeApp)
         self.set_push_button_call(self.call_someone)
+        """
         self.setWindowFlags(Qt.CustomizeWindowHint)
 
 
@@ -63,16 +64,17 @@ class MainWindowDialog(MainWrappedUI):
                 QtCore.Qt.WindowStaysOnTopHint
         )
         #self.setAttribute(Qt.WA_TranslucentBackground)
-
+        """
+        
         #connect(self.close_event_message_box)
     def closeApp(self, event):
         print(event)
         self.close()
-    
-    
+
+
     def closeEvent(self, event):
         self.closingSignal.emit(event)
-        
+
 
     def setUserName(self, user_name):
         self.username = user_name
