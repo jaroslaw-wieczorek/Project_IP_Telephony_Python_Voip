@@ -35,6 +35,8 @@ class ServerThread(threading.Thread, Configuration):
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
         super()
+        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
 
     def run(self):
         print("Starting: " + self.name)
@@ -50,10 +52,10 @@ class ServerThread(threading.Thread, Configuration):
         #serverIP = socket.gethostbyname(socket.gethostname())
         global serverIP
 
-        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.serverSocket.bind((serverIP, self.REMOTE_PORT))
         print("Listen on: ", serverIP, self.REMOTE_PORT)
         time.sleep(2)
+
         while True:
             if self.serverSocket:
                 message, clientAddress = self.serverSocket.recvfrom(self.CHUNK * 2)
@@ -81,6 +83,8 @@ class ClientThread(threading.Thread, Configuration):
                                   rate=self.RATE,
                                   input=True,
                                   frames_per_buffer=self.CHUNK)
+
+        self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.queue = Queue()
 
         super()
@@ -95,13 +99,13 @@ class ClientThread(threading.Thread, Configuration):
 
     def clientSide(self):
 
-        self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         print("Send on: ", self.REMOTE_IP, self.REMOTE_PORT)
+        self.clientSocket.connect((self.REMOTE_IP,  self.REMOTE_PORT))
         time.sleep(2)
         while True:
             if self.clientSocket:
                 message = self.stream.read(self.CHUNK)
-                self.clientSocket.sendto(message, (self.REMOTE_IP,  self.REMOTE_PORT))
+                self.clientSocket.send(message)
                 mx = audioop.max(message, 2)
                 # print(mx)
 
