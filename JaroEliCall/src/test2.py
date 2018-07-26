@@ -100,7 +100,7 @@ class ClientThread(threading.Thread, Configuration):
         time.sleep(2)
         while True:
             if self.clientSocket:
-                message = stream.read(self.CHUNK)
+                message = self.stream.read(self.CHUNK)
                 self.clientSocket.sendto(message, (self.REMOTE_IP,  self.REMOTE_PORT))
                 mx = audioop.max(message, 2)
                 # print(mx)
