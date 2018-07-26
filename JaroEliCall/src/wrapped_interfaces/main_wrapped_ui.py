@@ -105,14 +105,14 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         self.table_widget_list_of_users.setItem(row, col, item)
 
 
-    def add_row_to_list_of_users(self, users : list, without_who):
+    def add_row_to_list_of_users(self, users : list):
         for user in users:
-            if str(user['login']) != without_who:
-                newRowNum = self.table_widget_list_of_users.rowCount()
-                self.table_widget_list_of_users.insertRow(newRowNum)
-                self.table_widget_list_of_users.setItem(newRowNum, 0, QTableWidgetItem(str(user['login'])))
-                self.table_widget_list_of_users.setItem(newRowNum, 1, QTableWidgetItem(str(user['status'])))
-                self.table_widget_list_of_users.setItem(newRowNum, 2, QTableWidgetItem("Avatar"))
+            # if str(user['login']) != without_who:
+            newRowNum = self.table_widget_list_of_users.rowCount()
+            self.table_widget_list_of_users.insertRow(newRowNum)
+            self.table_widget_list_of_users.setItem(newRowNum, 0, QTableWidgetItem(str(user['login'])))
+            self.table_widget_list_of_users.setItem(newRowNum, 1, QTableWidgetItem(str(user['status'])))
+            self.table_widget_list_of_users.setItem(newRowNum, 2, QTableWidgetItem("Avatar"))
 
     def delete_rows_users(self):
         self.table_widget_list_of_users.setRowCount(0)
