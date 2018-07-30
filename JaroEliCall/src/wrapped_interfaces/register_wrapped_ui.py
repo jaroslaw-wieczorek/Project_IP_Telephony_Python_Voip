@@ -45,36 +45,36 @@ class RegisterWrappedUI(QDialog, Ui_RegisterInterfaceDialog):
 
     def set_login(self, login):
         self.line_edit_login.setText(login)
-      
-        
+
+
     def set_email(self, email):
         self.line_edit_email.setText(email)
-        
-        
+
+
     def set_password(self, password):
         """ Metoda dodatkowa """
         self.line_edit_password.setText(password)
-    
-    
+
+
     def set_repeat_password(self, repeat_assword):
         """ Metoda dodatkowa """
         self.line_edit_repeat_password.setText(repeat_assword)
-        
-        
+
+
     def validate_email(self):
         """ Metoda typu validate służy do sprawdzenia poprawności emaila """
         email = self.get_email()
         print(email)
         # Potrzebna walidacja maila
-        
-        
+
+
     def validate_compare_passwords(self):
         """ Metoda typu validate służy do sprawdzenia tozsamości haseł """
         if self.get_password() == self.get_repeat_password():
             return True
         else:
             return False
-        
+
 
     def get_login(self):
         """ Metoda typu get służy do pobrania wpisanego loginu"""
@@ -83,19 +83,19 @@ class RegisterWrappedUI(QDialog, Ui_RegisterInterfaceDialog):
         else:
             return None
 
-    
+
     def set_push_button_already_account(self, funct):
         self.push_button_already_account.clicked.connect(funct)
-    
-    
+
+
     def set_push_button_register(self, funct):
         self.push_button_register.clicked.connect(funct)
-    
-    
+
+
     def get_email(self):
         return self.line_edit_email.text()
-    
-    
+
+
     def get_password(self):
         return self.line_edit_password.text()
 
@@ -103,13 +103,13 @@ class RegisterWrappedUI(QDialog, Ui_RegisterInterfaceDialog):
     def get_repeat_password(self):
         return self.line_edit_repeat_password.text()
 
-     
+
     def nothing(self):
         print("Do nothing!")
-        
-        
-        
-""" 
+
+
+
+"""
 For tests
 if __name__  == '__main__':
     app = QApplication(sys.argv)
@@ -117,4 +117,3 @@ if __name__  == '__main__':
     window.show()
     sys.exit(app.exec_())
 """
-    
