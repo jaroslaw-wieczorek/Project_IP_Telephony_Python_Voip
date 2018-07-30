@@ -89,7 +89,7 @@ class Client(QtCore.QObject):
         if self.received["status"] == 200 and self.received["answer_to"] == "LOGIN":
             print("Client : info >> React on comunicate: 200")
             # TO DO
-            self.my_login = self.received["login"]
+            #self.my_login = self.received["login"]
 
             self.received = "200 LOGIN"
             self.getMessage.emit(True)
