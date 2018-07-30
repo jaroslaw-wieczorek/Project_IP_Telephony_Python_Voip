@@ -83,6 +83,16 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp alreadyAccountSignalResponse received:", value)
 
+    @pyqtSlot(bool)
+    def registerMessageResponse(self, value):
+        if value:
+            print("[*]  RegisterDialog info: The registerMessageResponse works")
+            self.registerWindow.hide()
+            print("[*]  RegisterDialog info: Register window hidden")
+            self.loginWindow.show()
+        else:
+            self.registerWindow.showRegisterStatus("Status rejestracji | " + str(self.client.received))
+
     @pyqtSlot(QEvent)
     def closingSignalResponse(self, event):
         title = 'Uwaga!'

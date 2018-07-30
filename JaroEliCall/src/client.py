@@ -32,6 +32,8 @@ class Client(QtCore.QObject):
     changedUsersStatusSignal = QtCore.pyqtSignal(bool, list)
     endCallResponse = QtCore.pyqtSignal(bool)
 
+    registerMessage = QtCore.pyqtSignal(bool)
+
     def __init__(self):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
@@ -188,14 +190,18 @@ class Client(QtCore.QObject):
             print("<*> Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 406 and
-              self.received["answer_to"] == "CREATE"):
+              self.received["answer_to"] == "REGISTER"):
+            self.received = "406 CREATE"
             print("406")
+            self.registerMessage.emit(False)
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 201
               and self.received["answer_to"] == "CREATE"):
+            self.received = "201 CREATE"
             print("201 CREATE ")
+            self.registerMessage.emit(True)
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
