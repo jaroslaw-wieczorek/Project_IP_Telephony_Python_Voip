@@ -1,6 +1,11 @@
 import os
 import sys
-from sys import platform
+import string
+import random
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 from pymongo import MongoClient
 from itsdangerous import BadSignature
@@ -8,11 +13,9 @@ from itsdangerous import URLSafeSerializer
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
-import string
-import random
-import smtplib
 
 ACTIVATION_CODE_LENGHT = 24
+
 
 class MongoOperations:
 
@@ -21,7 +24,7 @@ class MongoOperations:
     def __init__(self):
         self.dict_ip_users = {}
 
-        if platform == "linux" or platform == "linux2":
+        if sys.platform == "linux" or sys.platform == "linux2":
             print("POLACZENIE Z MONGO")
         else:
             print("POLACZENIE Z MONGO")
@@ -68,10 +71,19 @@ class MongoOperations:
         print("Login", login)
         print("Password", password)
         try:
-            answer = (self.collection.find({"login": login, "password": password}).count()) == 1
+            answer = (self.collection.find({"login": login,
+                                            "password": password}).count()) == 1
             print(answer)
-            if (answer):
-                self.collection.update({"login": login, "password": password}, {"$set": {"status": "online"}})
+            if answer:
+                self.collection.update(
+                    {
+                        "login": login,
+                        "password": password
+                    },
+                    {
+                        "$set": {"status": "online"}
+                    })
+
                 # to dictionary nickname adres IP
                 self.dict_ip_users[login] = addr
                 return 1
@@ -84,7 +96,10 @@ class MongoOperations:
     def checkAvailibility(self, user):
         self.runMongo()
         try:
-            answer = (self.collection.find({"login": user, "status": "online"}).count()) == 1
+            answer = (self.collection.find({
+                                            "login": user,
+                                            "status": "online"
+                                            }).count()) == 1
             if (answer):
                 return True
             else:
@@ -94,14 +109,29 @@ class MongoOperations:
             return False
 
     def createActivationCode(self, length):
-        return ''.join(random.sample(string.ascii_letters + string.digits + string.punctuation, length))
+        return ''.join(random.sample(string.ascii_letters +
+                                     string.digits +
+                                     string.punctuation, length))
 
-    def sendActivationCode(self, msg, login):
-        server = smtplib.SMTP('smtp.gmail.com', 587)
+    def sendActivationCode(self, activ_code, to):
+        msg = MIMEMultipart()
+        me = "JaroEliCall"
+
+        msg['Subject'] = 'JaroEliCall: kod aktywacyjny użytkownika'
+        msg['From'] = me
+        msg['To'] = to
+
+        body_text = "Informacja: Aby zakończyć rejestracje należy użyć" \
+                    " poniższego kodu jako hasła.\n ### Kod aktywacyjny do" \
+                    " konta: " + activ_code + "### \n" \
+                    " Prosimy nie odpowiadać na tą wiadomość"
+
+        msg['Body'] = body_text
+
+        server = smtplib.SMTP('localhost')
         server.starttls()
-        server.login("tt0815550@gmail.com", "AureliaK1609")
 
-        server.sendmail("e.kaczmarek01@gmail.com", login, msg)
+        server.sendmail(me, to, msg.as_string())
         server.quit()
 
     def create_user(self, login, email, password):

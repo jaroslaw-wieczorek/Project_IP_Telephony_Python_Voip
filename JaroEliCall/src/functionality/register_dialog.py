@@ -74,12 +74,7 @@ class RegisterDialog(RegisterWrappedUI):
         return True
 
     def validate_email(self, email):
-        regex = r"""
-                    ^[_a-z0-9-]+(\.[_a-z0-9-]+)*
-                    @
-                    [a-z0-9-]+(\.[a-z0-9-]+)*
-                    (\.[a-z]{2,4})$
-                    """
+        regex = r"""^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"""
 
         result = re.match(regex, email)
         if result is None:
@@ -142,9 +137,7 @@ class RegisterDialog(RegisterWrappedUI):
             self.showRegisterStatus(status)
             return False
 
-
     def registerAccount(self):
-
         login = self.get_login()
         email = self.get_email()
         passwd = self.get_password()
@@ -211,4 +204,3 @@ class RegisterDialog(RegisterWrappedUI):
             #self.closingSignal.emit(False)
             event.ignore()
             print("[*]  LoginDialog info: The QCloseEvent ignore")
-
