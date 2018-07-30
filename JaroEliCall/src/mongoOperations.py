@@ -27,10 +27,13 @@ class MongoOperations:
             print("POLACZENIE Z MONGO")
             os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
 
+    def connectMongo(self):
+        print("POLACZENIE Z MONGO istnieje")
+
     def runMongo(self):
-        client = MongoClient(self.MongoIP, self.MongoPort)
-        db = client['VOIP']
-        self.collection = db['Users']
+        self.mongo_client = MongoClient(self.MongoIP, self.MongoPort)
+        db = self.mongo_client.VOIP
+        self.collection = db.Users
 
     def find_in_mongo(self, login):
         print("Sprawdzenie z mongo")
@@ -68,7 +71,7 @@ class MongoOperations:
         print("Login", login)
         print("Password", password)
         try:
-            answer = (self.collection.find({"login": login, "password": password}).count()) == 1
+            answer = (self.collection.find({"login": login, "password": password, "activated":"true"}).count()) == 1
             print(answer)
             if (answer):
                 self.collection.update({"login": login, "password": password}, {"$set": {"status": "online"}})

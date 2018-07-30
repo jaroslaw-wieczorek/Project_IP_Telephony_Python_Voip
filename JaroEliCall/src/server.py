@@ -100,6 +100,8 @@ class Server:
     def log_in(self, login, password, addr):
         # print("Server log_in: get LOGIN")
         is_login_ok = self.mongo.checkWithMongo(login, password, addr)
+
+
         if (is_login_ok):
             self.send_login_200(addr)
         elif (is_login_ok == 0):
