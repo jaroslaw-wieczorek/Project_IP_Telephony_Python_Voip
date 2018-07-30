@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/interaction_interface.ui'
+# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/interaction.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.1
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -80,16 +80,16 @@ class Ui_InteractionInterfaceDialog(object):
         self.horizontal_layout_33.setObjectName("horizontal_layout_33")
         spacerItem7 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_33.addItem(spacerItem7)
-        self.push_button_reject = QtWidgets.QPushButton(InteractionInterfaceDialog)
-        self.push_button_reject.setMinimumSize(QtCore.QSize(100, 70))
-        self.push_button_reject.setObjectName("push_button_reject")
-        self.horizontal_layout_33.addWidget(self.push_button_reject)
-        spacerItem8 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-        self.horizontal_layout_33.addItem(spacerItem8)
         self.push_button_accept = QtWidgets.QPushButton(InteractionInterfaceDialog)
         self.push_button_accept.setMinimumSize(QtCore.QSize(100, 70))
         self.push_button_accept.setObjectName("push_button_accept")
         self.horizontal_layout_33.addWidget(self.push_button_accept)
+        spacerItem8 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.horizontal_layout_33.addItem(spacerItem8)
+        self.push_button_reject = QtWidgets.QPushButton(InteractionInterfaceDialog)
+        self.push_button_reject.setMinimumSize(QtCore.QSize(100, 70))
+        self.push_button_reject.setObjectName("push_button_reject")
+        self.horizontal_layout_33.addWidget(self.push_button_reject)
         spacerItem9 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout_33.addItem(spacerItem9)
         self.verticalLayout.addLayout(self.horizontal_layout_33)
@@ -98,12 +98,13 @@ class Ui_InteractionInterfaceDialog(object):
 
         self.retranslateUi(InteractionInterfaceDialog)
         QtCore.QMetaObject.connectSlotsByName(InteractionInterfaceDialog)
+        InteractionInterfaceDialog.setTabOrder(self.push_button_accept, self.push_button_reject)
 
     def retranslateUi(self, InteractionInterfaceDialog):
         _translate = QtCore.QCoreApplication.translate
         InteractionInterfaceDialog.setWindowTitle(_translate("InteractionInterfaceDialog", "Form"))
         self.rich_text_user_call.setText(_translate("InteractionInterfaceDialog", "<html><head/><body><p><span style=\" font-size:18pt; font-weight:600;\">Tomek dzwoni</span></p></body></html>"))
         self.label_avatar.setText(_translate("InteractionInterfaceDialog", "Avatar"))
-        self.push_button_reject.setText(_translate("InteractionInterfaceDialog", "Odrzuć"))
         self.push_button_accept.setText(_translate("InteractionInterfaceDialog", "Odbierz"))
+        self.push_button_reject.setText(_translate("InteractionInterfaceDialog", "Odrzuć"))
 
