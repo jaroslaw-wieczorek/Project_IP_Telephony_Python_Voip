@@ -209,3 +209,4 @@ class RegisterDialog(RegisterWrappedUI):
             #self.closingSignal.emit(False)
             event.ignore()
             print("[*]  LoginDialog info: The QCloseEvent ignore")
+

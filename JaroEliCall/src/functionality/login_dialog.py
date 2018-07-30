@@ -87,7 +87,6 @@ class LoginDialog(LoginWrappedUI):
             return False
 
 
-
     def waiting_for_signal(self):
 
         self.timer.start(10000) # 1 second time-out
