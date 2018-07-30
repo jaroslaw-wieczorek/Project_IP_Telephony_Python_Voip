@@ -5,7 +5,7 @@ import socket
 import pyaudio
 from PyQt5 import QtCore
 
-
+import string
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path)
 print(lib_path)
@@ -13,6 +13,7 @@ print(lib_path)
 from JaroEliCall.src.test2 import ServerThread
 from JaroEliCall.src.test2 import ClientThread
 from threading import Thread
+import random
 
 # Server computer IP
 IP_server = '192.168.43.130'
@@ -53,7 +54,6 @@ class Client(QtCore.QObject):
         self.connectToSerwer()
         self.username = None
 
-
     def connectToSerwer(self):
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -88,6 +88,9 @@ class Client(QtCore.QObject):
     def react_on_communicate(self):
         if self.received["status"] == 200 and self.received["answer_to"] == "LOGIN":
             print("Client : info >> React on comunicate: 200")
+            # TO DO
+            self.my_login = self.received["login"]
+
             self.received = "200 LOGIN"
             self.getMessage.emit(True)
             print("Client : info >> getMessage signal was emited with True")

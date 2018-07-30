@@ -107,7 +107,7 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
 
     def add_row_to_list_of_users(self, users : list):
         for user in users:
-            # if str(user['login']) != without_who:
+
             newRowNum = self.table_widget_list_of_users.rowCount()
             self.table_widget_list_of_users.insertRow(newRowNum)
             self.table_widget_list_of_users.setItem(newRowNum, 0, QTableWidgetItem(str(user['login'])))

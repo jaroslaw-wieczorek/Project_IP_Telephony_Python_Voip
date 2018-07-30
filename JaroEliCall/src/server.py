@@ -12,7 +12,8 @@ lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
 from mongoOperations import MongoOperations
-
+import string
+import random
 
 # print(lib_path)
 
@@ -35,6 +36,8 @@ class Server:
 
         self.end_of_conn = ''
 
+    def createActivationCode(self, length):
+        ''.join(random.sample(string.ascii_letters + string.digits + string.punctuation, length))
 
     def connectWithClient(self):
         try:
