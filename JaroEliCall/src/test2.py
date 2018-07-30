@@ -37,7 +37,6 @@ class ServerThread(threading.Thread, Configuration):
         super()
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-
     def run(self):
         print("Starting: " + self.name)
         # Get lock to synchronize threads
@@ -46,10 +45,9 @@ class ServerThread(threading.Thread, Configuration):
         # Free lock to release next thread
         # threadLock.release()
 
-
     def serverSide(self):
         # ip local computer
-        #serverIP = socket.gethostbyname(socket.gethostname())
+        # serverIP = socket.gethostbyname(socket.gethostname())
         global serverIP
 
         self.serverSocket.bind((serverIP, self.REMOTE_PORT))
@@ -58,7 +56,9 @@ class ServerThread(threading.Thread, Configuration):
 
         while True:
             if self.serverSocket:
-                message, clientAddress = self.serverSocket.recvfrom(self.CHUNK * 2)
+                message, clientAddress = self.serverSocket.recvfrom(
+                    self.CHUNK * 2)
+
                 self.stream.write(message)
                 mx = audioop.max(message, 2)
                 # print(mx)
@@ -68,7 +68,6 @@ class ServerThread(threading.Thread, Configuration):
 
 
 class ClientThread(threading.Thread, Configuration):
-
     def __init__(self, threadID, name, counter, rip, rport):
         threading.Thread.__init__(self)
         self.threadID = threadID
