@@ -10,7 +10,7 @@ import time
 import wave
 import pyaudio
 import logging
-import threading 
+import threading
 
 
 class RecordThread(threading.Thread):
@@ -21,10 +21,10 @@ class RecordThread(threading.Thread):
                          daemon=daemon)
         self.args = args
         self.kwargs = kwargs
-        
+
         logging.debug('Record thread init with %s and %s',
                       self.args, self.kwargs)
-        
+
 
         self.setupAudioStream()
 
@@ -52,12 +52,12 @@ class RecordThread(threading.Thread):
                                   frames_per_buffer=self.CHUNK,
                                   stream_callback=self.get_callback
                                   )
-        
+
         self.wf = wave.open(self.WAVE_OUTPUT_FILENAME, 'wb')
         self.wf.setnchannels(self.CHANNELS)
         self.wf.setsampwidth(self.p.get_sample_size(self.FORMAT))
         self.wf.setframerate(self.RATE)
-        
+
         print("RecordThread - End setup")
    #     self.wf.writeframes(b''.join(self.frames))
 
@@ -74,42 +74,39 @@ class RecordThread(threading.Thread):
         self.frames = []
         while True:
             self.data = self.stream.read(self.CHUNK, exception_on_overflow=False)
-            
+
             print("RecordThread data:", self.data)
-   
-    
+
+
     def stop(self):
         print("RecordThread stop")
         self.stream.stop_stream()
         self.stream.close()
         self.wf.close()
         self.p.terminate()
-    
 
-        
+
+
 
 class PlayThread(threading.Thread):
-    
+
     def __init__(self, group=None, target=None, name=None,
                  args=(), kwargs=None, daemon=None):
         super().__init__(group=group, target=target, name=name,
                          daemon=daemon)
         self.args = args
         self.kwargs = kwargs
-        
-        
+
         logging.debug('Play thread init with %s and %s',
                       self.args, self.kwargs)
-        
+
         self.setupAudioStream()
-        
-        
+
     def run(self):
         logging.debug('running with %s and %s',
                       self.args, self.kwargs)
         self.play()
-        
-        
+
     def get_callback(self):
         def callback(in_data, frame_count, time_info, status):
             data = self.wf.readframes(frame_count)
@@ -117,27 +114,27 @@ class PlayThread(threading.Thread):
             return data, pyaudio.paContinue
         return callback
 
-
     def setupAudioStream(self):
-        
+
         logging.debug('setup audio conf')
         self.CHUNK = 1024
         self.FORMAT = pyaudio.paInt16
         self.CHANNELS = 2
         self.RATE = 44100
         self.WAVE_OUTPUT_FILENAME = "output.wav"
-        
+
         self.p = pyaudio.PyAudio()
-        
+
         self.stream = self.p.open(format=self.FORMAT,
                                   channels=self.CHANNELS,
                                   rate=self.RATE,
                                   input=True,
-                                  frames_per_buffer=self.CHUNK, 
+                                  frames_per_buffer=self.CHUNK,
                                   stream_callback=self.get_callback)
+
     def play(self):
         self.stream.start_stream()
-            
+
         while self.stream.is_active():
             time.sleep(0.1)
 
@@ -147,5 +144,3 @@ class PlayThread(threading.Thread):
         self.stream.close()
         self.wf.close()
         self.p.terminate()
-
-        

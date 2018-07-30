@@ -19,22 +19,18 @@ import random
 IP_server = '192.168.43.130'
 PORT_server = 50001
 
-class Client(QtCore.QObject):
 
+class Client(QtCore.QObject):
     # Signal to make calls
     makeCallSignal = QtCore.pyqtSignal(bool, str)
 
     # Signal to received calls
-    getCallSignal = QtCore.pyqtSignal(bool, str) #WILL BE EXTEND ON AVATAR
-
+    getCallSignal = QtCore.pyqtSignal(bool, str)
+    # WILL BE EXTEND ON AVATAR
     getMessage = QtCore.pyqtSignal(bool)
-
     callSignal = QtCore.pyqtSignal(bool, str, list)
-
     changedUsersStatusSignal = QtCore.pyqtSignal(bool, list)
-
     endCallResponse = QtCore.pyqtSignal(bool)
-
 
     def __init__(self):
         super(Client, self).__init__()
@@ -67,38 +63,40 @@ class Client(QtCore.QObject):
             self.socket.sendto(data, (self.serverIP, self.serverPORT))
             print("Wysłano ", data)
         except ConnectionRefusedError as err:
-            print(err)
-
+            print(err.message)
 
     def listeningServer(self):
-        print("\tClient : info >> run listeningServer")
+        print("<*> Client info: run listeningServer")
         while True:
-            print("\tClient : info >> Listen now")
+            print("<*> Client info: Listen now")
 
             packet, address = self.socket.recvfrom(self.size)
             data = packet.decode("utf-8")
             self.received = json.loads(data)
 
-            print("\tClient : info >> Get response from server ", self.received)
+            print("<*> Client info: Get response from server ", self.received)
 
             if str(self.received["type"]) == "d":
                 self.react_on_communicate()
 
-
     def react_on_communicate(self):
-        if self.received["status"] == 200 and self.received["answer_to"] == "LOGIN":
-            print("Client : info >> React on comunicate: 200")
+        if (self.received["status"] == 200 and
+           self.received["answer_to"] == "LOGIN"):
+
+            print("<*> Client info: React on comunicate: 200")
             # TO DO
-            #self.my_login = self.received["login"]
+            # self.my_login = self.received["login"]
 
             self.received = "200 LOGIN"
             self.getMessage.emit(True)
-            print("Client : info >> getMessage signal was emited with True")
+            print("<*> Client info: getMessage signal was emited with True")
 
-        elif self.received["status"] == 203 and self.received["answer_to"] == "AUTOMATIC_USERS_UPDATE":
-            #print("!!!! DOSTALEM UPDATE")
-            if(self.last_list_users != []):
-                self.changedUsersStatusSignal.emit(True, self.received["USERS"])
+        elif (self.received["status"] == 203 and
+              self.received["answer_to"] == "AUTOMATIC_USERS_UPDATE"):
+            # print("!!!! DOSTALEM UPDATE")
+            if self.last_list_users != []:
+                self.changedUsersStatusSignal.emit(True,
+                                                   self.received["USERS"])
 
         elif self.received["status"] == 202:
             data = self.received["users"]
@@ -109,9 +107,12 @@ class Client(QtCore.QObject):
             self.status = "202 USERS"
             self.users = data
             self.getMessage.emit(True)
-            print("Client : info >> getMessage signal was emited with True")
+            print("<*> Client info: getMessage signal was emited with True")
 
-        elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE" and self.received["description"] == "OK":
+        elif (self.received["status"] == 200 and
+              self.received["answer_to"] == "INVITE" and
+              self.received["description"] == "OK"):
+
             self.params = []
             self.status = "200 INVITE"
             self.getMessage.emit(True)
@@ -119,12 +120,17 @@ class Client(QtCore.QObject):
                 print(i)
                 self.params.append(i)
 
-        elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE" and self.received["description"] == "REJECTED":
+        elif (self.received["status"] == 406 and
+              self.received["answer_to"] == "INVITE" and
+              self.received["description"] == "REJECTED"):
+
             self.status = "406 REJECTED"
             self.callSignal.emit(False, self.received["from_who"], [])
 
+        elif (self.received["status"] == 200 and
+              self.received["answer_to"] == "INVITE" and
+              self.received["description"] == "ANSWERED"):
 
-        elif self.received["status"] == 200 and self.received["answer_to"] == "INVITE" and self.received["description"] == "ANSWERED":
             user_name = self.received["from_who"]
             user_name_ip = self.received["from_who_ip"]
             self.callSignal.emit(True, user_name, user_name_ip)
@@ -133,18 +139,21 @@ class Client(QtCore.QObject):
             print(user_name + " " + str(user_name_ip))
             # I EMIT SIGNAL getCall BECAUSE SOMEONE CALL TO ME
             self.getMessage.emit(True)
-            print("Client : info >> getMessage signal was emited with True")
+            print("<*> Client info: getMessage signal was emited with True")
 
             self.voice(user_name_ip, 9999, 9998)
 
+        elif (self.received["status"] == 406 and
+              self.received["answer_to"] == "INVITE"):
 
-        elif self.received["status"] == 406 and self.received["answer_to"] == "INVITE":
             self.status = "406 INVITE"
             print("406 INVITE")
             self.getMessage.emit(True)
-            print("Client : info >> getMessage signal was emited with True")
+            print("Client info: getMessage signal was emited with True")
 
-        elif self.received["status"] == 200 and self.received["answer_to"] == "NOTHING":
+        elif (self.received["status"] == 200 and
+              self.received["answer_to"] == "NOTHING"):
+
             # save name and ip of person who is calling
             self.name_who = self.received["from_who"]
             self.from_who_ip = self.received["from_who_ip"]
@@ -154,9 +163,12 @@ class Client(QtCore.QObject):
             self.getCallSignal.emit(True, self.name_who)
             self.getMessage.emit(True)
             self.status = "200 INVITE"
-            print("Client : info >> makeCallSignal signal was emited with True")
+            print("Client : info: makeCallSignal signal was emited with True")
 
-        elif self.received["status"] == 200 and self.received["description"] == "END" and self.received["answer_to"] == "CONN_END":
+        elif (self.received["status"] == 200 and
+              self.received["description"] == "END" and
+              self.received["answer_to"] == "CONN_END"):
+
             print("Połączenie zakończone")
             self.endCallResponse.emit(True)
 
@@ -166,136 +178,119 @@ class Client(QtCore.QObject):
             self.getMessage.emit(True)
             self.end_connection()
 
-            print("Client : info >> getMessage signal was emited with True")
+            print("<*> Client info: getMessage signal was emited with True")
 
-        elif self.received["status"] == 406 and self.received["answer_to"] == "LOGIN":
+        elif (self.received["status"] == 406 and
+              self.received["answer_to"] == "LOGIN"):
             self.received = "406 LOGIN"
             print("406")
             self.getMessage.emit(True)
-            print("Client : info >> getMessage signal was emited with True")
+            print("<*> Client info: getMessage signal was emited with True")
 
-        elif self.received["status"] == 406 and self.received["answer_to"] == "CREATE":
+        elif (self.received["status"] == 406 and
+              self.received["answer_to"] == "CREATE"):
             print("406")
             self.getMessage.emit(True)
-            print("Client : info >> getMessage signal was emited with True")
+            print("<*> Client info: getMessage signal was emited with True")
 
-        elif self.received["status"] == 201 and self.received["answer_to"] == "CREATE":
+        elif (self.received["status"] == 201
+              and self.received["answer_to"] == "CREATE"):
             print("201 CREATE ")
             self.getMessage.emit(True)
-            print("Client : info >> getMessage signal was emited with True")
+            print("<*> Client info: getMessage signal was emited with True")
 
         elif self.received["status"] == 401:
             print("401")
             self.getMessage.emit(True)
-            print("Client : info >> getMessage signal was emited with True")
+            print("<*> Client info: getMessage signal was emited with True")
 
-        elif self.received["status"] == 200 and self.received["answer_to"] == "LOGOUT":
+        elif (self.received["status"] == 200 and
+              self.received["answer_to"] == "LOGOUT"):
             print("200")
             self.getMessage.emit(True)
-            print("Client : info >> getMessage signal was emited with True")
-
+            print("<*> Client info: getMessage signal was emited with True")
 
     def login(self, login, password):
-        payload = {"type": "d", "description": "LOGIN",
-                   "login": login, "password": password}
+        payload = {"type": "d",
+                   "description": "LOGIN",
+                   "login": login,
+                   "password": password}
+
         self.who_signed = login
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)
         self.username = login
 
-
     def logout(self):
-        payload = {"type": "d", "description": "LOGOUT"}
+        payload = {"type": "d",
+                   "description": "LOGOUT"}
+
         data = json.dumps(payload).encode("utf-8")
         self.sendMessage(data)
 
-
     def reject_connection(self, from_who):
-        payload = {"type": "d", "description": "NOTHING", "status": 406,
+        payload = {"type": "d",
+                   "description": "NOTHING",
+                   "status": 406,
                    "from_who": from_who}
+
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)
 
     def answer_call(self, from_who):
-        payload = {"type": "d", "description": "NOTHING", "status": 200,
+        payload = {"type": "d",
+                   "description": "NOTHING",
+                   "status": 200,
                    "from_who": from_who}
+
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)
 
     def send_end_connection(self, from_who):
-        payload = {"type": "d", "description": "END", "status": 200,
+        payload = {"type": "d",
+                   "description": "END",
+                   "status": 200,
                    "from_who": from_who}
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)
 
-
     def voice(self, user_name_ip, port_serwer, port_client):
-        print("lol2")
+        print("<*> Client info: Voice")
         self.threads = []
 
         # Create new threads
         self.thread1 = ServerThread(1, "Server-Thread", 1, port_serwer)
-        self.thread2 = ClientThread(2, "Client-Thread", 2, user_name_ip, port_client)
+        self.thread2 = ClientThread(2, "Client-Thread", 2, user_name_ip,
+                                    port_client)
 
         # Start new Threads
         self.thread1.start()
         self.thread2.start()
-        print("lol3")
+        print("<*> Client info: threads started")
 
         # Add threads to thread list
         self.threads.append(self.thread1)
         self.threads.append(self.thread2)
-        print("lol4")
-
-        # Wait for all threads to complete
-        """for t in threads:
-            t.join()
-        print("lol5")
-
-        print("Exiting Main Thread")"""
-
+        print("<*> Client info: Threads append to self.threads")
 
     def sendingVoice(self):
-
         if(self.user_name_ip != ''):
-            print("Someone is calling to me - her/his ip is ", self.user_name_ip)
-            print("\tClient : info >> Start recording")
+            print("<*> Client info: Someone is calling to me from:",
+                  self.user_name_ip)
 
+            print("<*> Client info: Start recording")
             self.voice(self.user_name_ip, 9998, 9999)
 
-            """while True:
-                for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
-                    print("\t send:", i)
-
-                    self.data = "s ".encode("utf-8") + self.stream.read(self.CHUNK)
-
-                    if self.data:
-                        # Write data to pyaudio stream
-                        self.stream.write(self.data)  # Stream the recieved audio data
-
-                        try:
-                            self.socket.send(self.data)
-                            print("< Client > Info: Send data", self.data)
-                        except ConnectionRefusedError as err:
-                            # TO DO throw this exception upper to managment
-                            # for try reconnect
-                            print(err)
-                            break
-            """
-
-            print("\tClient : info >> Stop recording")
+            print("<*> Client info: Stop recording")
         self.user_name_ip = ''
-
-
 
     def end_connection(self):
         self.thread2.close_clientSocket()
         self.thread1.close_serverSocket()
-
 
     def closeConnection(self):
         self.logout()
