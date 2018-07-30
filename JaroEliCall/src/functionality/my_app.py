@@ -30,12 +30,10 @@ from JaroEliCall.src.functionality.signal import Signal
 
 class MyApp(QApplication):
 
-
     def __init__(self, *agrs, **kwargs):
         super(MyApp, self).__init__(*agrs, **kwargs)
-
-        self.username : str = None
-        self.client : Client = None
+        self.username = None
+        self.client = None
 
         self.mainWindow = None
         self.loginWindow = None
@@ -43,7 +41,6 @@ class MyApp(QApplication):
         self.interactionWindow = None
 
         self.eventClose = self.closingSignalResponse
-
 
     # Slots for communicate
     @pyqtSlot(bool, str)
@@ -56,7 +53,6 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp loggingSignalResponse received:", status)
 
-
     @pyqtSlot(bool)
     def registerAccountSignalResponse(self, value):
         if value:
@@ -65,7 +61,6 @@ class MyApp(QApplication):
             self.showRegisterWindow()
         else:
             print("(*) Myapp registerAccountSignalResponse recived:", value)
-
 
     @pyqtSlot(bool)
     def registerSignalResponse(self, value):
@@ -79,7 +74,6 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp registerSignalResponse received:", value)
 
-
     @pyqtSlot(bool)
     def alreadyAccountSignalResponse(self, value):
         if value:
@@ -89,11 +83,14 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp alreadyAccountSignalResponse received:", value)
 
-
     @pyqtSlot(QEvent)
     def closingSignalResponse(self, event):
+        title = 'Uwaga!'
+        text = 'Czy napewno chesz zamknąć aplikacje ?'
 
-        if QMessageBox.question(self.mainWindow, 'Uwaga!', 'Czy napewno chesz zamknąć aplikacje ?') == QMessageBox.Yes:
+        if QMessageBox.question(self.mainWindow, title,
+                                text) == QMessageBox.Yes:
+
             print("[*]  MyApp info: Selected answer = \'Yes\'")
             event.accept()
             self.client.closeConnection()
@@ -101,11 +98,9 @@ class MyApp(QApplication):
             print("[*]  MyApp info: The closingSignal was emitted with True")
         else:
             print("[*]  MyApp info: Selected answer = \'No\'")
-            #self.closingSignal.emit(False)
+
             event.ignore()
             print("[*]  MyApp info: The closingSignal was emitted with False")
-
-
 
     @pyqtSlot(bool, str)
     def getCallSignalResponse(self, value, username):
@@ -115,7 +110,6 @@ class MyApp(QApplication):
             self.showInteractionWindow()
         else:
             print("(*) MyApp getCallSignalResponse received:", value)
-
 
     @pyqtSlot(bool, str, list)
     def callSignalResponse(self, value, username):
@@ -164,56 +158,44 @@ class MyApp(QApplication):
                 target=self.client.listeningServer, daemon=True)
         self.listen_server_thread.start()
 
-
     # MainWindow Dialog methods
     def setupMainWindow(self, main_window):
         self.mainWindow = main_window
-
 
     def showMainWindow(self):
         self.mainWindow.show()
         self.mainWindow.getList()
 
-
     # Login Dialog methods
     def setupLoginWindow(self, login_window):
         self.loginWindow = login_window
 
-
     def hideLoginWindow(self):
         self.loginWindow.hide()
 
-
     def showLoginWindow(self):
         self.loginWindow.show()
-
 
     # Register Dialog methods
     def setupRegisterWindow(self, register_window):
         self.registerWindow = register_window
 
-
     def hideRegisterWindow(self):
         self.registerWindow.hide()
 
-
     def showRegisterWindow(self):
         self.registerWindow.show()
-
 
     # Interaction Dialog methods
     def setupInteractionWindow(self, interaction_window):
         self.interactionWindow = interaction_window
 
-
     def hideInteractionWindow(self):
         self.interactionWindow.hide()
-
 
     def showInteractionWindow(self):
         self.interactionWindow.show()
         self.interactionWindow.push_button_accept.setEnabled(True)
-
 
     def blockAcceptConnButton(self):
         self.interactionWindow.is_connection_begin = True

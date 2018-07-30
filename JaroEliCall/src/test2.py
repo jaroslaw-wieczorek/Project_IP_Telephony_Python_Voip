@@ -9,6 +9,7 @@ from queue import Queue
 
 serverIP = "0.0.0.0"
 
+
 class Configuration():
     FORMAT = pyaudio.paInt16
     CHUNK = 512

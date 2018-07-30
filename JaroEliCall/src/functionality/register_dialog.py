@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import json
 import hashlib
@@ -14,13 +15,12 @@ from PyQt5.QtWidgets import QMessageBox
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
-lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
+lib_path2 = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path2)
-
 
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrappedUI
-import re
+
 
 class LoginLengthError(ValueError):
     pass
@@ -37,15 +37,16 @@ class EmailValidError(ValueError):
 
 class RegisterDialog(RegisterWrappedUI):
 
-    # Signal used when user register new account after clicked on push_button_register.
-    # Return true or false.
-    # The "False" value is always emitted if the Server does not confirm the account registration.
+    # Signal used when user register new account after clicked
+    # on push_button_register. Return true or false.
+    # The "False" value is always emitted if the Server
+    # does not confirm the account registration.
     registrationSignal = pyqtSignal(bool)
 
-    # Signal used for return user to login window after push_button_already_account.
+    # Signal used for return user to login window
+    # after push_button_already_account.
     # This the signal always emit value equal True.
     alreadyAccountSignal = pyqtSignal(bool)
-
 
     # Close signal
     closingSignal = pyqtSignal(QEvent)
@@ -73,8 +74,15 @@ class RegisterDialog(RegisterWrappedUI):
         return True
 
     def validate_email(self, email):
-        result = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
-        if result == None:
+        regex = r"""
+                    ^[_a-z0-9-]+(\.[_a-z0-9-]+)*
+                    @
+                    [a-z0-9-]+(\.[a-z0-9-]+)*
+                    (\.[a-z]{2,4})$
+                    """
+
+        result = re.match(regex, email)
+        if result is None:
             return False
         else:
             return result
@@ -85,7 +93,6 @@ class RegisterDialog(RegisterWrappedUI):
         else:
             raise EmailValidError("Email is not correct!")
             return False
-
 
     def validatePasswords(self, password, repeat_password):
         # TO DO
@@ -103,7 +110,6 @@ class RegisterDialog(RegisterWrappedUI):
 
         return True
 
-
     def validateData(self, login, email, passwd, repeat_passwd):
 
         try:
@@ -118,21 +124,20 @@ class RegisterDialog(RegisterWrappedUI):
             self.showRegisterStatus(str(e.args[0]))
             return False
 
-
     def showRegisterStatus(self, status):
-        #self.addWidget(self.statusBar)
+        # self.addWidget(self.statusBar)
         self.statusBar.showMessage(status)
 
-
     def getRegisterStatus(self):
-        print("[*] RegisterDialog info: Get response from server ", self.client.received)
+        print("[*] RegisterDialog info: Get response from server ",
+              self.client.received)
 
         if self.client.received == "201 CREATED":
             status = "Status rejestracji | " + str(self.client.received)
             self.showRegisterStatus(status)
             return True
 
-        elif self.client.received =="406 NOT_CREATED":
+        elif self.client.received == "406 NOT_CREATED":
             status = "Status rejestracji | " + str(self.client.received)
             self.showRegisterStatus(status)
             return False
@@ -149,12 +154,12 @@ class RegisterDialog(RegisterWrappedUI):
         if self.validateData(login, email, passwd, repeat_passwd):
 
             payload = {
-                    "type": "d",
-                   "description": "CREATE",
-                   "NICKNAME": login,
-                   "PASSWORD": passwd_hash,
-                   "EMAIL": email
-            }
+                        "type": "d",
+                        "description": "CREATE",
+                        "NICKNAME": login,
+                        "PASSWORD": passwd_hash,
+                        "EMAIL": email
+                        }
 
             self.client.sendMessage(json.dumps(payload).encode("utf-8"))
 
@@ -162,30 +167,28 @@ class RegisterDialog(RegisterWrappedUI):
         else:
             return False
 
-
     def clickOnRegisterButton(self):
         print("[*] RegisterDialog info: push_button_register was clicked")
         if self.registerAccount():
             self.registrationSignal.emit(True)
-            print("[*] RegisterDialog info: registrationSignal was emitted with True")
+            print("[*] RegisterDialog info: registrationSignal " +
+                  "was emitted with True")
         else:
             self.registrationSignal.emit(False)
-            print("[*] RegisterDialog info: registrationSignal was emitted with False")
-
+            print("[*] RegisterDialog info: registrationSignal " +
+                  "was emitted with False")
 
     def clickOnAlreadyAccountButton(self):
-        print("[*] RegisterDialog info: push_button_already_account was clicked")
+        print("[*] RegisterDialog info: push_button_already_account " +
+              " was clicked")
         self.alreadyAccountSignal.emit(True)
-
 
     def closeEvent(self, event):
         self.closingSignal.emit(event)
-        
-        
+
     def closeApp(self, event):
         print(event)
         self.close()
-        
 
     def keyPressEvent(self, event):
         """
@@ -193,8 +196,7 @@ class RegisterDialog(RegisterWrappedUI):
         """
         if event.key() == Qt.Key_Escape:
             self.close()
-            
-    
+
     @pyqtSlot(QEvent)
     def closingSignalResponse(self, event):
 

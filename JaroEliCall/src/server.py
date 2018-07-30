@@ -16,6 +16,7 @@ sys.path.append(lib_path)
 
 from mongoOperations import MongoOperations
 
+
 # print(lib_path)
 # class Server(Validator):
 
@@ -37,6 +38,10 @@ class Server:
 
         self.end_of_conn = ''
 
+    def createActivationCode(self, length):
+        ''.join(random.sample(string.ascii_letters +
+                              string.digits +
+                              string.punctuation, length))
 
     def connectWithClient(self):
         try:
@@ -159,7 +164,6 @@ class Server:
 
         if(available):
             where_ip = self.find_address(where_name)
-            # print("Moje argumenty " + str(who_ip) + " dzwoni do " + str(where_name) + " o IP: " + str(where_ip))
             who_name = self.get_username_from_ip(who_ip)
 
             if(who_name != "brak usera"):
