@@ -20,10 +20,7 @@ sys.path.append(lib_path2)
 
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrappedUI
-#from validate_email import validate_email
-
-
-#from validate_email import validate_email
+import re
 
 class LoginLengthError(ValueError):
     pass
@@ -75,9 +72,15 @@ class RegisterDialog(RegisterWrappedUI):
 
         return True
 
+    def validate_email(self, email):
+        result = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
+        if result == None:
+            return False
+        else:
+            return result
 
     def validateEmail(self, email):
-        if validate_email(email):
+        if self.validate_email(email):
             return True
         else:
             raise EmailValidError("Email is not correct!")

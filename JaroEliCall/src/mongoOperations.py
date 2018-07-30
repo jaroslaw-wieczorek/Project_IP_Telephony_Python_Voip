@@ -8,8 +8,11 @@ from itsdangerous import URLSafeSerializer
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
+import string
+import random
+import smtplib
 
-from src.functionality.sending_activation_key import  ExpiringTokenGenerator
+ACTIVATION_CODE_LENGHT = 24
 
 class MongoOperations:
 
@@ -90,19 +93,32 @@ class MongoOperations:
         except IndexError:
             return False
 
+    def createActivationCode(self, length):
+        return ''.join(random.sample(string.ascii_letters + string.digits + string.punctuation, length))
+
+    def sendActivationCode(self, msg, login):
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login("tt0815550@gmail.com", "AureliaK1609")
+
+        server.sendmail("e.kaczmarek01@gmail.com", login, msg)
+        server.quit()
+
     def create_user(self, login, email, password):
         print("loginL ", login)
         print("email: ", email)
         print("password ", password)
         print("Dodanie uzytkowwnika do mongo")
 
-        """token = ExpiringTokenGenerator()
-        t = token.generate_token(email)
-        print("token ", t)
-        print("wartosc token ", token.get_token_value(t))"""
-
+        activation_code = self.createActivationCode(ACTIVATION_CODE_LENGHT)
         try:
-            self.collection.insert_one({"login": login, "password": password, "status": "offline", "activated": False})
+            self.collection.insert_one({"login": login,
+                                        "password": password,
+                                        "status": "offline",
+                                        "activated": False,
+                                        "activation_code": activation_code})
+
+            self.sendActivationCode(activation_code, email)
         except IndexError:
             return 0
 
