@@ -95,6 +95,7 @@ class MainWindowDialog(MainWrappedUI):
             data = json.dumps(payload).encode("utf-8")
             print(data)
             self.client.sendMessage(data)
+            self.timer.start(5000)
             self.read()
 
 
