@@ -16,7 +16,7 @@ from threading import Thread
 import random
 
 # Server computer IP
-IP_server = '192.168.43.130'
+IP_server = '192.168.43.70'
 PORT_server = 50001
 
 

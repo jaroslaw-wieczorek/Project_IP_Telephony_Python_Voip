@@ -35,8 +35,8 @@ class MongoOperations:
 
     def runMongo(self):
         self.mongo_client = MongoClient(self.MongoIP, self.MongoPort)
-        db = self.mongo_client.VOIP
-        self.collection = db.Users
+        db = self.mongo_client['VOIP']
+        self.collection = db['Users']
 
     def find_in_mongo(self, login):
         print("Sprawdzenie z mongo")
@@ -74,7 +74,8 @@ class MongoOperations:
         print("Login", login)
         print("Password", password)
         try:
-            answer = (self.collection.find({"login": login, "password": password, "activated":"true"}).count()) == 1
+            answer = (self.collection.find({"login": login, "password": password}).count()) == 1
+            # , "activated":"true"
 
             print(answer)
             if answer:
@@ -131,8 +132,9 @@ class MongoOperations:
 
         msg['Body'] = body_text
 
-        server = smtplib.SMTP('localhost')
-        server.starttls()
+        server = smtplib.SMTP('localhost', 587)
+        server.set_debuglevel(True)
+        #server.starttls()
 
         server.sendmail(me, to, msg.as_string())
         server.quit()
