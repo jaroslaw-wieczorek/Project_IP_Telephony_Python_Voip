@@ -78,9 +78,12 @@ class RegisterDialog(RegisterWrappedUI):
         regex = r"""^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"""
 
         result = re.match(regex, email)
+        print("None")
 
-        email_exists = MongoOperations.check_if_email_exists(email)
+        mongo = MongoOperations()
+        email_exists = mongo.check_if_email_exists(email)
 
+        print(email_exists)
         if result is True and email_exists is True:
             return True
         else:

@@ -106,13 +106,19 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
 
 
     def add_row_to_list_of_users(self, users : list):
+        who_is_signed = self.label_user_name.text()
         for user in users:
+            if user['login'] != who_is_signed:
+                newRowNum = self.table_widget_list_of_users.rowCount()
+                self.table_widget_list_of_users.insertRow(newRowNum)
+                self.table_widget_list_of_users.setItem(newRowNum, 0, QTableWidgetItem(str(user['login'])))
+                self.table_widget_list_of_users.setItem(newRowNum, 1, QTableWidgetItem(str(user['status'])))
+                self.table_widget_list_of_users.setItem(newRowNum, 2, QTableWidgetItem("Avatar"))
 
-            newRowNum = self.table_widget_list_of_users.rowCount()
-            self.table_widget_list_of_users.insertRow(newRowNum)
-            self.table_widget_list_of_users.setItem(newRowNum, 0, QTableWidgetItem(str(user['login'])))
-            self.table_widget_list_of_users.setItem(newRowNum, 1, QTableWidgetItem(str(user['status'])))
-            self.table_widget_list_of_users.setItem(newRowNum, 2, QTableWidgetItem("Avatar"))
+
+
+    def set_who_is_signed(self, who_is_signed):
+        self.label_user_name.setText(who_is_signed)
 
     def delete_rows_users(self):
         self.table_widget_list_of_users.setRowCount(0)
