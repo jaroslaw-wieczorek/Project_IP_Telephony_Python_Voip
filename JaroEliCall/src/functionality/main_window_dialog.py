@@ -124,6 +124,10 @@ class MainWindowDialog(MainWrappedUI):
             if self.client.status == "202 USERS":
                 print("{*} MainWindow users: ", self.client.users)
                 self.add_row_to_list_of_users(self.client.users)
+                a = self.client.who_signed
+                print(a)
+                print("Zalogowano jako " + str(self.client.who_signed))
+                
             elif self.client.status == "200 INVITE":
                 status = "Nawiązywanie polaczenia"
                 self.showConnectionStatus(status)

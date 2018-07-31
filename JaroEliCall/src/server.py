@@ -318,7 +318,7 @@ class Server:
                         self.check_caller(received["from_who"])
 
             except ConnectionResetError as err:
-                print("Połączenie przerwane przez klienta\n", err.message)
+                print("Połączenie przerwane przez klienta\n")
         # print("[*] Stop listen")
 
     def check_caller(self, from_who):
