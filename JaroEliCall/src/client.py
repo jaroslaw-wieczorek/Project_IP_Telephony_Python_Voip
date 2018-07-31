@@ -16,7 +16,7 @@ from threading import Thread
 import random
 
 # Server computer IP
-IP_server = '192.168.43.70'
+IP_server = '192.168.0.101'
 PORT_server = 50001
 
 
@@ -223,6 +223,7 @@ class Client(QtCore.QObject):
                    "password": password}
 
         self.who_signed = login
+
         data = json.dumps(payload).encode("utf-8")
         print(data)
         self.sendMessage(data)

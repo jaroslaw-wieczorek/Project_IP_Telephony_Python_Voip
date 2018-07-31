@@ -51,6 +51,19 @@ class MongoOperations:
         except IndexError:
             return 0
 
+    def check_if_email_exists(self, email):
+        print("Sprawdzenie z mongo")
+        self.runMongo()
+        try:
+            answer = (self.collection.find({"login": email}).count()) >= 1
+            if (answer):
+                return True
+            else:
+                return False
+
+        except IndexError:
+            return False
+
     def getFromMongo(self):
         client = MongoClient(self.MongoIP, self.MongoPort)
         db = client['VOIP']
@@ -135,7 +148,7 @@ class MongoOperations:
         server.starttls()
         print("Set debug")
         server.set_debuglevel(True)
-		
+
         server.sendmail(me, to, msg.as_string())
         print("SENDED EMAIL!!!", me, to, msg.as_string())
 

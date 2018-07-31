@@ -20,6 +20,7 @@ sys.path.append(lib_path2)
 
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrappedUI
+from mongoOperations import MongoOperations
 
 
 class LoginLengthError(ValueError):
@@ -77,10 +78,13 @@ class RegisterDialog(RegisterWrappedUI):
         regex = r"""^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"""
 
         result = re.match(regex, email)
-        if result is None:
-            return False
+
+        email_exists = MongoOperations.check_if_email_exists(email)
+
+        if result is True and email_exists is True:
+            return True
         else:
-            return result
+            return False
 
     def validateEmail(self, email):
         if self.validate_email(email):
