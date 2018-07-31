@@ -117,21 +117,24 @@ class MongoOperations:
         msg = MIMEMultipart()
         me = "JaroEliCall"
 
-        msg['Subject'] = 'JaroEliCall: kod aktywacyjny użytkownika'
-        msg['From'] = me
-        msg['To'] = to
+        msg['Subject'] = str(me) +': kod aktywacyjny użytkownika'
+        msg['From'] = str(me)
+        msg['To'] = str(to)
 
-        body_text = "Informacja: Aby zakończyć rejestracje należy użyć" \
-                    " poniższego kodu jako hasła.\n ### Kod aktywacyjny do" \
-                    " konta: " + activ_code + "### \n" \
-                    " Prosimy nie odpowiadać na tą wiadomość"
+        body_text = "Informacja: Aby zakończyć rejestracje należy użyć " \
+                    "poniższego kodu jako hasła.\n\n### Kod aktywacyjny do " \
+                    "konta: " + str(activ_code) + " ### \n" \
+                    "Prosimy nie odpowiadać na tą wiadomość"
 
-        msg['Body'] = body_text
+        msg.attach(MIMEText(body_text, 'plain'))
 
-        server = smtplib.SMTP('localhost')
+        server = smtplib.SMTP("localhost")
         server.starttls()
-
+        print("Set debug")
+        server.set_debuglevel(True)
         server.sendmail(me, to, msg.as_string())
+        print("SENDED EMAIL!!!", me, to, msg.as_string())
+
         server.quit()
 
     def create_user(self, login, email, password):
