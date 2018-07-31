@@ -202,34 +202,29 @@
      <item>
       <layout class="QVBoxLayout" name="vertical_layout_right">
        <item>
-        <widget class="QPushButton" name="push_button_logout">
+        <widget class="QLabel" name="label_avatar">
+         <property name="minimumSize">
+          <size>
+           <width>75</width>
+           <height>75</height>
+          </size>
+         </property>
          <property name="text">
-          <string>Wyloguj</string>
+          <string>Avatar</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_avatar">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
+        <widget class="QLabel" name="label_user_name">
          <property name="text">
-          <string/>
+          <string>User name</string>
          </property>
-         <property name="pixmap">
-          <pixmap>../../icons/111317-essential-ui/svg/edit-profile.svg</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>false</bool>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="indent">
-          <number>0</number>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="push_button_logout">
+         <property name="text">
+          <string>Wyloguj</string>
          </property>
         </widget>
        </item>
