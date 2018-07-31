@@ -87,8 +87,7 @@ class MongoOperations:
         print("Login", login)
         print("Password", password)
         try:
-            answer = (self.collection.find({"login": login, "password": password}).count()) == 1
-            # , "activated":"true"
+            answer = (self.collection.find({"login": login, "password": password, "status": "offline"}).count()) == 1
 
             print(answer)
             if answer:
