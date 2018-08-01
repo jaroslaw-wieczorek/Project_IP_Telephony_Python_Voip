@@ -104,10 +104,17 @@ class MongoOperations:
                 self.dict_ip_users[login] = addr
                 return 1
             else:
+
                 return 0
 
         except IndexError:
             return 0
+
+    def check_is_account_activated(self, login, password):
+        activated = self.collection.find({"login": login, "password": password}, {"activated": 1})
+        print("activated ", activated)
+        return activated
+
 
     def checkAvailibility(self, user):
         self.runMongo()

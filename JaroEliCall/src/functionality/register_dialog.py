@@ -60,6 +60,11 @@ class RegisterDialog(RegisterWrappedUI):
         self.set_push_button_register(self.clickOnRegisterButton)
         self.set_push_button_already_account(self.clickOnAlreadyAccountButton)
         self.closingSignal.connect(self.closingSignalResponse)
+
+        self.line_edit_password.hide()
+        self.label_password.hide()
+        self.line_edit_repeat_password.hide()
+        self.label_repeat_password.hide()
         # self.closeEvent = self.closeEvent
 
     def validateLogin(self, login):
