@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>530</width>
+    <width>656</width>
     <height>498</height>
    </rect>
   </property>
@@ -209,8 +209,26 @@
            <height>75</height>
           </size>
          </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>5</width>
+           <height>5</height>
+          </size>
+         </property>
          <property name="text">
-          <string>Avatar</string>
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>:/avatars/astronaut.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

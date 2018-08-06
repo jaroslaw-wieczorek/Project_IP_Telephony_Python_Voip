@@ -1,0 +1,41 @@
+<RCC>
+  <qresource lang="avatar">
+    <file>avatars/assistant.png</file>
+    <file>avatars/astronaut.png</file>
+    <file>avatars/businessman.png</file>
+    <file>avatars/captain.png</file>
+    <file>avatars/cashier.png</file>
+    <file>avatars/chef.png</file>
+    <file>avatars/concierge.png</file>
+    <file>avatars/cooker.png</file>
+    <file>avatars/courier.png</file>
+    <file>avatars/croupier.png</file>
+    <file>avatars/croupier-1.png</file>
+    <file>avatars/detective.png</file>
+    <file>avatars/disc-jockey.png</file>
+    <file>avatars/diver.png</file>
+    <file>avatars/doctor.png</file>
+    <file>avatars/doctor-1.png</file>
+    <file>avatars/engineer.png</file>
+    <file>avatars/farmer.png</file>
+    <file>avatars/firefighter.png</file>
+    <file>avatars/firefighter-1.png</file>
+    <file>avatars/gentleman.png</file>
+    <file>avatars/journalist.png</file>
+    <file>avatars/judge.png</file>
+    <file>avatars/loader.png</file>
+    <file>avatars/maid.png</file>
+    <file>avatars/manager.png</file>
+    <file>avatars/miner.png</file>
+    <file>avatars/motorcyclist.png</file>
+    <file>avatars/nun.png</file>
+    <file>avatars/nurse.png</file>
+    <file>avatars/pilot.png</file>
+    <file>avatars/policeman.png</file>
+    <file>avatars/postman.png</file>
+    <file>avatars/priest.png</file>
+    <file>avatars/scientist.png</file>
+    <file>avatars/sheriff.png</file>
+    <file>avatars/showman.png</file>
+  </qresource>
+</RCC>

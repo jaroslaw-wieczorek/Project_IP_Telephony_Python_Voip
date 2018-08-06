@@ -1,4 +1,4 @@
-import os
+mport os
 import sys
 from random import randint
 from threading import Thread
@@ -7,7 +7,6 @@ lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
 sys.path.append(lib_path2)
-
 
 from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
@@ -40,22 +39,19 @@ import random
 
 def main():
 
-
     client = Client()
-
     myapp = MyApp(sys.argv)
 
 
-    #widgetB.procDone.connect(self.widgetA.on_widgetB_procDone)
+    # widgetB.procDone.connect(self.widgetA.on_widgetB_procDone)
 
     myapp.setupClient(client)
 
-
-    #window = QWidget()
-    #window.resize(250, 150)
-    #window.move(300,300)
-    #window.setWindowTitle("Simple")
-    #window.show()pomnik kanadzie
+    # window = QWidget()
+    # window.resize(250, 150)
+    # window.move(300,300)
+    # window.setWindowTitle("Simple")
+    # window.show()pomnik kanadzie
     # app.setupMainWindow = MainWindowDialog()
 
     loginWindow = LoginDialog(myapp.client)

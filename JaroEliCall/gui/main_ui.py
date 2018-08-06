@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/main.ui'
+# Form implementation generated from reading ui file '/home/afar/Dokumenty/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainInterfaceDialog(object):
     def setupUi(self, MainInterfaceDialog):
         MainInterfaceDialog.setObjectName("MainInterfaceDialog")
-        MainInterfaceDialog.resize(530, 498)
+        MainInterfaceDialog.resize(656, 498)
         MainInterfaceDialog.setMinimumSize(QtCore.QSize(530, 498))
         self.horizontalLayout = QtWidgets.QHBoxLayout(MainInterfaceDialog)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -80,6 +80,11 @@ class Ui_MainInterfaceDialog(object):
         self.vertical_layout_right.setObjectName("vertical_layout_right")
         self.label_avatar = QtWidgets.QLabel(MainInterfaceDialog)
         self.label_avatar.setMinimumSize(QtCore.QSize(75, 75))
+        self.label_avatar.setMaximumSize(QtCore.QSize(100, 100))
+        self.label_avatar.setBaseSize(QtCore.QSize(5, 5))
+        self.label_avatar.setText("")
+        self.label_avatar.setPixmap(QtGui.QPixmap(":/avatars/astronaut.png"))
+        self.label_avatar.setScaledContents(True)
         self.label_avatar.setObjectName("label_avatar")
         self.vertical_layout_right.addWidget(self.label_avatar)
         self.label_user_name = QtWidgets.QLabel(MainInterfaceDialog)
@@ -114,7 +119,6 @@ class Ui_MainInterfaceDialog(object):
         item.setText(_translate("MainInterfaceDialog", "Status"))
         self.push_button_call.setText(_translate("MainInterfaceDialog", "Zadzwoń"))
         self.push_button_invite.setText(_translate("MainInterfaceDialog", "Zaproś do pokoju"))
-        self.label_avatar.setText(_translate("MainInterfaceDialog", "Avatar"))
         self.label_user_name.setText(_translate("MainInterfaceDialog", "User name"))
         self.push_button_logout.setText(_translate("MainInterfaceDialog", "Wyloguj"))
 

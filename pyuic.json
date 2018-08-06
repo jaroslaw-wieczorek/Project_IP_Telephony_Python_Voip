@@ -9,7 +9,7 @@
 		"JaroEliCall/gui/styles"
 	],
 	[
-		"JaroEliCall/gui/resources/icons/*.qrc",
+		"JaroEliCall/gui/resources/*.qrc",
 		"JaroEliCall/gui/resources"
 	]
         

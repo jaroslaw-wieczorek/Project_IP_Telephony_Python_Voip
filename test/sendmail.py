@@ -2,14 +2,16 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-activ_code = 5555
+activ_code = 55355
 
-#to="e.kaczmarek01@gmail.com"
-
-to="a5787341@nwytg.net"
+me = "Iam@hacker.com"
+#me = "jaroslaw.k.wieczorek@student.put.poznan.pl"
 
 msg = MIMEMultipart()
-me = 'e.kaczmarek01@gmail.com'
+#me = "e.kaczmarek01@gmail.com"
+#to = "arkadiusz.wieczorek@sealcode.org"
+to = "jaroslaw.wieczorek@sealcode.org"
+
 
 msg['Subject'] = 'JaroEliCall: kod aktywacyjny użytkownika'
 msg['From'] = me
@@ -23,10 +25,12 @@ body_text = "Informacja: Aby zakończyć rejestracje należy użyć " \
 msg.attach(MIMEText(body_text, 'plain'))
 
 server = smtplib.SMTP("localhost")
+server.ehlo()
 #server.starttls()
-print("Set debug")
-server.set_debuglevel(True)
-server.sendmail(me, to, msg.as_string())
-print("SENDED EMAIL!!!", me, to, msg.as_string())
+#print("Set debug")
+#server.set_debuglevel(True)
+server.sendmail(to, me, msg.as_string())
+
+print("SENDED EMAIL!!!", msg['From'], msg['To'], msg.as_string())
 
 server.quit()
