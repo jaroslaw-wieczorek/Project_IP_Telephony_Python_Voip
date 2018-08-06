@@ -262,16 +262,20 @@ class Server:
 
 
     def create_in_database(self, communicate, addr):
+
+        mongo = MongoOperations()
+        email_exists = mongo.check_if_email_exists(communicate["EMAIL"])
+
         # print("Tworzenie usera:", communicate["NICKNAME"])
         ans = self.mongo.find_in_mongo(communicate["NICKNAME"])
         # print(addr)
-        if (ans == 1):
+        if ans == 1 and email_exists is True:
             self.mongo.create_user(communicate["NICKNAME"],
                                    communicate["EMAIL"],
                                    communicate["PASSWORD"])
 
             self.send_created_200(addr)
-        elif (ans == 0):
+        elif ans == 0 or email_exists is False:
             self.send_created_406(addr)
 
     def send_created_200(self, addr):
