@@ -39,6 +39,8 @@ class MyApp(QApplication):
         self.loginWindow = None
         self.registerWindow = None
         self.interactionWindow = None
+        self.passwordChangeWindow = None
+
 
         self.eventClose = self.closingSignalResponse
 
@@ -121,14 +123,15 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp getCallSignalResponse received:", value)
 
-    @pyqtSlot(bool)
-    def showActivationWindow(self, value):
+    @pyqtSlot(bool, int)
+    def activationSignalResponse(self, value, code):
         if value:
-            print("(*) MyApp showActivationWindow received:", value)
-            # self.showInteractionWindow()
-            # to do show activation window, close registe/login window
-        else:
-            print("(*) MyApp showActivationWindow received:", value)
+            if code == 200:
+                print("(*) MyApp showActivationWindow received:", value)
+                self.showActivationWindow()
+                self.hideLoginWindow()
+                # to do show activation window, close registe/login window
+
 
     @pyqtSlot(bool, str, list)
     def callSignalResponse(self, value, username):
@@ -219,3 +222,13 @@ class MyApp(QApplication):
     def blockAcceptConnButton(self):
         self.interactionWindow.is_connection_begin = True
         self.interactionWindow.push_button_accept.setEnabled(False)
+
+    # Activation Dialog methods
+    def setupActivationWindow(self, activation_window):
+        self.activation_window = activation_window
+
+    def hideActivationWindow(self):
+        self.activation_window.hide()
+
+    def showActivationWindow(self):
+        self.activation_window.show()

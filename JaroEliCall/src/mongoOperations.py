@@ -10,12 +10,12 @@ from email.mime.multipart import MIMEMultipart
 from pymongo import MongoClient
 from itsdangerous import BadSignature
 from itsdangerous import URLSafeSerializer
+import hashlib
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
 ACTIVATION_CODE_LENGHT = 24
-
 
 class MongoOperations:
 
@@ -110,14 +110,55 @@ class MongoOperations:
         except IndexError:
             return 0
 
-    def check_is_account_activated(self, login, password):
-        activated = self.collection.find({"login": login, "password": password}, {"activated": 1})
+    def check_is_account_activated(self, login):
+        activated = self.collection.find({"login": login}, {"activated": 1})
         ans = False
         for i in activated:
             ans = (i['activated'])
 
         return ans
 
+    def check_if_login_exists(self, login):
+        if self.collection.find({'login': login}).count() > 0:
+            return True
+        else:
+            return False
+
+    def check_login_code(self, login, password_my):
+        password_mongo = self.collection.find({"login": login}, {"activation_code": 1})
+
+        result_mongo = ''
+        for i in password_mongo:
+            result_mongo = i["activation_code"]
+
+        print("Pobrano z bazy haslo: ", result_mongo)
+        print("Wpisano haslo o skrocie: ", password_my)
+
+        answer_mongo = hashlib.sha256(result_mongo.encode()).hexdigest()
+        print()
+        print(answer_mongo)
+        return password_my == answer_mongo
+
+    def update_mongo_activate(self, login):
+        password_mongo = self.collection.find({"login": login}, {"activation_code": 1})
+
+        id_mongo = ''
+        for i in password_mongo:
+            id_mongo = i["_id"]
+
+        self.collection.update(
+             {"_id": id_mongo},
+                {"$set":
+                {
+                    "activated": True
+                }
+            }
+        )
+        result = self.collection.find({"_id": id_mongo, "login": login},
+                                      {"activation_code": 1, "login": login, "activation_code": 1})
+        for i in result:
+            print(i)
+        print("koniec")
 
     def checkAvailibility(self, user):
         self.runMongo()

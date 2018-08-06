@@ -8,7 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_LoginInterfaceDialog(object):
+class Ui_ActivationInterfaceDialog(object):
     def setupUi(self, LoginInterfaceDialog):
         LoginInterfaceDialog.setObjectName("LoginInterfaceDialog")
         LoginInterfaceDialog.resize(408, 201)

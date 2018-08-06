@@ -70,7 +70,7 @@ class Ui_LoginInterfaceDialog(object):
         sizePolicy.setHeightForWidth(self.line_edit_password.sizePolicy().hasHeightForWidth())
         self.line_edit_password.setSizePolicy(sizePolicy)
         self.line_edit_password.setMinimumSize(QtCore.QSize(50, 0))
-        self.line_edit_password.setMaxLength(20)
+        self.line_edit_password.setMaxLength(24)
         self.line_edit_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.line_edit_password.setObjectName("line_edit_password")
         self.form_layout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.line_edit_password)

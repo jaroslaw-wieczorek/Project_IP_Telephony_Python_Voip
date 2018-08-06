@@ -34,7 +34,7 @@ class Client(QtCore.QObject):
 
     registerMessage = QtCore.pyqtSignal(bool)
 
-    activateAccountMessage = QtCore.pyqtSignal(bool)
+    activateAccountMessage = QtCore.pyqtSignal(bool, int)
     def __init__(self):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
@@ -94,6 +94,16 @@ class Client(QtCore.QObject):
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
+        elif (self.received["status"] == 403 and
+              self.received["answer_to"] == "LOGIN" and
+              self.received["description"] == "NOT ACCEPTABLE"):
+
+            self.received = "403 NOT ACCEPTABLE"
+            self.getMessage.emit(True)
+            print("<*> Client info: getMessage signal was emited with True")
+
+            # self.activateAccountMessage.emit(False, 403)
+
         elif (self.received["status"] == 203 and
               self.received["answer_to"] == "AUTOMATIC_USERS_UPDATE"):
             # print("!!!! DOSTALEM UPDATE")
@@ -136,7 +146,16 @@ class Client(QtCore.QObject):
 
             self.status = "402 NOT ACCEPTABLE"
             self.getMessage.emit(True)
-            self.activateAccountMessage.emit(True)
+            self.activateAccountMessage.emit(True, 402)
+
+
+        elif (self.received["status"] == 200 and
+              self.received["answer_to"] == "ACTIVATE" and
+              self.received["description"] == "OK"):
+
+            self.received = "200 ACTIVATION OK"
+            self.getMessage.emit(True)
+            self.activateAccountMessage.emit(True, 200)
 
         elif (self.received["status"] == 200 and
               self.received["answer_to"] == "INVITE" and

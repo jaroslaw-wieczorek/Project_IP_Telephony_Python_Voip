@@ -33,6 +33,7 @@ from JaroEliCall.src.functionality.login_dialog import LoginDialog
 from JaroEliCall.src.functionality.main_window_dialog import MainWindowDialog
 from JaroEliCall.src.functionality.register_dialog import RegisterDialog
 from JaroEliCall.src.functionality.interaction_dialog import InteractionDialog
+from JaroEliCall.src.functionality.activation_dialog import ActivationWindowDialog
 
 from JaroEliCall.src.client import Client
 import random
@@ -70,6 +71,9 @@ def main():
     interactionWindow = InteractionDialog(myapp.client)
     myapp.setupInteractionWindow(interactionWindow)
 
+    activationWindow = ActivationWindowDialog(myapp.client)
+    myapp.setupActivationWindow(activationWindow)
+
 
     # Signal use to hide login dialog when logging passeds
     myapp.loginWindow.loggingSignal.connect(myapp.loggingSignalResponse)
@@ -96,7 +100,7 @@ def main():
     myapp.client.getCallSignal.connect(myapp.mainWindow.loop.quit)
     myapp.client.getCallSignal.connect(myapp.getCallSignalResponse)
 
-    myapp.client.activateAccountMessage.connect(myapp.showActivationWindow)
+    myapp.client.activateAccountMessage.connect(myapp.activationSignalResponse)
 
     myapp.client.endCallResponse.connect(myapp.endCallResponseResponse)
 
