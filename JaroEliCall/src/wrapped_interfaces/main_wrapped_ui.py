@@ -120,7 +120,6 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         print("event")
         reply = QMessageBox.question(self, 'Wylogowywanie',
             "Czy napewno chcesz zakończyć? ", QMessageBox.Yes, QMessageBox.No)
-
         return reply
 
 

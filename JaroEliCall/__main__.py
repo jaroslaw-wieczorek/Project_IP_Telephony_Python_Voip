@@ -113,8 +113,6 @@ def main():
 
     myapp.showLoginWindow()
 
-
-
     sys.exit(myapp.exec_())
 
 
