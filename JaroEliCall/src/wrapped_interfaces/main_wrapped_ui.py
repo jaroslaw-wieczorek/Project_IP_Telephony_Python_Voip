@@ -43,7 +43,7 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         super(MainWrappedUI, self).__init__()
         self.setupUi(self)
         self.statusBar = QStatusBar()
-        self.label_avatar.setSize(QSize(90, 90))
+        self.label_avatar.resize(90, 90)
         self.vertical_layout_left.addWidget(self.statusBar)
 
         self.set_fit_width()
