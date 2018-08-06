@@ -84,8 +84,6 @@ class RegisterDialog(RegisterWrappedUI):
         if re.match(regex, email):
             result = True
 
-        """mongo = MongoOperations()
-        email_exists = mongo.check_if_email_exists(email)"""
 
         print("result", result)
 
