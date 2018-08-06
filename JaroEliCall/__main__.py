@@ -1,4 +1,4 @@
-mport os
+import os
 import sys
 from random import randint
 from threading import Thread
