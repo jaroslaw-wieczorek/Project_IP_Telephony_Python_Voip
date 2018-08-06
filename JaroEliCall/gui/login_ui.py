@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/login_interface.ui'
+# Form implementation generated from reading ui file '/home/afar/Dokumenty/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/login.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.1
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -50,7 +50,7 @@ class Ui_LoginInterfaceDialog(object):
         sizePolicy.setHeightForWidth(self.line_edit_login.sizePolicy().hasHeightForWidth())
         self.line_edit_login.setSizePolicy(sizePolicy)
         self.line_edit_login.setMinimumSize(QtCore.QSize(50, 0))
-        self.line_edit_login.setMaxLength(20)
+        self.line_edit_login.setMaxLength(35)
         self.line_edit_login.setObjectName("line_edit_login")
         self.form_layout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_edit_login)
         self.label_password = QtWidgets.QLabel(LoginInterfaceDialog)
@@ -70,7 +70,7 @@ class Ui_LoginInterfaceDialog(object):
         sizePolicy.setHeightForWidth(self.line_edit_password.sizePolicy().hasHeightForWidth())
         self.line_edit_password.setSizePolicy(sizePolicy)
         self.line_edit_password.setMinimumSize(QtCore.QSize(50, 0))
-        self.line_edit_password.setMaxLength(24)
+        self.line_edit_password.setMaxLength(35)
         self.line_edit_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.line_edit_password.setObjectName("line_edit_password")
         self.form_layout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.line_edit_password)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/register.ui'
+# Form implementation generated from reading ui file '/home/afar/Dokumenty/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/register.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
@@ -46,7 +46,7 @@ class Ui_RegisterInterfaceDialog(object):
         sizePolicy.setHeightForWidth(self.line_edit_login.sizePolicy().hasHeightForWidth())
         self.line_edit_login.setSizePolicy(sizePolicy)
         self.line_edit_login.setMinimumSize(QtCore.QSize(50, 0))
-        self.line_edit_login.setMaxLength(20)
+        self.line_edit_login.setMaxLength(60)
         self.line_edit_login.setObjectName("line_edit_login")
         self.form_layout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_edit_login)
         self.label_email = QtWidgets.QLabel(RegisterInterfaceDialog)
@@ -66,7 +66,7 @@ class Ui_RegisterInterfaceDialog(object):
         sizePolicy.setHeightForWidth(self.line_edit_email.sizePolicy().hasHeightForWidth())
         self.line_edit_email.setSizePolicy(sizePolicy)
         self.line_edit_email.setMinimumSize(QtCore.QSize(50, 0))
-        self.line_edit_email.setMaxLength(40)
+        self.line_edit_email.setMaxLength(60)
         self.line_edit_email.setObjectName("line_edit_email")
         self.form_layout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.line_edit_email)
         self.label_password = QtWidgets.QLabel(RegisterInterfaceDialog)
