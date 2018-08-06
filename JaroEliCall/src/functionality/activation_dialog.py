@@ -49,6 +49,7 @@ class ActivationWindowDialog(PasswordChangeWrappedUI):
         self.set_change_password_button(self.change_password)
 
     def change_password(self):
+        print("W metodzie fgsdgdsg")
         print("Changed password")
 
     def closeApp(self, event):

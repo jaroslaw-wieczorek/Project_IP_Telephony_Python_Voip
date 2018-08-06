@@ -2,7 +2,7 @@ import os
 import sys
 import string
 import random
-
+import smtplib
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -55,7 +55,7 @@ class MongoOperations:
         print("Sprawdzenie z mongo")
         self.runMongo()
         try:
-            answer = (self.collection.find({"login": email}).count()) >= 1
+            answer = (self.collection.find({"email": email}).count()) >= 1
             if (answer):
                 return True
             else:
@@ -181,27 +181,21 @@ class MongoOperations:
                                      string.punctuation, length))
 
     def sendActivationCode(self, activ_code, to):
-        msg = MIMEMultipart()
-        me = "JaroEliCall"
-
-        msg['Subject'] = str(me) +': kod aktywacyjny użytkownika'
-        msg['From'] = str(me)
-        msg['To'] = str(to)
-
-        body_text = "Informacja: Aby zakończyć rejestracje należy użyć " \
-                    "poniższego kodu jako hasła.\n\n### Kod aktywacyjny do " \
-                    "konta: " + str(activ_code) + " ### \n" \
-                    "Prosimy nie odpowiadać na tą wiadomość"
-
-        msg.attach(MIMEText(body_text, 'plain'))
-        server = smtplib.SMTP("localhost")
+        
+        me = "tt0815550@gmail.com"
+        server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        print("Set debug")
-        server.set_debuglevel(True)
+        server.login(me, "AureliaK1609")
 
-        server.sendmail(me, to, msg.as_string())
-        print("SENDED EMAIL!!!", me, to, msg.as_string())
+        msg = MIMEMultipart()
+        msg['Subject'] = "JaroEliCall - rejestracja użytkownika " + str(to)
+        msg["From"] = me
+        msg["To"] = to
+        body_text = "Informacja: Aby zakonczyć rejestracje nalezy uzyc ponizszego kodu jako hasla.\n\n Kod aktywacyjny do konta: " + str(activ_code) + "\n Prosimy nie odpowiadac na ta wiadomosc"
 
+        msg.attach(MIMEText(body_text, "plain"))
+
+        server.sendmail("tt0815550@gmail.com", to, msg.as_string())
         server.quit()
 
     def create_user(self, login, email, password):
@@ -212,7 +206,8 @@ class MongoOperations:
 
         activation_code = self.createActivationCode(ACTIVATION_CODE_LENGHT)
         try:
-            self.collection.insert_one({"login": login,
+            self.collection.insert_one({"email": email,
+                                        "login": login,
                                         "password": password,
                                         "status": "offline",
                                         "activated": False,

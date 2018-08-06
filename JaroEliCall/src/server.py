@@ -7,6 +7,8 @@ import string
 import random
 import socket
 import pyaudio
+import smtplib
+
 
 from threading import Thread
 from bson.json_util import dumps
@@ -66,7 +68,7 @@ class Server:
                    "status": 203,
                    "description": "USERS_UPDATE",
                    "answer_to":  "AUTOMATIC_USERS_UPDATE",
-                   "USERS": users}
+                   "USERS": users }
 
         if(self.end_of_conn) != '':
             payload = self.end_of_conn
@@ -110,7 +112,6 @@ class Server:
         print("login_exists ", login_exists)
 
         print("password ", password)
-        is_login_code_ok = self.mongo.check_login_code(login, password)
 
         if login_exists:
             if activated:
@@ -119,10 +120,10 @@ class Server:
                 else:
                     self.send_login_406(addr)
             else:
+                is_login_code_ok = self.mongo.check_login_code(login, password)
                 if is_login_code_ok:
                     self.send_activate_200(addr)
                     self.mongo.update_mongo_activate(login)
-
                 else:
                     self.send_login_403(addr)
         else:
@@ -258,6 +259,7 @@ class Server:
                    "answer_to": "INVITE"}
 
         self.sending(addr, payload)
+
 
     def create_in_database(self, communicate, addr):
         # print("Tworzenie usera:", communicate["NICKNAME"])
