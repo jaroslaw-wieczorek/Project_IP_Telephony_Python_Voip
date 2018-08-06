@@ -34,7 +34,7 @@ print(lib_path)
 
 from gui.main_ui import Ui_MainInterfaceDialog
 from gui.resources import icons_wrapper_rc
-from gui.resource import resources_avatars_rc
+from gui.resources import resources_avatars_rc
 
 
 class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
