@@ -121,6 +121,15 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp getCallSignalResponse received:", value)
 
+    @pyqtSlot(bool)
+    def showActivationWindow(self, value):
+        if value:
+            print("(*) MyApp showActivationWindow received:", value)
+            # self.showInteractionWindow()
+            # to do show activation window, close registe/login window
+        else:
+            print("(*) MyApp showActivationWindow received:", value)
+
     @pyqtSlot(bool, str, list)
     def callSignalResponse(self, value, username):
         if value:

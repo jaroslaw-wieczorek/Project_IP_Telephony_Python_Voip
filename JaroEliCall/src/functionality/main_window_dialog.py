@@ -138,6 +138,10 @@ class MainWindowDialog(MainWrappedUI):
                 status = "Zakonczono polaczenie"
                 self.showConnectionStatus(status)
                 print(status)
+            elif self.client.status == "402 NOT ACCEPTABLE":
+                status = "Aktywuj swoje konto"
+                self.showConnectionStatus(status)
+                print(status)
 
 
         else:

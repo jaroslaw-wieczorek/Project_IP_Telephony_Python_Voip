@@ -112,8 +112,11 @@ class MongoOperations:
 
     def check_is_account_activated(self, login, password):
         activated = self.collection.find({"login": login, "password": password}, {"activated": 1})
-        print("activated ", activated)
-        return activated
+        ans = False
+        for i in activated:
+            ans = (i['activated'])
+
+        return ans
 
 
     def checkAvailibility(self, user):

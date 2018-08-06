@@ -34,6 +34,7 @@ class Client(QtCore.QObject):
 
     registerMessage = QtCore.pyqtSignal(bool)
 
+    activateAccountMessage = QtCore.pyqtSignal(bool)
     def __init__(self):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
@@ -128,6 +129,14 @@ class Client(QtCore.QObject):
 
             self.status = "406 REJECTED"
             self.callSignal.emit(False, self.received["from_who"], [])
+
+        elif (self.received["status"] == 402 and
+              self.received["answer_to"] == "LOGIN" and
+              self.received["description"] == "NOT ACCEPTABLE"):
+
+            self.status = "402 NOT ACCEPTABLE"
+            self.getMessage.emit(True)
+            self.activateAccountMessage.emit(True)
 
         elif (self.received["status"] == 200 and
               self.received["answer_to"] == "INVITE" and

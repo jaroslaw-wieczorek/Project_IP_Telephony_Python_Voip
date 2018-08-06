@@ -100,12 +100,17 @@ class Server:
     def log_in(self, login, password, addr):
         # print("Server log_in: get LOGIN")
         is_login_ok = self.mongo.checkWithMongo(login, password, addr)
+
         activated = self.mongo.check_is_account_activated(login, password)
-        print("activated", activated)
-        if (is_login_ok):
-            self.send_login_200(addr)
-        elif (is_login_ok == 0):
-            self.send_login_406(addr)
+        print("activated", type(activated))
+
+        if activated != False:
+            if (is_login_ok):
+                self.send_login_200(addr)
+            elif (is_login_ok == 0):
+                self.send_login_406(addr)
+        else:
+            self.send_login_402(addr)
 
     def send_login_200(self, addr):
         payload = {"type": "d",
@@ -119,6 +124,14 @@ class Server:
         payload = {"type": "d",
                    "description": "NOT ACCEPTABLE",
                    "status": 406,
+                   "answer_to": "LOGIN"}
+
+        self.sending(addr, payload)
+
+    def send_login_402(self, addr):
+        payload = {"type": "d",
+                   "description": "NOT ACCEPTABLE",
+                   "status": 402,
                    "answer_to": "LOGIN"}
 
         self.sending(addr, payload)
