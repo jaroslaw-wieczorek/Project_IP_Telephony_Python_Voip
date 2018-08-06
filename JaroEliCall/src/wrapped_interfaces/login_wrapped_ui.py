@@ -59,7 +59,12 @@ class LoginWrappedUI(QDialog, Ui_LoginInterfaceDialog):
             return None
         
     def get_password(self):
-        return  hashlib.sha256(self.line_edit_password.text().encode()).hexdigest()
+        print("haslo: ", self.line_edit_password.text())
+        a = self.line_edit_password.text().replace(" ", "")
+        print(a)
+        print(len(a))
+        print(hashlib.sha256(a.encode()).hexdigest())
+        return hashlib.sha256(a.encode()).hexdigest()
 
     
     def set_push_button_login(self, funct):

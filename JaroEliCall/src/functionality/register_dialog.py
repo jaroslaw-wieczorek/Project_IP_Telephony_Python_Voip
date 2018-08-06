@@ -81,15 +81,16 @@ class RegisterDialog(RegisterWrappedUI):
 
     def validate_email(self, email):
         regex = r"""^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"""
-
-        result = re.match(regex, email)
-        print("None")
-
+        result = False
+        if re.match(regex, email):
+            result = True
         mongo = MongoOperations()
         email_exists = mongo.check_if_email_exists(email)
 
-        print(email_exists)
-        if result is True and email_exists is True:
+        print("result", result)
+
+        print("email_exist", email_exists)
+        if result is True and email_exists is False:
             return True
         else:
             return False
@@ -124,8 +125,7 @@ class RegisterDialog(RegisterWrappedUI):
 
                 if self.validateEmail(email):
 
-                    if self.validatePasswords(passwd, repeat_passwd):
-                            return True
+                    return True
 
         except Exception as e:
             self.showRegisterStatus(str(e.args[0]))

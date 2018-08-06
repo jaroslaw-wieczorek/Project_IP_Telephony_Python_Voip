@@ -2,7 +2,7 @@ import os
 import sys
 import string
 import random
-
+import smtplib
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -10,12 +10,12 @@ from email.mime.multipart import MIMEMultipart
 from pymongo import MongoClient
 from itsdangerous import BadSignature
 from itsdangerous import URLSafeSerializer
+import hashlib
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 
 ACTIVATION_CODE_LENGHT = 24
-
 
 class MongoOperations:
 
@@ -55,7 +55,7 @@ class MongoOperations:
         print("Sprawdzenie z mongo")
         self.runMongo()
         try:
-            answer = (self.collection.find({"login": email}).count()) >= 1
+            answer = (self.collection.find({"email": email}).count()) >= 1
             if (answer):
                 return True
             else:
@@ -110,14 +110,55 @@ class MongoOperations:
         except IndexError:
             return 0
 
-    def check_is_account_activated(self, login, password):
-        activated = self.collection.find({"login": login, "password": password}, {"activated": 1})
+    def check_is_account_activated(self, login):
+        activated = self.collection.find({"login": login}, {"activated": 1})
         ans = False
         for i in activated:
             ans = (i['activated'])
 
         return ans
 
+    def check_if_login_exists(self, login):
+        if self.collection.find({'login': login}).count() > 0:
+            return True
+        else:
+            return False
+
+    def check_login_code(self, login, password_my):
+        password_mongo = self.collection.find({"login": login}, {"activation_code": 1})
+
+        result_mongo = ''
+        for i in password_mongo:
+            result_mongo = i["activation_code"]
+
+        print("Pobrano z bazy haslo: ", result_mongo)
+        print("Wpisano haslo o skrocie: ", password_my)
+
+        answer_mongo = hashlib.sha256(result_mongo.encode()).hexdigest()
+        print()
+        print(answer_mongo)
+        return password_my == answer_mongo
+
+    def update_mongo_activate(self, login):
+        password_mongo = self.collection.find({"login": login}, {"activation_code": 1})
+
+        id_mongo = ''
+        for i in password_mongo:
+            id_mongo = i["_id"]
+
+        self.collection.update(
+             {"_id": id_mongo},
+                {"$set":
+                {
+                    "activated": True
+                }
+            }
+        )
+        result = self.collection.find({"_id": id_mongo, "login": login},
+                                      {"activation_code": 1, "login": login, "activation_code": 1})
+        for i in result:
+            print(i)
+        print("koniec")
 
     def checkAvailibility(self, user):
         self.runMongo()
@@ -140,27 +181,21 @@ class MongoOperations:
                                      string.punctuation, length))
 
     def sendActivationCode(self, activ_code, to):
-        msg = MIMEMultipart()
-        me = "JaroEliCall"
-
-        msg['Subject'] = str(me) +': kod aktywacyjny użytkownika'
-        msg['From'] = str(me)
-        msg['To'] = str(to)
-
-        body_text = "Informacja: Aby zakończyć rejestracje należy użyć " \
-                    "poniższego kodu jako hasła.\n\n### Kod aktywacyjny do " \
-                    "konta: " + str(activ_code) + " ### \n" \
-                    "Prosimy nie odpowiadać na tą wiadomość"
-
-        msg.attach(MIMEText(body_text, 'plain'))
-        server = smtplib.SMTP("localhost")
+        
+        me = "tt0815550@gmail.com"
+        server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        print("Set debug")
-        server.set_debuglevel(True)
+        server.login(me, "AureliaK1609")
 
-        server.sendmail(me, to, msg.as_string())
-        print("SENDED EMAIL!!!", me, to, msg.as_string())
+        msg = MIMEMultipart()
+        msg['Subject'] = "JaroEliCall - rejestracja użytkownika " + str(to)
+        msg["From"] = me
+        msg["To"] = to
+        body_text = "Informacja: Aby zakonczyć rejestracje nalezy uzyc ponizszego kodu jako hasla.\n\n Kod aktywacyjny do konta: " + str(activ_code) + "\n Prosimy nie odpowiadac na ta wiadomosc"
 
+        msg.attach(MIMEText(body_text, "plain"))
+
+        server.sendmail("tt0815550@gmail.com", to, msg.as_string())
         server.quit()
 
     def create_user(self, login, email, password):
@@ -171,7 +206,8 @@ class MongoOperations:
 
         activation_code = self.createActivationCode(ACTIVATION_CODE_LENGHT)
         try:
-            self.collection.insert_one({"login": login,
+            self.collection.insert_one({"email": email,
+                                        "login": login,
                                         "password": password,
                                         "status": "offline",
                                         "activated": False,

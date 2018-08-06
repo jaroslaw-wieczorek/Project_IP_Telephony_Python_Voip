@@ -7,6 +7,8 @@ import string
 import random
 import socket
 import pyaudio
+import smtplib
+
 
 from threading import Thread
 from bson.json_util import dumps
@@ -66,7 +68,7 @@ class Server:
                    "status": 203,
                    "description": "USERS_UPDATE",
                    "answer_to":  "AUTOMATIC_USERS_UPDATE",
-                   "USERS": users}
+                   "USERS": users }
 
         if(self.end_of_conn) != '':
             payload = self.end_of_conn
@@ -97,20 +99,35 @@ class Server:
         self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
         print("Server : Sended: " + str(payload) + " to " + str(addr))
 
+
     def log_in(self, login, password, addr):
         # print("Server log_in: get LOGIN")
         is_login_ok = self.mongo.checkWithMongo(login, password, addr)
 
-        activated = self.mongo.check_is_account_activated(login, password)
-        print("activated", type(activated))
+        activated = self.mongo.check_is_account_activated(login)
+        print("activated ", activated)
 
-        if activated != False:
-            if (is_login_ok):
-                self.send_login_200(addr)
-            elif (is_login_ok == 0):
-                self.send_login_406(addr)
+        login_exists = self.mongo.check_if_login_exists(login)
+
+        print("login_exists ", login_exists)
+
+        print("password ", password)
+
+        if login_exists:
+            if activated:
+                if is_login_ok:
+                    self.send_login_200(addr)
+                else:
+                    self.send_login_406(addr)
+            else:
+                is_login_code_ok = self.mongo.check_login_code(login, password)
+                if is_login_code_ok:
+                    self.send_activate_200(addr)
+                    self.mongo.update_mongo_activate(login)
+                else:
+                    self.send_login_403(addr)
         else:
-            self.send_login_402(addr)
+            self.send_login_406(addr)
 
     def send_login_200(self, addr):
         payload = {"type": "d",
@@ -128,6 +145,14 @@ class Server:
 
         self.sending(addr, payload)
 
+    def send_activate_200(self, addr):
+        payload = {"type": "d",
+                   "description": "OK",
+                   "status": 200,
+                   "answer_to": "ACTIVATE"}
+
+        self.sending(addr, payload)
+
     def send_login_402(self, addr):
         payload = {"type": "d",
                    "description": "NOT ACCEPTABLE",
@@ -135,6 +160,15 @@ class Server:
                    "answer_to": "LOGIN"}
 
         self.sending(addr, payload)
+
+    def send_login_403(self, addr):
+        payload = {"type": "d",
+                   "description": "NOT ACCEPTABLE",
+                   "status": 403,
+                   "answer_to": "LOGIN"}
+
+        self.sending(addr, payload)
+
 
     def log_out(self, addr):
         # print("Server log_out get: LOGOUT")
@@ -225,6 +259,7 @@ class Server:
                    "answer_to": "INVITE"}
 
         self.sending(addr, payload)
+
 
     def create_in_database(self, communicate, addr):
         # print("Tworzenie usera:", communicate["NICKNAME"])
