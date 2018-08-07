@@ -1,41 +1,19 @@
 import os
 import sys
-from random import randint
-from threading import Thread
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
 lib_path2 = os.path.abspath(os.path.join(__file__, '..','..','..'))
 sys.path.append(lib_path2)
 
-from PyQt5 import QtCore
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtCore import pyqtSignal
-
-from PyQt5.QtWidgets import QDialog
-from PyQt5.QtWidgets import QMainWindow
-
-from PyQt5.QtWidgets import QApplication
-
-from PyQt5.QtGui import QCloseEvent
-from PyQt5.QtCore import pyqtSignal
-
-from PyQt5.QtWidgets import QDialog
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtWidgets import QMessageBox
-
-from JaroEliCall.src.functionality.signal import Signal
 from JaroEliCall.src.functionality.my_app import MyApp
 from JaroEliCall.src.functionality.login_dialog import LoginDialog
 from JaroEliCall.src.functionality.main_window_dialog import MainWindowDialog
 from JaroEliCall.src.functionality.register_dialog import RegisterDialog
 from JaroEliCall.src.functionality.interaction_dialog import InteractionDialog
-from JaroEliCall.src.functionality.activation_dialog import ActivationWindowDialog
+from JaroEliCall.src.functionality.password_change_dialog import PasswordChangeDialog
 
 from JaroEliCall.src.client import Client
-import random
 
 
 def main():
@@ -44,16 +22,8 @@ def main():
     myapp = MyApp(sys.argv)
 
 
-    # widgetB.procDone.connect(self.widgetA.on_widgetB_procDone)
-
     myapp.setupClient(client)
 
-    # window = QWidget()
-    # window.resize(250, 150)
-    # window.move(300,300)
-    # window.setWindowTitle("Simple")
-    # window.show()pomnik kanadzie
-    # app.setupMainWindow = MainWindowDialog()
 
     loginWindow = LoginDialog(myapp.client)
     myapp.setupLoginWindow(loginWindow)
@@ -67,7 +37,7 @@ def main():
     interactionWindow = InteractionDialog(myapp.client)
     myapp.setupInteractionWindow(interactionWindow)
 
-    activationWindow = ActivationWindowDialog(myapp.client)
+    activationWindow = PasswordChangeDialog(myapp.client)
     myapp.setupActivationWindow(activationWindow)
 
 
@@ -97,6 +67,8 @@ def main():
     myapp.client.getCallSignal.connect(myapp.getCallSignalResponse)
 
     myapp.client.activateAccountMessage.connect(myapp.activationSignalResponse)
+
+    myapp.client.changedPasswordMessage.connect(myapp.changedPasswordMessageResponse)
 
     myapp.client.endCallResponse.connect(myapp.endCallResponseResponse)
 

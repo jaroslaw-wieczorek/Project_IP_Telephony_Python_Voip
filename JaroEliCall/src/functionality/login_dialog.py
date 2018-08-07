@@ -76,12 +76,11 @@ class LoginDialog(LoginWrappedUI):
             self.showLoginStatus(status)
             return False
 
-        elif self.client.received == "403 NOT ACCEPTABLE":
+        elif self.client.received == "403 NOT ACCEPTABLE" or self.client.received == "409 NOT ACCEPTABLE":
             status = "Wpisz kod aktywacyjny w polu Hasło"
             # print(status)
             self.showLoginStatus(status)
             return False
-
 
 
     def waiting_for_signal(self):

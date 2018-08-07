@@ -38,18 +38,18 @@ class MongoOperations:
         db = self.mongo_client['VOIP']
         self.collection = db['Users']
 
-    def find_in_mongo(self, login):
+    def check_if_login_unique(self, login):
         print("Sprawdzenie z mongo")
         self.runMongo()
         try:
-            answer = (self.collection.find({"login": login}).count()) >= 1
-            if (answer):
-                return 0
+            answer = (self.collection.find({"login": login}).count()) == 0
+            if answer:
+                return True
             else:
-                return 1
+                return False
 
         except IndexError:
-            return 0
+            return False
 
     def check_if_email_exists(self, email):
         print("Sprawdzenie z mongo")
@@ -64,15 +64,40 @@ class MongoOperations:
         except IndexError:
             return False
 
+    def change_password_mongo(self, login, password):
+        try:
+            answer = (self.collection.find({"login": login}).count()) == 1
+
+            print(answer)
+            if answer:
+                self.collection.update(
+                    {
+                        "login": login
+                    },
+                    {
+                        "$set": {"password": password}
+                    })
+
+                # to dictionary nickname adres IP
+                return True
+            else:
+
+                return False
+
+        except IndexError:
+            return False
+
+
     def getFromMongo(self):
         client = MongoClient(self.MongoIP, self.MongoPort)
         db = client['VOIP']
         collection = db['Users']
         users = []
 
-        for user in collection.find({}, {"login": 1, "status": 1, "_id": 0}):
+        for user in collection.find({}, {"login": 1, "status": 1, "_id": 0, "avatar": 1}):
             users.append(user)
         self.users = users
+        print("self.users ", self.users)
 
     def logoutAll(self):
         self.runMongo()
@@ -86,8 +111,11 @@ class MongoOperations:
 
         print("Login", login)
         print("Password", password)
+
+        # , "status": "offline"
+
         try:
-            answer = (self.collection.find({"login": login, "password": password, "status": "offline"}).count()) == 1
+            answer = (self.collection.find({"login": login, "password": password}).count()) == 1
 
             print(answer)
             if answer:
@@ -102,13 +130,13 @@ class MongoOperations:
 
                 # to dictionary nickname adres IP
                 self.dict_ip_users[login] = addr
-                return 1
+                return True
             else:
 
-                return 0
+                return False
 
         except IndexError:
-            return 0
+            return False
 
     def check_is_account_activated(self, login):
         activated = self.collection.find({"login": login}, {"activated": 1})
@@ -131,13 +159,9 @@ class MongoOperations:
         for i in password_mongo:
             result_mongo = i["activation_code"]
 
-        print("Pobrano z bazy haslo: ", result_mongo)
-        print("Wpisano haslo o skrocie: ", password_my)
-
         answer_mongo = hashlib.sha256(result_mongo.encode()).hexdigest()
-        print()
-        print(answer_mongo)
         return password_my == answer_mongo
+
 
     def update_mongo_activate(self, login):
         password_mongo = self.collection.find({"login": login}, {"activation_code": 1})
@@ -198,13 +222,14 @@ class MongoOperations:
         server.sendmail("tt0815550@gmail.com", to, msg.as_string())
         server.quit()
 
-    def create_user(self, login, email, password):
+    def create_user(self, login, email):
         print("loginL ", login)
         print("email: ", email)
-        print("password ", password)
-        print("Dodanie uzytkowwnika do mongo")
 
         activation_code = self.createActivationCode(ACTIVATION_CODE_LENGHT)
+        password = hashlib.sha256(activation_code.encode()).hexdigest()
+        print("Dodanie uzytkowwnika do mongo")
+
         try:
             self.collection.insert_one({"email": email,
                                         "login": login,

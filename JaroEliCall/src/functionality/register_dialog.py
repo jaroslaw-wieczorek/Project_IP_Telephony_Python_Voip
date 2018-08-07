@@ -25,11 +25,6 @@ from JaroEliCall.src.wrapped_interfaces.register_wrapped_ui import RegisterWrapp
 class LoginLengthError(ValueError):
     pass
 
-class PasswdEqualError(ValueError):
-    pass
-
-class PasswdLengthError(ValueError):
-    pass
 
 class EmailValidError(ValueError):
     pass
@@ -101,23 +96,9 @@ class RegisterDialog(RegisterWrappedUI):
             raise EmailValidError("Email is not correct!")
             return False
 
-    def validatePasswords(self, password, repeat_password):
-        # TO DO
-        if len(password) < 8:
-            raise PasswdLengthError("Passwords is too short")
-            return False
 
-        if len(password) > 20:
-            raise PasswdLengthError("Passwords is too long")
-            return False
 
-        if password != repeat_password:
-            raise PasswdEqualError("Passwords are not equal")
-            return False
-
-        return True
-
-    def validateData(self, login, email, passwd, repeat_passwd):
+    def validateData(self, login, email):
 
         try:
             if self.validateLogin(login):
@@ -151,17 +132,13 @@ class RegisterDialog(RegisterWrappedUI):
     def registerAccount(self):
         login = self.get_login()
         email = self.get_email()
-        passwd = self.get_password()
-        passwd_hash = hashlib.sha256(passwd.encode()).hexdigest()
-        repeat_passwd = self.get_repeat_password()
 
-        if self.validateData(login, email, passwd, repeat_passwd):
+        if self.validateData(login,email):
 
             payload = {
                         "type": "d",
                         "description": "CREATE",
                         "NICKNAME": login,
-                        "PASSWORD": passwd_hash,
                         "EMAIL": email
                         }
 

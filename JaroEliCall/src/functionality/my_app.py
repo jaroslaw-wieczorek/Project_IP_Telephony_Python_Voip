@@ -123,6 +123,13 @@ class MyApp(QApplication):
         else:
             print("(*) MyApp getCallSignalResponse received:", value)
 
+    @pyqtSlot(bool)
+    def changedPasswordMessageResponse(self, value):
+        if value:
+            print("(*) MyApp changedPasswordMessageResponse received:", value)
+            self.hideActivationWindow()
+            self.showLoginWindow()
+
     @pyqtSlot(bool, int)
     def activationSignalResponse(self, value, code):
         if value:
@@ -162,6 +169,7 @@ class MyApp(QApplication):
         if value:
             if(self.client.last_list_users != users_list):
                 self.mainWindow.delete_rows_users()
+                print("lolololololo---------------------------------------------------- ", users_list)
                 self.mainWindow.add_row_to_list_of_users(users_list)
                 self.client.last_list_users = users_list
 
@@ -196,6 +204,7 @@ class MyApp(QApplication):
         self.loginWindow.hide()
 
     def showLoginWindow(self):
+        self.loginWindow.set_password("")
         self.loginWindow.show()
 
     # Register Dialog methods

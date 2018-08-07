@@ -35,6 +35,8 @@ class Client(QtCore.QObject):
     registerMessage = QtCore.pyqtSignal(bool)
 
     activateAccountMessage = QtCore.pyqtSignal(bool, int)
+
+    changedPasswordMessage = QtCore.pyqtSignal(bool)
     def __init__(self):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
@@ -102,7 +104,40 @@ class Client(QtCore.QObject):
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
-            # self.activateAccountMessage.emit(False, 403)
+        elif (self.received["status"] == 405 and
+                  self.received["answer_to"] == "LOGIN" and
+                  self.received["description"] == "NOT ACCEPTABLE"):
+
+            self.received = "200 ACTIVATION OK"
+            self.getMessage.emit(True)
+            self.activateAccountMessage.emit(True, 200)
+
+        elif (self.received["status"] == 200 and
+                  self.received["answer_to"] == "CHANGE" and
+                  self.received["description"] == "CHANGED"):
+
+            print("Zmieniono hasło")
+            self.received = "200 CHANGED"
+            self.changedPasswordMessage.emit(True)
+            self.getMessage.emit(True)
+
+        elif (self.received["status"] == 409 and
+              self.received["answer_to"] == "LOGIN" and
+              self.received["description"] == "NOT ACCEPTABLE"):
+
+            print("W polu hasło należy podać kod aktywacyjny")
+            self.received = "409 NOT ACCEPTABLE"
+            self.getMessage.emit(True)
+
+        elif (self.received["status"] == 406 and
+                  self.received["answer_to"] == "CHANGE" and
+                  self.received["description"] == "CHANGED"):
+
+            self.received = "406 NOT CHANGED"
+            print("Nie zmieniono hasła")
+            self.changedPasswordMessage.emit(False)
+            self.getMessage.emit(True)
+
 
         elif (self.received["status"] == 203 and
               self.received["answer_to"] == "AUTOMATIC_USERS_UPDATE"):

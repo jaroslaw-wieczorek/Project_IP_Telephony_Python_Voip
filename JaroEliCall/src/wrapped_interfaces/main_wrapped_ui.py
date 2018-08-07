@@ -30,7 +30,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path)
 print(lib_path)
-
+import os
 
 from gui.main_ui import Ui_MainInterfaceDialog
 from gui.resources import icons_wrapper_rc
@@ -95,6 +95,7 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         self.table_widget_list_of_users.setItem(row, col, item)
 
     def add_row_to_list_of_users(self, users):
+        print("!!!!!!!!!!!!!Dostalem: ------------------------------------------", users)
         who_is_signed = self.label_user_name.text()
         for user in users:
             if user['login'] != who_is_signed:
@@ -103,12 +104,15 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
                 self.table_widget_list_of_users.setItem(newRowNum, 0, QTableWidgetItem(str(user['login'])))
                 self.table_widget_list_of_users.setItem(newRowNum, 1, QTableWidgetItem(str(user['status'])))
 
+                print(os.listdir())
+                f = open("gui/resources/avatars/lolo.txt", 'r')
+                if f.mode == 'r':
+                    con = f.read()
+                    print(con)
+
                 item = QTableWidgetItem()
-                item.setIcon(QtGui.QPixmap(":/avatars/" + str(user['avatar'])), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-
-                self.table_widget_list_of_users.setItem(newRowNum, 2, "")
-                self.table_widget_list_of_users.setCellWidget(newRowNum, 2, item)
-
+                item.setIcon(QIcon(QPixmap("gui/resources/avatars/" + str(user['avatar']))))
+                self.table_widget_list_of_users.setItem(newRowNum, 2, item)
 
     def set_who_is_signed(self, who_is_signed):
         self.label_user_name.setText(who_is_signed)

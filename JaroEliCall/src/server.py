@@ -105,20 +105,19 @@ class Server:
         is_login_ok = self.mongo.checkWithMongo(login, password, addr)
 
         activated = self.mongo.check_is_account_activated(login)
-        print("activated ", activated)
 
         login_exists = self.mongo.check_if_login_exists(login)
-
-        print("login_exists ", login_exists)
-
-        print("password ", password)
 
         if login_exists:
             if activated:
                 if is_login_ok:
                     self.send_login_200(addr)
                 else:
-                    self.send_login_406(addr)
+                    is_password_equals_activation_code = self.mongo.check_login_code(login, password)
+                    if is_password_equals_activation_code:
+                        self.send_login_405(addr)
+                    else:
+                        self.send_login_409(addr)
             else:
                 is_login_code_ok = self.mongo.check_login_code(login, password)
                 if is_login_code_ok:
@@ -141,6 +140,22 @@ class Server:
         payload = {"type": "d",
                    "description": "NOT ACCEPTABLE",
                    "status": 406,
+                   "answer_to": "LOGIN"}
+
+        self.sending(addr, payload)
+
+    def send_login_409(self, addr):
+        payload = {"type": "d",
+                   "description": "NOT ACCEPTABLE",
+                   "status": 409,
+                   "answer_to": "LOGIN"}
+
+        self.sending(addr, payload)
+
+    def send_login_405(self, addr):
+        payload = {"type": "d",
+                   "description": "NOT ACCEPTABLE",
+                   "status": 405,
                    "answer_to": "LOGIN"}
 
         self.sending(addr, payload)
@@ -204,7 +219,6 @@ class Server:
                    "users": self.mongo.users,
                    "status": 202,
                    "answer_to": "GET"}
-
         self.sending(addr, payload)
 
     # connection_receiver login osoby do ktorej chce zadzwonic
@@ -260,22 +274,19 @@ class Server:
 
         self.sending(addr, payload)
 
-
     def create_in_database(self, communicate, addr):
-
         mongo = MongoOperations()
         email_exists = mongo.check_if_email_exists(communicate["EMAIL"])
 
         # print("Tworzenie usera:", communicate["NICKNAME"])
-        ans = self.mongo.find_in_mongo(communicate["NICKNAME"])
+        ans = self.mongo.check_if_login_unique(communicate["NICKNAME"])
         # print(addr)
-        if ans == 1 and email_exists is True:
+        if ans and email_exists is False:
             self.mongo.create_user(communicate["NICKNAME"],
-                                   communicate["EMAIL"],
-                                   communicate["PASSWORD"])
+                                   communicate["EMAIL"])
 
             self.send_created_200(addr)
-        elif ans == 0 or email_exists is False:
+        elif ans is False or email_exists is True:
             self.send_created_406(addr)
 
     def send_created_200(self, addr):
@@ -369,6 +380,9 @@ class Server:
                     elif received["description"] == "END":
                         self.check_caller(received["from_who"])
 
+                    elif received["description"] == "CHANGE":
+                        self.change_user_password(received["NICKNAME"], received["PASSWORD"], addr)
+
             except ConnectionResetError as err:
                 print("Połączenie przerwane przez klienta\n")
         # print("[*] Stop listen")
@@ -379,6 +393,30 @@ class Server:
         self.send_end_connection_person(caller, from_who)
         self.converstation_dictionary[caller] = ''
         self.converstation_dictionary[from_who] = ''
+
+    def change_user_password(self, login, password_hash, addr):
+        changed = self.mongo.change_password_mongo(login, password_hash)
+        if changed:
+            self.send_changed_200(addr)
+        else:
+            # login podany nie istnieje w bazie
+            self.send_changed_406(addr)
+
+    def send_changed_200(self, addr):
+        payload = {"type": "d",
+                   "description": "CHANGED",
+                   "status": 200,
+                   "answer_to": "CHANGE"}
+
+        self.sending(addr, payload)
+
+    def send_changed_406(self, addr):
+        payload = {"type": "d",
+                   "description": "CHANGED",
+                   "status": 406,
+                   "answer_to": "CHANGE"}
+
+        self.sending(addr, payload)
 
     def send_end_connection_person(self, person, from_who):
         ip = self.find_address(person)
