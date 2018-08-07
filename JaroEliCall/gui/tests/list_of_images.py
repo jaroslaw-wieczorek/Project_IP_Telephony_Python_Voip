@@ -22,6 +22,8 @@ from lxml import etree
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     mainwindow = QtWidgets.QMainWindow()
+
+
     listWidget = QListWidget()
     listWidget.setViewMode(QtWidgets.QListView.IconMode)
 

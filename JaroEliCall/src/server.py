@@ -225,7 +225,10 @@ class Server:
     def invite_person(self, where_name, who_ip):
         available = self.mongo.checkAvailibility(where_name)
 
-        if(available):
+        busy = self.is_recipient_has_conversation(where_name)
+
+        if available and busy is False:
+
             where_ip = self.find_address(where_name)
             who_name = self.get_username_from_ip(who_ip)
 
@@ -245,6 +248,17 @@ class Server:
         else:
             self.send_invite_406(who_ip)
 
+    def is_recipient_has_conversation(self, who):
+        ans = False
+        for key, value in self.converstation_dictionary.items():
+            print("key ", key)
+            print("value ", value)
+            if key == who or value == who:
+                ans = True
+        print("ans ", ans)
+        return ans
+
+
     def send_inf_connection_is_comming_200_to_recipient(self, where_ip,
                                                         who_name, who_ip):
         payload = {"type": "d",
@@ -255,6 +269,7 @@ class Server:
                    "from_who_ip": who_ip}
 
         self.sending(where_ip, payload)
+
 
     def send_invite_200_to_caller(self, addr, caller):
 
