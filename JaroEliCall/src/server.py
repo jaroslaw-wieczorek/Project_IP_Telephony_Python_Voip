@@ -406,8 +406,9 @@ class Server:
         caller = self.converstation_dictionary[from_who]
         print(str(from_who) + " rozmawia z " + str(caller))
         self.send_end_connection_person(caller, from_who)
-        self.converstation_dictionary[caller] = ''
-        self.converstation_dictionary[from_who] = ''
+
+        del self.converstation_dictionary[caller]
+        del self.converstation_dictionary[from_who]
 
     def change_user_password(self, login, password_hash, addr):
         changed = self.mongo.change_password_mongo(login, password_hash)

@@ -151,6 +151,9 @@ class MainWindowDialog(MainWrappedUI):
                 print(status)
 
         else:
+            status = "Serwer nie odpowiada"
+            self.showConnectionStatus(status)
+            print(status)
             print("{!} MainWindow error: Didn't get response")
 
     def keyPressEvent(self, event):
