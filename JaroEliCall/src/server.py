@@ -396,7 +396,7 @@ class Server:
                         self.check_caller(received["from_who"])
 
                     elif received["description"] == "CHANGE":
-                        print(received["AVATAR"])
+                        print("[***] Server!! received[\"AVATAR\"] with: ", received["AVATAR"])
                         self.change_user_password(received["NICKNAME"], received["PASSWORD"], received["AVATAR"], addr)
 
             except ConnectionResetError as err:
