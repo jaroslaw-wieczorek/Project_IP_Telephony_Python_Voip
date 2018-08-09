@@ -5,7 +5,7 @@
 # Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
-
+"""
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_ActivationInterfaceDialog(object):
@@ -122,3 +122,4 @@ class Ui_ActivationInterfaceDialog(object):
         self.label_repeat_password.setText(_translate("ActivationInterfaceDialog", "Powtórz hasło:"))
         self.push_button_change_password.setText(_translate("ActivationInterfaceDialog", "Ustaw hasło i avatar"))
 
+"""
