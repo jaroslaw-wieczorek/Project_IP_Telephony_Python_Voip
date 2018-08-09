@@ -53,8 +53,8 @@ class MainWindowDialog(MainWrappedUI):
         self.timer.timeout.connect(lambda: self.loop.exit(1))
         self.table_widget_list_of_users.setIconSize(QSize(72, 72))
 
-        self.userName = self.setUserName(self.client.usernname)
-        self.setUserAvatar(self.client.get_avatar(self.userName))
+        #self.userName = self.setUserName(self.client.usernname)
+        #self.setUserAvatar(self.client.get_avatar(self.userName))
         self.set_push_button_logout(self.closeApp)
         self.set_push_button_call(self.call_someone)
 

@@ -149,6 +149,7 @@ class Client(QtCore.QObject):
                                                    self.received["USERS"])
                 self.last_list_users = self.received["USERS"]
 
+
         elif self.received["status"] == 202:
             data = self.received["users"]
             self.last_list_users = data
