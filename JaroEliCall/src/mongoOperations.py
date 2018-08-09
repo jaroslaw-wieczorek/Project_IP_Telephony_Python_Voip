@@ -76,11 +76,10 @@ class MongoOperations:
                         "login": login
                     },
                     {
-                        "$set": {"password": password}
-                    },
-                    {
-                        "$set": {"avatar": avatar}
-                    })
+                        "$set": {"password": password,
+                                 "avatar": avatar}
+                    }
+                    )
 
                 # to dictionary nickname adres IP
                 return True
