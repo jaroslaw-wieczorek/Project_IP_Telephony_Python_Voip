@@ -38,7 +38,7 @@ class Client(QtCore.QObject):
     activateAccountMessage = QtCore.pyqtSignal(bool, int)
 
     changedPasswordMessage = QtCore.pyqtSignal(bool)
-    
+
     def __init__(self):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")
