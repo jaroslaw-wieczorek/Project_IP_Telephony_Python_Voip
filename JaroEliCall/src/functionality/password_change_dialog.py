@@ -112,7 +112,8 @@ class PasswordChangeDialog(PasswordChangeWrappedUI):
 
     def change_password(self):
         login = self.get_login()
-
+        avatar = self.get_avatar_name()
+        print("<*> Client info: avatar is:", avatar)
         passwd = self.get_password_activate()
         passwd_hash = hashlib.sha256(passwd.encode()).hexdigest()
         repeat_passwd = self.get_repeat_password_activate()
@@ -123,7 +124,8 @@ class PasswordChangeDialog(PasswordChangeWrappedUI):
                 "type": "d",
                 "description": "CHANGE",
                 "NICKNAME": login,
-                "PASSWORD": passwd_hash
+                "PASSWORD": passwd_hash,
+                "AVATAR": avatar
             }
 
             self.client.sendMessage(json.dumps(payload).encode("utf-8"))

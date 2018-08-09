@@ -1,4 +1,4 @@
-import os
+<import os
 import sys
 import json
 import socket
@@ -16,7 +16,8 @@ from threading import Thread
 import random
 
 # Server computer IP
-IP_server = '192.168.0.101'
+#IP_server = '192.168.0.101'
+IP_server = '127.0.0.1'
 PORT_server = 50001
 
 
@@ -37,6 +38,7 @@ class Client(QtCore.QObject):
     activateAccountMessage = QtCore.pyqtSignal(bool, int)
 
     changedPasswordMessage = QtCore.pyqtSignal(bool)
+    
     def __init__(self):
         super(Client, self).__init__()
         print("Inicjalizacja klasy Client")

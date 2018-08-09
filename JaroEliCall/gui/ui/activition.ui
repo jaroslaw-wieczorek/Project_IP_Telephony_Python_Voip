@@ -88,7 +88,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>../resources/avatars/detective.png</pixmap>
+        <pixmap>../resources/avatars/croupier-1.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>

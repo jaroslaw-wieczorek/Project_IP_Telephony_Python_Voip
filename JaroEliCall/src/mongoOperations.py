@@ -64,7 +64,8 @@ class MongoOperations:
         except IndexError:
             return False
 
-    def change_password_mongo(self, login, password):
+    def change_password_mongo(self, login, password, avatar):
+        print("CHANGE_PASSWORD_MONGO:", avatar)
         try:
             answer = (self.collection.find({"login": login}).count()) == 1
 
@@ -76,6 +77,9 @@ class MongoOperations:
                     },
                     {
                         "$set": {"password": password}
+                    },
+                    {
+                        "$set": {"avatar": avatar}
                     })
 
                 # to dictionary nickname adres IP
@@ -236,6 +240,7 @@ class MongoOperations:
                                         "password": password,
                                         "status": "offline",
                                         "activated": False,
+                                        "avatar": "swat.png",
                                         "activation_code": activation_code})
 
             self.sendActivationCode(activation_code, email)

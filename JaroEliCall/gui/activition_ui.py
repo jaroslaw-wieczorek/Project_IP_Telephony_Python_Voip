@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Dokumenty/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/password_change.ui'
+# Form implementation generated from reading ui file '/home/afar/Dokumenty/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/activition.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
@@ -36,7 +36,7 @@ class Ui_ActivationInterfaceDialog(object):
         self.label_avatar.setMinimumSize(QtCore.QSize(100, 100))
         self.label_avatar.setMaximumSize(QtCore.QSize(100, 100))
         self.label_avatar.setText("")
-        self.label_avatar.setPixmap(QtGui.QPixmap("../resources/avatars/detective.png"))
+        self.label_avatar.setPixmap(QtGui.QPixmap("../resources/avatars/croupier-1.png"))
         self.label_avatar.setScaledContents(True)
         self.label_avatar.setAlignment(QtCore.Qt.AlignCenter)
         self.label_avatar.setIndent(0)

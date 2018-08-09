@@ -396,7 +396,8 @@ class Server:
                         self.check_caller(received["from_who"])
 
                     elif received["description"] == "CHANGE":
-                        self.change_user_password(received["NICKNAME"], received["PASSWORD"], addr)
+                        print(received["AVATAR"])
+                        self.change_user_password(received["NICKNAME"], received["PASSWORD"], received["AVATAR"], addr)
 
             except ConnectionResetError as err:
                 print("Połączenie przerwane przez klienta\n")
@@ -410,8 +411,8 @@ class Server:
         del self.converstation_dictionary[caller]
         del self.converstation_dictionary[from_who]
 
-    def change_user_password(self, login, password_hash, addr):
-        changed = self.mongo.change_password_mongo(login, password_hash)
+    def change_user_password(self, login, password_hash, avatar, addr):
+        changed = self.mongo.change_password_mongo(login, password_hash, avatar)
         if changed:
             self.send_changed_200(addr)
         else:

@@ -18,6 +18,7 @@ from PyQt5 import QtCore
 
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QStatusBar
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidget
@@ -40,6 +41,8 @@ class PasswordChangeWrappedUI(QDialog, Ui_ActivationInterfaceDialog):
         super(PasswordChangeWrappedUI, self).__init__()
         self.setupUi(self)
         self.statusBar = QStatusBar()
+
+        print("PasswordChangeWrappedUI", self.label_avatar.text())
 
     def validate_compare_passwords(self):
         """ Metoda typu validate służy do sprawdzenia tozsamości haseł """
@@ -76,6 +79,8 @@ class PasswordChangeWrappedUI(QDialog, Ui_ActivationInterfaceDialog):
     def get_repeat_password_activate(self):
         return self.line_edit_repeat_password.text()
 
+    def get_avatar_name(self):
+        return self.label_avatar_name.text()
 
     def nothing(self):
         print("Do nothing!")

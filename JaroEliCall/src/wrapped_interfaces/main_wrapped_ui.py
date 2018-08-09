@@ -104,14 +104,14 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
                 self.table_widget_list_of_users.setItem(newRowNum, 0, QTableWidgetItem(str(user['login'])))
                 self.table_widget_list_of_users.setItem(newRowNum, 1, QTableWidgetItem(str(user['status'])))
 
-                print(os.listdir())
-                f = open("gui/resources/avatars/lolo.txt", 'r')
-                if f.mode == 'r':
-                    con = f.read()
-                    print(con)
+                #print(os.listdir())
+                #f = open("gui/resources/avatars/lolo.txt", 'r')
+                #if f.mode == 'r':
+                #    con = f.read()
+                #    print(con)
 
                 item = QTableWidgetItem()
-                item.setIcon(QIcon(QPixmap("gui/resources/avatars/" + str(user['avatar']))))
+                item.setIcon(QIcon(QPixmap(":/avatars/" + str(user['avatar']))))
                 self.table_widget_list_of_users.setItem(newRowNum, 2, item)
 
     def set_who_is_signed(self, who_is_signed):
