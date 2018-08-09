@@ -16,8 +16,8 @@ from threading import Thread
 import random
 
 # Server computer IP
-#IP_server = '192.168.43.130'
-IP_server = '127.0.0.1'
+IP_server = '192.168.43.130'
+#IP_server = '127.0.0.1'
 PORT_server = 50001
 
 
@@ -228,7 +228,6 @@ class Client(QtCore.QObject):
             self.from_who_ip = self.received["from_who_ip"]
 
             print("Dzwoni ", str(self.received["from_who"]))
-
             self.getCallSignal.emit(True, self.name_who)
             self.getMessage.emit(True)
             self.status = "200 INVITE"

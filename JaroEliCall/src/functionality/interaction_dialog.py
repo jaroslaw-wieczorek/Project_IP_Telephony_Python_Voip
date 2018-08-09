@@ -49,9 +49,8 @@ class InteractionDialog(InteractionWrappedUI):
         self.set_user_call_text(self.userName)
 
     def setupCallerAvatar(self, user_name):
-
         avatar_name = self.client.get_avatar(user_name)
-        pixmap = QPixmap('gui/resources/avatars/' + str(avatar_name))
+        pixmap = QPixmap(':/avatars/' + str(avatar_name))
         self.label_avatar.setPixmap(pixmap)
 
     def showCallerName(self, user_name):

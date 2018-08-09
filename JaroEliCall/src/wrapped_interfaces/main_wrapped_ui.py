@@ -115,7 +115,7 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
                 self.table_widget_list_of_users.setItem(newRowNum, 2, item)
 
         avatar_name = self.client.get_avatar(who_is_signed)
-        pixmap = QPixmap('gui/resources/avatars/' + str(avatar_name))
+        pixmap = QPixmap(':/avatars/' + str(avatar_name))
         self.label_avatar.setPixmap(pixmap)
 
     def set_who_is_signed(self, who_is_signed):
