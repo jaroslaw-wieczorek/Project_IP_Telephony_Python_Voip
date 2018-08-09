@@ -30,9 +30,10 @@ import resources_avatars_rc
 
 
 class SelectAvatar(QDialog):
-    def __init__(self, avatar=None):
+    def __init__(self, parent=None, avatar=None):
         super(SelectAvatar, self).__init__(avatar)
         self.avatar = avatar
+        self.parent = parent
         self.avatar_names = []
         self.setMinimumHeight(500)
         self.setMinimumWidth(550)
@@ -57,7 +58,7 @@ class SelectAvatar(QDialog):
         self.vert.addWidget(self.listWidget)
         self.vert.addWidget(self.push_ok)
         self.setLayout(self.vert)
-        self.show()
+        #self.show()
 
     def setNames(self):
          for i, elem in etree.iterparse(mypath + '/resources_avatars.qrc', tag='file'):
@@ -84,12 +85,18 @@ class SelectAvatar(QDialog):
     def return_selected_avatar(self):
         self.avatar = self.listWidget.currentItem()
         if self.avatar is None or self.avatar == []:
-            print("{*} SelectAvatar dialog is None or []avatar")
-            return None
+            print("{*} SelectAvatar dialog info: avatar is None or [] !!!")
+            self.parent.label_avatar_name.setText("None")
+            #return None
+            #self.parent.label_avatar_name.setText(self.avatar.text())
+            #pixmap = self.avatar.icon().pixmap(QSize(100, 100))
+            #self.parent.label_avatar.setPixmap(pixmap)
         else:
             print(self.avatar.text())
-            return self.avatar
-
+            self.parent.label_avatar_name.setText(self.avatar.text())
+            pixmap = self.avatar.icon().pixmap(QSize(100, 100))
+            self.parent.label_avatar.setPixmap(pixmap)
+        self.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

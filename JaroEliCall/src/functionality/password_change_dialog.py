@@ -16,6 +16,7 @@ sys.path.append(lib_path)
 lib_path2 = os.path.abspath(os.path.join(__file__, '..', '..', '..', '..'))
 sys.path.append(lib_path2)
 
+from JaroEliCall.src.functionality.select_avatar_dialog import SelectAvatar
 from JaroEliCall.src.test2 import ServerThread
 from JaroEliCall.src.test2 import ClientThread
 
@@ -44,7 +45,7 @@ class PasswordChangeDialog(PasswordChangeWrappedUI):
 
         self.client = client
         # self.__session_id = None
-
+        self.dialog = SelectAvatar(self)
         self.loop = QEventLoop()
         self.timer = QTimer()
         self.timer.setSingleShot(True)
@@ -52,7 +53,10 @@ class PasswordChangeDialog(PasswordChangeWrappedUI):
 
         self.set_change_password_button(self.change_password)
 
+        self.push_button_avatar.clicked.connect(self.selectAvatar)
 
+    def selectAvatar(self):
+        self.dialog.show()
 
     def validatePasswords(self, password, repeat_password):
         # TO DO
