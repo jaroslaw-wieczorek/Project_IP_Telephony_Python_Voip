@@ -147,6 +147,7 @@ class Client(QtCore.QObject):
             if self.last_list_users != []:
                 self.changedUsersStatusSignal.emit(True,
                                                    self.received["USERS"])
+                self.last_list_users = self.received["USERS"]
 
         elif self.received["status"] == 202:
             data = self.received["users"]
@@ -300,6 +301,16 @@ class Client(QtCore.QObject):
 
         data = json.dumps(payload).encode("utf-8")
         self.sendMessage(data)
+
+    def get_avatar(self, user_name):
+        avatar_name = ''
+        for i in self.last_list_users:
+            if i['login'] == user_name:
+                avatar_name = i['avatar']
+        print("get  avatar")
+        print(self.last_list_users)
+        print("user_name ", user_name)
+        return avatar_name
 
     def reject_connection(self, from_who):
         payload = {"type": "d",
