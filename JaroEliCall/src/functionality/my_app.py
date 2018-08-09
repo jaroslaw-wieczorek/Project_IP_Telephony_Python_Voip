@@ -119,6 +119,7 @@ class MyApp(QApplication):
         if value:
             print("(*) MyApp getCallSignalResponse received:", value)
             self.interactionWindow.setupCallerName(username)
+            self.interactionWindow.setupCallerAvatar(username)
             self.showInteractionWindow()
         else:
             print("(*) MyApp getCallSignalResponse received:", value)
