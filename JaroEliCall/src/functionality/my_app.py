@@ -147,6 +147,7 @@ class MyApp(QApplication):
             print("(*) MyApp callSignalResponse received:", value)
             print(username)
             self.interactionWindow.showCallerName(username)
+            self.interactionWindow.setupCallerAvatar(username)
             self.showInteractionWindow()
             self.blockAcceptConnButton()
 
