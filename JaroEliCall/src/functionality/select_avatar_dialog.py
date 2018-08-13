@@ -37,6 +37,7 @@ class SelectAvatar(QDialog):
         self.avatar_names = []
         self.setMinimumHeight(500)
         self.setMinimumWidth(550)
+        self.setWindowTitle("Wybór avatara")
 
         self.setNames()
 

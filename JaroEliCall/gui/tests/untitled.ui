@@ -63,7 +63,7 @@
       </property>
       <property name="icon">
        <iconset resource="../resources/resources_avatars.qrc">
-        <normaloff>:/avatars/businessman.png</normaloff>:/avatars/businessman.png</iconset>
+        <normaloff>:/avatars/assistant.png</normaloff>:/avatars/assistant.png</iconset>
       </property>
       <property name="flags">
        <set>ItemIsSelectable|ItemIsEnabled</set>

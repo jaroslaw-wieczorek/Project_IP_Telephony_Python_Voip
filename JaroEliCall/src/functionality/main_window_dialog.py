@@ -11,6 +11,7 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import QEventLoop
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QListWidget
+from PyQt5.QtWidgets import QTableView
 from PyQt5.QtWidgets import QListWidgetItem
 
 
@@ -52,6 +53,9 @@ class MainWindowDialog(MainWrappedUI):
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(lambda: self.loop.exit(1))
         self.table_widget_list_of_users.setIconSize(QSize(72, 72))
+        
+        self.table_widget_list_of_users.setSelectionBehavior(QTableView.SelectRows)
+        #self.table_widget_list_of_users.setSelectionMode()
 
         #self.userName = self.setUserName(self.client.usernname)
         #self.setUserAvatar(self.client.get_avatar(self.userName))
@@ -98,15 +102,22 @@ class MainWindowDialog(MainWrappedUI):
         self.read()
 
     def call_someone(self):
-        where = self.table_widget_list_of_users.currentItem().text()
-        if (where != ''):
-            print("Wybrano dzwonienie do ", where)
-            payload = {"type": "d", "description": "INVITE", "call_to": where}
-            data = json.dumps(payload).encode("utf-8")
-            print(data)
-            self.client.sendMessage(data)
-            self.timer.start(5000)
-            self.read()
+        row = int(self.table_widget_list_of_users.currentRow())
+        
+        if row != None:
+            try:
+                where = self.table_widget_list_of_users.item(row, 0).text()
+            except Exception as err:
+                print(err)
+
+            if where != None:
+                print("Wybrano dzwonienie do ", where)
+                payload = {"type": "d", "description": "INVITE", "call_to": where}
+                data = json.dumps(payload).encode("utf-8")
+                print(data)
+                self.client.sendMessage(data)
+                self.timer.start(5000)
+                self.read()
 
     def waiting_for_signal(self):
         self.timer.start(10000)  # 10 second time-out

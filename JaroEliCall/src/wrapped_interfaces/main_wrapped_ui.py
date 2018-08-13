@@ -9,8 +9,10 @@ Created on Sat May 26 13:42:22 2018
 import os
 import sys
 
+
 from PyQt5 import QtGui
 from PyQt5 import QtCore
+from PyQt5.QtCore import Qt
 from PyQt5 import QtWidgets
 
 from PyQt5.QtCore import QSize
@@ -19,6 +21,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtGui import QImage
 from PyQt5.QtGui import QPixmap
 
+from PyQt5.QtWidgets import QMenuBar
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QStatusBar
 from PyQt5.QtWidgets import QMessageBox
@@ -43,6 +46,11 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         super(MainWrappedUI, self).__init__()
         self.setupUi(self)
         self.statusBar = QStatusBar()
+        self.menuBar = QMenuBar()
+        self.menuBar.addMenu("Ustawienia")
+        self.menuBar.addMenu("Pomoc")
+        self.vertical_layout_top.addWidget(self.menuBar)
+        self.vertical_layout_top.setAlignment(self.menuBar, Qt.AlignTop)
         self.label_avatar.resize(90, 90)
         self.vertical_layout_left.addWidget(self.statusBar)
 
