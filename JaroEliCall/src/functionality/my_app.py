@@ -40,9 +40,18 @@ class MyApp(QApplication):
         self.registerWindow = None
         self.interactionWindow = None
         self.passwordChangeWindow = None
-
+        self.settingsWindow = None
+        self.creditsWindow = None
+        self.activationWindow = None
 
         self.eventClose = self.closingSignalResponse
+
+    @pyqtSlot(bool)
+    def creditsSignalResponse(self, value):
+        if value:
+            self.showCreditsWindow()
+        else:
+            self.hideCreditsWindow()
 
     # Slots for communicate
     @pyqtSlot(bool, str)
@@ -171,7 +180,7 @@ class MyApp(QApplication):
         if value:
             if(self.client.last_list_users != users_list):
                 self.mainWindow.delete_rows_users()
-                print("lolololololo---------------------------------------------------- ", users_list)
+                print("(*) MyApp changedUserStatus:\n", users_list, "\n")
                 self.mainWindow.add_row_to_list_of_users(users_list)
                 self.client.last_list_users = users_list
 
@@ -236,10 +245,23 @@ class MyApp(QApplication):
 
     # Activation Dialog methods
     def setupActivationWindow(self, activation_window):
-        self.activation_window = activation_window
+        self.activationWindow = activation_window
 
     def hideActivationWindow(self):
-        self.activation_window.hide()
+        if self.activationWindow is not None:
+            self.activationWindow.hide()
 
     def showActivationWindow(self):
-        self.activation_window.show()
+        if self.activationWindow is not None:
+            self.activationWindow.show()
+
+    def setupCreditsWindow(self, credits_window):
+        self.creditsWindow = credits_window
+
+    def showCreditsWindow(self):
+        if self.showCreditsWindow is not None:
+            self.creditsWindow.show()
+
+    def hideCreditsWindow(self):
+        if self.showCreditsWindow is not None:
+            self.creditsWindow.hide()

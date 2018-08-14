@@ -15,10 +15,11 @@ sys.path.append(lib_path)
 lib_path2 = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path2)
 
-from src.wrapped_interfaces.credits_wrapped_ui import CreditsWrappedUI
+from src.wrapped_interfaces.credits_wrapped_ui import CreditWrappedUI
 
 
-class CreditsDialog(CreditsWrappedUI):
+class CreditsDialog(CreditWrappedUI):
 
 	def __init__(self):
 		super(CreditsDialog, self).__init__()
+

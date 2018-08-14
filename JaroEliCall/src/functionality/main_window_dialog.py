@@ -28,7 +28,7 @@ from JaroEliCall.src.test2 import ClientThread
 
 from JaroEliCall.src.client import Client
 from JaroEliCall.src.wrapped_interfaces.main_wrapped_ui import MainWrappedUI
-
+from JaroEliCall.src.functionality.credits_dialog import CreditsDialog
 
 # remoteClientIP = '127.0.0.1'
 
@@ -39,6 +39,7 @@ class MainWindowDialog(MainWrappedUI):
 
     closingSignal = pyqtSignal(QEvent)
     callSignal = pyqtSignal(bool)
+    creditsSignal = pyqtSignal(bool)
 
     def __init__(self, client):
         super(MainWindowDialog, self).__init__()
@@ -55,6 +56,8 @@ class MainWindowDialog(MainWrappedUI):
         self.table_widget_list_of_users.setIconSize(QSize(72, 72))
         self.table_widget_list_of_users.setSelectionBehavior(QTableView.SelectRows)
 
+
+        self.set_menubar_about(self.showCredits)
         self.set_push_button_logout(self.closeApp)
         self.set_push_button_call(self.call_someone)
 
@@ -72,6 +75,9 @@ class MainWindowDialog(MainWrappedUI):
         self.setAttribute(Qt.WA_TranslucentBackground)
         """
         # connect(self.close_event_message_box)
+    def showCredits(self):
+        self.creditsSignal.emit(True)
+
     def closeApp(self, event):
         print(event)
         self.close()

@@ -55,18 +55,24 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         self.vertical_layout_left.addWidget(self.statusBar)
         self.vertical_layout_top.setAlignment(self.menuBar, Qt.AlignTop)
 
+        # menubar : settings
         self.settingsMenu = self.menuBar.addMenu("Ustawienia")
+        self.profileAction = QAction("Profil")
+        self.settingsMenu.addAction(self.profileAction)
+
+        # menubar : help
         self.helpMenu = self.menuBar.addMenu("Pomoc")
         self.aboutAction = QAction("O programie", self)
         self.helpMenu.addAction(self.aboutAction)
 
-        self.aboutAction.triggered.connect(self.show_credits_dialog)
         self.label_avatar.resize(90, 90)
         self.set_fit_width()
 
-    def show_credits_dialog(self):
-        c = CreditsDialog()
-        c.show()
+    def set_menubar_about(self, func):
+        self.aboutAction.triggered.connect(func)
+
+    def set_menubar_profile(self, func):
+        self.profileAction.triggered.connect(func)
 
     def set_info_text(self, text):
         self.label_info.setText(text)
@@ -115,7 +121,6 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         self.table_widget_list_of_users.setItem(row, col, item)
 
     def add_row_to_list_of_users(self, users):
-        print("!!!!!!!!!!!!!Dostalem: ------------------------------------------", users)
         who_is_signed = self.label_user_name.text()
         for user in users:
             if user['login'] != who_is_signed:
