@@ -44,21 +44,17 @@ class MainWindowDialog(MainWrappedUI):
         super(MainWindowDialog, self).__init__()
 
         self.client = client
-        # self.__session_id = None
-
         self.prefix = ":/avatars/"
 
         self.loop = QEventLoop()
+
         self.timer = QTimer()
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(lambda: self.loop.exit(1))
-        self.table_widget_list_of_users.setIconSize(QSize(72, 72))
-        
-        self.table_widget_list_of_users.setSelectionBehavior(QTableView.SelectRows)
-        #self.table_widget_list_of_users.setSelectionMode()
 
-        #self.userName = self.setUserName(self.client.usernname)
-        #self.setUserAvatar(self.client.get_avatar(self.userName))
+        self.table_widget_list_of_users.setIconSize(QSize(72, 72))
+        self.table_widget_list_of_users.setSelectionBehavior(QTableView.SelectRows)
+
         self.set_push_button_logout(self.closeApp)
         self.set_push_button_call(self.call_someone)
 
@@ -103,7 +99,7 @@ class MainWindowDialog(MainWrappedUI):
 
     def call_someone(self):
         row = int(self.table_widget_list_of_users.currentRow())
-        
+
         if row != None:
             try:
                 where = self.table_widget_list_of_users.item(row, 0).text()
@@ -142,7 +138,7 @@ class MainWindowDialog(MainWrappedUI):
             if self.client.status == "202 USERS":
                 print("{*} MainWindow users: ", self.client.users)
                 self.set_who_is_signed(self.client.who_signed)
-                print("lalalala -------------------------------", self.client.users)
+                print("{*} MainWindow info: Users - ",self.client.users)
                 self.add_row_to_list_of_users(self.client.users)
 
             elif self.client.status == "200 INVITE":

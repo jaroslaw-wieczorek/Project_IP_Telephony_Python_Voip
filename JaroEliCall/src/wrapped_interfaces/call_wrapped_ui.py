@@ -24,4 +24,5 @@ class CallWrappedUI(QDialog, Ui_CallInterfaceDialog):
     def __init__(self):
         super(CallWrappedUI, self).__init__()
         self.setupUi(self)
+
         self.actionExit.triggered.connect(self.close)

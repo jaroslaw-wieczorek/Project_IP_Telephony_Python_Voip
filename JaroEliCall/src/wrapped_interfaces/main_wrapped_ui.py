@@ -21,8 +21,9 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtGui import QImage
 from PyQt5.QtGui import QPixmap
 
-from PyQt5.QtWidgets import QMenuBar
+from PyQt5.QtWidgets import QAction
 from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QMenuBar
 from PyQt5.QtWidgets import QStatusBar
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QTableWidget
@@ -35,6 +36,7 @@ sys.path.append(lib_path)
 print(lib_path)
 import os
 
+from src.functionality.credits_dialog import CreditsDialog
 from gui.main_ui import Ui_MainInterfaceDialog
 from gui.resources import icons_wrapper_rc
 from gui.resources import resources_avatars_rc
@@ -45,16 +47,26 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
     def __init__(self):
         super(MainWrappedUI, self).__init__()
         self.setupUi(self)
-        self.statusBar = QStatusBar()
-        self.menuBar = QMenuBar()
-        self.menuBar.addMenu("Ustawienia")
-        self.menuBar.addMenu("Pomoc")
-        self.vertical_layout_top.addWidget(self.menuBar)
-        self.vertical_layout_top.setAlignment(self.menuBar, Qt.AlignTop)
-        self.label_avatar.resize(90, 90)
-        self.vertical_layout_left.addWidget(self.statusBar)
 
+        self.menuBar = QMenuBar()
+        self.statusBar = QStatusBar()
+
+        self.vertical_layout_top.addWidget(self.menuBar)
+        self.vertical_layout_left.addWidget(self.statusBar)
+        self.vertical_layout_top.setAlignment(self.menuBar, Qt.AlignTop)
+
+        self.settingsMenu = self.menuBar.addMenu("Ustawienia")
+        self.helpMenu = self.menuBar.addMenu("Pomoc")
+        self.aboutAction = QAction("O programie", self)
+        self.helpMenu.addAction(self.aboutAction)
+
+        self.aboutAction.triggered.connect(self.show_credits_dialog)
+        self.label_avatar.resize(90, 90)
         self.set_fit_width()
+
+    def show_credits_dialog(self):
+        c = CreditsDialog()
+        c.show()
 
     def set_info_text(self, text):
         self.label_info.setText(text)

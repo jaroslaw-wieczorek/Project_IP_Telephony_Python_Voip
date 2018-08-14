@@ -6,24 +6,30 @@ Created on Sat May 26 13:43:22 2018
 @author: afar
 """
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication
-from PyQt5.QtGui import QPixmap, QIcon, QImage
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
-
 import os
 import sys
 
-# importing data accc
+from PyQt5 import QtGui
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
+
+from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QImage
+from PyQt5.QtGui import QPixmap
+
+from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QTableWidget
+from PyQt5.QtWidgets import QTableWidgetItem
+
+
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path)
-print("Manage_interaction_interface\n", lib_path)
 
 
 from gui.interaction_ui import Ui_InteractionInterfaceDialog
-#from gui.testpic_ui import Ui_Dialog
 from gui.resources import icons_wrapper_rc
-
+from gui.resources import resources_avatars_rc
 
 
 class InteractionWrappedUI(QDialog, Ui_InteractionInterfaceDialog):
@@ -36,7 +42,6 @@ class InteractionWrappedUI(QDialog, Ui_InteractionInterfaceDialog):
     def get_pixmap_from_resources(self, name):
         pixmap = QPixmap(str(":/icon/" + name))
         return pixmap
-
 
     def get_icon_from_resources(self, name):
         icon = QIcon(QPixmap(str(":/icon/" + name)))
@@ -55,24 +60,21 @@ class InteractionWrappedUI(QDialog, Ui_InteractionInterfaceDialog):
     def set_push_button_accept(self, funct):
         self.push_button_accept.clicked.connect(funct)
 
-
     def set_push_button_reject(self, funct):
         self.push_button_reject.clicked.connect(funct)
-
 
     def set_label_accept_pixmap(self, name="call-in-progress.png"):
         self.label_accept.setPixmap(self.get_pixmap_from_resources(name))
 
-
     def set_label_reject_pixmap(self, name="call-ended.png"):
         self.label_reject.setPixmap(self.get_pixmap_from_resources(name))
 
-
-    def set_avatar(self, pixmap : QPixmap):
+    def set_avatar(self, pixmap):
         self.label_avatar.setPixmap(QPixmap(str(pixmap)))
 
     def nothing(self):
         print("Do nothing!")
+
 
 """
 
