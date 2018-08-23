@@ -264,4 +264,4 @@ class MyApp(QApplication):
 
     def hideCreditsWindow(self):
         if self.showCreditsWindow is not None:
-            self.creditsWindow.hide()
+            self.creditsWindowhide()

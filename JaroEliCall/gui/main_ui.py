@@ -12,7 +12,7 @@ class Ui_MainInterfaceDialog(object):
     def setupUi(self, MainInterfaceDialog):
         MainInterfaceDialog.setObjectName("MainInterfaceDialog")
         MainInterfaceDialog.setWindowModality(QtCore.Qt.NonModal)
-        MainInterfaceDialog.resize(757, 682)
+        MainInterfaceDialog.resize(757, 683)
         MainInterfaceDialog.setMinimumSize(QtCore.QSize(0, 0))
         self.gridLayout_2 = QtWidgets.QGridLayout(MainInterfaceDialog)
         self.gridLayout_2.setObjectName("gridLayout_2")
