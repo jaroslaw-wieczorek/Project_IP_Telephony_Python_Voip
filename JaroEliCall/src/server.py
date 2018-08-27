@@ -8,10 +8,7 @@ import random
 import socket
 import pyaudio
 import smtplib
-
-
 from threading import Thread
-from bson.json_util import dumps
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
@@ -96,9 +93,11 @@ class Server:
         return ans
 
     def sending(self, addr, payload):
-        self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-        print("Server : Sended: " + str(payload) + " to " + str(addr))
-
+        try:
+            self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
+            print("Server : Sended: " + str(payload) + " to " + str(addr))
+        except Exception as err:
+          print(err.message)
 
     def log_in(self, login, password, addr):
         # print("Server log_in: get LOGIN")
