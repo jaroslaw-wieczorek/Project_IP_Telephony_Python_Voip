@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_ActivationInterfaceDialog(object):
     def setupUi(self, ActivationInterfaceDialog):
         ActivationInterfaceDialog.setObjectName("ActivationInterfaceDialog")
-        ActivationInterfaceDialog.resize(615, 370)
+        ActivationInterfaceDialog.resize(615, 367)
         ActivationInterfaceDialog.setMinimumSize(QtCore.QSize(0, 0))
         ActivationInterfaceDialog.setMaximumSize(QtCore.QSize(615, 370))
         self.gridLayout = QtWidgets.QGridLayout(ActivationInterfaceDialog)
@@ -60,6 +60,7 @@ class Ui_ActivationInterfaceDialog(object):
         self.label_login.setObjectName("label_login")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_login)
         self.line_edit_login = QtWidgets.QLineEdit(ActivationInterfaceDialog)
+        self.line_edit_login.setMaxLength(30)
         self.line_edit_login.setObjectName("line_edit_login")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_edit_login)
         self.label_password = QtWidgets.QLabel(ActivationInterfaceDialog)
@@ -79,7 +80,7 @@ class Ui_ActivationInterfaceDialog(object):
         sizePolicy.setHeightForWidth(self.line_edit_password.sizePolicy().hasHeightForWidth())
         self.line_edit_password.setSizePolicy(sizePolicy)
         self.line_edit_password.setMinimumSize(QtCore.QSize(0, 0))
-        self.line_edit_password.setMaxLength(20)
+        self.line_edit_password.setMaxLength(30)
         self.line_edit_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.line_edit_password.setObjectName("line_edit_password")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.line_edit_password)
@@ -89,6 +90,7 @@ class Ui_ActivationInterfaceDialog(object):
         self.label_repeat_password.setObjectName("label_repeat_password")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_repeat_password)
         self.line_edit_repeat_password = QtWidgets.QLineEdit(ActivationInterfaceDialog)
+        self.line_edit_repeat_password.setMaxLength(30)
         self.line_edit_repeat_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.line_edit_repeat_password.setObjectName("line_edit_repeat_password")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.line_edit_repeat_password)
@@ -117,7 +119,7 @@ class Ui_ActivationInterfaceDialog(object):
 
     def retranslateUi(self, ActivationInterfaceDialog):
         _translate = QtCore.QCoreApplication.translate
-        ActivationInterfaceDialog.setWindowTitle(_translate("ActivationInterfaceDialog", "Dialog"))
+        ActivationInterfaceDialog.setWindowTitle(_translate("ActivationInterfaceDialog", "JaroEliCall  -  aktywacja konta"))
         self.label_form_name.setText(_translate("ActivationInterfaceDialog", "<html><head/><body><p>### Zmiana hasła ###</p></body></html>"))
         self.label_avatar_name.setText(_translate("ActivationInterfaceDialog", "Nazwa"))
         self.push_button_avatar.setText(_translate("ActivationInterfaceDialog", "Wybierz awatar"))

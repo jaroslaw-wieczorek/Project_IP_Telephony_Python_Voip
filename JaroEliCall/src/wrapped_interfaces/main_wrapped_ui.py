@@ -9,8 +9,10 @@ Created on Sat May 26 13:42:22 2018
 import os
 import sys
 
+
 from PyQt5 import QtGui
 from PyQt5 import QtCore
+from PyQt5.QtCore import Qt
 from PyQt5 import QtWidgets
 
 from PyQt5.QtCore import QSize
@@ -19,7 +21,9 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtGui import QImage
 from PyQt5.QtGui import QPixmap
 
+from PyQt5.QtWidgets import QAction
 from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QMenuBar
 from PyQt5.QtWidgets import QStatusBar
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QTableWidget
@@ -32,6 +36,7 @@ sys.path.append(lib_path)
 print(lib_path)
 import os
 
+from src.functionality.credits_dialog import CreditsDialog
 from gui.main_ui import Ui_MainInterfaceDialog
 from gui.resources import icons_wrapper_rc
 from gui.resources import resources_avatars_rc
@@ -42,11 +47,32 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
     def __init__(self):
         super(MainWrappedUI, self).__init__()
         self.setupUi(self)
-        self.statusBar = QStatusBar()
-        self.label_avatar.resize(90, 90)
-        self.vertical_layout_left.addWidget(self.statusBar)
 
+        self.menuBar = QMenuBar()
+        self.statusBar = QStatusBar()
+
+        self.vertical_layout_top.addWidget(self.menuBar)
+        self.vertical_layout_left.addWidget(self.statusBar)
+        self.vertical_layout_top.setAlignment(self.menuBar, Qt.AlignTop)
+
+        # menubar : settings
+        self.settingsMenu = self.menuBar.addMenu("Ustawienia")
+        self.profileAction = QAction("Profil")
+        self.settingsMenu.addAction(self.profileAction)
+
+        # menubar : help
+        self.helpMenu = self.menuBar.addMenu("Pomoc")
+        self.aboutAction = QAction("O programie", self)
+        self.helpMenu.addAction(self.aboutAction)
+
+        self.label_avatar.resize(90, 90)
         self.set_fit_width()
+
+    def set_menubar_about(self, func):
+        self.aboutAction.triggered.connect(func)
+
+    def set_menubar_profile(self, func):
+        self.profileAction.triggered.connect(func)
 
     def set_info_text(self, text):
         self.label_info.setText(text)
@@ -95,7 +121,6 @@ class MainWrappedUI(QDialog, Ui_MainInterfaceDialog):
         self.table_widget_list_of_users.setItem(row, col, item)
 
     def add_row_to_list_of_users(self, users):
-        print("!!!!!!!!!!!!!Dostalem: ------------------------------------------", users)
         who_is_signed = self.label_user_name.text()
         for user in users:
             if user['login'] != who_is_signed:

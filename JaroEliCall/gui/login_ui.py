@@ -50,7 +50,7 @@ class Ui_LoginInterfaceDialog(object):
         sizePolicy.setHeightForWidth(self.line_edit_login.sizePolicy().hasHeightForWidth())
         self.line_edit_login.setSizePolicy(sizePolicy)
         self.line_edit_login.setMinimumSize(QtCore.QSize(50, 0))
-        self.line_edit_login.setMaxLength(35)
+        self.line_edit_login.setMaxLength(30)
         self.line_edit_login.setObjectName("line_edit_login")
         self.form_layout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_edit_login)
         self.label_password = QtWidgets.QLabel(LoginInterfaceDialog)
@@ -70,7 +70,7 @@ class Ui_LoginInterfaceDialog(object):
         sizePolicy.setHeightForWidth(self.line_edit_password.sizePolicy().hasHeightForWidth())
         self.line_edit_password.setSizePolicy(sizePolicy)
         self.line_edit_password.setMinimumSize(QtCore.QSize(50, 0))
-        self.line_edit_password.setMaxLength(35)
+        self.line_edit_password.setMaxLength(30)
         self.line_edit_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.line_edit_password.setObjectName("line_edit_password")
         self.form_layout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.line_edit_password)
@@ -104,7 +104,7 @@ class Ui_LoginInterfaceDialog(object):
 
     def retranslateUi(self, LoginInterfaceDialog):
         _translate = QtCore.QCoreApplication.translate
-        LoginInterfaceDialog.setWindowTitle(_translate("LoginInterfaceDialog", "Dialog"))
+        LoginInterfaceDialog.setWindowTitle(_translate("LoginInterfaceDialog", "JaroEliCall  -  logowanie"))
         self.label_form_name.setText(_translate("LoginInterfaceDialog", "Logowanie użytkownika"))
         self.label_login.setText(_translate("LoginInterfaceDialog", "Login:"))
         self.label_password.setText(_translate("LoginInterfaceDialog", "Hasło:"))

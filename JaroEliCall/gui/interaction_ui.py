@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/afar/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/interaction.ui'
+# Form implementation generated from reading ui file '/home/afar/Dokumenty/Project_IP_Telephony_Python_Voip/JaroEliCall/gui/ui/interaction.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_InteractionInterfaceDialog(object):
     def setupUi(self, InteractionInterfaceDialog):
         InteractionInterfaceDialog.setObjectName("InteractionInterfaceDialog")
-        InteractionInterfaceDialog.resize(417, 600)
+        InteractionInterfaceDialog.resize(417, 606)
         self.verticalLayout = QtWidgets.QVBoxLayout(InteractionInterfaceDialog)
         self.verticalLayout.setObjectName("verticalLayout")
         spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
@@ -102,7 +102,7 @@ class Ui_InteractionInterfaceDialog(object):
 
     def retranslateUi(self, InteractionInterfaceDialog):
         _translate = QtCore.QCoreApplication.translate
-        InteractionInterfaceDialog.setWindowTitle(_translate("InteractionInterfaceDialog", "Form"))
+        InteractionInterfaceDialog.setWindowTitle(_translate("InteractionInterfaceDialog", "JaroEliCall  -  Rozmowa"))
         self.rich_text_user_call.setText(_translate("InteractionInterfaceDialog", "<html><head/><body><p><span style=\" font-size:18pt; font-weight:600;\">Tomek dzwoni</span></p></body></html>"))
         self.label_avatar.setText(_translate("InteractionInterfaceDialog", "Avatar"))
         self.push_button_accept.setText(_translate("InteractionInterfaceDialog", "Odbierz"))

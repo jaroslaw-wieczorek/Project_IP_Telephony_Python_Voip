@@ -61,7 +61,7 @@ class ServerThread(threading.Thread, Configuration):
                     self.CHUNK * 2)
 
                 self.stream.write(message)
-                mx = audioop.max(message, 2)
+                # mx = audioop.max(message, 2)
                 # print(mx)
 
     def close_serverSocket(self):
@@ -100,13 +100,13 @@ class ClientThread(threading.Thread, Configuration):
     def clientSide(self):
 
         print("Send on: ", self.REMOTE_IP, self.REMOTE_PORT)
-        self.clientSocket.connect((self.REMOTE_IP,  self.REMOTE_PORT))
+        self.clientSocket.connect((self.REMOTE_IP, self.REMOTE_PORT))
         time.sleep(2)
         while True:
             if self.clientSocket:
                 message = self.stream.read(self.CHUNK)
                 self.clientSocket.send(message)
-                mx = audioop.max(message, 2)
+                # mx = audioop.max(message, 2)
                 # print(mx)
 
     def close_clientSocket(self):

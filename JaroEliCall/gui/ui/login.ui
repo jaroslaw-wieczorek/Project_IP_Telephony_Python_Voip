@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>JaroEliCall  -  logowanie</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -119,7 +119,7 @@
         </size>
        </property>
        <property name="maxLength">
-        <number>35</number>
+        <number>30</number>
        </property>
       </widget>
      </item>
@@ -160,7 +160,7 @@
         </size>
        </property>
        <property name="maxLength">
-        <number>35</number>
+        <number>30</number>
        </property>
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>

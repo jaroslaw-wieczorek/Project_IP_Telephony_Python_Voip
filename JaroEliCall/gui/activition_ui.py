@@ -5,7 +5,7 @@
 # Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
-"""
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_ActivationInterfaceDialog(object):
@@ -57,6 +57,7 @@ class Ui_ActivationInterfaceDialog(object):
         self.label_login.setObjectName("label_login")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_login)
         self.line_edit_login = QtWidgets.QLineEdit(ActivationInterfaceDialog)
+        self.line_edit_login.setMaxLength(20)
         self.line_edit_login.setObjectName("line_edit_login")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_edit_login)
         self.label_password = QtWidgets.QLabel(ActivationInterfaceDialog)
@@ -86,6 +87,7 @@ class Ui_ActivationInterfaceDialog(object):
         self.label_repeat_password.setObjectName("label_repeat_password")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_repeat_password)
         self.line_edit_repeat_password = QtWidgets.QLineEdit(ActivationInterfaceDialog)
+        self.line_edit_repeat_password.setMaxLength(20)
         self.line_edit_repeat_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.line_edit_repeat_password.setObjectName("line_edit_repeat_password")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.line_edit_repeat_password)
@@ -114,7 +116,7 @@ class Ui_ActivationInterfaceDialog(object):
 
     def retranslateUi(self, ActivationInterfaceDialog):
         _translate = QtCore.QCoreApplication.translate
-        ActivationInterfaceDialog.setWindowTitle(_translate("ActivationInterfaceDialog", "Dialog"))
+        ActivationInterfaceDialog.setWindowTitle(_translate("ActivationInterfaceDialog", "JaroEliCall  -  aktywacja konta"))
         self.label_form_name.setText(_translate("ActivationInterfaceDialog", "<html><head/><body><p>### Zmiana hasła ###</p></body></html>"))
         self.label_avatar_name.setText(_translate("ActivationInterfaceDialog", "Nazwa"))
         self.label_login.setText(_translate("ActivationInterfaceDialog", "login"))
@@ -122,4 +124,3 @@ class Ui_ActivationInterfaceDialog(object):
         self.label_repeat_password.setText(_translate("ActivationInterfaceDialog", "Powtórz hasło:"))
         self.push_button_change_password.setText(_translate("ActivationInterfaceDialog", "Ustaw hasło i avatar"))
 
-"""
