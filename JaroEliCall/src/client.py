@@ -15,10 +15,12 @@ from JaroEliCall.src.test2 import ClientThread
 from threading import Thread
 import random
 
+
 # Server computer IP
 #IP_server = '192.168.43.130'
-IP_server = '192.168.43.70'
 #IP_server = '127.0.0.1'
+IP_server = '192.168.43.70'
+
 PORT_server = 50001
 
 
@@ -32,7 +34,7 @@ class Client(QtCore.QObject):
     getMessage = QtCore.pyqtSignal(bool)
     callSignal = QtCore.pyqtSignal(bool, str, list)
     changedUsersStatusSignal = QtCore.pyqtSignal(bool, list)
-    endCallResponse = QtCore.pyqtSignal(bool)
+    endCallResponse = QtCore.pyqtSignal(bool, str)
 
     registerMessage = QtCore.pyqtSignal(bool)
 
@@ -73,19 +75,29 @@ class Client(QtCore.QObject):
         except ConnectionRefusedError as err:
             print(err.message)
 
+    def end_connection(self, person):
+        payload = {"type": "d",
+                   "description": "OK CLOSE CONNECTION",
+                   "answer_to": "CONN_END",
+                   "with_who": person}
+        self.sendMessage(payload)
+
     def listeningServer(self):
         print("<*> Client info: run listeningServer")
         while True:
             print("<*> Client info: Listen now")
+            try:
+                packet, address = self.socket.recvfrom(self.size)
+                data = packet.decode("utf-8")
+                self.received = json.loads(data)
 
-            packet, address = self.socket.recvfrom(self.size)
-            data = packet.decode("utf-8")
-            self.received = json.loads(data)
+                print("<*> Client info: Get response from server ", self.received)
 
-            print("<*> Client info: Get response from server ", self.received)
+                if str(self.received["type"]) == "d":
+                    self.react_on_communicate()
+            except:
+                print()
 
-            if str(self.received["type"]) == "d":
-                self.react_on_communicate()
 
     def react_on_communicate(self):
         if (self.received["status"] == 200 and
@@ -148,7 +160,6 @@ class Client(QtCore.QObject):
             if self.last_list_users != []:
                 self.changedUsersStatusSignal.emit(True,
                                                    self.received["USERS"])
-                self.last_list_users = self.received["USERS"]
 
 
         elif self.received["status"] == 202:
@@ -239,15 +250,25 @@ class Client(QtCore.QObject):
               self.received["answer_to"] == "CONN_END"):
 
             print("Połączenie zakończone")
-            self.endCallResponse.emit(True)
-
-            self.status = "200 END"
-            print("200 END")
 
             self.getMessage.emit(True)
-            self.end_connection()
+            self.end_send_voice()
+
+            self.end_receiving_sound()
+
+
+            self.endCallResponse.emit(True, self.received["from_who"])
+
+            self.status = "200 END"
+
+            print("200 END")
 
             print("<*> Client info: getMessage signal was emited with True")
+
+        elif (self.received["status"] == 200 and
+              self.received["description"] == "OK CLOSE CONNECTION"):
+
+            self.end_receiving_sound()
 
         elif (self.received["status"] == 406 and
               self.received["answer_to"] == "LOGIN"):
@@ -372,8 +393,10 @@ class Client(QtCore.QObject):
             print("<*> Client info: Stop recording")
         self.user_name_ip = ''
 
-    def end_connection(self):
+    def end_send_voice(self):
         self.thread2.close_clientSocket()
+
+    def end_receiving_sound(self):
         self.thread1.close_serverSocket()
 
     def closeConnection(self):
