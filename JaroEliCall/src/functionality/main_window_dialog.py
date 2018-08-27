@@ -158,6 +158,7 @@ class MainWindowDialog(MainWrappedUI):
             elif self.client.status == "200 END":
                 status = "Zakonczono polaczenie"
                 self.showConnectionStatus(status)
+                self.client.send_ack_on_close_conn()
                 print(status)
             elif self.client.status == "402 NOT ACCEPTABLE":
                 status = "Aktywuj swoje konto"

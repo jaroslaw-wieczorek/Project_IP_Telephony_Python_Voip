@@ -11,7 +11,7 @@ import smtplib
 
 
 from threading import Thread
-from bson.json_util import dumps
+#from bson.json_util import dumps
 
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..'))
 sys.path.append(lib_path)
@@ -367,25 +367,25 @@ class Server:
                 data = d.decode("utf-8")
                 received = json.loads(data)
 
-                if (str(received["type"]) == "d"):
+                if str(received["type"]) == "d":
                     # print("Komunikat: ", (received["description"]))
-                    if (received["description"] == "LOGIN"):
+                    if received["description"] == "LOGIN":
                         self.log_in(received["login"],
                                     received["password"], addr)
-                    elif (received["description"] == "LOGOUT"):
+                    elif received["description"] == "LOGOUT":
                         self.log_out(addr)
                         # usuniecie z listy klientow z ktorymi jest polaczenie
-                    elif (received["description"] == "GET"):
+                    elif received["description"] == "GET":
                         self.users_from_mongo(addr)
-                    elif (received["description"] == "INVITE"):
+                    elif received["description"] == "INVITE":
                         recipient = received["call_to"]
                         # print("recipient ", recipient)
                         self.invite_person(recipient, addr)
-                    elif (received["description"] == "CREATE"):
+                    elif received["description"] == "CREATE":
                         self.create_in_database(received, addr)
-                    elif (received["description"] == "LOGOUT"):
+                    elif received["description"] == "LOGOUT":
                         self.log_out(addr)
-                    elif (received["description"] == "NOTHING"):
+                    elif received["description"] == "NOTHING":
                         # print("informacja od recipient
                         # czy odebral lub odrzucil")
                         self.send_info_to_caller(received["status"],
@@ -395,6 +395,9 @@ class Server:
                     elif received["description"] == "END":
                         self.check_caller(received["from_who"])
 
+                    elif received["description"] == "OK CLOSE CONNECTION":
+                        self.send_ok_end_connection(received["with_Who"])
+
                     elif received["description"] == "CHANGE":
                         print("[***] Server!! received[\"AVATAR\"] with: ", received["AVATAR"])
                         self.change_user_password(received["NICKNAME"], received["PASSWORD"], received["AVATAR"], addr)
@@ -402,6 +405,17 @@ class Server:
             except ConnectionResetError as err:
                 print("Połączenie przerwane przez klienta\n")
         # print("[*] Stop listen")
+
+    def send_ok_end_connection(self, with_who):
+        payload = {"type": "d",
+                   "description": "OK CLOSE CONNECTION",
+                   "status": 200,
+                   "from_who": with_who,
+                   "answer_to": "CONN_END"}
+
+        ip = self.find_address(with_who)
+        self.end_of_conn = payload
+        self.sending(ip, payload)
 
     def check_caller(self, from_who):
         caller = self.converstation_dictionary[from_who]
