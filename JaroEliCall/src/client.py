@@ -4,8 +4,9 @@ import json
 import socket
 import pyaudio
 from PyQt5 import QtCore
-
+from threading import Event
 import string
+
 lib_path = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 sys.path.append(lib_path)
 print(lib_path)
@@ -15,11 +16,10 @@ from JaroEliCall.src.test2 import ClientThread
 from threading import Thread
 import random
 
-
 # Server computer IP
-#IP_server = '192.168.43.130'
-#IP_server = '127.0.0.1'
-IP_server = '192.168.43.70'
+IP_server = '192.168.43.130'
+# IP_server = '127.0.0.1'
+# IP_server = '10.160.39.196'
 
 PORT_server = 50001
 
@@ -98,10 +98,9 @@ class Client(QtCore.QObject):
             except:
                 print()
 
-
     def react_on_communicate(self):
         if (self.received["status"] == 200 and
-           self.received["answer_to"] == "LOGIN"):
+                    self.received["answer_to"] == "LOGIN"):
 
             print("<*> Client info: React on comunicate: 200")
             # TO DO
@@ -112,24 +111,24 @@ class Client(QtCore.QObject):
             print("<*> Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 403 and
-              self.received["answer_to"] == "LOGIN" and
-              self.received["description"] == "NOT ACCEPTABLE"):
+                      self.received["answer_to"] == "LOGIN" and
+                      self.received["description"] == "NOT ACCEPTABLE"):
 
             self.received = "403 NOT ACCEPTABLE"
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 405 and
-                  self.received["answer_to"] == "LOGIN" and
-                  self.received["description"] == "NOT ACCEPTABLE"):
+                      self.received["answer_to"] == "LOGIN" and
+                      self.received["description"] == "NOT ACCEPTABLE"):
 
             self.received = "200 ACTIVATION OK"
             self.getMessage.emit(True)
             self.activateAccountMessage.emit(True, 200)
 
         elif (self.received["status"] == 200 and
-                  self.received["answer_to"] == "CHANGE" and
-                  self.received["description"] == "CHANGED"):
+                      self.received["answer_to"] == "CHANGE" and
+                      self.received["description"] == "CHANGED"):
 
             print("Zmieniono hasło")
             self.received = "200 CHANGED"
@@ -137,16 +136,16 @@ class Client(QtCore.QObject):
             self.getMessage.emit(True)
 
         elif (self.received["status"] == 409 and
-              self.received["answer_to"] == "LOGIN" and
-              self.received["description"] == "NOT ACCEPTABLE"):
+                      self.received["answer_to"] == "LOGIN" and
+                      self.received["description"] == "NOT ACCEPTABLE"):
 
             print("W polu hasło należy podać kod aktywacyjny")
             self.received = "409 NOT ACCEPTABLE"
             self.getMessage.emit(True)
 
         elif (self.received["status"] == 406 and
-                  self.received["answer_to"] == "CHANGE" and
-                  self.received["description"] == "CHANGED"):
+                      self.received["answer_to"] == "CHANGE" and
+                      self.received["description"] == "CHANGED"):
 
             self.received = "406 NOT CHANGED"
             print("Nie zmieniono hasła")
@@ -155,7 +154,7 @@ class Client(QtCore.QObject):
 
 
         elif (self.received["status"] == 203 and
-              self.received["answer_to"] == "AUTOMATIC_USERS_UPDATE"):
+                      self.received["answer_to"] == "AUTOMATIC_USERS_UPDATE"):
             # print("!!!! DOSTALEM UPDATE")
             if self.last_list_users != []:
                 self.changedUsersStatusSignal.emit(True,
@@ -174,8 +173,8 @@ class Client(QtCore.QObject):
             print("<*> Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 200 and
-              self.received["answer_to"] == "INVITE" and
-              self.received["description"] == "OK"):
+                      self.received["answer_to"] == "INVITE" and
+                      self.received["description"] == "OK"):
 
             self.params = []
             self.status = "200 INVITE"
@@ -185,15 +184,15 @@ class Client(QtCore.QObject):
                 self.params.append(i)
 
         elif (self.received["status"] == 406 and
-              self.received["answer_to"] == "INVITE" and
-              self.received["description"] == "REJECTED"):
+                      self.received["answer_to"] == "INVITE" and
+                      self.received["description"] == "REJECTED"):
 
             self.status = "406 REJECTED"
             self.callSignal.emit(False, self.received["from_who"], [])
 
         elif (self.received["status"] == 402 and
-              self.received["answer_to"] == "LOGIN" and
-              self.received["description"] == "NOT ACCEPTABLE"):
+                      self.received["answer_to"] == "LOGIN" and
+                      self.received["description"] == "NOT ACCEPTABLE"):
 
             self.status = "402 NOT ACCEPTABLE"
             self.getMessage.emit(True)
@@ -201,16 +200,16 @@ class Client(QtCore.QObject):
 
 
         elif (self.received["status"] == 200 and
-              self.received["answer_to"] == "ACTIVATE" and
-              self.received["description"] == "OK"):
+                      self.received["answer_to"] == "ACTIVATE" and
+                      self.received["description"] == "OK"):
 
             self.received = "200 ACTIVATION OK"
             self.getMessage.emit(True)
             self.activateAccountMessage.emit(True, 200)
 
         elif (self.received["status"] == 200 and
-              self.received["answer_to"] == "INVITE" and
-              self.received["description"] == "ANSWERED"):
+                      self.received["answer_to"] == "INVITE" and
+                      self.received["description"] == "ANSWERED"):
 
             user_name = self.received["from_who"]
             user_name_ip = self.received["from_who_ip"]
@@ -225,7 +224,7 @@ class Client(QtCore.QObject):
             self.voice(user_name_ip, 9999, 9998)
 
         elif (self.received["status"] == 406 and
-              self.received["answer_to"] == "INVITE"):
+                      self.received["answer_to"] == "INVITE"):
 
             self.status = "406 INVITE"
             print("406 INVITE")
@@ -233,7 +232,7 @@ class Client(QtCore.QObject):
             print("Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 200 and
-              self.received["answer_to"] == "NOTHING"):
+                      self.received["answer_to"] == "NOTHING"):
 
             # save name and ip of person who is calling
             self.name_who = self.received["from_who"]
@@ -246,39 +245,38 @@ class Client(QtCore.QObject):
             print("Client : info: makeCallSignal signal was emited with True")
 
         elif (self.received["status"] == 200 and
-              self.received["description"] == "END" and
-              self.received["answer_to"] == "CONN_END"):
+                      self.received["description"] == "END" and
+                      self.received["answer_to"] == "CONN_END"):
 
             print("Połączenie zakończone")
 
             self.getMessage.emit(True)
-            self.end_send_voice()
-
-            self.end_receiving_sound()
-
-
             self.endCallResponse.emit(True, self.received["from_who"])
-
             self.status = "200 END"
-
-            print("200 END")
 
             print("<*> Client info: getMessage signal was emited with True")
 
+            self.client.thread2.stopped.set()
+            self.end_send_voice()
+
+            self.client.thread1.stopped.set()
+            self.end_receiving_sound()
+
         elif (self.received["status"] == 200 and
-              self.received["description"] == "OK CLOSE CONNECTION"):
+                      self.received["description"] == "OK CLOSE CONNECTION"):
+            self.client.thread2.stopped.set()
 
             self.end_receiving_sound()
 
         elif (self.received["status"] == 406 and
-              self.received["answer_to"] == "LOGIN"):
+                      self.received["answer_to"] == "LOGIN"):
             self.received = "406 LOGIN"
             print("406")
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 406 and
-              self.received["answer_to"] == "REGISTER"):
+                      self.received["answer_to"] == "REGISTER"):
             self.received = "406 CREATE"
             print("406")
             self.registerMessage.emit(False)
@@ -299,7 +297,7 @@ class Client(QtCore.QObject):
             print("<*> Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 200 and
-              self.received["answer_to"] == "LOGOUT"):
+                      self.received["answer_to"] == "LOGOUT"):
             print("200")
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
@@ -367,10 +365,13 @@ class Client(QtCore.QObject):
         print("<*> Client info: Voice")
         self.threads = []
 
+        stopFlag_serwer = Event()
+        stopFlag_client = Event()
+
         # Create new threads
-        self.thread1 = ServerThread(1, "Server-Thread", 1, port_serwer)
+        self.thread1 = ServerThread(1, "Server-Thread", 1, port_serwer, stopFlag_serwer)
         self.thread2 = ClientThread(2, "Client-Thread", 2, user_name_ip,
-                                    port_client)
+                                    port_client, stopFlag_client)
 
         # Start new Threads
         self.thread1.start()
@@ -383,7 +384,7 @@ class Client(QtCore.QObject):
         print("<*> Client info: Threads append to self.threads")
 
     def sendingVoice(self):
-        if(self.user_name_ip != ''):
+        if (self.user_name_ip != ''):
             print("<*> Client info: Someone is calling to me from:",
                   self.user_name_ip)
 

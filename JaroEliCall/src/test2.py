@@ -22,7 +22,7 @@ class Configuration():
 
 
 class ServerThread(threading.Thread, Configuration):
-    def __init__(self, threadID, name, counter, rport):
+    def __init__(self, threadID, name, counter, rport, event):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
@@ -38,6 +38,8 @@ class ServerThread(threading.Thread, Configuration):
         super()
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.socket_status = ""
+
+        self.stopped = event
 
     def run(self):
         print("Starting: " + self.name)
@@ -60,7 +62,7 @@ class ServerThread(threading.Thread, Configuration):
 
         while True:
             if self.socket_status == "open":
-                if self.serverSocket:
+                if not self.stopped:
                     message, clientAddress = self.serverSocket.recvfrom(
                         self.CHUNK * 2)
 
@@ -68,16 +70,18 @@ class ServerThread(threading.Thread, Configuration):
                     # mx = audioop.max(message, 2)
                     # print(mx)
 
+
     def close_serverSocket(self):
         self.socket_status = "close"
         print(type(self.serverSocket))
+        self.stream.close()
         self.serverSocket.close()
         print("Close server socket")
 
 
 
 class ClientThread(threading.Thread, Configuration):
-    def __init__(self, threadID, name, counter, rip, rport):
+    def __init__(self, threadID, name, counter, rip, rport, event):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
@@ -96,6 +100,7 @@ class ClientThread(threading.Thread, Configuration):
         self.queue = Queue()
         self.socket_status = ""
 
+        self.stopped = event
         super()
 
     def run(self):
@@ -114,14 +119,16 @@ class ClientThread(threading.Thread, Configuration):
         time.sleep(2)
         while True:
             if self.socket_status == "open":
-                if self.clientSocket:
+                if not self.stopped:
                     message = self.stream.read(self.CHUNK)
+                    print(self.socket_status)
                     self.clientSocket.send(message)
                     # mx = audioop.max(message, 2)
                     # print(mx)
 
     def close_clientSocket(self):
-        print(type(self.clientSocket))
         self.socket_status = "close"
+        print(type(self.clientSocket))
+        self.stream.close()
         self.clientSocket.close()
         print("Close client socket")

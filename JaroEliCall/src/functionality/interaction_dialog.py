@@ -72,8 +72,9 @@ class InteractionDialog(InteractionWrappedUI):
         elif self.is_connection_begin is True:
             print("Polaczenie zostalo zakonczone")
             try:
-                self.client.end_send_voice()
+                self.client.thread1.stopped.set()
 
+                self.client.end_send_voice()
                 self.client.send_end_connection(self.userName)
 
                 self.endCallSignal.emit(True)
