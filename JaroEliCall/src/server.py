@@ -98,7 +98,7 @@ class Server:
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
             #print("Server : Sended: " + str(payload) + " to " + str(addr))
         except Exception as err:
-          print(err.message)
+          print(err)
 
     def log_in(self, login, password, addr):
         # print("Server log_in: get LOGIN")
