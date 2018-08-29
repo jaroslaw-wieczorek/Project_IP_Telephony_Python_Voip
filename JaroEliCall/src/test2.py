@@ -29,7 +29,7 @@ class ServerThread(threading.Thread, Configuration):
         self.counter = counter
         self.REMOTE_PORT = rport
         self.p = pyaudio.PyAudio()
-
+        self.queue = Queue()
         self.stream = self.p.open(format=self.FORMAT,
                                   channels=self.CHANNELS,
                                   rate=self.RATE,
@@ -63,8 +63,8 @@ class ServerThread(threading.Thread, Configuration):
                 if self.serverSocket:
                     message, clientAddress = self.serverSocket.recvfrom(
                         self.CHUNK * 2)
-
-                    self.stream.write(message)
+                    self.queue.put(message)
+                    self.stream.write(self.queue.get())
                     # mx = audioop.max(message, 2)
                     # print(mx)
 
@@ -116,7 +116,8 @@ class ClientThread(threading.Thread, Configuration):
             if self.socket_status == "open":
                 if self.clientSocket:
                     message = self.stream.read(self.CHUNK)
-                    self.clientSocket.send(message)
+                    self.queue.put(message)
+                    self.clientSocket.send(self.queue.get())
                     # mx = audioop.max(message, 2)
                     # print(mx)
 

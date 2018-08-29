@@ -96,7 +96,7 @@ class Server:
     def sending(self, addr, payload):
         try:
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-            print("Server : Sended: " + str(payload) + " to " + str(addr))
+            #print("Server : Sended: " + str(payload) + " to " + str(addr))
         except Exception as err:
           print(err.message)
 
