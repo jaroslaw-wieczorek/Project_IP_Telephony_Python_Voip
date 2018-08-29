@@ -24,6 +24,7 @@ class Configuration():
 class ServerThread(threading.Thread, Configuration):
     def __init__(self, threadID, name, counter, rport, event):
         threading.Thread.__init__(self)
+        self.daemon = True
         self.threadID = threadID
         self.name = name
         self.counter = counter
@@ -80,10 +81,10 @@ class ServerThread(threading.Thread, Configuration):
         print("Close server socket")
 
 
-
 class ClientThread(threading.Thread, Configuration):
     def __init__(self, threadID, name, counter, rip, rport, event):
         threading.Thread.__init__(self)
+        self.daemon = True
         self.threadID = threadID
         self.name = name
         self.counter = counter

@@ -95,7 +95,6 @@ class InteractionDialog(InteractionWrappedUI):
         print("(*) InteractionDialog info: push_button_accept disabled.")
         print("(*) InteractionDialog info: callAnswerSignal emited with True.")
 
-
 """
 if __name__  == '__main__':
     app = QApplication(sys.argv)
