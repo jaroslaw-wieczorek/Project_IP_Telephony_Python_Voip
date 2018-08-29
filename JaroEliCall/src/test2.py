@@ -62,9 +62,10 @@ class ServerThread(threading.Thread, Configuration):
 
         while True:
             if self.socket_status == "open":
-                if not self.stopped:
+                if not self.stopped.is_set():
                     message, clientAddress = self.serverSocket.recvfrom(
                         self.CHUNK * 2)
+                    print(message)
                     self.queue.put(message)
                     self.stream.write(self.queue.get())
                     # mx = audioop.max(message, 2)
@@ -119,8 +120,9 @@ class ClientThread(threading.Thread, Configuration):
         time.sleep(2)
         while True:
             if self.socket_status == "open":
-                if not self.stopped:
+                if not self.stopped.is_set():
                     message = self.stream.read(self.CHUNK)
+                    print(message)
                     self.queue.put(message)
                     self.clientSocket.send(self.queue.get())
                     # mx = audioop.max(message, 2)
