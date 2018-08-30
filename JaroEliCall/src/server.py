@@ -49,7 +49,7 @@ class Server:
             self.s.bind((self.host, self.port))
 
         except ConnectionRefusedError as err:
-            # print(err)
+            print("<!> Server ERROR:\n\t", err)
             self.s.close()
 
     def send_update_users(self):
@@ -98,7 +98,7 @@ class Server:
             self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
             #print("Server : Sended: " + str(payload) + " to " + str(addr))
         except Exception as err:
-          print(err)
+          print("<!> Server ERROR:\n\t", err)
 
     def log_in(self, login, password, addr):
         # print("Server log_in: get LOGIN")
@@ -403,7 +403,7 @@ class Server:
                         self.change_user_password(received["NICKNAME"], received["PASSWORD"], received["AVATAR"], addr)
 
             except ConnectionResetError as err:
-                print("Połączenie przerwane przez klienta\n")
+                print("<!> Server ERROR:\n\t", err)
         # print("[*] Stop listen")
 
     def send_ok_end_connection(self, with_who):

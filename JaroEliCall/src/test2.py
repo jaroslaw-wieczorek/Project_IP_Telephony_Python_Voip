@@ -22,31 +22,35 @@ class Configuration():
 
 
 class ServerThread(threading.Thread, Configuration):
-    def __init__(self, threadID, name, counter, rport, event):
+    def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
         self.daemon = True
         self.threadID = threadID
         self.name = name
         self.counter = counter
-        self.REMOTE_PORT = rport
         self.p = pyaudio.PyAudio()
+        self.queue = None
+        self.stream = None
+        self.REMOTE_PORT = None
+        self.serverSocket = None
+        super()
+
+    def setup(self, port_serwer):
         self.queue = Queue()
+        self.REMOTE_PORT = port_serwer
         self.stream = self.p.open(format=self.FORMAT,
                                   channels=self.CHANNELS,
                                   rate=self.RATE,
                                   output=True,
                                   frames_per_buffer=self.CHUNK)
-        super()
-        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.socket_status = ""
 
-        self.stopped = event
+        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.stopped = threading.Event()
 
     def run(self):
         print("Starting: " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()
-        self.socket_status = "open"
 
         self.serverSide()
         # Free lock to release next thread
@@ -56,44 +60,49 @@ class ServerThread(threading.Thread, Configuration):
         # ip local computer
         # serverIP = socket.gethostbyname(socket.gethostname())
         global serverIP
-
+        print("<*> ServerThread info: listen on: (%s,%d)" % (serverIP, self.REMOTE_PORT))
         self.serverSocket.bind((serverIP, self.REMOTE_PORT))
         print("Listen on: ", serverIP, self.REMOTE_PORT)
         time.sleep(2)
 
-        while True:
-            if self.socket_status == "open":
-                if not self.stopped.is_set():
-                    message, clientAddress = self.serverSocket.recvfrom(
-                        self.CHUNK * 2)
-
-                    print("Odbieranie: " + str(message)[0:5])
-                    print()
-                    self.queue.put(message)
-                    self.stream.write(self.queue.get())
-                    # mx = audioop.max(message, 2)
-                    # print(mx)
-
+        while not self.stopped.is_set():
+            try:
+                message, clientAddress = self.serverSocket.recvfrom(
+                    self.CHUNK * 2)
+                print("<<*>> ThreadSide Odbieranie: " + str(message)[0:5])
+                print()
+                self.queue.put(message)
+                self.stream.write(self.queue.get())
+                # mx = audioop.max(message, 2)
+                # print(mx)
+            except Exception as err:
+                print("<!> ServerThread ERROR:\n\t", err)
 
     def close_serverSocket(self):
-        self.socket_status = "close"
+       
         print(type(self.serverSocket))
-        self.stream.close()
+        #self.stream.stop_stream()
         self.serverSocket.close()
         print("Close server socket")
 
 
 class ClientThread(threading.Thread, Configuration):
-    def __init__(self, threadID, name, counter, rip, rport, event):
+    def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
         self.daemon = True
         self.threadID = threadID
         self.name = name
         self.counter = counter
+        self.p = pyaudio.PyAudio()
+        self.queue = None
+        self.stream = None
+        self.stopped = None
+        self.clientSocket = None
+
+    def setup(self, rip, rport):
+        self.queue = Queue()
         self.REMOTE_IP = rip[0]
         self.REMOTE_PORT = rport
-        self.p = pyaudio.PyAudio()
-
         self.stream = self.p.open(format=self.FORMAT,
                                   channels=self.CHANNELS,
                                   rate=self.RATE,
@@ -101,40 +110,39 @@ class ClientThread(threading.Thread, Configuration):
                                   frames_per_buffer=self.CHUNK)
 
         self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.queue = Queue()
-        self.socket_status = ""
-
-        self.stopped = event
-        super()
+        self.stopped = threading.Event()
 
     def run(self):
+
         print("Starting: " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()
-        self.socket_status = "open"
+
         self.clientSide()
         # Free lock to release next thread
         # threadLock.release()
 
     def clientSide(self):
-
-        print("Send on: ", self.REMOTE_IP, self.REMOTE_PORT)
+        print("<*> ClientThread info: Send on: ", self.REMOTE_IP, self.REMOTE_PORT)
         self.clientSocket.connect((self.REMOTE_IP, self.REMOTE_PORT))
         time.sleep(2)
-        while True:
-            if self.socket_status == "open":
-                if not self.stopped.is_set():
-                    message = self.stream.read(self.CHUNK)
-                    print("Wysylanie: " + str(message)[0:5])
-                    print()
-                    self.queue.put(message)
-                    self.clientSocket.send(self.queue.get())
-                    # mx = audioop.max(message, 2)
-                    # print(mx)
+
+        while not self.stopped.is_set():
+            try:
+                message = self.stream.read(self.CHUNK)
+                print("<<*>> ClientSide wysylanie: " + str(message)[0:5])
+                print()
+                self.queue.put(message)
+                self.clientSocket.send(self.queue.get())
+                # mx = audioop.max(message, 2)
+                # print(mx)
+
+            except Exception as err:
+                print("<!> ClientThread ERROR:\n\t", err)
 
     def close_clientSocket(self):
-        self.socket_status = "close"
+       
         print(type(self.clientSocket))
-        self.stream.close()
+        #self.stream.stop_stream()
+        #self.stream.close()
         self.clientSocket.close()
-        print("Close client socket")

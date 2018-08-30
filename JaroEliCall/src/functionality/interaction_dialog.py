@@ -70,18 +70,19 @@ class InteractionDialog(InteractionWrappedUI):
             self.close()
 
         elif self.is_connection_begin is True:
-            print("Polaczenie zostalo zakonczone")
+
             try:
                 self.client.thread1.stopped.set()
-
+                print("(*) InteractionDialog info: set Client.stopped")
                 self.client.end_send_voice()
+                print("(*) InteractionDialog info: Exec client.end_send_voice")
                 self.client.send_end_connection(self.userName)
-
+                print("(*) InteractionDialog info: Exec client.send_end_connection")
                 self.endCallSignal.emit(True)
+                print("(*) InteractionDialog info: endCallSignal was emited with True")
                 self.close()
-
-            except:
-                pass
+            except Exception as err:
+                print("(!) InteractionDialog ERROR:\n\t", err)
 
     def accept_connection_clicked(self):
         print("(*) InteractionDialog info: Answer the call.")

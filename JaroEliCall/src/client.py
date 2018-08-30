@@ -21,6 +21,7 @@ import random
 #IP_server = '192.168.43.130'
 #IP_server = '127.0.0.1'
 IP_server = '192.168.43.70'
+#IP_server = '192.168.0.4'
 
 PORT_server = 50001
 
@@ -65,16 +66,16 @@ class Client(QtCore.QObject):
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.socket.connect((self.serverIP, self.serverPORT))
-        except ConnectionRefusedError as err:
-            print(err)
+        except Exception as err:
+            print("<!> Client ERROR:\n\t", err)
             self.socket.close()
 
     def sendMessage(self, data):
         try:
             self.socket.sendto(data, (self.serverIP, self.serverPORT))
             print("Wysłano ", data)
-        except ConnectionRefusedError as err:
-            print(err.message)
+        except Exception as err:
+            print("<!> Client ERROR:\n\t", err)
 
     def end_connection(self, person):
         payload = {"type": "d",
@@ -96,8 +97,8 @@ class Client(QtCore.QObject):
 
                 if str(self.received["type"]) == "d":
                     self.react_on_communicate()
-            except:
-                print()
+            except Exception as err:
+                print("<!> Client ERROR:\n\t", err)
 
     def react_on_communicate(self):
         if (self.received["status"] == 200 and
@@ -249,57 +250,58 @@ class Client(QtCore.QObject):
                       self.received["description"] == "END" and
                       self.received["answer_to"] == "CONN_END"):
 
-            print("Połączenie zakończone")
-
+            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["answer_to"]))
             self.getMessage.emit(True)
             self.endCallResponse.emit(True, self.received["from_who"])
             self.status = "200 END"
-
             print("<*> Client info: getMessage signal was emited with True")
 
-            self.client.thread2.stopped.set()
+            self.thread2.stopped.set()
             self.end_send_voice()
 
-            self.client.thread1.stopped.set()
+            self.thread1.stopped.set()
             self.end_receiving_sound()
 
         elif (self.received["status"] == 200 and
-                      self.received["description"] == "OK CLOSE CONNECTION"):
-            self.client.thread2.stopped.set()
-
+              self.received["description"] == "OK CLOSE CONNECTION"):
+            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["description"]))
+            self.thread2.stopped.set()
             self.end_receiving_sound()
 
         elif (self.received["status"] == 406 and
-                      self.received["answer_to"] == "LOGIN"):
+              self.received["answer_to"] == "LOGIN"):
             self.received = "406 LOGIN"
-            print("406")
+            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["answer_to"]))
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 406 and
-                      self.received["answer_to"] == "REGISTER"):
+              self.received["answer_to"] == "REGISTER"):
+
             self.received = "406 CREATE"
-            print("406")
+            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["answer_to"]))
             self.registerMessage.emit(False)
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
-        elif (self.received["status"] == 201
-              and self.received["answer_to"] == "CREATE"):
+        elif (self.received["status"] == 201 and 
+              self.received["answer_to"] == "CREATE"):
+
             self.received = "201 CREATE"
-            print("201 CREATE ")
+            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["answer_to"]))
             self.registerMessage.emit(True)
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
         elif self.received["status"] == 401:
-            print("401")
+            print("<*> Client info: Get status: %s " %  self.received["status"])
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 200 and
                       self.received["answer_to"] == "LOGOUT"):
-            print("200")
+
+            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["answer_to"]))
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
@@ -366,16 +368,17 @@ class Client(QtCore.QObject):
         print("<*> Client info: Voice")
         self.threads = []
 
-        stopFlag_serwer = Event()
-        stopFlag_client = Event()
-
         # Create new threads
-        self.thread1 = ServerThread(1, "Server-Thread", 1, port_serwer, stopFlag_serwer)
-        self.thread2 = ClientThread(2, "Client-Thread", 2, user_name_ip,
-                                    port_client, stopFlag_client)
+        # Run need port_serwer
+        self.thread1 = ServerThread(1, "Server-Thread", 1)
+        # Run need user_name_ip, port_client
+        self.thread2 = ClientThread(2, "Client-Thread", 2)
 
         # Start new Threads
+        self.thread1.setup(port_serwer)
         self.thread1.start()
+
+        self.thread2.setup(user_name_ip, port_client)
         self.thread2.start()
         print("<*> Client info: threads started")
 
