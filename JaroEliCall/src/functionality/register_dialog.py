@@ -79,7 +79,6 @@ class RegisterDialog(RegisterWrappedUI):
         if re.match(regex, email):
             result = True
 
-
         print("result", result)
 
         # print("email_exist", email_exists)
@@ -108,7 +107,7 @@ class RegisterDialog(RegisterWrappedUI):
                     return True
 
         except Exception as e:
-            self.showRegisterStatus(str(e.args[0]))
+            self.showRegisterStatus(str(e))
             return False
 
     def showRegisterStatus(self, status):
