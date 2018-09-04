@@ -19,8 +19,8 @@ import random
 # Server computer IP
 
 #IP_server = '192.168.43.130'
-#IP_server = '127.0.0.1'
-IP_server = '192.168.43.70'
+IP_server = '127.0.0.1'
+#IP_server = '192.168.43.70'
 #IP_server = '192.168.0.4'
 
 PORT_server = 50001
@@ -58,7 +58,7 @@ class Client(QtCore.QObject):
         self.size = 2048
         self.last_list_users = []
 
-        self.received = None
+        self.received = dict()
         self.connectToSerwer()
         self.username = None
 
@@ -67,7 +67,7 @@ class Client(QtCore.QObject):
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.socket.connect((self.serverIP, self.serverPORT))
         except Exception as err:
-            print("<!> Client ERROR:\n\t", err)
+            print("<!> Client Error in connectToServer:\n\t", err)
             self.socket.close()
 
     def sendMessage(self, data):
@@ -75,7 +75,7 @@ class Client(QtCore.QObject):
             self.socket.sendto(data, (self.serverIP, self.serverPORT))
             print("Wysłano ", data)
         except Exception as err:
-            print("<!> Client ERROR:\n\t", err)
+            print("<!> Client Error in sendMessage:\n\t", err)
 
     def end_connection(self, person):
         payload = {"type": "d",
@@ -92,13 +92,14 @@ class Client(QtCore.QObject):
                 packet, address = self.socket.recvfrom(self.size)
                 data = packet.decode("utf-8")
                 self.received = json.loads(data)
-
+                print("CLIENT RECEIVED:", self.received)
+                print(type(self.received))
                 print("<*> Client info: Get response from server ", self.received)
 
-                if str(self.received["type"]) == "d":
+                if self.received["type"] == "d":
                     self.react_on_communicate()
             except Exception as err:
-                print("<!> Client ERROR:\n\t", err)
+                print("<!> Client Error in listeningServer:\n\t", err)
 
     def react_on_communicate(self):
         if (self.received["status"] == 200 and
