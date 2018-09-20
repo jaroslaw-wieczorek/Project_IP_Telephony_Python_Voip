@@ -95,7 +95,6 @@ class Client(QtCore.QObject):
                 print("CLIENT RECEIVED:", self.received)
                 print(type(self.received))
                 print("<*> Client info: Get response from server ", self.received)
-
                 if self.received["type"] == "d":
                     self.react_on_communicate()
             except Exception as err:
@@ -251,7 +250,7 @@ class Client(QtCore.QObject):
                       self.received["description"] == "END" and
                       self.received["answer_to"] == "CONN_END"):
 
-            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["answer_to"]))
+            print("<*> Client info: Get status: %s" % self.received)
             self.getMessage.emit(True)
             self.endCallResponse.emit(True, self.received["from_who"])
             self.status = "200 END"
@@ -265,14 +264,14 @@ class Client(QtCore.QObject):
 
         elif (self.received["status"] == 200 and
               self.received["description"] == "OK CLOSE CONNECTION"):
-            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["description"]))
+            print("<*> Client info: Get status: %s" % self.received)
             self.thread2.stopped.set()
             self.end_receiving_sound()
 
         elif (self.received["status"] == 406 and
               self.received["answer_to"] == "LOGIN"):
             self.received = "406 LOGIN"
-            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["answer_to"]))
+            print("<*> Client info: Get status: %s" % self.received)
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
@@ -280,7 +279,7 @@ class Client(QtCore.QObject):
               self.received["answer_to"] == "REGISTER"):
 
             self.received = "406 CREATE"
-            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["answer_to"]))
+            print("<*> Client info: Get status: %s" % (self.received))
             self.registerMessage.emit(False)
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
@@ -289,20 +288,20 @@ class Client(QtCore.QObject):
               self.received["answer_to"] == "CREATE"):
 
             self.received = "201 CREATE"
-            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["answer_to"]))
+            print("<*> Client info: Get status: %s" % self.received)
             self.registerMessage.emit(True)
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
         elif self.received["status"] == 401:
-            print("<*> Client info: Get status: %s " %  self.received["status"])
+            print("<*> Client info: Get status: %s " %  self.received)
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
         elif (self.received["status"] == 200 and
                       self.received["answer_to"] == "LOGOUT"):
 
-            print("<*> Client info: Get status: %s %s" % (self.received["status"], self.received["answer_to"]))
+            print("<*> Client info: Get status: %s" % self.received)
             self.getMessage.emit(True)
             print("<*> Client info: getMessage signal was emited with True")
 
