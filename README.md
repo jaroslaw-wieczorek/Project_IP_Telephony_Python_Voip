@@ -62,5 +62,10 @@ sudo pip3 install pyaudio
 [run]
 python3 -m JaroEliCall
 
+LOGIN: jaro
+PASSWORD: 12341234
+
+LOGIN: jaro2
+PASSWORD: 12341234
 
 
